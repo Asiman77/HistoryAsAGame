@@ -30,7 +30,7 @@ export function buildRoute(event: Pick<LifeEvent, "fromLocation" | "location" | 
     return greatCircle(point(from), point(to), { npoints: 96 }) as Feature<LineString>;
   }
   const controls = waypoints.length > 0 ? [from, ...waypoints, to] : arcThrough(from, to);
-  return bezierSpline(lineString(controls), { resolution: 10000, sharpness: 0.85 });
+  return bezierSpline(lineString(controls), { resolution: 2500, sharpness: 0.85 });
 }
 
 /** Approximate distance in km (straight segments between waypoints, not the drawn curve). */

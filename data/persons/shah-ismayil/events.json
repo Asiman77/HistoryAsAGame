@@ -560,11 +560,10 @@
         "note": { "az": "Tarixdə ixtilaf yoxdur, ölüm yeri isə mübahisəlidir (aşağıya bax)." }
       },
       "type": "death",
-      "fromLocation": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
       "location": {
         "name": { "az": "Təbriz yaxınlığı" },
-        "lat": 38.12,
-        "lng": 46.6,
+        "lat": 38.08,
+        "lng": 46.2919,
         "approximate": true
       },
       "title": { "az": "Son yol və Ərdəbildə dəfn" },
