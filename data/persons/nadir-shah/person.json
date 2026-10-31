@@ -1,6 +1,7 @@
 {
   "id": "nadir-shah",
   "name": { "az": "Nadir Şah Əfşar", "en": "Nader Shah Afshar" },
+  "shortName": { "az": "Nadir Şah" },
   "titles": [
     { "az": "Əfşar dövlətinin banisi" },
     { "az": "Sərkərdə" }

@@ -1,6 +1,7 @@
 {
   "id": "shah-ismayil",
   "name": { "az": "Şah İsmayıl Xətai", "en": "Shah Ismail I (Khata'i)" },
+  "shortName": { "az": "Şah İsmayıl" },
   "titles": [
     { "az": "Səfəvi dövlətinin banisi" },
     { "az": "Şair (təxəllüsü Xətai)" }

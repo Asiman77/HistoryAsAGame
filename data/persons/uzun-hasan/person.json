@@ -1,6 +1,7 @@
 {
   "id": "uzun-hasan",
   "name": { "az": "Uzun Həsən", "en": "Uzun Hasan" },
+  "shortName": { "az": "Uzun Həsən" },
   "titles": [
     { "az": "Ağqoyunlu hökmdarı" },
     { "az": "Həsən padşah" }

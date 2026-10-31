@@ -1,5 +1,120 @@
 {
   "appName": "Tarixin İçində",
   "months": ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avqust", "sentyabr", "oktyabr", "noyabr", "dekabr"],
-  "date": { "approxPrefix": "təq. " }
+  "date": { "approxPrefix": "təq. " },
+  "landing": {
+    "kicker": "Azərbaycan tarixinin interaktiv səyahəti",
+    "title": "Tarixin İçində",
+    "lead": "Gözünü bir hökmdar, sərkərdə və ya şair kimi açsaydın... Bir həyatı doğumdan ölümə qədər addım-addım yaşa, xəritədə onun izi ilə get və tarixin döngələrində özün qərar ver.",
+    "choose": "Kimin gözləri ilə baxmaq istəyirsən?",
+    "allEras": "Bütün dövrlər",
+    "cta": "Gözünü {name} olaraq aç",
+    "events": "{count} mərhələ",
+    "portraitCredit": "Portret: {license}",
+    "footer": "Tarixi faktlar mənbələrlə yoxlanılıb, bədii hekayə mətnləri ayrıca işarələnib."
+  },
+  "sim": {
+    "back": "Şəxsiyyətlər",
+    "year": "İl",
+    "age": "Yaş",
+    "ageApprox": "~{age}",
+    "prev": "Əvvəlki",
+    "next": "Növbəti",
+    "toLegacy": "İrs və nəticə",
+    "modeStory": "Hekayə",
+    "modeLearn": "Öyrənmə",
+    "modeLabel": "Rejim",
+    "narrativeBadge": "Bədii təsvir",
+    "factsBadge": "Yoxlanılmış faktlar",
+    "sources": "Mənbələr",
+    "modernName": "Bu gün",
+    "approxPlace": "Yer təxminidir",
+    "alternatives": "Alternativ versiyalar",
+    "stepOf": "{current} / {total}",
+    "timeline": "Həyat xətti",
+    "keyboardHint": "← → düymələri ilə keç",
+    "swipeHint": "Sürüşdürərək keç",
+    "certainty": {
+      "exact": "Dəqiq",
+      "approximate": "Təxmini",
+      "disputed": "Mübahisəli"
+    },
+    "certaintyHelp": {
+      "exact": "Mənbələr bu tarixdə razılaşır.",
+      "approximate": "Dəqiq tarix və ya yer məlum deyil.",
+      "disputed": "Mənbələr bir-biri ilə ziddiyyət təşkil edir."
+    },
+    "types": {
+      "birth": "Doğuluş",
+      "childhood": "Uşaqlıq",
+      "education": "Təhsil",
+      "journey": "Yol",
+      "battle": "Döyüş",
+      "coronation": "Taxta çıxma",
+      "marriage": "Nikah",
+      "diplomacy": "Diplomatiya",
+      "culture": "Mədəniyyət",
+      "exile": "Sürgün",
+      "death": "Ölüm"
+    },
+    "battle": {
+      "vs": "qarşı",
+      "own": "Sənin qoşunun",
+      "enemy": "Rəqib",
+      "forces": "Qüvvələr",
+      "context": "Kontekst",
+      "result": {
+        "victory": "Qələbə",
+        "defeat": "Məğlubiyyət",
+        "inconclusive": "Nəticəsiz"
+      }
+    },
+    "choice": {
+      "open": "Sən olsaydın nə edərdin?",
+      "pick": "Seçimini et",
+      "reveal": "Tarixdə nə oldu?",
+      "historical": "Tarixi seçim",
+      "yours": "Sənin seçimin",
+      "match": "Tarixdəki qərarla eyni yolu seçdin.",
+      "differ": "Tarix başqa yolla getdi, amma sənin seçimin də düşünülməyə dəyər.",
+      "why": "Niyə belə oldu?",
+      "note": "Tarix dəyişmir, bu, öyrənmə anıdır.",
+      "close": "Davam et"
+    },
+    "distance": "{km} km yol"
+  },
+  "legacy": {
+    "title": "İrs",
+    "lived": "{from} – {to}",
+    "stats": "Həyatın rəqəmlərlə",
+    "distance": "Qət edilən təxmini yol",
+    "km": "km",
+    "battles": "Döyüşlər",
+    "victories": "{n} qələbə",
+    "defeats": "{n} məğlubiyyət",
+    "places": "Məkanlar",
+    "years": "Yaşadığı illər",
+    "choices": "Seçim anları",
+    "choicesValue": "{match} / {total} tarixə uyğun",
+    "quiz": "Kiçik sınaq",
+    "quizStart": "Sınağa başla",
+    "question": "Sual {n} / {total}",
+    "correct": "Düzdür!",
+    "wrong": "Düz deyil.",
+    "nextQuestion": "Növbəti sual",
+    "finish": "Nəticəni gör",
+    "score": "{score} / {total} düzgün cavab",
+    "scoreGreat": "Əla! Bu həyatı yaxşı tanıyırsan.",
+    "scoreGood": "Yaxşı nəticə, bəzi mərhələlərə yenidən baxa bilərsən.",
+    "scoreLow": "Həyatı yenidən yaşamağa dəyər, cavablar mərhələlərdədir.",
+    "restart": "Yenidən yaşa",
+    "others": "Başqa şəxsiyyət seç",
+    "backToJourney": "Həyat xəttinə qayıt",
+    "distanceNote": "Marşrut nöqtələri arasındakı düz xətlərlə hesablanıb."
+  },
+  "map": {
+    "loading": "Xəritə yüklənir…",
+    "error": "Xəritə yüklənmədi. İnternet bağlantısını yoxla.",
+    "attribution": "© OpenFreeMap © OpenMapTiles © OpenStreetMap, Natural Earth"
+  }
 }

@@ -1,11 +1,214 @@
 @import "tailwindcss";
 
+@theme {
+  --color-parchment: #f2e6cc;
+  --color-parchment-light: #f8f0dd;
+  --color-parchment-dark: #e3d2ab;
+  --color-ink: #2a1c10;
+  --color-ink-soft: #5a4630;
+  --color-ink-faint: #8a7457;
+  --color-lapis: #23446b;
+  --color-lapis-light: #3d6797;
+  --color-carmine: #9b2c2c;
+  --color-gold: #b8862b;
+  --color-gold-light: #d9b25c;
+  --color-turquoise: #2f7f7a;
+
+  --font-display: var(--font-noto-serif-display), "Georgia", serif;
+  --font-serif: var(--font-noto-serif), "Georgia", serif;
+  --font-sans: var(--font-noto-sans), system-ui, sans-serif;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 :root {
-  --parchment: #f3e7cf;
-  --ink: #2b1d12;
+  color-scheme: light;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--parchment);
-  color: var(--ink);
+  background-color: var(--color-parchment);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Paper grain: layered gradients plus an inline SVG noise tile. */
+.parchment {
+  background-color: var(--color-parchment);
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgb(255 250 235 / 0.7), transparent 55%),
+    radial-gradient(ellipse at 85% 90%, rgb(170 130 70 / 0.18), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.33 0 0 0 0 0.18 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.paper-card {
+  background-color: var(--color-parchment-light);
+  background-image:
+    radial-gradient(ellipse at 0% 0%, rgb(255 255 255 / 0.55), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.33 0 0 0 0 0.18 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.6) inset,
+    0 0 0 1px rgb(120 90 40 / 0.22),
+    0 18px 40px -18px rgb(60 35 10 / 0.45);
+}
+
+/* Double-rule miniature frame. */
+.miniature-frame {
+  position: relative;
+}
+.miniature-frame::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgb(184 134 43 / 0.55);
+  outline: 1px solid rgb(184 134 43 / 0.25);
+  outline-offset: 3px;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-lapis-light);
+    outline-offset: 2px;
+  }
+}
+
+/* ---------- Map markers ---------- */
+.place-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  transition:
+    opacity 600ms var(--ease-out-soft),
+    transform 600ms var(--ease-out-soft);
+}
+.place-marker[data-state="future"] {
+  opacity: 0;
+  transform: scale(0.6);
+}
+.place-marker[data-state="past"] {
+  opacity: 0.75;
+}
+.place-marker .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background: var(--color-ink-soft);
+  border: 2px solid var(--color-parchment-light);
+  box-shadow: 0 0 0 1px rgb(42 28 16 / 0.35);
+}
+.place-marker[data-state="current"] .dot {
+  width: 14px;
+  height: 14px;
+  background: var(--color-carmine);
+  box-shadow:
+    0 0 0 1px rgb(42 28 16 / 0.4),
+    0 0 0 0 rgb(155 44 44 / 0.5);
+  animation: pulse-ring 2.2s var(--ease-out-soft) infinite;
+}
+.place-marker[data-battle="true"][data-state="current"] .dot {
+  background: var(--color-ink);
+}
+.place-marker .label {
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+  white-space: nowrap;
+  text-shadow:
+    0 0 3px var(--color-parchment-light),
+    0 0 6px var(--color-parchment-light),
+    0 0 10px var(--color-parchment);
+}
+.place-marker .label {
+  transition: opacity 250ms ease;
+}
+.place-marker[data-label="hidden"] .label {
+  opacity: 0;
+}
+.place-marker[data-state="current"] .label {
+  font-size: 15px;
+  font-weight: 600;
+}
+.place-marker .swords {
+  display: none;
+  margin-bottom: 2px;
+}
+.place-marker[data-battle="true"][data-state="current"] .swords {
+  display: block;
+  animation: swords-in 900ms var(--ease-out-soft) both;
+}
+
+.traveller {
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 4px rgb(40 20 5 / 0.45));
+  transition: opacity 400ms ease;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow:
+      0 0 0 1px rgb(42 28 16 / 0.4),
+      0 0 0 0 rgb(155 44 44 / 0.45);
+  }
+  70% {
+    box-shadow:
+      0 0 0 1px rgb(42 28 16 / 0.4),
+      0 0 0 16px rgb(155 44 44 / 0);
+  }
+  100% {
+    box-shadow:
+      0 0 0 1px rgb(42 28 16 / 0.4),
+      0 0 0 0 rgb(155 44 44 / 0);
+  }
+}
+
+@keyframes swords-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.6) rotate(-20deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.maplibregl-ctrl-attrib {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  background: rgb(248 240 221 / 0.75) !important;
+}
+
+/* Hide scrollbars on the timeline strip but keep it scrollable. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

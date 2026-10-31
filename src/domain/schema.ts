@@ -155,6 +155,8 @@ export type ImageAsset = z.infer<typeof ImageAsset>;
 export const Person = z.object({
   id: Slug,
   name: LocalizedText,
+  /** Used in running text, e.g. "Gözünü Şah İsmayıl olaraq aç". Falls back to name. */
+  shortName: LocalizedText.optional(),
   titles: z.array(LocalizedText),
   birth: z.object({ date: HistoricalDate, place: Place }),
   death: z.object({ date: HistoricalDate, place: Place }),

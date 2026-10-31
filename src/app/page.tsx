@@ -1,3 +1,7 @@
+import { DEFAULT_LOCALE } from "@/domain/schema";
+import { RootRedirect } from "@/components/RootRedirect";
+
+/** Static export has no server redirects; send visitors to the default locale. */
 export default function Home() {
-  return <main className="p-8 text-2xl">Tarixin İçində — ə ğ ı ö ü ç ş</main>;
+  return <RootRedirect to={`/${DEFAULT_LOCALE}/`} />;
 }
