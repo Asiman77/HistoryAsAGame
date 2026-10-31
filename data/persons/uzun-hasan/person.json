@@ -1,0 +1,61 @@
+{
+  "id": "uzun-hasan",
+  "name": { "az": "Uzun Həsən", "en": "Uzun Hasan" },
+  "titles": [
+    { "az": "Ağqoyunlu hökmdarı" },
+    { "az": "Həsən padşah" }
+  ],
+  "birth": {
+    "date": {
+      "year": 1425,
+      "certainty": "disputed",
+      "alternatives": [
+        {
+          "year": 1423,
+          "note": { "az": "Britannica və bir çox ənənəvi əsər 1423-cü ili göstərir." },
+          "source": { "title": "Uzun Ḥasan", "type": "encyclopedia", "url": "https://www.britannica.com/biography/Uzun-Hasan" }
+        }
+      ],
+      "note": { "az": "1425-ci ilin fevral–martı J. Vudsun (The Aqquyunlu) hesablamasıdır." }
+    },
+    "place": {
+      "name": { "az": "Amid" },
+      "modernName": { "az": "Diyarbəkir (Türkiyə)" },
+      "lat": 37.9144,
+      "lng": 40.2306
+    }
+  },
+  "death": {
+    "date": {
+      "year": 1478,
+      "month": 1,
+      "day": 5,
+      "certainty": "disputed",
+      "alternatives": [
+        { "year": 1478, "month": 1, "day": 6, "note": { "az": "Britannica 6 yanvar göstərir." } },
+        { "year": 1478, "month": 1, "day": 2, "note": { "az": "Müasir \"ət-Tarix əl-Ğiyasi\" 2 yanvar göstərir." } }
+      ]
+    },
+    "place": { "name": { "az": "Təbriz yaxınlığı" }, "lat": 38.08, "lng": 46.2919, "approximate": true }
+  },
+  "eraIds": ["agqoyunlu"],
+  "portrait": {
+    "src": "/portraits/uzun-hasan.jpg",
+    "alt": { "az": "Uzun Həsən ovda: 1460–1470-ci illərə aid miniatürün fraqmenti" },
+    "license": "Public domain",
+    "author": "Naməlum Ağqoyunlu rəssamı (Rusiya Milli Kitabxanası, Dorn 434)",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Uzun_Hasan_on_horse,_1460s%E2%80%931470s,_Aq_Qoyunlu_ruler_Uzun_Hasa_hunting_(detail).jpg"
+  },
+  "epigraph": {
+    "text": { "az": "Amiddən Təbrizə, bir tayfa bəyliyindən imperiyaya." },
+    "attribution": { "az": "Bədii giriş, sitat deyil" }
+  },
+  "shortBio": {
+    "az": "Ağqoyunlu Bayandur sülaləsindən olan Həsən bəy uca boyuna görə \"Uzun\" ləqəbini aldı. Qardaşı ilə hakimiyyət uğrunda mübarizədən sonra Qaraqoyunluları və Teymuriləri məğlub etdi. Paytaxtını Təbrizə köçürdü və Venesiya ilə Osmanlılara qarşı ittifaq qurmağa çalışdı."
+  },
+  "legacy": {
+    "az": "Uzun Həsən Ağqoyunlu dövlətini Anadoludan Farsa qədər uzanan böyük dövlətə çevirdi. Onun qanunnaməsi Osmanlılar tərəfindən də onilliklərlə tətbiq olundu. Qızı Həlimə bəyim vasitəsilə nəvəsi Şah İsmayıl onun torpaqlarının və Təbriz taxtının varisi oldu."
+  },
+  "tags": ["hokmdar", "serkerde", "diplomat"],
+  "featuredOrder": 1
+}

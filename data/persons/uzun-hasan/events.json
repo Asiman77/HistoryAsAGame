@@ -1,0 +1,561 @@
+{
+  "events": [
+    {
+      "id": "uzun-hasan-birth",
+      "personId": "uzun-hasan",
+      "order": 0,
+      "date": {
+        "year": 1425,
+        "certainty": "disputed",
+        "alternatives": [
+          { "year": 1423, "note": { "az": "Britannica və ənənəvi tarixşünaslıq 1423-cü ili göstərir." } }
+        ],
+        "note": { "az": "1425-ci ilin fevral–martı J. Vudsun hesablamasıdır." }
+      },
+      "type": "birth",
+      "location": {
+        "name": { "az": "Amid" },
+        "modernName": { "az": "Diyarbəkir (Türkiyə)" },
+        "lat": 37.9144,
+        "lng": 40.2306
+      },
+      "title": { "az": "Amiddə doğuluş" },
+      "factualSummary": {
+        "az": "Həsən Ağqoyunlu bəyi Əli bəyin və Sara xatunun kiçik oğlu kimi Dəclə sahilindəki Amiddə (indiki Diyarbəkir) doğuldu. Babası Ağqoyunlu tayfa birliyinin qurucusu Qara Yuluq Osman idi. Böyük qardaşı Cahangir təxminən 1417-ci ildə doğulmuşdu."
+      },
+      "narrative": {
+        "az": "Amidin qara bazalt divarları Dəclənin üstündə ucalır. Burada, Bayandur bəylərinin evində dünyaya gəlirəm. Anam Sara xatun məni qucağına alıb pıçıldayır: \"Bu uşaq uca olacaq.\" Hələ bilmir ki, bu söz ləqəbə çevriləcək."
+      },
+      "sources": [
+        { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" },
+        { "title": "Uzun Ḥasan", "type": "encyclopedia", "url": "https://www.britannica.com/biography/Uzun-Hasan" },
+        { "title": "The Aqquyunlu: Clan, Confederation, Empire", "author": "John E. Woods", "type": "book", "note": "University of Utah Press, 1999 (yenidən işlənmiş nəşr)" }
+      ]
+    },
+    {
+      "id": "uzun-hasan-childhood",
+      "personId": "uzun-hasan",
+      "order": 1,
+      "date": { "year": 1435, "certainty": "exact" },
+      "type": "childhood",
+      "location": { "name": { "az": "Amid" }, "lat": 37.9144, "lng": 40.2306 },
+      "title": { "az": "Babanın ölümü və çəkişmələr" },
+      "factualSummary": {
+        "az": "1435-ci ildə babası Qara Osman öldü. Bundan sonra Ağqoyunlu bəyləri arasında uzun sürən varislik müharibəsi başladı. Həsənin uşaqlığı və gəncliyi qohumlar arasındakı bu çəkişmələrin içində keçdi. Anası Sara xatun ailədə və sonralar dövlət işlərində mühüm rol oynayırdı."
+      },
+      "narrative": {
+        "az": "On yaşım var. Babam Qara Osmanın ölüm xəbəri gələndə əmilərim bir-birinə qılınc çəkir. Atəş başında qocalar danışır: tayfa birliyi dağılarsa, Qaraqoyunlular hamımızı udacaq. Anam isə mənə səbirli olmağı öyrədir."
+      },
+      "sources": [
+        { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" },
+        { "title": "Sara Khatun", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Sara_Khatun" }
+      ]
+    },
+    {
+      "id": "uzun-hasan-amid",
+      "personId": "uzun-hasan",
+      "order": 2,
+      "date": {
+        "year": 1452,
+        "month": 9,
+        "certainty": "disputed",
+        "alternatives": [
+          { "year": 1453, "note": { "az": "Britannica hakimiyyətin başlanğıcını 1453-cü ilə aid edir." } }
+        ]
+      },
+      "type": "coronation",
+      "location": { "name": { "az": "Amid" }, "lat": 37.9144, "lng": 40.2306 },
+      "title": { "az": "Amiddə hakimiyyətə gəliş" },
+      "factualSummary": {
+        "az": "1452-ci ilin sentyabrında Həsən qardaşı Cahangirin yoxluğundan istifadə edib qansız çevrilişlə Amidi ələ keçirdi. Bu, onun müstəqil hökmdar kimi yüksəlişinin başlanğıcı oldu."
+      },
+      "narrative": {
+        "az": "Qardaşım Cahangir yürüşdədir. Gecə adamlarım şəhər qapılarını açır, bir damla da qan tökülmür. Səhər Amidin qalasından mənim bayrağım dalğalanır. İndi geri yol yoxdur."
+      },
+      "choice": {
+        "prompt": { "az": "Qardaşın Cahangir şəhərdən uzaqdadır, Amidin qapıları sənə açıla bilər. Nə edərdin?" },
+        "options": [
+          {
+            "text": { "az": "Qardaşa sadiq qalıb onun sərkərdəsi olaraq qalmaq" },
+            "explanation": { "az": "Cahangir Qaraqoyunlu hökmdarı Cahanşahla barışmışdı. Həsən bu siyasəti tayfa üçün təhlükəli sayırdı." }
+          },
+          {
+            "text": { "az": "Fürsətdən istifadə edib şəhəri qansız ələ keçirmək" },
+            "explanation": { "az": "Tarixdə məhz bu baş verdi." }
+          },
+          {
+            "text": { "az": "Osmanlı sultanından kömək istəmək" },
+            "explanation": { "az": "Bu, Ağqoyunluların müstəqilliyini riskə atardı." }
+          }
+        ],
+        "historicalOptionIndex": 1,
+        "why": {
+          "az": "Həsən Amidi qansız ələ keçirdi və sonrakı illərdə hərbi qələbələrlə tək hökmdar oldu. Tayfa bəylərinin bir çoxu daha fəal və cəsur lideri dəstəklədi."
+        }
+      },
+      "sources": [
+        { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" },
+        { "title": "Uzun Ḥasan", "type": "encyclopedia", "url": "https://www.britannica.com/biography/Uzun-Hasan" }
+      ]
+    },
+    {
+      "id": "uzun-hasan-tigris",
+      "personId": "uzun-hasan",
+      "order": 3,
+      "date": { "year": 1457, "month": 5, "certainty": "exact" },
+      "type": "battle",
+      "fromLocation": { "name": { "az": "Amid" }, "lat": 37.9144, "lng": 40.2306 },
+      "location": {
+        "name": { "az": "Dəclə sahili" },
+        "lat": 37.85,
+        "lng": 40.55,
+        "approximate": true
+      },
+      "title": { "az": "Dəclə döyüşü" },
+      "factualSummary": {
+        "az": "1457-ci ilin mayında Həsən qardaşı Cahangiri və onun Qaraqoyunlu müttəfiqlərini Dəclə sahilində məğlub etdi. Bu qələbədən sonra Ağqoyunluların yeganə hökmdarı oldu. Döyüşün dəqiq yeri mənbələrdə göstərilmir."
+      },
+      "narrative": {
+        "az": "Dəclənin bulanıq suyu baharın daşqını ilə qabarıb. Qarşımda qardaşımın və Qaraqoyunlu bəylərinin çadırları var. Bu döyüşdə qalib gələn tayfanın taleyini həll edəcək."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Cahangir və Qaraqoyunlu müttəfiqləri" },
+        "context": { "az": "Ağqoyunlu daxilindəki hakimiyyət mübarizəsi Həsənin xeyrinə bitdi." }
+      },
+      "sources": [
+        { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" }
+      ]
+    },
+    {
+      "id": "uzun-hasan-despina",
+      "personId": "uzun-hasan",
+      "order": 4,
+      "date": { "year": 1458, "certainty": "approximate", "note": { "az": "Nikah 1457–1459-cu illər arasında, ehtimal ki, 1458-də olub." } },
+      "type": "marriage",
+      "fromLocation": {
+        "name": { "az": "Dəclə sahili" },
+        "lat": 37.85,
+        "lng": 40.55,
+        "approximate": true
+      },
+      "location": { "name": { "az": "Amid" }, "lat": 37.9144, "lng": 40.2306 },
+      "title": { "az": "Trabzon şahzadəsi ilə nikah" },
+      "factualSummary": {
+        "az": "Həsən Trabzon imperatoru IV İoannın qızı Teodora Komnena ilə evləndi. O, Şərqdə Despina xatun adı ilə tanındı. Nikah Osmanlı təhlükəsinə qarşı Trabzonla ittifaq məqsədi daşıyırdı. Onların qızı Həlimə (Aləmşah) bəyim sonralar Şah İsmayılın anası oldu."
+      },
+      "narrative": {
+        "az": "Qara dəniz sahilindən karvan gəlir. Gəlin xristiandır, öz keşişləri ilə gəlir və mən buna razılıq vermişəm. Bu nikah sadəcə ailə deyil, Osmanlıya qarşı qurulan bir körpüdür."
+      },
+      "choice": {
+        "prompt": { "az": "Trabzon imperatoru qızını sənə ərə verməyi təklif edir, amma şərtlə: o, xristian dinini saxlamalıdır. Nə edərdin?" },
+        "options": [
+          {
+            "text": { "az": "Şərti qəbul edib ittifaqa girmək" },
+            "explanation": { "az": "Bu, Qara dəniz sahili ilə və Avropa ilə əlaqə yaradırdı." }
+          },
+          {
+            "text": { "az": "Rədd etmək: xristian şahzadə ilə nikah tayfa bəylərini narazı sala bilər" },
+            "explanation": { "az": "Daxili dəstəyi qoruyardı, amma güclü müttəfiqi itirərdi." }
+          },
+          {
+            "text": { "az": "Əvəzində Osmanlı sarayı ilə qohumluq axtarmaq" },
+            "explanation": { "az": "Osmanlılar Trabzonu ələ keçirməyə hazırlaşırdı, bu ittifaq Həsəni asılı vəziyyətə salardı." }
+          }
+        ],
+        "historicalOptionIndex": 0,
+        "why": {
+          "az": "Həsən şərti qəbul etdi. Despina xatun xristian olaraq qaldı. Bu nikah sonralar Venesiya ilə diplomatik əlaqələrdə də rol oynadı, çünki Despinanın qohumları Venesiya aristokratiyasında idi."
+        }
+      },
+      "sources": [
+        { "title": "Despina Khatun", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Despina_Khatun" },
+        { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Despina xatun hansı dövlətin şahzadəsi idi?" },
+          "options": [{ "az": "Trabzon imperiyası" }, { "az": "Venesiya" }, { "az": "Gürcüstan" }, { "az": "Bizans (Konstantinopol)" }],
+          "correctIndex": 0,
+          "explanation": { "az": "O, Trabzon imperatoru IV İoannın qızı Teodora Komnena idi." }
+        }
+      ]
+    },
+    {
+      "id": "uzun-hasan-sara-khatun",
+      "personId": "uzun-hasan",
+      "order": 5,
+      "date": {
+        "year": 1461,
+        "certainty": "approximate",
+        "note": { "az": "Bir mənbə ilk danışıqları 1463-cü ilə aid edir. Trabzon yürüşü ilə bağlılığı 1461-i daha inandırıcı edir." }
+      },
+      "type": "diplomacy",
+      "location": {
+        "name": { "az": "Trabzon" },
+        "modernName": { "az": "Trabzon (Türkiyə)" },
+        "lat": 41.0027,
+        "lng": 39.7168
+      },
+      "title": { "az": "Sara xatunun səfirliyi" },
+      "factualSummary": {
+        "az": "1461-ci ildə II Mehmed Trabzon imperiyasına yürüş etdi. Ağqoyunlular Koyulhisarda Osmanlılara uduzdu. Bundan sonra Həsən anası Sara xatunu sülh danışıqları üçün sultanın yanına göndərdi. Sülh bağlandı, amma Mehmed Sara xatunu Trabzon mühasirəsinə özü ilə apardı. Həsən Trabzonun işinə qarışmamağa razı oldu. Sara xatun isə imperator ailəsinin həyatının bağışlanacağına söz aldı."
+      },
+      "narrative": {
+        "az": "Bu yolu mən yox, anam gedir. Sultan Mehmedin çadırına bir türkman xatunu daxil olur və onunla bərabər danışır. Xəbər gəlir ki, Trabzon düşüb. Mən həyat yoldaşımın vətənini müdafiə edə bilmədim, amma anam onun ailəsinin canını qurtardı."
+      },
+      "sources": [
+        { "title": "Sara Khatun", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Sara_Khatun" },
+        { "title": "Battle of Koyulhisar (1461)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Koyulhisar_(1461)" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Uzun Həsən 1461-ci ildə II Mehmedlə danışıqlara kimi göndərmişdi?" },
+          "options": [{ "az": "Anası Sara xatunu" }, { "az": "Oğlu Uğurlu Məhəmmədi" }, { "az": "Venesiya səfirini" }, { "az": "Qardaşı Cahangiri" }],
+          "correctIndex": 0,
+          "explanation": { "az": "Sara xatun Azərbaycan tarixində ilk qadın diplomatlardan biri kimi xatırlanır." }
+        }
+      ]
+    },
+    {
+      "id": "uzun-hasan-jahan-shah",
+      "personId": "uzun-hasan",
+      "order": 6,
+      "date": {
+        "year": 1467,
+        "month": 11,
+        "day": 11,
+        "certainty": "disputed",
+        "alternatives": [
+          { "year": 1467, "month": 10, "day": 30, "note": { "az": "Bəzi mənbələrə görə 30 oktyabr." } },
+          { "year": 1467, "month": 11, "day": 10, "note": { "az": "Digər versiya: 10 noyabr, Muş yaxınlığında." } }
+        ]
+      },
+      "type": "battle",
+      "fromLocation": { "name": { "az": "Amid" }, "lat": 37.9144, "lng": 40.2306 },
+      "location": {
+        "name": { "az": "Çapaqçur" },
+        "modernName": { "az": "Bingöl vilayəti (Türkiyə); bəzi mənbələrdə Muş yaxınlığı" },
+        "lat": 38.88,
+        "lng": 40.5,
+        "approximate": true
+      },
+      "title": { "az": "Cahanşah üzərində qələbə" },
+      "factualSummary": {
+        "az": "1467-ci ilin payızında Qaraqoyunlu hökmdarı Cahanşah Ağqoyunlulara qarşı yürüş etdi. Həsən onun düşərgəsinə qəfil hücum edib qoşununu darmadağın etdi. Cahanşah öldürüldü. Bu qələbə Qaraqoyunlu dövlətinin sonunun başlanğıcı oldu."
+      },
+      "narrative": {
+        "az": "Cahanşahın ordusu qışlağa çəkilməyə hazırlaşır, arxayındır. Mən isə adamlarımla dağ keçidlərindən səssizcə enirəm. Səhər dumanında hücum edirik. Günortaya qədər Qaraqoyunlu hökmdarının cəsədi qarşıma gətirilir."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Qaraqoyunlu hökmdarı Cahanşah" },
+        "context": { "az": "Rəqib türkman dövlətinin başçısı öldü. Azərbaycan və İran Ağqoyunlulara açıldı." }
+      },
+      "sources": [
+        { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" },
+        { "title": "The Aqquyunlu: Clan, Confederation, Empire", "author": "John E. Woods", "type": "book" }
+      ]
+    },
+    {
+      "id": "uzun-hasan-abu-said",
+      "personId": "uzun-hasan",
+      "order": 7,
+      "date": {
+        "year": 1469,
+        "month": 2,
+        "day": 4,
+        "certainty": "exact",
+        "note": { "az": "Əbu Səid 5 fevralda (bəzi mənbələrə görə 8 fevralda) edam edildi." }
+      },
+      "type": "battle",
+      "fromLocation": {
+        "name": { "az": "Çapaqçur" },
+        "lat": 38.88,
+        "lng": 40.5,
+        "approximate": true
+      },
+      "route": [[44.5, 39.4]],
+      "location": {
+        "name": { "az": "Qarabağ" },
+        "modernName": { "az": "Kür–Araz ovalığı (Azərbaycan)" },
+        "lat": 39.9,
+        "lng": 47.4,
+        "approximate": true
+      },
+      "title": { "az": "Qarabağ döyüşü" },
+      "factualSummary": {
+        "az": "Teymuri sultanı Əbu Səid Mirzə Cahanşahın oğluna kömək etmək üçün Azərbaycana gəldi və Həsənin sülh təkliflərini rədd etdi. Həsən onun qoşununu Qarabağda təchizatdan məhrum edib mühasirəyə saldı. 4 fevral 1469-da Əbu Səid geri çəkilməyə çalışarkən əsir düşdü. O, Teymuri şahzadəsi Yadigar Məhəmmədə təhvil verildi və edam olundu."
+      },
+      "narrative": {
+        "az": "Teymurinin nəvəsi böyük ordu ilə gəlib, amma qış Qarabağ düzündə onun düşmənidir. Mən döyüşə tələsmirəm. Yolları kəsirəm, karvanlar gəlib çatmır. Onun atları ac qalır. Xorasana qaçmaq istəyəndə artıq gec olur."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Teymuri sultanı Əbu Səid Mirzə" },
+        "context": { "az": "Teymurilərin qərbə genişlənməsi dayandı. Həsən Azərbaycan və İranın böyük hissəsinin hakimi oldu." }
+      },
+      "choice": {
+        "prompt": { "az": "Teymuri sultanı sülh təklifini rədd edib böyük ordu ilə Qarabağa gəlib. Nə edərdin?" },
+        "options": [
+          {
+            "text": { "az": "Açıq meydanda dərhal həlledici döyüşə girmək" },
+            "explanation": { "az": "Teymuri ordusu böyük idi, açıq döyüş riskli olardı." }
+          },
+          {
+            "text": { "az": "Döyüşdən qaçıb yolları kəsmək və düşməni aclıqla zəiflətmək" },
+            "explanation": { "az": "Həsən məhz bu yolla Əbu Səidi çıxılmaz vəziyyətə saldı." }
+          },
+          {
+            "text": { "az": "Teymurilərin vassalı olmağa razılaşmaq" },
+            "explanation": { "az": "Həsənin müstəqilliyinə son qoyardı." }
+          }
+        ],
+        "historicalOptionIndex": 1,
+        "why": {
+          "az": "Həsən qış şəraitindən istifadə edərək Teymuri ordusunu təchizatsız qoydu. Ordu dağılmağa başlayanda Əbu Səid geri çəkilərkən ələ keçdi."
+        }
+      },
+      "sources": [
+        { "title": "Battle of Qarabagh", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Qarabagh" },
+        { "title": "EBÛ SAİD MİRZA HAN", "type": "encyclopedia", "url": "https://islamansiklopedisi.org.tr/ebu-said-mirza-han", "note": "TDV İslâm Ansiklopedisi" }
+      ]
+    },
+    {
+      "id": "uzun-hasan-tabriz",
+      "personId": "uzun-hasan",
+      "order": 8,
+      "date": { "year": 1469, "certainty": "approximate", "note": { "az": "Paytaxtın köçürülməsi 1467–1469-cu illərin fəthlərindən sonra baş verdi." } },
+      "type": "journey",
+      "fromLocation": {
+        "name": { "az": "Qarabağ" },
+        "lat": 39.9,
+        "lng": 47.4,
+        "approximate": true
+      },
+      "location": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
+      "title": { "az": "Paytaxt Təbrizə köçür" },
+      "factualSummary": {
+        "az": "1467–1469-cu illərin fəthlərindən sonra Həsən paytaxtını Amiddən Təbrizə köçürdü. Təbriz İpək yolu üzərində yerləşən iri ticarət mərkəzi idi və əvvəllər Qaraqoyunluların paytaxtı olmuşdu. Bundan sonra Ağqoyunlu dövləti Şərqi Anadoludan Fars körfəzinə qədər uzanırdı."
+      },
+      "narrative": {
+        "az": "Təbrizin bazarlarında Çin ipəyi, Venesiya şüşəsi və Hindistan ədviyyatı satılır. Amid mənim beşiyim idi, Təbriz isə taxtım olacaq. Burada artıq tayfa bəyi kimi yox, padşah kimi oturmalıyam."
+      },
+      "sources": [
+        { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Uzun Həsən paytaxtı hansı şəhərdən Təbrizə köçürdü?" },
+          "options": [{ "az": "Amid (Diyarbəkir)" }, { "az": "Ərdəbil" }, { "az": "Bağdad" }, { "az": "Şamaxı" }],
+          "correctIndex": 0,
+          "explanation": { "az": "Ağqoyunluların ilkin mərkəzi Amid idi." }
+        }
+      ]
+    },
+    {
+      "id": "uzun-hasan-venice",
+      "personId": "uzun-hasan",
+      "order": 9,
+      "date": { "year": 1472, "month": 4, "certainty": "approximate", "note": { "az": "Katerino Zenonun saraya gəlişi, bir mənbəyə görə, 1472-ci ilin aprelidir." } },
+      "type": "diplomacy",
+      "location": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
+      "title": { "az": "Venesiya səfiri Katerino Zeno" },
+      "factualSummary": {
+        "az": "Venesiya Senatı 1471-ci ilin martında Katerino Zenonu Osmanlılara qarşı ittifaq bağlamaq üçün Uzun Həsənin yanına səfir təyin etdi. Zenonun həyat yoldaşı Despina xatunun bacısı qızı idi. O, sarayda təqribən il yarım qaldı. Ağqoyunlu səfirləri də Venesiyaya göndərildi. Həsən Venesiyadan xüsusilə odlu silah və top istəyirdi."
+      },
+      "narrative": {
+        "az": "Venesiyalı səfir zərli parçalar və ağır bir məktub gətirib. Mənimlə həyat yoldaşımın dilində danışır, çünki onlar qohumdurlar. Ona deyirəm: \"Siz dənizdən, mən qurudan vursam, Sultan Mehmed iki od arasında qalar. Amma mənə top lazımdır.\""
+      },
+      "choice": {
+        "prompt": { "az": "Venesiya Osmanlılara qarşı birgə müharibə təklif edir. Topları isə hələ yoldadır. Nə edərdin?" },
+        "options": [
+          {
+            "text": { "az": "Ittifaqı qəbul edib Venesiya silahlarını gözləmədən yürüşə başlamaq" },
+            "explanation": { "az": "Fürsəti qaçırmamaq olardı, amma ordunun odlu silahı yox idi." }
+          },
+          {
+            "text": { "az": "Ittifaqı qəbul edib silahlar çatana qədər gözləmək" },
+            "explanation": { "az": "Daha təhlükəsiz idi, amma Osmanlılar hazırlaşmağa vaxt qazanardı." }
+          },
+          {
+            "text": { "az": "Venesiyanı rədd edib Osmanlı ilə sülhü saxlamaq" },
+            "explanation": { "az": "Müharibədən qaçmaq olardı, amma Osmanlı genişlənməsi davam edirdi." }
+          }
+        ],
+        "historicalOptionIndex": 0,
+        "why": {
+          "az": "Həsən 1471–1472-ci illərdə Anadoluya hücum etdi və Toqatı dağıtdı. Venesiyanın göndərdiyi toplar və ustalar isə vaxtında çatmadı. Otluqbeli döyüşündə Ağqoyunlu ordusu odlu silahdan demək olar ki, məhrum idi."
+        }
+      },
+      "sources": [
+        { "title": "Caterino Zeno", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Caterino_Zeno" },
+        { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" }
+      ]
+    },
+    {
+      "id": "uzun-hasan-euphrates",
+      "personId": "uzun-hasan",
+      "order": 10,
+      "date": { "year": 1473, "month": 8, "day": 1, "certainty": "exact" },
+      "type": "battle",
+      "fromLocation": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
+      "route": [[41.27, 39.9]],
+      "location": {
+        "name": { "az": "Fərat sahili (Tərcan yaxınlığı)" },
+        "modernName": { "az": "Ərzincan vilayəti (Türkiyə). Ədəbiyyatda \"Malatya döyüşü\" kimi də keçir." },
+        "lat": 39.974,
+        "lng": 40.022,
+        "approximate": true
+      },
+      "title": { "az": "Fərat sahilində qələbə" },
+      "factualSummary": {
+        "az": "1 avqust 1473-cü ildə Uzun Həsənin oğlu Uğurlu Məhəmmədin başçılıq etdiyi Ağqoyunlu qoşunu Fəratın sahilində Osmanlı ön qüvvələrini tələyə salıb məğlub etdi. Osmanlı sərkərdəsi Has Murad paşa həlak oldu, təqribən 4000 Osmanlı əsgəri öldü."
+      },
+      "narrative": {
+        "az": "Süvarilərimiz qaçırmış kimi görünür. Has Murad paşa yemi udur və çayı keçir. O zaman hər tərəfdən üstünə gəlirik. Fəratın suyu qırmızıya boyanır. Oğlum Uğurlu qalib gəlib, ordugahda şənlik var. Amma Sultan Mehmedin özü hələ meydana çıxmayıb."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Osmanlı sərkərdəsi Has Murad paşa" },
+        "forces": { "own": { "az": "təqr. 10 000 (mənbələr ziddiyyətlidir)" }, "enemy": { "az": "məlum deyil" } },
+        "context": { "az": "Saxta geri çəkilmə ilə qazanılan qələbə Osmanlı ön dəstələrini dağıtdı, amma sultanın əsas ordusu toxunulmaz qaldı." }
+      },
+      "sources": [
+        { "title": "Battle of Malatya", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Malatya" },
+        { "title": "Hass Murad Pasha", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Hass_Murad_Pasha" }
+      ]
+    },
+    {
+      "id": "uzun-hasan-otlukbeli",
+      "personId": "uzun-hasan",
+      "order": 11,
+      "date": { "year": 1473, "month": 8, "day": 11, "certainty": "exact" },
+      "type": "battle",
+      "fromLocation": {
+        "name": { "az": "Fərat sahili (Tərcan yaxınlığı)" },
+        "lat": 39.974,
+        "lng": 40.022,
+        "approximate": true
+      },
+      "location": {
+        "name": { "az": "Otluqbeli" },
+        "modernName": { "az": "Otlukbeli, Ərzincan vilayəti (Türkiyə)" },
+        "lat": 39.99,
+        "lng": 40.08,
+        "approximate": true
+      },
+      "title": { "az": "Otluqbeli döyüşü" },
+      "factualSummary": {
+        "az": "11 avqust 1473-cü ildə Otluqbelidə II Mehmedin ordusu Uzun Həsəni məğlub etdi. Ağqoyunluların sağ cinahı oğlu Zeynalın ölümündən sonra dağıldı və Həsən meydandan çəkildi. Qoşunların sayı mənbələrdə çox fərqli verilir. Bir çox tarixçi Osmanlı qələbəsini yeniçəri piyadasının intizamı və odlu silahın üstünlüyü ilə izah edir. Döyüş Ağqoyunluların qərbə genişlənməsinə son qoydu."
+      },
+      "narrative": {
+        "az": "Bu dəfə qarşımda sultanın özü var. Oğlum Zeynal sağ cinahda düşür. Onun bayrağının yıxıldığını görən əsgərlər geri çəkilməyə başlayır. Mənə bənzəyən bir bəyi geridə qoyub meydandan çıxıram. Təbrizə gedən yol mənim üçün heç vaxt bu qədər uzun olmamışdı."
+      },
+      "outcome": {
+        "result": "defeat",
+        "opponent": { "az": "Osmanlı sultanı II Mehmed (Fateh)" },
+        "forces": { "own": { "az": "mənbələr ziddiyyətlidir (70 000-dən çox)" }, "enemy": { "az": "70 000–100 000" } },
+        "context": { "az": "Ağqoyunluların Anadoluda genişlənməsinə son qoyuldu. Venesiya ilə ittifaq planları da əhəmiyyətini itirdi." }
+      },
+      "sources": [
+        { "title": "Battle of Otlukbeli", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Otlukbeli" },
+        { "title": "OTLUKBELİ SAVAŞI", "type": "encyclopedia", "url": "https://kureansiklopedi.com/tr/detay/otlukbeli-savasi" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Otluqbeli döyüşündə Uzun Həsənin rəqibi kim idi?" },
+          "options": [{ "az": "II Mehmed (Fateh)" }, { "az": "I Səlim" }, { "az": "Cahanşah" }, { "az": "Əbu Səid" }],
+          "correctIndex": 0,
+          "explanation": { "az": "1473-cü ildə Osmanlı ordusuna Sultan II Mehmed şəxsən komandanlıq edirdi." }
+        }
+      ]
+    },
+    {
+      "id": "uzun-hasan-contarini",
+      "personId": "uzun-hasan",
+      "order": 12,
+      "date": { "year": 1474, "month": 10, "certainty": "approximate" },
+      "type": "diplomacy",
+      "fromLocation": {
+        "name": { "az": "Otluqbeli" },
+        "lat": 39.99,
+        "lng": 40.08,
+        "approximate": true
+      },
+      "route": [[46.2919, 38.08]],
+      "location": { "name": { "az": "İsfahan" }, "lat": 32.6546, "lng": 51.668 },
+      "title": { "az": "Barbaro və Kontarini" },
+      "factualSummary": {
+        "az": "Otluqbelidən sonra da Venesiya ittifaq ümidini itirmədi. 1474-cü ildə səfir Cozafat Barbaro Həsənin sarayına çatdı. Həmin ilin avqustunda Ambrocio Kontarini Təbrizə gəldi və oktyabrda İsfahanda Həsənlə görüşdü. Hökmdar səfirləri hörmətlə qəbul etdi, amma yeni müharibə təklifini rədd etdi. Hər iki səfirin yol qeydləri Ağqoyunlu sarayı haqqında mühüm mənbədir."
+      },
+      "narrative": {
+        "az": "Venesiyalılar yenə gəlib, bu dəfə ikisi birdən. Kontarini İsfahanda ayaqlarıma qədər əyilir və yeni müharibədən danışır. Mən isə yorğunam, oğlum Uğurlu Şirazda üsyan qaldırıb. Ona deyirəm: \"Əvvəlcə öz evimi qaydaya salmalıyam.\""
+      },
+      "sources": [
+        { "title": "Caterino Zeno", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Caterino_Zeno" },
+        {
+          "title": "Travels to Tana and Persia, by Josafa Barbaro and Ambrogio Contarini",
+          "type": "primary",
+          "note": "Hakluyt Society, London, 1873 (ingilis tərcüməsi)"
+        }
+      ]
+    },
+    {
+      "id": "uzun-hasan-qanunname",
+      "personId": "uzun-hasan",
+      "order": 13,
+      "date": { "year": 1475, "certainty": "approximate", "note": { "az": "İsfahan Cümə məscidindəki kitabə 1475–1476-cı illərə aiddir." } },
+      "type": "culture",
+      "fromLocation": { "name": { "az": "İsfahan" }, "lat": 32.6546, "lng": 51.668 },
+      "location": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
+      "title": { "az": "Qanunnamə və Həşt Behişt" },
+      "factualSummary": {
+        "az": "Həsən padşahın adı ilə bağlı \"qanunnamə\" ticarət, mülki, cinayət və vergi qaydalarını əhatə edirdi. Osmanlılar Şərqi Anadolunu və İraqı tutduqdan sonra bu qanunları bir müddət saxladılar. Həsən Təbrizdə Həşt Behişt saray-bağ kompleksinin tikintisinə başladı, onu oğlu Yaqub tamamladı. İsfahan Cümə məscidinin cənub eyvanını bərpa etdirdi və Quranın türkcəyə tərcüməsini sifariş etdi."
+      },
+      "narrative": {
+        "az": "Qılıncla qazanılanı qanunla saxlamaq lazımdır. Divanxanada katiblər bazar rüsumlarını, kəndlilərin vergisini yazır. Bağda isə memarlar səkkiz cənnət adlanan sarayın təməlini qoyur. Mən bitdiyini görməyəcəyəm, amma oğullarım görəcək."
+      },
+      "sources": [
+        { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" },
+        { "title": "The Aqquyunlu: Clan, Confederation, Empire", "author": "John E. Woods", "type": "book" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Uzun Həsənin qanunnaməsini sonralar hansı dövlət bir müddət tətbiq etdi?" },
+          "options": [{ "az": "Osmanlı dövləti" }, { "az": "Venesiya" }, { "az": "Teymurilər" }, { "az": "Qaraqoyunlular" }],
+          "correctIndex": 0,
+          "explanation": { "az": "Osmanlılar Şərqi Anadoluda və İraqda bu qanunları 1540-cı ilə qədər saxladılar." }
+        }
+      ]
+    },
+    {
+      "id": "uzun-hasan-death",
+      "personId": "uzun-hasan",
+      "order": 14,
+      "date": {
+        "year": 1478,
+        "month": 1,
+        "day": 5,
+        "certainty": "disputed",
+        "alternatives": [
+          { "year": 1478, "month": 1, "day": 6, "note": { "az": "Britannica: 6 yanvar." } },
+          { "year": 1478, "month": 1, "day": 2, "note": { "az": "\"ət-Tarix əl-Ğiyasi\": 2 yanvar." } }
+        ]
+      },
+      "type": "death",
+      "location": { "name": { "az": "Təbriz yaxınlığı" }, "lat": 38.08, "lng": 46.2919, "approximate": true },
+      "title": { "az": "Qış düşərgəsində ölüm" },
+      "factualSummary": {
+        "az": "Uzun Həsən 1478-ci ilin yanvarında Təbriz yaxınlığındakı qış düşərgəsində vəfat etdi. Son illərini oğlu Uğurlu Məhəmmədin üsyanı və xəstəlik ağırlaşdırmışdı. Təbrizdəki Nəsriyyə türbə kompleksində dəfn edildi. Ondan sonra oğulları Xəlil, sonra isə Yaqub hakimiyyətə gəldi. Qızı Həlimə bəyimin oğlu İsmayıl doqquz il sonra Ərdəbildə doğulacaqdı."
+      },
+      "narrative": {
+        "az": "Qış soyuğu çadırın içinə qədər işləyir. Ömrüm boyu Amiddən Təbrizə, Dəclədən Xəzərə qədər at çapdım. İndi isə bircə addım atmağa gücüm çatmır. Qızım Həlimənin uşaqları olacaq. Kim bilir, bəlkə onlardan biri bu taxtı yenidən ayağa qaldıracaq."
+      },
+      "sources": [
+        { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" },
+        { "title": "Uzun Ḥasan", "type": "encyclopedia", "url": "https://www.britannica.com/biography/Uzun-Hasan" }
+      ]
+    }
+  ]
+}
