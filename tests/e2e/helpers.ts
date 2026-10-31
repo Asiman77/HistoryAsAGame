@@ -10,6 +10,8 @@ export interface PersonFixture {
   titles: string[];
   hasQuiz: boolean;
   hasChoice: boolean;
+  /** Index of the first stage with a choice moment, -1 if none. */
+  firstChoice: number;
   /** Index of the first stage that moves the person (draws a route). */
   firstMove: number;
 }
@@ -37,6 +39,7 @@ export function loadPersons(): PersonFixture[] {
         titles: events.map((e) => e.title.az),
         hasQuiz: events.some((e) => e.quiz?.length),
         hasChoice: events.some((e) => e.choice),
+        firstChoice: events.findIndex((e) => e.choice),
         firstMove: events.findIndex((e, i) => i > 0 && e.fromLocation),
       };
     });

@@ -56,10 +56,9 @@ test("choice moment reveals the historical decision", async ({ page }) => {
   const p = persons.find((x) => x.hasChoice)!;
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(`/az/person/${p.id}/`);
-  const next = page.getByRole("button", { name: /Növbəti/ }).first();
-  const open = page.getByRole("button", { name: "Sən olsaydın nə edərdin?" });
-  for (let i = 0; i < p.titles.length && !(await open.isVisible()); i++) await next.click();
-  await open.click();
+  await page.getByRole("navigation", { name: "Həyat xətti" }).getByRole("button").nth(p.firstChoice).click();
+  await expect(stageHeading(page, p.titles[p.firstChoice]!)).toBeVisible();
+  await page.getByRole("button", { name: "Sən olsaydın nə edərdin?" }).click();
   await page.locator("article li button").first().click();
   await expect(page.getByText("Niyə belə oldu?")).toBeVisible();
   await expect(page.getByText(/Tarixi seçim/).first()).toBeVisible();
