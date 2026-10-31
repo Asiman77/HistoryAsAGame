@@ -35,7 +35,17 @@ export function formatDate(date: HistoricalDate, m: Messages): string {
   return date.certainty === "exact" ? text : `${m.date.approxPrefix}${text}`;
 }
 
-/** Sortable numeric key, used to check chronological order. */
-export function dateKey(d: { year: number; month?: number; day?: number }): number {
-  return d.year * 10000 + (d.month ?? 0) * 100 + (d.day ?? 0);
+/**
+ * Compares two dates only at the precision both of them have, so that
+ * "1488" is neither before nor after "9 July 1488".
+ */
+export function compareDates(
+  a: { year: number; month?: number; day?: number },
+  b: { year: number; month?: number; day?: number },
+): number {
+  if (a.year !== b.year) return a.year - b.year;
+  if (a.month === undefined || b.month === undefined) return 0;
+  if (a.month !== b.month) return a.month - b.month;
+  if (a.day === undefined || b.day === undefined) return 0;
+  return a.day - b.day;
 }

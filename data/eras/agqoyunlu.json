@@ -1,0 +1,10 @@
+{
+  "id": "agqoyunlu",
+  "name": { "az": "Ağqoyunlu dövləti", "en": "Aq Qoyunlu" },
+  "startYear": 1378,
+  "endYear": 1503,
+  "description": {
+    "az": "Bayandur tayfasının başçılıq etdiyi türkman tayfa konfederasiyası. Diyarbəkirdən (Amid) yüksələrək Uzun Həsənin dövründə Təbrizi paytaxt edən geniş dövlətə çevrildi."
+  },
+  "theme": { "color": "#e9e2cf", "accent": "#8a6a2f" }
+}

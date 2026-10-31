@@ -1,0 +1,10 @@
+{
+  "id": "sefevi",
+  "name": { "az": "Səfəvi dövləti", "en": "Safavid Iran" },
+  "startYear": 1501,
+  "endYear": 1736,
+  "description": {
+    "az": "Ərdəbil sufi təriqətindən çıxan Səfəvilərin qurduğu dövlət. Qızılbaş tayfalarına söykənirdi, paytaxtı əvvəl Təbriz, sonra Qəzvin və İsfahan oldu."
+  },
+  "theme": { "color": "#e8dccb", "accent": "#9b2c2c" }
+}

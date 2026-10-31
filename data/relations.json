@@ -1,0 +1,16 @@
+{
+  "relations": [
+    {
+      "from": "uzun-hasan",
+      "to": "shah-ismayil",
+      "type": "grandparent",
+      "note": {
+        "az": "Uzun Həsən Şah İsmayılın ana babasıdır: İsmayılın anası Həlimə (Aləmşah) bəyim Uzun Həsən ilə Despina xatunun qızıdır."
+      },
+      "sources": [
+        { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I" },
+        { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" }
+      ]
+    }
+  ]
+}

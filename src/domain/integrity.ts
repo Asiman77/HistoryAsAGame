@@ -1,5 +1,5 @@
 import type { Era, LifeEvent, Person, Relation } from "./schema";
-import { dateKey } from "@/lib/dates";
+import { compareDates } from "@/lib/dates";
 
 export interface Issue {
   file: string;
@@ -38,7 +38,7 @@ export function checkPerson(person: Person, events: LifeEvent[], eras: Era[], fi
   for (let i = 1; i < sorted.length; i++) {
     const prev = sorted[i - 1]!;
     const cur = sorted[i]!;
-    if (dateKey(cur.date) < dateKey(prev.date))
+    if (compareDates(cur.date, prev.date) < 0)
       add(`xronologiya pozulub: ${prev.id} (${prev.date.year}) → ${cur.id} (${cur.date.year})`);
   }
 

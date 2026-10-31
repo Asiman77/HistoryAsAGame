@@ -1,0 +1,10 @@
+{
+  "id": "efshar",
+  "name": { "az": "Əfşar dövləti", "en": "Afsharid Iran" },
+  "startYear": 1736,
+  "endYear": 1796,
+  "description": {
+    "az": "Qızılbaş Əfşar tayfasından olan Nadir şahın Muğan qurultayından sonra qurduğu dövlət. Onun ölümündən sonra dağılmağa başladı."
+  },
+  "theme": { "color": "#e4ddd0", "accent": "#2f5d62" }
+}
