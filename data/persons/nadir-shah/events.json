@@ -1,0 +1,649 @@
+{
+  "events": [
+    {
+      "id": "nadir-birth",
+      "personId": "nadir-shah",
+      "order": 0,
+      "date": {
+        "year": 1688,
+        "month": 10,
+        "day": 22,
+        "certainty": "disputed",
+        "alternatives": [
+          { "year": 1688, "month": 11, "note": { "az": "Encyclopaedia Iranica: 1688-ci ilin noyabrı." } },
+          { "year": 1698, "month": 8, "day": 6, "note": { "az": "Alternativ versiya: 6 avqust 1698." } }
+        ]
+      },
+      "type": "birth",
+      "location": {
+        "name": { "az": "Dəstgerd (Dərəgəz)" },
+        "modernName": { "az": "Dərəgəz, Xorasani-Rəzəvi (İran)" },
+        "lat": 37.38,
+        "lng": 59.08,
+        "approximate": true
+      },
+      "title": { "az": "Xorasan dağlarında doğuluş" },
+      "factualSummary": {
+        "az": "Nadirqulu Xorasanın şimalında, Dərəgəz bölgəsindəki Dəstgerd qalasında doğuldu. Britannica doğum yerini Kobhan kimi göstərir. O, Səfəviləri dəstəkləyən yeddi qızılbaş tayfasından biri olan Əfşarların Qırxlı qolundan idi. Bu tayfanı Xorasana Səfəvilər şimal sərhədini qorumaq üçün köçürmüşdü."
+      },
+      "narrative": {
+        "az": "Xorasanın şimal dağlarında qış sərt keçir. Əfşar çadırlarında doğuluram. Atam qoyun otarır, anam yun əyirir. Kim deyərdi ki, bu çadırdan çıxan uşaq bir gün Hindistanın taxtını yerindən oynadacaq?"
+      },
+      "sources": [
+        { "title": "Nader Shah", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah" },
+        { "title": "Nādir Shāh", "type": "encyclopedia", "url": "https://www.britannica.com/biography/Nadir-Shah" }
+      ]
+    },
+    {
+      "id": "nadir-childhood",
+      "personId": "nadir-shah",
+      "order": 1,
+      "date": { "year": 1700, "certainty": "approximate" },
+      "type": "childhood",
+      "location": { "name": { "az": "Dərəgəz" }, "lat": 37.44, "lng": 59.11, "approximate": true },
+      "title": { "az": "Çoban ailəsində uşaqlıq" },
+      "factualSummary": {
+        "az": "Nadirin atası İmamqulu sadə bir çoban idi. Bəzi mənbələrə görə həm də kürk tikirdi. Nadir uşaq ikən atasını itirdi. Ailə yoxsulluq içində yaşayırdı. Mənbələrə görə Nadir 15 yaşında yerli hakimin yanında tüfəngçi kimi xidmətə başladı."
+      },
+      "narrative": {
+        "az": "Atam öləndə əlimə onun dəyənəyi qalır. Sürünü otarır, gecələr canavarları qovuram. Kənddəki qocalar deyir ki, bu oğlanın gözündə od var. On beş yaşımda ilk dəfə tüfəng götürüb hakimin xidmətinə gedirəm."
+      },
+      "sources": [
+        { "title": "Nader Shah", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah" },
+        { "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant", "author": "Michael Axworthy", "type": "book", "note": "I.B. Tauris, 2006, 2-ci fəsil" }
+      ]
+    },
+    {
+      "id": "nadir-captivity",
+      "personId": "nadir-shah",
+      "order": 2,
+      "date": {
+        "year": 1704,
+        "certainty": "disputed",
+        "alternatives": [
+          { "year": 1708, "note": { "az": "Rəvayətə görə Nadir əsirlikdən 1708-ci ildə qayıtmışdı." } }
+        ],
+        "note": { "az": "Əsirlik hekayəsi mənbələrdə \"iddia olunur\" kimi verilir və əfsanə ola bilər." }
+      },
+      "type": "exile",
+      "location": { "name": { "az": "Dərəgəz" }, "lat": 37.44, "lng": 59.11, "approximate": true },
+      "title": { "az": "Özbək əsirliyi (rəvayət)" },
+      "factualSummary": {
+        "az": "Rəvayətə görə təxminən 1704-cü ildə, 17 yaşlarında ikən Nadir anası ilə birlikdə özbək basqınçıları tərəfindən əsir aparıldı. Anası əsirlikdə öldü. Nadir isə 1708-ci ildə Xorasana qayıtdı. Bu hekayəni təsdiq edən etibarlı müasir sənəd yoxdur. Tarixçilər onu ehtiyatla qəbul edir. Əsirliyin harada keçdiyi məlum deyil."
+      },
+      "narrative": {
+        "az": "Özbək atlıları gecə kəndimizə basqın edir. Anamla birlikdə bizi ipə bağlayıb şimala sürürlər. Anam əsirlikdə ölür, mən isə qaçıram. Bu hekayəni sonralar mən özüm danışacağam. Bəlkə bir az da bəzəyəcəyəm."
+      },
+      "sources": [
+        { "title": "Nader Shah", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah", "note": "\"Allegedly\": hadisə iddia olunan kimi verilir" },
+        { "title": "The Sword of Persia", "author": "Michael Axworthy", "type": "book", "note": "I.B. Tauris, 2006" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Nadirin uşaqlıqda özbək əsirliyi hekayəsi tarixçilər tərəfindən necə qiymətləndirilir?" },
+          "options": [
+            { "az": "Sənədlərlə təsdiqlənməyib, rəvayət kimi ehtiyatla qəbul edilir" },
+            { "az": "Dəqiq təsdiqlənmiş faktdır" },
+            { "az": "Tamamilə uydurma olduğu sübut edilib" }
+          ],
+          "correctIndex": 0,
+          "explanation": { "az": "Mənbələr bu hadisəni \"iddia olunur\" deyə təqdim edir. Bu, tarixdə fakt ilə rəvayəti ayırmağın yaxşı nümunəsidir." }
+        }
+      ]
+    },
+    {
+      "id": "nadir-abivard",
+      "personId": "nadir-shah",
+      "order": 3,
+      "date": { "year": 1719, "certainty": "approximate", "note": { "az": "Oğlu Rzaqulunun doğum ili. Nikahın dəqiq tarixi məlum deyil." } },
+      "type": "marriage",
+      "fromLocation": { "name": { "az": "Dərəgəz" }, "lat": 37.44, "lng": 59.11, "approximate": true },
+      "location": {
+        "name": { "az": "Əbivərd" },
+        "modernName": { "az": "Əbivərd xarabalıqları, Kaka yaxınlığı (Türkmənistan)" },
+        "lat": 37.27,
+        "lng": 59.6,
+        "approximate": true
+      },
+      "title": { "az": "Əbivərddə xidmət və ailə" },
+      "factualSummary": {
+        "az": "Gənc Nadir Əbivərd hakimi Baba Əli bəy Kosa Əhmədlunun xidmətinə girdi. Burada bacarıqlı döyüşçü kimi tanındı və hakimin qızı ilə evləndi. 1719-cu ildə onların oğlu Rzaqulu doğuldu. Baba Əli bəyin ölümündən sonra Nadir Əbivərddə nüfuzlu bir dəstənin başçısına çevrildi."
+      },
+      "narrative": {
+        "az": "Baba Əli bəyin süvariləri arasında ən cəsuru mənəm. Türkmən basqınçılarını təqib edirəm, oğurlanan sürüləri geri gətirirəm. Bəy mənə qızını verir. Oğlum Rzaqulu doğulanda onu qucağıma alıb and içirəm: bu uşaq çobanın oğlu olmayacaq."
+      },
+      "sources": [
+        { "title": "The Sword of Persia", "author": "Michael Axworthy", "type": "book", "note": "I.B. Tauris, 2006, 2-ci fəsil" },
+        { "title": "NĀDER SHAH", "author": "Ernest Tucker", "type": "encyclopedia", "note": "Encyclopaedia Iranica" }
+      ]
+    },
+    {
+      "id": "nadir-tahmasp",
+      "personId": "nadir-shah",
+      "order": 4,
+      "date": { "year": 1726, "month": 11, "certainty": "approximate", "note": { "az": "Nadir 1726-cı ilin payızında Təhmasibə qoşuldu, Məşhəd həmin ilin sonunda alındı." } },
+      "type": "journey",
+      "fromLocation": {
+        "name": { "az": "Əbivərd" },
+        "lat": 37.27,
+        "lng": 59.6,
+        "approximate": true
+      },
+      "location": { "name": { "az": "Məşhəd" }, "lat": 36.2972, "lng": 59.6067 },
+      "title": { "az": "II Təhmasibin xidmətində" },
+      "factualSummary": {
+        "az": "1722-ci ildə Hotaki əfqanları İsfahanı tutub Sultan Hüseyni taxtdan saldılar. Osmanlılar və Ruslar da ölkənin qərb və şimal torpaqlarını işğal etdilər. Taxtın varisi II Təhmasib Xorasanda dayaq axtarırdı. 1726-cı ildə Nadir ona qoşuldu. Təhmasibin baş sərkərdəsi Fətəli xan Qacarın xəyanət yazışmaları ortaya çıxandan sonra o, edam edildi. Nadir ordunun başçısı oldu və həmin ilin sonunda Məşhədi aldı. O, \"Təhmasibqulu xan\" adını aldı."
+      },
+      "narrative": {
+        "az": "Taxtsız şahzadə Təhmasib mənə əl uzadır. Onun yanında köhnə bəy Fətəli xan Qacar var və o, mənə etibar etmir. Bir gün onun gizli məktubları əlimə keçir. Bir neçə həftə sonra Məşhədin qapıları önündə ordunun komandanı artıq mənəm."
+      },
+      "choice": {
+        "prompt": { "az": "Şahzadənin baş sərkərdəsi Fətəli xanın düşmənlə gizli yazışmalarını ələ keçirmisən. Nə edərdin?" },
+        "options": [
+          {
+            "text": { "az": "Məktubları şahzadəyə göstərmək" },
+            "explanation": { "az": "Bu, rəqibi aradan qaldırar və sənin sədaqətini sübut edərdi." }
+          },
+          {
+            "text": { "az": "Susmaq və məktubları gələcək üçün saxlamaq" },
+            "explanation": { "az": "Fətəli xan təhlükəli rəqib kimi qalardı və ordu iki başçı arasında bölünərdi." }
+          },
+          {
+            "text": { "az": "Fətəli xanla birləşib şahzadəni kənara itələmək" },
+            "explanation": { "az": "Səfəvi şahzadəsinin legitimliyi olmadan Nadir tayfaları birləşdirə bilməzdi." }
+          }
+        ],
+        "historicalOptionIndex": 0,
+        "why": {
+          "az": "Nadir Fətəli xanın xəyanətini ifşa etdi. Təhmasib onu edam etdirdi və Nadir ordunun yeganə başçısına çevrildi. Bu addım Nadirin siyasi istedadını göstərir: o, hər zaman Səfəvi legitimliyindən öz yüksəlişi üçün istifadə edirdi."
+        }
+      },
+      "sources": [
+        { "title": "Nader Shah", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah" },
+        { "title": "The Sword of Persia", "author": "Michael Axworthy", "type": "book", "note": "I.B. Tauris, 2006, 3-cü fəsil" }
+      ]
+    },
+    {
+      "id": "nadir-damghan",
+      "personId": "nadir-shah",
+      "order": 5,
+      "date": { "year": 1729, "month": 9, "day": 29, "certainty": "exact", "note": { "az": "Döyüş 29 sentyabr – 5 oktyabr 1729-cu illərdə davam etdi." } },
+      "type": "battle",
+      "fromLocation": { "name": { "az": "Məşhəd" }, "lat": 36.2972, "lng": 59.6067 },
+      "location": {
+        "name": { "az": "Mehmandust (Damğan yaxınlığı)" },
+        "modernName": { "az": "Semnan ostanı (İran)" },
+        "lat": 36.25,
+        "lng": 54.7
+      },
+      "title": { "az": "Damğan döyüşü" },
+      "factualSummary": {
+        "az": "1729-cu ilin mayında Heratda Əbdali əfqanlarını məğlub edən Nadir qərbə, Hotaki hökmdarı Əşrəfin üzərinə yürüdü. Damğan yaxınlığındakı Mehmandustda Nadirin kiçik, amma intizamlı ordusu Əşrəfin sayca üstün qoşununu darmadağın etdi. Əşrəf qaçdı."
+      },
+      "narrative": {
+        "az": "Əfqan süvariləri dalğa-dalğa üstümüzə gəlir. Mən isə tüfəngçilərimi sıra ilə düzmüşəm, illərlə məşq etdirmişəm. \"Atəş!\" əmrindən sonra tüstü dağılanda düşmən cinahları dağılmış olur. İsfahana gedən yol açılır."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Hotaki hökmdarı Əşrəf" },
+        "forces": { "own": { "az": "16 000–25 000" }, "enemy": { "az": "25 000–50 000" } },
+        "context": { "az": "Nadirin intizamlı tüfəngçi piyadası Əfqan süvarisini məğlub etdi. Bu, Hotaki hakimiyyətinin sonunun başlanğıcı oldu." }
+      },
+      "sources": [
+        { "title": "Battle of Damghan (1729)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Damghan_(1729)" }
+      ]
+    },
+    {
+      "id": "nadir-murchekhort",
+      "personId": "nadir-shah",
+      "order": 6,
+      "date": { "year": 1729, "month": 11, "certainty": "approximate" },
+      "type": "battle",
+      "fromLocation": { "name": { "az": "Mehmandust (Damğan yaxınlığı)" }, "lat": 36.25, "lng": 54.7 },
+      "route": [[51.42, 35.69]],
+      "location": { "name": { "az": "Mürçəxur (İsfahan yaxınlığı)" }, "lat": 33.09, "lng": 51.48, "approximate": true },
+      "title": { "az": "Mürçəxur döyüşü və İsfahanın azad edilməsi" },
+      "factualSummary": {
+        "az": "1729-cu ilin noyabrında İsfahanın şimalındakı Mürçəxurda Nadir Əşrəfi yenidən məğlub etdi. Dekabrda Səfəvilərin paytaxtı İsfahan yeddi illik əfqan hakimiyyətindən azad edildi və II Təhmasib şəhərə qayıtdı."
+      },
+      "narrative": {
+        "az": "İsfahanın göy günbəzləri uzaqdan görünür. Əşrəf son dəfə qarşımıza çıxır, amma əsgərləri artıq ruhdan düşüb. Bir neçə həftə sonra Təhmasib şahların şəhərinə qayıdır. Camaat isə küçələrdə mənim adımı çəkir."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Hotaki hökmdarı Əşrəf" },
+        "context": { "az": "Əfqanların İran üzərində hakimiyyəti sona çatdı, Səfəvi sülaləsi formal olaraq bərpa olundu." }
+      },
+      "sources": [
+        { "title": "Nader Shah", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah" },
+        { "title": "Battle of Damghan (1729)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Damghan_(1729)" }
+      ]
+    },
+    {
+      "id": "nadir-baghavard",
+      "personId": "nadir-shah",
+      "order": 7,
+      "date": { "year": 1735, "month": 6, "day": 19, "certainty": "exact" },
+      "type": "battle",
+      "fromLocation": { "name": { "az": "İsfahan" }, "lat": 32.6546, "lng": 51.668 },
+      "route": [[48.5146, 34.798], [46.2919, 38.08]],
+      "location": {
+        "name": { "az": "Bağavərd (Yegevard)" },
+        "modernName": { "az": "Yegevard (Ermənistan)" },
+        "lat": 40.305,
+        "lng": 44.59,
+        "approximate": true
+      },
+      "title": { "az": "Bağavərd döyüşü" },
+      "factualSummary": {
+        "az": "1730–1735-ci illərdə Nadir Osmanlılara qarşı bir neçə yürüş etdi. 19 iyun 1735-ci ildə İrəvan yaxınlığındakı Bağavərddə (Yegevard) Köprülü Abdulla paşanın təqribən 80 minlik ordusunu məğlub etdi. Abdulla paşa həlak oldu. Bundan sonra Gəncə və Tiflis təslim oldu, İrəvan isə oktyabrda razılaşma ilə qaytarıldı. Cənubi Qafqaz yenidən İran hakimiyyətinə keçdi."
+      },
+      "narrative": {
+        "az": "Osmanlı ordusu təpənin ətəyində üç dəfə bizdən çoxdur. Abdulla paşa düşünür ki, mən onun düşərgəsinə hücum edəcəyəm. Mən isə kiçik dəstə ilə onu açıq meydana çəkirəm. Axşama qədər paşanın başı çadırımın önündədir. Gəncənin açarları yolda gəlir."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Osmanlı sərkərdəsi Köprülü Abdulla paşa" },
+        "forces": { "own": { "az": "təqr. 15 000 (ön dəstə)" }, "enemy": { "az": "təqr. 80 000" } },
+        "context": { "az": "Döyüş 1730–1735-ci illər müharibəsinə faktiki son qoydu. Gəncə, Tiflis və İrəvan geri alındı." }
+      },
+      "sources": [
+        { "title": "Battle of Yeghevard", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Yeghevard" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Bağavərd döyüşündən sonra hansı şəhərlər Nadirə təslim oldu?" },
+          "options": [{ "az": "Gəncə və Tiflis" }, { "az": "Bağdad və Bəsrə" }, { "az": "Dehli və Lahor" }, { "az": "Buxara və Səmərqənd" }],
+          "correctIndex": 0,
+          "explanation": { "az": "Bağavərddən sonra Gəncə və Tiflis tezliklə təslim oldu, İrəvan isə razılaşma ilə qaytarıldı." }
+        }
+      ]
+    },
+    {
+      "id": "nadir-mughan",
+      "personId": "nadir-shah",
+      "order": 8,
+      "date": {
+        "year": 1736,
+        "month": 3,
+        "day": 8,
+        "certainty": "exact",
+        "note": { "az": "Qurultay 1736-cı ilin yanvarında (bəzi mənbələrə görə fevralında) başladı, tacqoyma 8 martda oldu." }
+      },
+      "type": "coronation",
+      "fromLocation": {
+        "name": { "az": "Bağavərd (Yegevard)" },
+        "lat": 40.305,
+        "lng": 44.59,
+        "approximate": true
+      },
+      "route": [[46.36, 40.68]],
+      "location": {
+        "name": { "az": "Muğan düzü (Kür–Araz qovşağı)" },
+        "modernName": { "az": "Sabirabad rayonu ərazisi (Azərbaycan)" },
+        "lat": 40.0,
+        "lng": 48.47,
+        "approximate": true
+      },
+      "title": { "az": "Muğan qurultayı" },
+      "factualSummary": {
+        "az": "1736-cı ilin əvvəlində Nadir Kür və Araz çaylarının qovuşduğu Muğan düzündə əyanların, tayfa başçılarının və din xadimlərinin böyük qurultayını topladı. Qurultay onu şah seçdi. Nadir taxtı şərtlə qəbul etdi: sünniləri təhqir edən şiə ayinlərindən imtina edilməli idi. 8 mart 1736-cı ildə tac qoydu. Uşaq şah III Abbasın taxtdan salınması ilə Səfəvi sülaləsinin hakimiyyəti faktiki olaraq bitdi."
+      },
+      "narrative": {
+        "az": "Muğan düzündə minlərlə çadır qurulub. Bəylər, xanlar, mollalar bir ay ərzində qərar verməlidirlər. Mən isə özümü taxta can atmayan kimi göstərirəm. Hamı başa düşür ki, başqa seçim yoxdur. Astroloqların seçdiyi gündə tacı başıma qoyuram."
+      },
+      "choice": {
+        "prompt": { "az": "Muğan qurultayı səni şah seçmək istəyir. Nə edərdin?" },
+        "options": [
+          {
+            "text": { "az": "Dərhal razılaşıb tacı qəbul etmək" },
+            "explanation": { "az": "Bu, hakimiyyət hərisliyi kimi görünə və Səfəvi tərəfdarlarını qıcıqlandıra bilərdi." }
+          },
+          {
+            "text": { "az": "Səfəvi şahzadəsinin naibi olaraq qalmaq" },
+            "explanation": { "az": "Real hakimiyyəti saxlayardı, amma hər zaman legitim şahın kölgəsində qalardı." }
+          },
+          {
+            "text": { "az": "Əvvəlcə imtina edib sonra öz şərtlərinlə qəbul etmək" },
+            "explanation": { "az": "Nadir məhz belə etdi: zahirən könülsüz görünüb şərtlər irəli sürdü." }
+          }
+        ],
+        "historicalOptionIndex": 2,
+        "why": {
+          "az": "Nadir taxtı xalqın istəyi ilə qəbul edən kimi görünmək istəyirdi. Şərtlərindən biri məzhəb barışığı idi: bu, Osmanlılarla sülh üçün də vacib idi. Qurultay iştirakçılarının real seçimi isə demək olar ki, yox idi."
+        }
+      },
+      "sources": [
+        { "title": "Nader Shah", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah" },
+        { "title": "Afsharid Iran", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Afsharid_Iran" },
+        { "title": "The Sword of Persia", "author": "Michael Axworthy", "type": "book", "note": "I.B. Tauris, 2006, 6-cı fəsil" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Nadir 1736-cı ildə harada şah seçildi?" },
+          "options": [{ "az": "Muğan düzündə" }, { "az": "İsfahanda" }, { "az": "Məşhəddə" }, { "az": "Təbrizdə" }],
+          "correctIndex": 0,
+          "explanation": { "az": "Kür və Arazın qovuşduğu Muğan düzündə qurultay toplandı." }
+        }
+      ]
+    },
+    {
+      "id": "nadir-kandahar",
+      "personId": "nadir-shah",
+      "order": 9,
+      "date": {
+        "year": 1738,
+        "month": 3,
+        "day": 24,
+        "certainty": "approximate",
+        "note": { "az": "Mühasirə 1737-ci ilin aprelində başladı. Bəzi mənbələrə görə təslim 25 martda olub." }
+      },
+      "type": "battle",
+      "fromLocation": {
+        "name": { "az": "Muğan düzü" },
+        "lat": 40.0,
+        "lng": 48.47,
+        "approximate": true
+      },
+      "route": [[51.668, 32.6546], [59.6067, 36.2972]],
+      "location": { "name": { "az": "Qəndəhar" }, "modernName": { "az": "Qəndəhar (Əfqanıstan)" }, "lat": 31.6133, "lng": 65.71 },
+      "title": { "az": "Qəndəharın mühasirəsi" },
+      "factualSummary": {
+        "az": "Nadir Hotaki sülaləsinin son mərkəzi Qəndəharı təqribən bir il mühasirədə saxladı. Mühasirə zamanı yaxınlıqda öz adına Nadirabad şəhərini saldı. 1738-ci ilin martında qala alındı. Hüseyn Hotaki ilə yumşaq rəftar edildi və o, Mazandarana sürgün olundu."
+      },
+      "narrative": {
+        "az": "Qəndəharın divarları qalın, müdafiəçiləri inadkardır. Mən tələsmirəm: qalanın yanında yeni şəhər salıram, əsgərlərim evlərdə qışlayır. Bir il sonra son qüllə də düşür. Şərqə, Hindistana gedən yol açıqdır."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Hotaki hökmdarı Hüseyn" },
+        "context": { "az": "Hotaki hakimiyyətinə son qoyuldu. Əfqan tayfaları, xüsusilə Əbdalilər, Nadirin ordusuna qoşuldu." }
+      },
+      "sources": [
+        { "title": "Siege of Kandahar", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Siege_of_Kandahar" },
+        { "title": "Hotak dynasty", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Hotak_dynasty" }
+      ]
+    },
+    {
+      "id": "nadir-karnal",
+      "personId": "nadir-shah",
+      "order": 10,
+      "date": {
+        "year": 1739,
+        "month": 2,
+        "day": 24,
+        "certainty": "exact",
+        "note": { "az": "Köhnə (Yuli) təqvimi ilə 13 fevral. Britaniya mənbələri bu tarixi istifadə edir. 1739-cu ildə iki təqvim arasındakı fərq 11 gün idi." }
+      },
+      "type": "battle",
+      "fromLocation": { "name": { "az": "Qəndəhar" }, "lat": 31.6133, "lng": 65.71 },
+      "route": [[69.18, 34.53], [71.57, 34.01], [74.34, 31.55]],
+      "location": { "name": { "az": "Karnal" }, "modernName": { "az": "Haryana ştatı (Hindistan)" }, "lat": 29.6857, "lng": 76.9905 },
+      "title": { "az": "Karnal döyüşü" },
+      "factualSummary": {
+        "az": "Kabil, Xeybər keçidi və Lahor üzərindən Hindistana daxil olan Nadir Dehlidən təqribən 110 km şimalda, Karnal yaxınlığında Böyük Moğol padşahı Məhəmməd şahın ordusunu üç saatdan az davam edən döyüşdə məğlub etdi. Moğol itkiləri təqribən 10–20 min, İran itkiləri isə təxminən 1100 nəfər idi."
+      },
+      "narrative": {
+        "az": "Moğolların düşərgəsi şəhər boyda, fillər qala kimidir. Mən isə süvarilərimi və zənburəklərimi (dəvə üstündə toplar) hazırlayıram. Döyüş üç saat çəkmir. Axşam Hindistan padşahı mənim çadırıma gəlir."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Böyük Moğol padşahı Məhəmməd şah" },
+        "forces": { "own": { "az": "təqr. 55 000 döyüşçü" }, "enemy": { "az": "təqr. 75 000 döyüşçü (düşərgədə 300 minə qədər insan)" } },
+        "context": { "az": "Dünyanın ən zəngin dövlətlərindən biri olan Moğol imperiyasının zəifliyini bütün dünyaya göstərən döyüş." }
+      },
+      "sources": [
+        { "title": "Battle of Karnal", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Karnal" },
+        { "title": "The Sword of Persia", "author": "Michael Axworthy", "type": "book", "note": "I.B. Tauris, 2006, 8-ci fəsil" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Karnal döyüşünün tarixi niyə mənbələrdə iki cür (13 və 24 fevral) verilir?" },
+          "options": [
+            { "az": "Köhnə (Yuli) və yeni (Qriqori) təqvim fərqinə görə" },
+            { "az": "Döyüş iki dəfə baş verdiyinə görə" },
+            { "az": "Hicri təqvimə görə" }
+          ],
+          "correctIndex": 0,
+          "explanation": { "az": "1739-cu ildə Britaniya hələ Yuli təqvimindən istifadə edirdi. İki təqvim arasında 11 gün fərq var idi." }
+        }
+      ]
+    },
+    {
+      "id": "nadir-delhi",
+      "personId": "nadir-shah",
+      "order": 11,
+      "date": { "year": 1739, "month": 3, "day": 20, "certainty": "exact", "note": { "az": "Bəzi mənbələrdə 21 mart." } },
+      "type": "journey",
+      "fromLocation": { "name": { "az": "Karnal" }, "lat": 29.6857, "lng": 76.9905 },
+      "location": { "name": { "az": "Dehli (Şahcahanabad)" }, "lat": 28.6562, "lng": 77.241 },
+      "title": { "az": "Dehli" },
+      "factualSummary": {
+        "az": "20 mart 1739-cu ildə Nadir Dehliyə daxil oldu. İki gün sonra şəhərdə İran əsgərlərinin öldürülməsi xəbərindən sonra o, kütləvi qırğın əmri verdi. 22 martda bir neçə saat ərzində təqribən 20–30 min dinc sakin öldürüldü. Nadir Moğol xəzinəsini, o cümlədən Tovuz taxtını, Kuhinur və Dəryayi-nur almazlarını götürdü. Məhəmməd şahı taxtına qaytardı, İnd çayından qərbdəki torpaqları isə ilhaq etdi. Mayın əvvəlində Dehlini tərk etdi."
+      },
+      "narrative": {
+        "az": "Şahcahanabadın qırmızı divarları arxasında tarixin ən böyük xəzinəsi var. Amma ikinci gecə şəhərdə qiyam qopur, əsgərlərim öldürülür. Səhər Rövşən-üd-Dövlə məscidinin damına çıxıb qılıncımı çəkirəm. Bu günü heç vaxt unutmayacaqlar. Xəzinəni daşımaq üçün minlərlə dəvə lazım olur."
+      },
+      "choice": {
+        "prompt": { "az": "Moğol padşahı əlindədir və Dehli sənin ixtiyarındadır. Hindistanla nə edərdin?" },
+        "options": [
+          {
+            "text": { "az": "Məhəmməd şahı taxtdan salıb Hindistanı öz dövlətinə qatmaq" },
+            "explanation": { "az": "Bu qədər böyük ölkəni idarə etmək üçün qüvvələri İrandan uzun müddət ayırmaq lazım gələrdi." }
+          },
+          {
+            "text": { "az": "Xəzinəni götürüb Məhəmməd şahı taxtına qaytarmaq, İndin qərbini ilhaq etmək" },
+            "explanation": { "az": "Tarixdə məhz bu baş verdi." }
+          },
+          {
+            "text": { "az": "Heç nə götürmədən geri qayıtmaq" },
+            "explanation": { "az": "Yürüşün bütün xərcləri boşa gedərdi və ordu narazı qalardı." }
+          }
+        ],
+        "historicalOptionIndex": 1,
+        "why": {
+          "az": "Nadirin məqsədi Hindistanı idarə etmək yox, xəzinə əldə etmək və şərq sərhədini təhlükəsiz etmək idi. Mənbələrə görə qənimət o qədər böyük idi ki, İranda üç il vergi yığılmadı."
+        }
+      },
+      "sources": [
+        { "title": "Battle of Karnal", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Karnal" },
+        { "title": "Nader Shah's invasion of India", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah%27s_invasion_of_India" },
+        { "title": "The Sword of Persia", "author": "Michael Axworthy", "type": "book", "note": "I.B. Tauris, 2006, 8-ci fəsil" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Nadir Dehlidən hansı məşhur taxtı apardı?" },
+          "options": [{ "az": "Tovuz taxtı" }, { "az": "Mərmər taxt" }, { "az": "Süleyman taxtı" }, { "az": "Fil sümüyü taxtı" }],
+          "correctIndex": 0,
+          "explanation": { "az": "Moğol padşahı Şah Cahanın sifarişi ilə hazırlanmış Tovuz taxtı Nadirin qənimətləri arasında idi." }
+        }
+      ]
+    },
+    {
+      "id": "nadir-bukhara",
+      "personId": "nadir-shah",
+      "order": 12,
+      "date": { "year": 1740, "certainty": "approximate" },
+      "type": "diplomacy",
+      "fromLocation": { "name": { "az": "Dehli" }, "lat": 28.6562, "lng": 77.241 },
+      "route": [[74.34, 31.55], [69.18, 34.53], [62.2, 34.35], [59.6067, 36.2972]],
+      "location": { "name": { "az": "Buxara" }, "modernName": { "az": "Buxara (Özbəkistan)" }, "lat": 39.7747, "lng": 64.4286 },
+      "title": { "az": "Buxara xanının itaəti" },
+      "factualSummary": {
+        "az": "Hindistandan qayıdandan sonra Nadir 1740-cı ildə Orta Asiyaya yürüş etdi. Buxara xanı Əbülfeyz xan ona tabe oldu. Bəzi mənbələrə görə döyüşsüz, bəzilərinə görə isə məğlubiyyətdən sonra. Xan taxtında saxlanıldı, Nadir onun qızı ilə evləndi və Amudərya sərhəd kimi təyin olundu."
+      },
+      "narrative": {
+        "az": "Amudəryanı gəmilərdən qurulmuş körpü ilə keçirik. Buxaranın mavi günbəzləri qarşımızda parlayır. Əbülfeyz xan mənə hədiyyələrlə gəlir. Onu taxtından salmıram, çünki itaətkar qonşu qılıncdan daha faydalıdır."
+      },
+      "sources": [
+        { "title": "Nader Shah's Central Asian campaign", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah%27s_Central_Asian_campaign" },
+        { "title": "Khanate of Bukhara", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Khanate_of_Bukhara" }
+      ]
+    },
+    {
+      "id": "nadir-khiva",
+      "personId": "nadir-shah",
+      "order": 13,
+      "date": { "year": 1740, "certainty": "approximate", "note": { "az": "1740-cı ilin sonu." } },
+      "type": "battle",
+      "fromLocation": { "name": { "az": "Buxara" }, "lat": 39.7747, "lng": 64.4286 },
+      "location": { "name": { "az": "Xivə (Xarəzm)" }, "modernName": { "az": "Xivə (Özbəkistan)" }, "lat": 41.3775, "lng": 60.3639 },
+      "title": { "az": "Xarəzm yürüşü" },
+      "factualSummary": {
+        "az": "Xivə xanı İlbars Nadirin itaət tələbi ilə gələn elçiləri edam etdirdi. Nadir Xarəzmə yürüş etdi, Pitnak yaxınlığında və sonrakı döyüşdə xanın özbək və türkmən süvarilərini məğlub etdi. Xivə tutuldu, İlbars xan edam edildi. Mənbələrə görə xanlıqda əsir saxlanılan minlərlə iranlı və rus qul azad edildi."
+      },
+      "narrative": {
+        "az": "Elçilərimin başlarını mənə göndəriblər. Səhra boyunca gedirik, qum dişlərimizdə xırçıldayır. Xivənin divarları önündə İlbars xan diz çökəndə artıq bağışlamaq vaxtı keçib. Qul bazarlarının qapılarını açdırıram."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Xivə xanı İlbars" },
+        "forces": { "enemy": { "az": "təqr. 30 000 özbək və türkmən süvarisi" } },
+        "context": { "az": "Xarəzm müvəqqəti olaraq Nadirin hakimiyyətinə keçdi. Bu, Nadirin şimal-şərqdəki hakimiyyətinin ən uzaq nöqtəsi oldu." }
+      },
+      "sources": [
+        { "title": "Battle of Pitnak", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Pitnak" },
+        { "title": "Nader Shah's Central Asian campaign", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah%27s_Central_Asian_campaign" },
+        { "title": "The Sword of Persia", "author": "Michael Axworthy", "type": "book", "note": "I.B. Tauris, 2006, 9-cu fəsil" }
+      ]
+    },
+    {
+      "id": "nadir-dagestan",
+      "personId": "nadir-shah",
+      "order": 14,
+      "date": { "year": 1741, "month": 9, "certainty": "approximate", "note": { "az": "Dağıstan yürüşləri 1741–1743-cü illəri əhatə edir. Əndəlaldan geri çəkilmə 1741-ci ilin sentyabrındadır." } },
+      "type": "journey",
+      "fromLocation": { "name": { "az": "Xivə" }, "lat": 41.3775, "lng": 60.3639 },
+      "route": [[59.6067, 36.2972], [53.0, 36.2], [48.2894, 42.0577]],
+      "location": {
+        "name": { "az": "Dağıstan dağları (Əndəlal)" },
+        "modernName": { "az": "Dağıstan Respublikası (Rusiya)" },
+        "lat": 42.25,
+        "lng": 46.97,
+        "approximate": true
+      },
+      "title": { "az": "Dağıstan yürüşü" },
+      "factualSummary": {
+        "az": "1741-ci ilin mayında Mazandaran meşələrində Nadirə sui-qəsd edildi, o, yüngül yaralandı. Sonra qardaşı İbrahim xanın ləzgilərlə döyüşdə öldürülməsinin qisasını almaq üçün Dağıstana yürüş etdi. Dağlarda qəti döyüş baş tutmadı. Yerli icmaların davamlı hücumları, erkən qış, xəstəlik və təchizat problemləri ordunu Dərbəndə geri çəkilməyə məcbur etdi. Bəzi tarixçilər bunu Əndəlal döyüşündə ağır məğlubiyyət kimi qiymətləndirir. Sui-qəsddə oğlu Rzaqulunu şübhəli bilən Nadir 1742-ci ildə onu kor etdirdi."
+      },
+      "narrative": {
+        "az": "Mazandaran meşəsində güllə qulağımın yanından keçir. O gündən hər kəsdən, hətta oğlumdan şübhələnirəm. Dağıstanın qayaları isə Hindistanın düzlərinə bənzəmir. Hər dərədən güllə atılır, qar yolları bağlayır. Ömrümdə ilk dəfə düşmənimi görmədən geri çəkilirəm."
+      },
+      "sources": [
+        { "title": "Nader Shah's Dagestan campaign", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah%27s_Dagestan_campaign" },
+        { "title": "Withdrawal through Andalal (1741)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Withdrawal_through_Andalal_(1741)" },
+        { "title": "The Strength and Losses of Nadir Shah's Army in the Dagestan Campaign of 1741–1743", "author": "M. Musaev", "type": "article", "url": "https://caucasushistory.ru/2618-6772/article/view/1897" },
+        { "title": "The Sword of Persia", "author": "Michael Axworthy", "type": "book", "note": "I.B. Tauris, 2006, 9-cu fəsil (sui-qəsd və Rzaqulunun kor edilməsi)" }
+      ]
+    },
+    {
+      "id": "nadir-najaf",
+      "personId": "nadir-shah",
+      "order": 15,
+      "date": { "year": 1743, "month": 12, "certainty": "approximate" },
+      "type": "culture",
+      "fromLocation": {
+        "name": { "az": "Dağıstan dağları" },
+        "lat": 42.25,
+        "lng": 46.97,
+        "approximate": true
+      },
+      "route": [[44.3661, 33.3152]],
+      "location": { "name": { "az": "Nəcəf" }, "modernName": { "az": "Nəcəf (İraq)" }, "lat": 32.0003, "lng": 44.3354 },
+      "title": { "az": "Nəcəf məclisi" },
+      "factualSummary": {
+        "az": "1743-cü ilin sonunda Nadir Nəcəfdə sünni və şiə alimlərinin məclisini topladı. Bir neçə gün davam edən müzakirələrdən sonra iştirakçılar Cəfəri məzhəbini sünni islamın qanuni məktəbi kimi tanıyan sənədi imzaladılar. Osmanlı hökuməti bu qərarı tanımadı. 1746-cı il Kərdən sülhündə Nadir bu tələbdən əl çəkdi."
+      },
+      "narrative": {
+        "az": "Qılınc ilə çox şey qazandım, amma məzhəb davaları bitmir. Nəcəfdə, imam Əlinin türbəsinin yanında alimləri bir məclisə toplayıram. Onlar uzun-uzadı mübahisə edir, axırda möhürlərini vururlar. Bilirəm ki, İstanbul buna razı olmayacaq."
+      },
+      "sources": [
+        { "title": "Treaty of Kerden", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Treaty_of_Kerden" },
+        { "title": "Ottoman–Persian War (1743–1746)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ottoman%E2%80%93Persian_War_(1743%E2%80%931746)" }
+      ]
+    },
+    {
+      "id": "nadir-kars",
+      "personId": "nadir-shah",
+      "order": 16,
+      "date": { "year": 1745, "month": 8, "day": 19, "certainty": "approximate", "note": { "az": "Döyüş 9–19 avqust 1745-ci ildə davam etdi." } },
+      "type": "battle",
+      "fromLocation": { "name": { "az": "Nəcəf" }, "lat": 32.0003, "lng": 44.3354 },
+      "route": [[43.13, 36.34], [44.0, 39.0]],
+      "location": {
+        "name": { "az": "Bağavərd yaxınlığı (Qars döyüşü)" },
+        "modernName": { "az": "Yegevard (Ermənistan). Ədəbiyyatda \"Qars döyüşü\" kimi keçir." },
+        "lat": 40.3,
+        "lng": 44.62,
+        "approximate": true
+      },
+      "title": { "az": "Qars döyüşü (1745)" },
+      "factualSummary": {
+        "az": "1744-cü ildə Qarsı mühasirəyə alan Nadir qalanı tuta bilmədi. 1745-ci ilin avqustunda o, on il əvvəl qələbə qazandığı Bağavərd təpəsinin yaxınlığında Yegen Məhəmməd paşanın böyük Osmanlı ordusunu on günlük döyüşdə məğlub etdi. Osmanlı itkiləri, ehtimal ki, təqribən 35 min nəfər idi. Bu qələbə 1746-cı ilin sentyabrında bağlanan Kərdən sülhünə yol açdı."
+      },
+      "narrative": {
+        "az": "Yenə də bu təpə. On il əvvəl burada Abdulla paşanı məğlub etmişdim. İndi qarşımda başqa paşa, daha böyük ordu var. On gün boyunca səngərlərdə top atəşi kəsilmir. Onuncu gün Osmanlı düşərgəsində üsyan qalxır, paşa ölür. Bu, mənim son böyük qələbəm olacaq."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Osmanlı sərkərdəsi Yegen Məhəmməd paşa" },
+        "forces": { "own": { "az": "təqr. 60 000" }, "enemy": { "az": "mənbələrdə 80 000–160 000" } },
+        "context": { "az": "Osmanlı ordusu dağıldı. Müharibə 4 sentyabr 1746-da Kərdən sülhü ilə başa çatdı." }
+      },
+      "sources": [
+        { "title": "Battle of Kars (1745)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Kars_(1745)" },
+        { "title": "Treaty of Kerden", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Treaty_of_Kerden" }
+      ]
+    },
+    {
+      "id": "nadir-death",
+      "personId": "nadir-shah",
+      "order": 17,
+      "date": {
+        "year": 1747,
+        "month": 6,
+        "day": 20,
+        "certainty": "disputed",
+        "alternatives": [
+          { "year": 1747, "month": 6, "day": 19, "note": { "az": "Bəzi tədqiqatçılar sui-qəsdi 19 iyun gecəsinə aid edir." } },
+          { "year": 1747, "month": 6, "day": 21, "note": { "az": "Bəzi əsərlərdə 21 iyun." } }
+        ]
+      },
+      "type": "death",
+      "fromLocation": {
+        "name": { "az": "Bağavərd yaxınlığı" },
+        "lat": 40.3,
+        "lng": 44.62,
+        "approximate": true
+      },
+      "route": [[51.668, 32.6546], [59.6067, 36.2972]],
+      "location": {
+        "name": { "az": "Fəthabad (Quçan yaxınlığı)" },
+        "modernName": { "az": "Xorasani-Rəzəvi (İran)" },
+        "lat": 37.12,
+        "lng": 58.62,
+        "approximate": true
+      },
+      "title": { "az": "Fəthabadda sui-qəsd" },
+      "factualSummary": {
+        "az": "Son illərində ağır vergilər, qəddar cəzalar və artan şübhəçilik Nadirə qarşı narazılığı gücləndirdi. 1747-ci ilin iyununda Xorasanda, Quçan yaxınlığındakı Fəthabad düşərgəsində öz mühafizə zabitləri (o cümlədən Məhəmmədqulu xan Əfşar və Saleh bəy) gecə çadırına girərək onu öldürdülər. Sui-qəsdin təşkilatçısı mübahisəlidir: qardaşı oğlu Əliqulu xanın rolu tez-tez qeyd olunur. Ölümündən sonra dövlət sürətlə parçalandı."
+      },
+      "narrative": {
+        "az": "Gecə Fəthabad düşərgəsi sakitdir, amma mən yata bilmirəm. Ətrafımdakı hər üzdə xəyanət görürəm. Çadırın pərdəsi yavaşca qalxır. Mənim adımla döyüşə girən adamlar indi qılınclarını mənə çəkir. Çoban oğlunun yolu burada bitir. Dövlətim isə mən olmadan bir il də yaşamayacaq."
+      },
+      "sources": [
+        { "title": "Nader Shah", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah" },
+        { "title": "Nādir Shāh", "type": "encyclopedia", "url": "https://www.britannica.com/biography/Nadir-Shah" },
+        { "title": "The Sword of Persia", "author": "Michael Axworthy", "type": "book", "note": "I.B. Tauris, 2006, 10-cu fəsil" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Nadir Şah harada öldürüldü?" },
+          "options": [{ "az": "Quçan yaxınlığında, Fəthabadda" }, { "az": "Dehlidə" }, { "az": "Muğan düzündə" }, { "az": "Qəndəharda" }],
+          "correctIndex": 0,
+          "explanation": { "az": "1747-ci ilin iyununda Xorasanda, Quçan yaxınlığındakı Fəthabad düşərgəsində öldürüldü." }
+        }
+      ]
+    }
+  ]
+}

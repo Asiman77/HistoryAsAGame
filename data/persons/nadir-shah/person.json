@@ -1,0 +1,66 @@
+{
+  "id": "nadir-shah",
+  "name": { "az": "Nadir Şah Əfşar", "en": "Nader Shah Afshar" },
+  "titles": [
+    { "az": "Əfşar dövlətinin banisi" },
+    { "az": "Sərkərdə" }
+  ],
+  "birth": {
+    "date": {
+      "year": 1688,
+      "month": 10,
+      "day": 22,
+      "certainty": "disputed",
+      "alternatives": [
+        { "year": 1688, "month": 11, "note": { "az": "Encyclopaedia Iranica 1688-ci ilin noyabrını göstərir." } },
+        { "year": 1698, "month": 8, "day": 6, "note": { "az": "Bəzi mənbələr 6 avqust 1698-i göstərir." } }
+      ],
+      "note": { "az": "22 oktyabr 1688 Britannica-nın verdiyi tarixdir." }
+    },
+    "place": {
+      "name": { "az": "Dəstgerd (Dərəgəz)" },
+      "modernName": { "az": "Dərəgəz, Xorasani-Rəzəvi (İran)" },
+      "lat": 37.38,
+      "lng": 59.08,
+      "approximate": true
+    }
+  },
+  "death": {
+    "date": {
+      "year": 1747,
+      "month": 6,
+      "day": 20,
+      "certainty": "disputed",
+      "alternatives": [
+        { "year": 1747, "month": 6, "day": 19, "note": { "az": "Bəzi tədqiqatçılar 19 iyun gecəsini göstərir." } },
+        { "year": 1747, "month": 6, "day": 21, "note": { "az": "Bəzi əsərlərdə 21 iyun." } }
+      ]
+    },
+    "place": {
+      "name": { "az": "Fəthabad (Quçan yaxınlığı)" },
+      "lat": 37.12,
+      "lng": 58.62,
+      "approximate": true
+    }
+  },
+  "eraIds": ["sefevi", "efshar"],
+  "portrait": {
+    "src": "/portraits/nadir-shah.jpg",
+    "alt": { "az": "Nadir şahın təqribən 1740-cı ilə aid müasir portreti" },
+    "license": "Public domain",
+    "author": "Naməlum rəssam, İran, təqr. 1740 (Britaniya Kitabxanası)",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Contemporary_portrait_of_Nader_Shah._Artist_unknown,_created_in_ca._1740_in_Iran_(cropped).jpg"
+  },
+  "epigraph": {
+    "text": { "az": "Çobanın oğlu idim, Dehlinin xəzinəsini Xorasana daşıdım." },
+    "attribution": { "az": "Bədii giriş, sitat deyil" }
+  },
+  "shortBio": {
+    "az": "Xorasanda yaşayan qızılbaş Əfşar tayfasının Qırxlı qolundan olan Nadirqulu yoxsul ailədə doğuldu. Səfəvi şahzadəsi II Təhmasibin sərkərdəsi kimi əfqanları, osmanlıları və rusları ölkədən çıxardı. 1736-cı ildə Muğan düzündə şah seçildi, Hindistandan Orta Asiyaya qədər yürüşlər etdi."
+  },
+  "legacy": {
+    "az": "Nadir Şah dağılmaqda olan dövləti bərpa etdi və onu qısa müddətə regionun ən güclü hərbi qüvvəsinə çevirdi. Lakin ağır vergilər və artan qəddarlıq onun hakimiyyətinin son illərini qaraltdı. Ölümündən sonra dövlət parçalandı, Cənubi Qafqazda isə müstəqil xanlıqlar dövrü başladı."
+  },
+  "tags": ["hokmdar", "serkerde"],
+  "featuredOrder": 3
+}
