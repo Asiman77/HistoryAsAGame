@@ -1,0 +1,41 @@
+{
+  "id": "shah-ismayil",
+  "name": { "az": "Şah İsmayıl Xətai", "en": "Shah Ismail I (Khata'i)" },
+  "titles": [
+    { "az": "Səfəvi dövlətinin banisi" },
+    { "az": "Şair (təxəllüsü Xətai)" }
+  ],
+  "birth": {
+    "date": { "year": 1487, "month": 7, "day": 17, "certainty": "exact" },
+    "place": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 }
+  },
+  "death": {
+    "date": { "year": 1524, "month": 5, "day": 23, "certainty": "exact" },
+    "place": {
+      "name": { "az": "Təbriz yaxınlığı" },
+      "lat": 38.08,
+      "lng": 46.29,
+      "approximate": true
+    }
+  },
+  "eraIds": ["agqoyunlu", "sefevi"],
+  "portrait": {
+    "src": "/portraits/shah-ismayil.jpg",
+    "alt": { "az": "Şah İsmayılın 16-cı əsrə aid qələm portreti" },
+    "license": "Public domain",
+    "author": "Kəmaləddin Behzada aid edilir (bəzi tədqiqatçılar Məhəmmədiyə aid edir)",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shah_Ismail_I_Safavid,_Behzad.jpg"
+  },
+  "epigraph": {
+    "text": { "az": "Bir yaşımda atamı itirdim, on dörd yaşımda tac qoydum." },
+    "attribution": { "az": "Bədii giriş, sitat deyil" }
+  },
+  "shortBio": {
+    "az": "Ərdəbil şeyxlərinin nəslindən olan İsmayıl bir yaşında atasını itirdi, uşaqlığını həbsdə və gizlənərək keçirdi. 14 yaşında Təbrizdə şah elan olundu və Səfəvi dövlətinin əsasını qoydu. Xətai təxəllüsü ilə Azərbaycan türkcəsində şeirlər yazdı."
+  },
+  "legacy": {
+    "az": "İsmayılın qurduğu Səfəvi dövləti iki əsrdən çox yaşadı. Azərbaycan türkcəsi sarayda və orduda əsas dillərdən biri oldu. Xətainin divanı bu dildə yazılmış ədəbiyyatın mühüm abidəsi sayılır. Dövlətin qəbul etdiyi on iki imam şiəliyi bölgənin dini xəritəsini uzun müddətə dəyişdi."
+  },
+  "tags": ["hokmdar", "sair", "serkerde"],
+  "featuredOrder": 2
+}

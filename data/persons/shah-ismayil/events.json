@@ -1,0 +1,584 @@
+{
+  "events": [
+    {
+      "id": "ismayil-birth",
+      "personId": "shah-ismayil",
+      "order": 0,
+      "date": { "year": 1487, "month": 7, "day": 17, "certainty": "exact" },
+      "type": "birth",
+      "location": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 },
+      "title": { "az": "Ərdəbildə doğuluş" },
+      "factualSummary": {
+        "az": "İsmayıl 17 iyul 1487-ci ildə Ərdəbildə doğuldu. Atası Səfəvi təriqətinin başçısı Şeyx Heydər, anası isə Ağqoyunlu hökmdarı Uzun Həsənin və Trabzon şahzadəsi Despina xatunun qızı Həlimə (Aləmşah) bəyim idi. Ərdəbil Səfəvi şeyxlərinin mərkəzi və Şeyx Səfiəddinin türbəsinin yeri idi."
+      },
+      "narrative": {
+        "az": "Gözlərimi Ərdəbildə açıram. Şeyx Səfinin türbəsindən zikr səsləri gəlir. Atamın müridləri başlarına on iki dilimli qırmızı papaq qoyurlar. Anam deyir ki, damarlarımda həm şeyxlərin, həm də Ağqoyunlu xanlarının qanı axır."
+      },
+      "sources": [
+        { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I" },
+        { "title": "Ismāʿīl I", "type": "encyclopedia", "url": "https://www.britannica.com/biography/Ismail-I-shah-of-Iran" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "İsmayılın ana babası kim idi?" },
+          "options": [{ "az": "Uzun Həsən" }, { "az": "Cahanşah" }, { "az": "Fərrux Yasar" }, { "az": "Sultan Yaqub" }],
+          "correctIndex": 0,
+          "explanation": { "az": "Anası Həlimə bəyim Ağqoyunlu hökmdarı Uzun Həsənin qızı idi." }
+        }
+      ]
+    },
+    {
+      "id": "ismayil-father-killed",
+      "personId": "shah-ismayil",
+      "order": 1,
+      "date": {
+        "year": 1488,
+        "month": 7,
+        "day": 9,
+        "certainty": "approximate",
+        "note": { "az": "Əksər mənbələr 9 iyul 1488-i göstərir. Fərrux Yasar haqqındakı məqalədə 9 iyun da qeyd olunur." }
+      },
+      "type": "childhood",
+      "location": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 },
+      "title": { "az": "Atanın ölüm xəbəri" },
+      "factualSummary": {
+        "az": "1488-ci ildə Şeyx Heydər Dağıstana, Təbərsərana yürüş etdi. Orada Şirvanşah Fərrux Yasarın və onun müttəfiqi Ağqoyunlu sultanı Yaqubun birləşmiş qoşunu ilə döyüşdə öldürüldü. İsmayılın o zaman təxminən bir yaşı var idi."
+      },
+      "narrative": {
+        "az": "Xatırlaya bilmədiyim bir gündə atam şimal dağlarından qayıtmadı. Sonralar mənə danışdılar ki, onu Şirvanşahın və dayımın qoşunları Təbərsəran dərələrində mühasirəyə alıblar. Bu ad, Fərrux Yasar, illərlə yaddaşımda qaldı."
+      },
+      "sources": [
+        { "title": "Shaykh Haydar", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Shaykh_Haydar" },
+        { "title": "Farrukh Yasar", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Farrukh_Yasar" }
+      ]
+    },
+    {
+      "id": "ismayil-istakhr",
+      "personId": "shah-ismayil",
+      "order": 2,
+      "date": { "year": 1488, "certainty": "approximate" },
+      "type": "exile",
+      "fromLocation": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 },
+      "route": [[51.67, 32.65]],
+      "location": {
+        "name": { "az": "İstəxr qalası" },
+        "modernName": { "az": "Fars əyaləti, Persepol yaxınlığı (İran)" },
+        "lat": 29.98,
+        "lng": 52.91,
+        "approximate": true
+      },
+      "title": { "az": "İstəxr qalasında həbs" },
+      "factualSummary": {
+        "az": "Heydərin ölümündən sonra Sultan Yaqub onun oğulları Əli Mirzəni, İbrahimi və İsmayılı anaları ilə birlikdə Farsdakı İstəxr qalasında həbs etdirdi. Mənbələrə görə uşaqların həyatı analarının, yəni Yaqubun bacısının xahişi ilə bağışlanmışdı."
+      },
+      "narrative": {
+        "az": "Uşaqlığımın ilk xatirələri daş divarlar və cənub günəşidir. Qala Ərdəbildən çox uzaqdadır. Böyük qardaşım Əli gecələr bizə babalarımızın hekayələrini danışır, səhər isə qarovulçular qapını açıb yenə bağlayır."
+      },
+      "sources": [
+        { "title": "Ali Mirza Safavi", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ali_Mirza_Safavi" },
+        { "title": "Iran under the Safavids", "author": "Roger Savory", "type": "book", "note": "Cambridge University Press, 1980, 1-ci fəsil" }
+      ]
+    },
+    {
+      "id": "ismayil-ali-mirza",
+      "personId": "shah-ismayil",
+      "order": 3,
+      "date": {
+        "year": 1494,
+        "certainty": "disputed",
+        "alternatives": [
+          { "year": 1493, "note": { "az": "Bəzi mənbələr Rüstəmlə qırılmanı və həbs əmrini 1493-cü ilə aid edir." } }
+        ]
+      },
+      "type": "journey",
+      "fromLocation": {
+        "name": { "az": "İstəxr qalası" },
+        "lat": 29.98,
+        "lng": 52.91,
+        "approximate": true
+      },
+      "route": [[46.2919, 38.08]],
+      "location": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 },
+      "title": { "az": "Azadlıq və qardaşın ölümü" },
+      "factualSummary": {
+        "az": "Ağqoyunlu taxtı uğrunda mübarizə zamanı Rüstəm bəy qardaşları azad etdi və Əli Mirzənin dəstəyindən istifadə etdi. Sonra onlardan təhlükə hiss edib yenidən həbs əmri verdi. Qardaşlar Ərdəbilə qaçdılar. Əli Mirzə Ərdəbil yaxınlığında (Şamasbi) Ağqoyunlu dəstəsi ilə toqquşmada öldürüldü. Rəvayətə görə ölümündən əvvəl İsmayılı varisi təyin etmişdi."
+      },
+      "narrative": {
+        "az": "Qala qapıları açılır, amma azadlıq qısa çəkir. Bir gecə qardaşım Əli əlimi sıxıb deyir: \"Ərdəbilə get, mürşid artıq sənsən.\" Səhər onun qılıncla düşdüyü xəbəri gəlir. Yeddi yaşım var."
+      },
+      "choice": {
+        "prompt": { "az": "Yeddi yaşın var, böyük qardaşın öldürülüb, Ağqoyunlu dəstələri səni axtarır. Nə edərdin?" },
+        "options": [
+          {
+            "text": { "az": "Rüstəm bəyin yanına gedib bağışlanmağı xahiş etmək" },
+            "explanation": { "az": "Rüstəm artıq Səfəviləri təhlükə sayırdı. Təslim olmaq, çox güman ki, həbs və ya ölüm demək idi." }
+          },
+          {
+            "text": { "az": "Sadiq müridlərlə gizlənmək və uzaq, təhlükəsiz bir yerə sığınmaq" },
+            "explanation": { "az": "Müridlər onu əvvəl Ərdəbildə gizlətdilər, sonra Gilana apardılar." }
+          },
+          {
+            "text": { "az": "Ərdəbildəki tərəfdarları toplayıb dərhal döyüşmək" },
+            "explanation": { "az": "Təriqətin rəhbərliyi dağılmışdı, uşaq başçı ilə açıq döyüş ümidsiz olardı." }
+          }
+        ],
+        "historicalOptionIndex": 1,
+        "why": {
+          "az": "Səfəvi müridləri təriqətin gələcəyini qorumaq üçün İsmayılı gizlətdilər. Gilanın Kar-Kiya hökmdarları Ağqoyunluların təsir dairəsindən kənarda idilər və ona sığınacaq verdilər."
+        }
+      },
+      "sources": [
+        { "title": "Ali Mirza Safavi", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ali_Mirza_Safavi" },
+        { "title": "Rustam Mirza Safavi", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Rustam_Mirza_Safavi" }
+      ]
+    },
+    {
+      "id": "ismayil-flight-gilan",
+      "personId": "shah-ismayil",
+      "order": 4,
+      "date": { "year": 1494, "certainty": "approximate" },
+      "type": "exile",
+      "fromLocation": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 },
+      "route": [[49.58, 37.28]],
+      "location": { "name": { "az": "Lahican (Gilan)" }, "lat": 37.2071, "lng": 50.0039 },
+      "title": { "az": "Gilana qaçış" },
+      "factualSummary": {
+        "az": "İsmayıl müridlərin köməyi ilə Xəzər sahilindəki Gilana aparıldı. Lahicanda Kar-Kiya sülaləsindən olan zeydi hökmdar Mirzə Əli Kar-Kiya ona sığınacaq verdi və Ağqoyunlu təhvil tələblərini rədd etdi."
+      },
+      "narrative": {
+        "az": "Dağ yolları dumanlı və yaşdır. Bizi ancaq gecələr hərəkət etdirirlər. Ağacların arasından dəniz görünəndə yanımdakı qoca mürid pıçıldayır: \"Burada heç kim səni tapa bilməz.\""
+      },
+      "sources": [
+        { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I" },
+        { "title": "Shah Ismail I", "type": "encyclopedia", "url": "https://en.wikishia.net/view/Shah_Ismail_I" }
+      ]
+    },
+    {
+      "id": "ismayil-lahijan-education",
+      "personId": "shah-ismayil",
+      "order": 5,
+      "date": { "year": 1495, "certainty": "approximate", "note": { "az": "Lahicanda təqribən 1494–1499-cu illər." } },
+      "type": "education",
+      "location": { "name": { "az": "Lahican (Gilan)" }, "lat": 37.2071, "lng": 50.0039 },
+      "title": { "az": "Lahicanda təhsil" },
+      "factualSummary": {
+        "az": "İsmayıl Lahicanda təxminən beş il yaşadı. Burada Quran, fars və ərəb dillərini, şiə inanclarını öyrəndi. Sonrakı Səfəvi salnamələri müəllimi kimi Şəmsəddin Lahicini göstərir. Müasir tədqiqatçıların bir qismi bu məlumatı əfsanəvi sayır. Gilandakı yeddi nüfuzlu sufi ona hərbi işi və idarəçiliyi öyrədirdi."
+      },
+      "narrative": {
+        "az": "Səhərlər müəllimim mənə Quran oxudur, axşamlar fars şairlərinin beytlərini əzbərləyirəm. Ən çox isə öz dilimdə, ana dilimdə söz qoşmağı sevirəm. Qızılbaş qocaları qılınc tutmağımı düzəldir və hər dəfə deyirlər: \"Vaxt yaxındır.\""
+      },
+      "sources": [
+        { "title": "Shah Ismail Safavi", "type": "encyclopedia", "url": "https://en.wikishia.net/view/Shah_Ismail_Safavi" },
+        {
+          "title": "Shames al Din Gilani Teacher of Shah Ismail Safavi, Fact or Legend",
+          "type": "article",
+          "url": "https://www.magiran.com/paper/1249730/?lang=en",
+          "note": "Müəllim haqqındakı məlumatın etibarlılığını şübhə altına alır"
+        }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "İsmayıl uşaqlıqda hansı bölgədə gizlədilmişdi?" },
+          "options": [{ "az": "Gilan" }, { "az": "Şirvan" }, { "az": "Xorasan" }, { "az": "Bağdad" }],
+          "correctIndex": 0,
+          "explanation": { "az": "O, Gilanın Lahican şəhərində Kar-Kiya hökmdarının himayəsində yaşadı." }
+        }
+      ]
+    },
+    {
+      "id": "ismayil-leaves-gilan",
+      "personId": "shah-ismayil",
+      "order": 6,
+      "date": { "year": 1499, "certainty": "approximate" },
+      "type": "journey",
+      "fromLocation": { "name": { "az": "Lahican (Gilan)" }, "lat": 37.2071, "lng": 50.0039 },
+      "route": [[49.58, 37.28]],
+      "location": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 },
+      "title": { "az": "Gizlənmənin sonu" },
+      "factualSummary": {
+        "az": "Təxminən 12 yaşında, 1499-cu ildə İsmayıl yaxın müridləri ilə Gilandan çıxıb Azərbaycana qayıtdı. Ağqoyunlu dövləti bu vaxt varislik çəkişmələri ilə zəifləmişdi. Bu, Səfəvi müridlərinə yenidən toplanmaq imkanı verdi."
+      },
+      "narrative": {
+        "az": "On iki yaşım var. Yanımda yeddi sufi və bir ovuc atlı var. Ərdəbil yolunda kəndlilər qırmızı papağımı görüb diz çökür. Artıq gizlənmək istəmirəm."
+      },
+      "sources": [
+        { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I" },
+        { "title": "Iran under the Safavids", "author": "Roger Savory", "type": "book", "note": "Cambridge University Press, 1980" }
+      ]
+    },
+    {
+      "id": "ismayil-erzincan",
+      "personId": "shah-ismayil",
+      "order": 7,
+      "date": { "year": 1500, "certainty": "approximate", "note": { "az": "1500-cü ilin yayı." } },
+      "type": "journey",
+      "fromLocation": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 },
+      "location": { "name": { "az": "Ərzincan" }, "lat": 39.75, "lng": 39.5 },
+      "title": { "az": "Ərzincanda qızılbaşların toplanması" },
+      "factualSummary": {
+        "az": "1500-cü ilin yayında Anadolunun şərqindəki Ərzincanda Ustaclu, Şamlu, Rumlu, Təkəlü, Zülqədər, Əfşar, Qacar və Varsaq tayfalarından təqribən 7000 qızılbaş döyüşçü İsmayılın ətrafında toplandı."
+      },
+      "narrative": {
+        "az": "Ərzincan düzündə çadırlar ucsuz-bucaqsızdır. Hər tayfa öz bayrağı ilə gəlir. Onlara öz dillərində, türkcə müraciət edirəm. Yeddi min qılınc göyə qalxır. On üç yaşım var."
+      },
+      "choice": {
+        "prompt": { "az": "Yeddi min qızılbaş səni gözləyir. İlk zərbəni haraya endirərdin?" },
+        "options": [
+          {
+            "text": { "az": "Birbaşa Ağqoyunlu paytaxtı Təbrizə" },
+            "explanation": { "az": "Təbriz böyük qənimət və nüfuz demək idi, amma Ağqoyunlu qoşunları hələ güclü idi." }
+          },
+          {
+            "text": { "az": "Atamın qatili Şirvanşah Fərrux Yasara" },
+            "explanation": { "az": "Şirvan daha zəif hədəf idi və bu yürüş həm də qan intiqamı sayılırdı." }
+          },
+          {
+            "text": { "az": "Osmanlı sərhədindəki qalalara" },
+            "explanation": { "az": "Qızılbaşların çoxu Osmanlı torpaqlarından gəlmişdi. Osmanlı ilə erkən toqquşma təhlükəli idi." }
+          }
+        ],
+        "historicalOptionIndex": 1,
+        "why": {
+          "az": "İsmayıl əvvəlcə Şirvana yürüş etdi. Şirvanşahlar həm babası Şeyx Cüneydin (1460), həm də atası Heydərin (1488) ölümündə iştirak etmişdilər. Şirvanın sərvəti isə gələcək yürüşlər üçün qaynaq oldu."
+        }
+      },
+      "sources": [
+        { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I", "note": "Savory & Karamustafa (1998), Encyclopaedia Iranica-ya istinadla" }
+      ]
+    },
+    {
+      "id": "ismayil-cabani",
+      "personId": "shah-ismayil",
+      "order": 8,
+      "date": { "year": 1500, "month": 12, "certainty": "approximate" },
+      "type": "battle",
+      "fromLocation": { "name": { "az": "Ərzincan" }, "lat": 39.75, "lng": 39.5 },
+      "route": [[44.79, 40.4]],
+      "location": {
+        "name": { "az": "Cabanı (Şamaxı yaxınlığı)" },
+        "lat": 40.57,
+        "lng": 48.46,
+        "approximate": true
+      },
+      "title": { "az": "Cabanı döyüşü" },
+      "factualSummary": {
+        "az": "1500-cü ilin dekabrında İsmayıl Kür çayını keçib Şamaxı yaxınlığında, Cabanıda (bəzi mənbələrdə Gülüstan) Şirvanşah Fərrux Yasarın qoşununu məğlub etdi. Fərrux Yasar döyüşdə həlak oldu. Ardınca Bakı da tutuldu."
+      },
+      "narrative": {
+        "az": "Qış soyuğunda Kürün suyu atların sinəsinə qədər qalxır. Qarşımızda Şirvan bayraqları dalğalanır. Döyüş qısa və amansız olur. Axşam mənə Fərrux Yasarın öldüyünü xəbər verirlər. Atamın qanı yerdə qalmadı."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Şirvanşah Fərrux Yasar" },
+        "forces": { "own": { "az": "təqr. 7000" }, "enemy": { "az": "dəqiq məlum deyil" } },
+        "context": { "az": "Səfəvilərin ilk böyük qələbəsi. Şirvan sərvəti və Bakının tutulması gənc hərəkata maddi baza verdi." }
+      },
+      "sources": [
+        { "title": "Campaigns of Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Campaigns_of_Ismail_I" },
+        { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I" }
+      ]
+    },
+    {
+      "id": "ismayil-sharur",
+      "personId": "shah-ismayil",
+      "order": 9,
+      "date": { "year": 1501, "certainty": "approximate", "note": { "az": "K. Farrox döyüşü 1501-ci ilin iyul–avqustuna aid edir." } },
+      "type": "battle",
+      "fromLocation": {
+        "name": { "az": "Cabanı (Şamaxı yaxınlığı)" },
+        "lat": 40.57,
+        "lng": 48.46,
+        "approximate": true
+      },
+      "route": [[47.15, 39.75]],
+      "location": { "name": { "az": "Şərur" }, "modernName": { "az": "Şərur, Naxçıvan" }, "lat": 39.5536, "lng": 44.9846 },
+      "title": { "az": "Şərur döyüşü" },
+      "factualSummary": {
+        "az": "1501-ci ildə Naxçıvan yaxınlığındakı Şərurda İsmayılın təqribən 7000 nəfərlik qoşunu Ağqoyunlu hökmdarı Əlvənd Mirzənin özündən təxminən dörd dəfə böyük ordusunu darmadağın etdi. Əlvənd qaçdı və Təbrizə yol açıldı."
+      },
+      "narrative": {
+        "az": "Əlvəndin ordusu üfüqü örtür, bizim hər birimizə dörd nəfər düşür. Qızılbaşlar \"Allah, Məhəmməd, Əli\" deyə hücuma keçir. Günortaya qədər Ağqoyunlu bayraqları yerə sərilir. Babamın taxtı qarşıdadır."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Ağqoyunlu hökmdarı Əlvənd Mirzə" },
+        "forces": { "own": { "az": "təqr. 7000" }, "enemy": { "az": "təqr. 4 dəfə çox (dəqiq rəqəm məlum deyil)" } },
+        "context": { "az": "Bu qələbə Ağqoyunlu dövlətinin əsas qüvvəsini qırdı və Təbrizin döyüşsüz tutulmasına yol açdı." }
+      },
+      "sources": [
+        { "title": "Battle of Sharur", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Sharur" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Şərur döyüşündə İsmayılın rəqibi kim idi?" },
+          "options": [{ "az": "Əlvənd Mirzə" }, { "az": "Sultan Səlim" }, { "az": "Şeybani xan" }, { "az": "Fərrux Yasar" }],
+          "correctIndex": 0,
+          "explanation": { "az": "Şərurda Ağqoyunlu hökmdarı Əlvənd Mirzə məğlub oldu." }
+        }
+      ]
+    },
+    {
+      "id": "ismayil-coronation",
+      "personId": "shah-ismayil",
+      "order": 10,
+      "date": {
+        "year": 1501,
+        "month": 12,
+        "day": 22,
+        "certainty": "disputed",
+        "alternatives": [
+          { "year": 1501, "month": 7, "note": { "az": "Bir çox əsər Təbrizin tutulmasını və şah titulunun qəbulunu 1501-ci ilin yayına aid edir." } }
+        ],
+        "note": { "az": "22 dekabr 1501 (1 cəmadiyəlaxır 907) tarixini yalnız Qasım bəy Heyati (1554) verir." }
+      },
+      "type": "coronation",
+      "fromLocation": { "name": { "az": "Şərur" }, "lat": 39.5536, "lng": 44.9846 },
+      "location": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
+      "title": { "az": "Təbrizdə taxta çıxma" },
+      "factualSummary": {
+        "az": "Qızılbaşlar Ağqoyunluların paytaxtı Təbrizi müqavimətsiz tutdu. İsmayıl burada şah elan olundu və on iki imam şiəliyini dövlətin rəsmi məzhəbi etdi. Bu tarix Səfəvi dövlətinin başlanğıcı sayılır."
+      },
+      "narrative": {
+        "az": "Təbrizin Cümə məscidi ağzına qədər doludur. Qılıncımı belimdə hiss edirəm, tac başımda ağırdır. On dörd yaşım var və babam Uzun Həsənin şəhərində mənim adıma xütbə oxunur."
+      },
+      "sources": [
+        { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I", "note": "Ghereghlou (2017), Qasım bəy Heyatiyə istinadla" },
+        { "title": "Battle of Sharur", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Sharur" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Səfəvi dövlətinin ilk paytaxtı hansı şəhər idi?" },
+          "options": [{ "az": "Təbriz" }, { "az": "İsfahan" }, { "az": "Qəzvin" }, { "az": "Ərdəbil" }],
+          "correctIndex": 0,
+          "explanation": { "az": "İsmayıl 1501-ci ildə Təbrizdə şah elan olundu və şəhəri paytaxt etdi." }
+        }
+      ]
+    },
+    {
+      "id": "ismayil-hamadan",
+      "personId": "shah-ismayil",
+      "order": 11,
+      "date": { "year": 1503, "month": 6, "day": 21, "certainty": "exact" },
+      "type": "battle",
+      "fromLocation": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
+      "location": {
+        "name": { "az": "Həmədan yaxınlığı (Alma Bulağı)" },
+        "lat": 34.8,
+        "lng": 48.51,
+        "approximate": true
+      },
+      "title": { "az": "Həmədan döyüşü" },
+      "factualSummary": {
+        "az": "21 iyun 1503-cü ildə Həmədan yaxınlığında İsmayıl Ağqoyunlu sultanı Muradın qoşununu məğlub etdi. Mənbələr Səfəvi ordusunu təqribən 12 000, Ağqoyunlu ordusunu 70 000-dən çox göstərir, lakin bu rəqəmlər şişirdilmiş ola bilər. Qələbə Qərbi İranı və Farsı Səfəvilərə açdı."
+      },
+      "narrative": {
+        "az": "Muradın ordusu say-hesabsızdır, amma əsgərləri yorğun və pərakəndədir. Mənim adamlarım isə bir nəfər kimi hərəkət edir. Axşam düşmən düşərgəsi boşalır, sultan Murad qaçır. İranın qapıları açılır."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Ağqoyunlu sultanı Murad" },
+        "forces": { "own": { "az": "təqr. 12 000" }, "enemy": { "az": "70 000+ (salnamə rəqəmi)" } },
+        "context": { "az": "Ağqoyunlu dövlətinin son böyük ordusu dağıldı. Fars və İraqi-Əcəm Səfəvi nəzarətinə keçdi." }
+      },
+      "sources": [
+        { "title": "Battle of Hamadan (1503)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Hamadan_(1503)" }
+      ]
+    },
+    {
+      "id": "ismayil-baghdad",
+      "personId": "shah-ismayil",
+      "order": 12,
+      "date": { "year": 1508, "certainty": "approximate" },
+      "type": "journey",
+      "fromLocation": { "name": { "az": "Həmədan" }, "lat": 34.8, "lng": 48.51 },
+      "location": { "name": { "az": "Bağdad" }, "lat": 33.3152, "lng": 44.3661 },
+      "title": { "az": "Bağdadın tutulması" },
+      "factualSummary": {
+        "az": "1508-ci ildə Səfəvi qoşunları Bağdadı tutdu. Sultan Murad qaçdı və Ağqoyunlu dövlətinin qalıqları süquta uğradı. Şəhərdə sünni türbələrinə, o cümlədən Əbu Hənifənin məzarına zərər vuruldu. Bu, Osmanlılarla gərginliyi artırdı."
+      },
+      "narrative": {
+        "az": "Dəclənin sahilində xurma ağacları arasında atımı saxlayıram. Bu şəhər xəlifələrin paytaxtı olub. İndi isə açarlarını mənə gətirirlər. Amma qələbə ilə yanaşı yeni düşmənlər də qazanıram."
+      },
+      "sources": [
+        { "title": "Campaigns of Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Campaigns_of_Ismail_I" },
+        { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I", "note": "Savory (2007), Shaw (1976)" }
+      ]
+    },
+    {
+      "id": "ismayil-merv",
+      "personId": "shah-ismayil",
+      "order": 13,
+      "date": { "year": 1510, "month": 12, "day": 2, "certainty": "exact" },
+      "type": "battle",
+      "fromLocation": { "name": { "az": "Bağdad" }, "lat": 33.3152, "lng": 44.3661 },
+      "route": [[51.42, 35.69], [59.6, 36.3]],
+      "location": {
+        "name": { "az": "Mərv" },
+        "modernName": { "az": "Mərv xarabalıqları, Mari yaxınlığı (Türkmənistan)" },
+        "lat": 37.665,
+        "lng": 62.172
+      },
+      "title": { "az": "Mərv döyüşü" },
+      "factualSummary": {
+        "az": "2 dekabr 1510-cu ildə Mərv yaxınlığında İsmayıl özbək hökmdarı Məhəmməd Şeybani xanı məğlub etdi. Şeybani qaçarkən öldürüldü. Xorasan Səfəvi dövlətinə qatıldı. Mənbələrə görə Şeybaninin kəllə sümüyündən qızılla örtülmüş qədəh düzəldilmişdi."
+      },
+      "narrative": {
+        "az": "Şərqə, Xorasan çöllərinə çıxırıq. Özbəklərin sayı bizdən çoxdur. Ona görə də geri çəkilmə taktikası ilə onları qala divarlarından uzağa çəkirik. Tələ işləyir. Şeybani xan qaçmağa çalışır, amma haqlanır."
+      },
+      "outcome": {
+        "result": "victory",
+        "opponent": { "az": "Özbək hökmdarı Məhəmməd Şeybani xan" },
+        "forces": { "own": { "az": "təqr. 17 000" }, "enemy": { "az": "sayca üstün idi (dəqiq rəqəm məlum deyil)" } },
+        "context": { "az": "Saxta geri çəkilmə ilə qazanılan bu qələbə Xorasanı Səfəvilərə qatdı və özbək təhlükəsini müvəqqəti dayandırdı." }
+      },
+      "sources": [
+        { "title": "Battle of Marv", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Marv" }
+      ]
+    },
+    {
+      "id": "ismayil-chaldiran",
+      "personId": "shah-ismayil",
+      "order": 14,
+      "date": { "year": 1514, "month": 8, "day": 23, "certainty": "exact" },
+      "type": "battle",
+      "fromLocation": {
+        "name": { "az": "Mərv" },
+        "lat": 37.665,
+        "lng": 62.172
+      },
+      "route": [[59.6, 36.3], [51.42, 35.69], [46.2919, 38.08]],
+      "location": {
+        "name": { "az": "Çaldıran düzü" },
+        "modernName": { "az": "Qərbi Azərbaycan ostanı (İran)" },
+        "lat": 39.07,
+        "lng": 44.35,
+        "approximate": true
+      },
+      "title": { "az": "Çaldıran döyüşü" },
+      "factualSummary": {
+        "az": "23 avqust 1514-cü ildə Çaldıran düzündə Osmanlı sultanı I Səlim İsmayılın qoşununu məğlub etdi. Osmanlıların sayı təqribən 60–100 min idi, onların topları və arabalar arxasında düzülmüş yeniçəri tüfəngçiləri vardı. Səfəvilərin 40–80 min süvarisi vardı və topları yox idi. İsmayıl yaralandı, az qala əsir düşəcəkdi. Səlim 7 sentyabrda Təbrizə girdi, lakin tezliklə geri çəkildi."
+      },
+      "narrative": {
+        "az": "Osmanlı ordusu arabaları zəncirlə bir-birinə bağlayıb arxasında toplar düzür. Bəylərimdən biri onlar hazırlaşmamış hücuma keçməyi məsləhət görür. Mən isə düşmənlə üz-üzə döyüşmək istəyirəm. Top gurultusu atlarımızı ürküdür. Yaralanıram. Bu gün məğlubiyyətin dadını ilk dəfə dadıram."
+      },
+      "outcome": {
+        "result": "defeat",
+        "opponent": { "az": "Osmanlı sultanı I Səlim" },
+        "forces": { "own": { "az": "40 000–80 000, topsuz" }, "enemy": { "az": "60 000–100 000, 100–200 top" } },
+        "context": { "az": "Odlu silahın süvari üzərində üstünlüyünü göstərən döyüş. Şərqi Anadolu və Yuxarı Mesopotamiya Osmanlılara keçdi." }
+      },
+      "choice": {
+        "prompt": {
+          "az": "Osmanlılar toplarını arabaların arxasında düzür. Bəylərindən biri onlar hazırlaşmamış dərhal hücum etməyi təklif edir. Nə edərdin?"
+        },
+        "options": [
+          {
+            "text": { "az": "Dərhal hücum: düşmən mövqeyini möhkəmlətməmiş zərbə endir" },
+            "explanation": { "az": "Rəvayətə görə Məhəmməd xan Ustaclu məhz bunu təklif etmişdi. Bu, topların təsirini azalda bilərdi." }
+          },
+          {
+            "text": { "az": "Düşmənin döyüşə tam hazırlaşmasını gözlə və üz-üzə döyüş" },
+            "explanation": { "az": "Sonrakı salnamələrə görə İsmayıl \"mən karvan basqınçısı deyiləm\" deyərək bu yolu seçib." }
+          },
+          {
+            "text": { "az": "Döyüşdən boyun qaçır, geri çəkil və torpağı yandır" },
+            "explanation": { "az": "Osmanlı ordusunun ərzaq problemi var idi. Bu taktika sonralar I Təhmasib tərəfindən uğurla tətbiq olundu." }
+          }
+        ],
+        "historicalOptionIndex": 1,
+        "why": {
+          "az": "Salnamələrə görə İsmayıl Osmanlı mövqelərinə hazırlanmamış ikən hücumu namussuzluq saydı. Bu rəvayət sonradan yazılıb və dəqiqliyi mübahisəlidir. Amma nəticə dəqiqdir: odlu silahla möhkəmləndirilmiş mövqe süvari hücumlarını qırdı."
+        }
+      },
+      "sources": [
+        { "title": "Battle of Chaldiran", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Chaldiran" },
+        { "title": "Iran under the Safavids", "author": "Roger Savory", "type": "book", "note": "Cambridge University Press, 1980" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Çaldıran döyüşündə Osmanlıların qələbəsində əsas amil nə idi?" },
+          "options": [
+            { "az": "Toplar və tüfəngli yeniçərilər" },
+            { "az": "Dəniz donanması" },
+            { "az": "Fillər" },
+            { "az": "Qala mühasirəsi" }
+          ],
+          "correctIndex": 0,
+          "explanation": { "az": "Arabaların arxasında düzülmüş toplar və tüfəngçilər qızılbaş süvarisinin hücumlarını qırdı." }
+        },
+        {
+          "question": { "az": "Çaldıran döyüşü hansı ildə baş verib?" },
+          "options": [{ "az": "1514" }, { "az": "1501" }, { "az": "1524" }, { "az": "1473" }],
+          "correctIndex": 0,
+          "explanation": { "az": "23 avqust 1514." }
+        }
+      ]
+    },
+    {
+      "id": "ismayil-khatai",
+      "personId": "shah-ismayil",
+      "order": 15,
+      "date": { "year": 1522, "certainty": "approximate", "note": { "az": "Şeir yaradıcılığı ömür boyu davam edib. 1522 Behzadın kitabxanaya rəhbər təyinidir." } },
+      "type": "culture",
+      "fromLocation": {
+        "name": { "az": "Çaldıran düzü" },
+        "lat": 39.07,
+        "lng": 44.35,
+        "approximate": true
+      },
+      "location": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
+      "title": { "az": "Xətai: şair şah" },
+      "factualSummary": {
+        "az": "İsmayıl Xətai təxəllüsü ilə əsasən Azərbaycan türkcəsində, az miqdarda da farsca şeirlər yazdı. Divanının günümüzə çatan ən qədim nüsxəsi 1535-ci ilə aiddir, buna görə bəzi şeirlərin ona aidliyi müzakirəlidir. \"Dəhnamə\" məsnəvisi də ona aid edilir. Çaldırandan sonra İsmayıl yürüşlərdə şəxsən iştirak etmədi. 1522-ci ildə miniatür ustası Kəmaləddin Behzadı Təbrizdəki saray kitabxanasına rəhbər təyin etdi."
+      },
+      "narrative": {
+        "az": "Çaldırandan sonra qılıncdan çox qələmə sarılıram. Gecələr misralarımı öz dilimdə yazıram, qızılbaş ozanları onları səhər çadırlarda oxuyur. Saray kitabxanasında ustad Behzad miniatürlərin üzərində əyilib. Rənglər burada döyüşdən daha uzunömürlüdür."
+      },
+      "sources": [
+        { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I", "note": "Minorsky 1942; Savory & Karamustafa 1998; Heß 2020" },
+        { "title": "The Poetry of Shāh Ismāʿīl I", "author": "Vladimir Minorsky", "type": "article", "note": "Bulletin of the School of Oriental and African Studies, 10/4, 1942" },
+        { "title": "Kamāl ud-Dīn Behzād", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Kam%C4%81l_ud-D%C4%ABn_Behz%C4%81d" }
+      ],
+      "quiz": [
+        {
+          "question": { "az": "Şah İsmayılın şeirlərində istifadə etdiyi təxəllüs hansıdır?" },
+          "options": [{ "az": "Xətai" }, { "az": "Füzuli" }, { "az": "Nəsimi" }, { "az": "Vaqif" }],
+          "correctIndex": 0,
+          "explanation": { "az": "İsmayıl \"Xətai\" təxəllüsü ilə yazırdı." }
+        }
+      ]
+    },
+    {
+      "id": "ismayil-death",
+      "personId": "shah-ismayil",
+      "order": 16,
+      "date": {
+        "year": 1524,
+        "month": 5,
+        "day": 23,
+        "certainty": "exact",
+        "note": { "az": "Tarixdə ixtilaf yoxdur, ölüm yeri isə mübahisəlidir (aşağıya bax)." }
+      },
+      "type": "death",
+      "fromLocation": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
+      "location": {
+        "name": { "az": "Təbriz yaxınlığı" },
+        "lat": 38.12,
+        "lng": 46.6,
+        "approximate": true
+      },
+      "title": { "az": "Son yol və Ərdəbildə dəfn" },
+      "factualSummary": {
+        "az": "Şah İsmayıl 23 may 1524-cü ildə 36 yaşında vəfat etdi. Ölüm yeri mənbələrdə fərqli göstərilir: Təbriz yaxınlığı (Wikipedia), Ərdəbil (Britannica), Ərdəbil–Təbriz yolu üzərində Mankutay (2023-cü il türk tədqiqatı). O, Ərdəbildə Şeyx Səfiəddin türbəsi kompleksində dəfn edildi. Taxta on yaşlı oğlu Təhmasib çıxdı."
+      },
+      "narrative": {
+        "az": "Yol Ərdəbilə, uşaqlığımın şəhərinə gedir. Sinəm ağırdır, nəfəsim daralır. Bilirəm ki, oğlum Təhmasib hələ uşaqdır və qızılbaş bəyləri bir-biri ilə çəkişəcək. Gözlərimi yumuram. Şeyx Səfinin günbəzi altında atamın yanında yatacağam."
+      },
+      "sources": [
+        { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I" },
+        { "title": "Ismāʿīl I", "type": "encyclopedia", "url": "https://www.britannica.com/biography/Ismail-I-shah-of-Iran" },
+        { "title": "Türkiyat Mecmuası (2023), Şah İsmayılın son günləri haqqında məqalə", "type": "article", "url": "https://dergipark.org.tr/en/download/article-file/3500102" }
+      ]
+    }
+  ]
+}
