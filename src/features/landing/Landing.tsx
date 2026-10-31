@@ -8,6 +8,7 @@ import type { Era, Locale, Person } from "@/domain/schema";
 import { Divider, Star } from "@/components/Ornament";
 import { format, t, type Messages } from "@/lib/i18n";
 import { formatDate } from "@/lib/dates";
+import { withBasePath } from "@/lib/basePath";
 
 export interface LandingPerson {
   person: Person;
@@ -155,7 +156,7 @@ function PersonCard({
       <div className="relative aspect-[4/5] overflow-hidden bg-parchment-dark">
         {person.portrait ? (
           <Image
-            src={person.portrait.src}
+            src={withBasePath(person.portrait.src)}
             alt={t(person.portrait.alt, locale)}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"

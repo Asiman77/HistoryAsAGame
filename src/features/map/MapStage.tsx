@@ -5,6 +5,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { GeoJSONSource, Map as MlMap, Marker, PaddingOptions } from "maplibre-gl";
 import type { EventType, Locale } from "@/domain/schema";
 import type { LngLat } from "@/lib/geo";
+import { withBasePath } from "@/lib/basePath";
 import { t, type Messages } from "@/lib/i18n";
 import type { MapPlace, Step } from "@/features/simulation/model";
 import { ROUTE_COLORS, buildBaseStyle } from "./style";
@@ -33,7 +34,7 @@ const ZOOM_BY_TYPE: Partial<Record<EventType, number>> = {
 };
 const DEFAULT_ZOOM = 5.8;
 /** Copied from node_modules by scripts/copy-maplibre-worker.mjs. */
-const WORKER_URL = "/vendor/maplibre-gl-worker.mjs";
+const WORKER_URL = withBasePath("/vendor/maplibre-gl-worker.mjs");
 
 type MarkerEntry = { marker: Marker; el: HTMLElement; place: MapPlace; priority: number };
 
