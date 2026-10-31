@@ -104,7 +104,8 @@ export function MapStage({ steps, places, index, phase, padding, reducedMotion, 
         dragRotate: false,
         pitchWithRotate: false,
         renderWorldCopies: false,
-        attributionControl: { compact: true },
+        // Attribution is rendered by SimulationView where panels cannot cover it.
+        attributionControl: false,
         fadeDuration: 0,
       });
       map = created;

@@ -181,7 +181,7 @@ export function SimulationView({ journey, locale, messages: m }: Props) {
       {desktop ? (
         <>
           <aside
-            className="paper-card absolute top-24 right-5 bottom-5 flex flex-col overflow-hidden rounded-lg"
+            className="paper-card absolute top-24 right-5 bottom-5 z-10 flex flex-col overflow-hidden rounded-lg"
             style={{ width: PANEL_W }}
             aria-live="polite"
           >
@@ -196,26 +196,37 @@ export function SimulationView({ journey, locale, messages: m }: Props) {
             </footer>
           </aside>
           <div
-            className="paper-card absolute bottom-5 left-5 rounded-lg py-3"
+            className="paper-card absolute bottom-5 left-5 z-10 rounded-lg py-3"
             style={{ right: PANEL_W + 40 }}
           >
             <Timeline steps={steps} eras={eras} index={phase === "legacy" ? last : index} onSelect={go} locale={locale} m={m} />
-            <p className="mt-1 px-6 text-[11px] text-ink-faint">{m.sim.keyboardHint}</p>
+            <p className="mt-1 flex justify-between gap-4 px-6 text-[11px] text-ink-faint">
+              <span>{m.sim.keyboardHint}</span>
+              <span>{m.map.attribution}</span>
+            </p>
           </div>
         </>
       ) : (
-        <BottomSheet sheetH={sheetH} collapsedY={collapsedY} onSwipe={(d) => (d > 0 ? next() : prev())} scrollRef={scrollRef}>
-          <div className="px-1">
-            <Timeline steps={steps} eras={eras} index={phase === "legacy" ? last : index} onSelect={go} locale={locale} m={m} compact />
-          </div>
-          <div className="flex items-center justify-between gap-2 border-b border-ink/10 px-4 pt-2 pb-3">
-            <ModeToggle mode={mode} setMode={setMode} m={m} />
-            {navButtons}
-          </div>
-          <div ref={scrollRef} className="flex-1 overflow-y-auto overscroll-contain px-5 pt-4 pb-10">
-            {panelBody}
-          </div>
-        </BottomSheet>
+        <>
+          <p
+            className="pointer-events-none absolute left-2 z-10 rounded bg-parchment-light/75 px-1.5 text-[10px] text-ink-faint"
+            style={{ bottom: peekH + 6 }}
+          >
+            {m.map.attribution}
+          </p>
+          <BottomSheet sheetH={sheetH} collapsedY={collapsedY} onSwipe={(d) => (d > 0 ? next() : prev())} scrollRef={scrollRef}>
+            <div className="px-1">
+              <Timeline steps={steps} eras={eras} index={phase === "legacy" ? last : index} onSelect={go} locale={locale} m={m} compact />
+            </div>
+            <div className="flex items-center justify-between gap-2 border-b border-ink/10 px-4 pt-2 pb-3">
+              <ModeToggle mode={mode} setMode={setMode} m={m} />
+              {navButtons}
+            </div>
+            <div ref={scrollRef} className="flex-1 overflow-y-auto overscroll-contain px-5 pt-4 pb-10">
+              {panelBody}
+            </div>
+          </BottomSheet>
+        </>
       )}
     </main>
   );
@@ -241,7 +252,7 @@ function Hud({
   compact: boolean;
 }) {
   return (
-    <header className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-3 sm:p-5">
+    <header className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-3 p-3 sm:p-5">
       <div className="pointer-events-auto paper-card flex min-w-0 items-center gap-3 rounded-lg px-3 py-2 sm:px-4">
         <Link
           href={`/${locale}/`}
@@ -337,7 +348,7 @@ function BottomSheet({
 
   return (
     <motion.section
-      className="paper-card absolute inset-x-0 bottom-0 flex flex-col rounded-t-2xl"
+      className="paper-card absolute inset-x-0 bottom-0 z-20 flex flex-col rounded-t-2xl"
       style={{ height: sheetH, y, touchAction: "pan-y" }}
       drag="y"
       dragListener={false}
