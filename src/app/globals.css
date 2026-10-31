@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+:root {
+  --parchment: #f3e7cf;
+  --ink: #2b1d12;
+}
+
+body {
+  background: var(--parchment);
+  color: var(--ink);
+}
