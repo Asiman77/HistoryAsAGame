@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Page } from "@playwright/test";
+import { expect, type Page } from "@playwright/test";
 
 const root = path.join(process.cwd(), "data", "persons");
 
@@ -53,4 +53,15 @@ export function collectErrors(page: Page): string[] {
     if (m.type() === "error" && !/Failed to load resource|openfreemap/.test(m.text())) errors.push(m.text());
   });
   return errors;
+}
+
+/** The journey starts behind a "Hekayəyə başla" gate (it unlocks audio). */
+export async function startJourney(page: Page, button: string | RegExp = "Hekayəyə başla") {
+  // The gate is in the static HTML, so a click can land before hydration; retry until it closes.
+  const gate = page.locator("#start-title");
+  await expect(async () => {
+    if ((await gate.count()) === 0) return;
+    await page.getByRole("button", { name: button }).click({ timeout: 3000 });
+    await expect(gate).toHaveCount(0, { timeout: 4000 });
+  }).toPass({ timeout: 30_000 });
 }

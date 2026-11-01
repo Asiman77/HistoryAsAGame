@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { collectErrors, loadPersons } from "./helpers";
+import { collectErrors, loadPersons, startJourney } from "./helpers";
 
 const persons = loadPersons();
 const stageHeading = (page: import("@playwright/test").Page, name: string) =>
@@ -21,6 +21,7 @@ for (const person of persons) {
     const errors = collectErrors(page);
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto(`/az/person/${person.id}/`);
+    await startJourney(page);
     const next = page.getByRole("button", { name: /Növbəti|İrs və nəticə/ }).first();
 
     for (let i = 0; i < person.titles.length; i++) {
@@ -44,6 +45,7 @@ test("keyboard arrows and timeline navigate between stages", async ({ page, isMo
   const p = persons[0]!;
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(`/az/person/${p.id}/`);
+    await startJourney(page);
   await page.keyboard.press("ArrowRight");
   await expect(stageHeading(page, p.titles[1]!)).toBeVisible();
   await page.keyboard.press("ArrowLeft");
@@ -56,6 +58,7 @@ test("choice moment reveals the historical decision", async ({ page }) => {
   const p = persons.find((x) => x.hasChoice)!;
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(`/az/person/${p.id}/`);
+    await startJourney(page);
   await page.getByRole("navigation", { name: "Həyat xətti" }).getByRole("button").nth(p.firstChoice).click();
   await expect(stageHeading(page, p.titles[p.firstChoice]!)).toBeVisible();
   await page.getByRole("button", { name: "Sən olsaydın nə edərdin?" }).click();
@@ -66,6 +69,7 @@ test("choice moment reveals the historical decision", async ({ page }) => {
 
 test("learning mode shows facts and sources", async ({ page }) => {
   await page.goto(`/az/person/${persons[0]!.id}/`);
+    await startJourney(page);
   await page.getByRole("radio", { name: "Öyrənmə" }).first().click();
   await expect(page.getByText("Yoxlanılmış faktlar")).toBeVisible();
   await expect(page.getByText("Mənbələr", { exact: true })).toBeVisible();
@@ -75,6 +79,7 @@ test("legacy quiz can be completed", async ({ page }) => {
   const p = persons.find((x) => x.hasQuiz)!;
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(`/az/person/${p.id}/`);
+    await startJourney(page);
   await page.getByRole("navigation", { name: "Həyat xətti" }).getByRole("button").last().click();
   await page.getByRole("button", { name: "İrs və nəticə →" }).click();
   await page.getByRole("button", { name: "Sınağa başla" }).click();
