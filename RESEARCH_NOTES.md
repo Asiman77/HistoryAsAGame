@@ -95,3 +95,41 @@ Hər hadisənin öz `sources[]` siyahısı var. Burada isə ümumi mənzərə v�
 | `public/portraits/shah-ismayil.jpg` | Public domain | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Shah_Ismail_I_Safavid,_Behzad.jpg) |
 | `public/portraits/uzun-hasan.jpg` | Public domain | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Uzun_Hasan_on_horse,_1460s%E2%80%931470s,_Aq_Qoyunlu_ruler_Uzun_Hasa_hunting_(detail).jpg) |
 | `public/portraits/nadir-shah.jpg` | Public domain | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Contemporary_portrait_of_Nader_Shah._Artist_unknown,_created_in_ca._1740_in_Iran_(cropped).jpg) |
+
+## Siyasi xəritə (sərhəd snapshot-ları)
+
+Sərhədlər ensiklopedik xəritələrə və ümumi tarixə əsaslanan **təxmini** rekonstruksiyadır (hər snapshot-un `sources[]` siyahısı var).
+Ən qeyri-müəyyən anlar `certainty: "disputed"` ilə işarələnib:
+
+| Snapshot | Niyə qeyri-müəyyəndir |
+|---|---|
+| 1468 | Cahanşahın ölümü ilə Əbu Səidin məğlubiyyəti arasında sərhədlər aylar ərzində dəyişirdi. Qaraqoyunlu qalıqları cənubda sadələşdirilmiş şəkildə verilib |
+| 1726 | Əfqan, Osmanlı və rus işğalları ölkəni parçalamışdı. II Təhmasibin nəzarəti və Sistan kimi bölgələr dəqiq müəyyən deyil |
+
+Digər sadələşdirmələr:
+- Şirvanşahların XV əsrdə paytaxtının Şamaxı, yoxsa Bakı olduğu mənbələrdə birmənalı göstərilmir, ona görə Şirvan üçün paytaxt işarəsi qoyulmayıb.
+- 1501-də parçalanmış Ağqoyunlu (Əlvənd Diyarbəkirdə, Murad İraqi-Əcəmdə) bir dövlət kimi, "parçalanmış" adı ilə göstərilir.
+- Dağıstan icmaları, Sistan, Xuzistan (Müşəşə), Ərəbistanın içərisi kimi yerli və ya tayfa hakimiyyəti olan bölgələr rəngsiz qalıb.
+- Şərur döyüşü (1501) üçün xəritə 1490 snapshot-u ilə göstərilir (`territorySnapshotId`), çünki 1501 snapshot-u döyüşdən sonrakı vəziyyətdir.
+
+## Döyüş oxları
+
+Oxlar **sxematikdir** və UI-da belə yazılır. Yalnız mənbələrdə dəstəklənən istiqamətlər çəkilib:
+tərəflərin gəldiyi istiqamət (marşrut datası ilə uyğun), məğlub tərəfin qaçış istiqaməti və mənbələrdə xüsusi qeyd olunan manevrlər
+(Mərvdə və Fərat sahilində saxta geri çəkilmə və pusqu, Çaldıranda qızılbaş cinah hücumları və Osmanlı top-araba mövqeyi, Qarabağda mühasirə).
+Oxların uzunluğu və dəqiq yeri təsviridir, real qoşun hərəkətinin xəritəsi deyil. Qoşun sayları diapazonla verilir, mənbə kartda göstərilir.
+Komandanlar yalnız ümumi qəbul olunmuş adlarla verilib (məs. Çaldıranda Osmanlı tərəfdən I Səlim və Anadolu bəylərbəyi Sinan paşa).
+
+## İlkin mənbələr
+
+| Hadisə | Parça | Mənbə | Lisenziya |
+|---|---|---|---|
+| `uzun-hasan-contarini` | Kontarininin Uzun Həsəni təsviri ("about seventy years of age…") | R. Kerr, *A General History and Collection of Voyages and Travels*, c. 2 (1811), fəsil 2, bölmə 10. Mətn [franpritchett.com](https://franpritchett.com/00generallinks/kerr/vol02chap02sect06to10.html) nüsxəsində hərfi yoxlanılıb | Public domain. Azərbaycan dilinə tərcümə layihənindir (CC0) |
+
+Kontarini Uzun Həsəni "təxminən yetmiş yaşında" görüb, halbuki o, təxminən 49 yaşında idi. Bu, kartdakı qeyddə izah olunur.
+Xətainin şeirlərindən parçalar hələ əlavə edilməyib: orijinal mətn public domain-dir, amma müasir transliterasiya və tərcümələrin lisenziyası ayrıca yoxlanmalıdır.
+
+## "Bu zaman dünyada"
+
+`data/world-events.json`-dakı 45 hadisə ümumi qəbul olunmuş tarixlərlə verilib, hər birinin ensiklopedik mənbəyi var.
+Tarixi mübahisəli olanlar (məs. Qutenberq İncili: təqr. 1455) ən çox işlənən il ilə göstərilir.
