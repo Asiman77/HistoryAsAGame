@@ -1,11 +1,11 @@
 import type { StyleSpecification } from "maplibre-gl";
 
 /**
- * A deliberately sparse base map: parchment ground, desaturated shaded relief
- * and water only. No modern borders, roads or place names: historical names
- * are drawn by the app itself from event data.
+ * A deliberately sparse base map: parchment ground, desaturated shaded relief,
+ * hillshade from elevation tiles, water and rivers only. No modern borders,
+ * roads or place names: historical names are drawn by the app itself.
  */
-export function buildBaseStyle(): StyleSpecification {
+export function buildBaseStyle({ hillshade }: { hillshade: boolean }): StyleSpecification {
   return {
     version: 8,
     sources: {
@@ -15,6 +15,15 @@ export function buildBaseStyle(): StyleSpecification {
         tileSize: 256,
         maxzoom: 6,
         attribution: "Natural Earth",
+      },
+      dem: {
+        type: "raster-dem",
+        tiles: ["https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"],
+        encoding: "terrarium",
+        tileSize: 256,
+        maxzoom: 9,
+        attribution:
+          '<a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noreferrer">Terrain Tiles</a> (Mapzen, AWS Open Data)',
       },
       omt: {
         type: "vector",
@@ -36,6 +45,19 @@ export function buildBaseStyle(): StyleSpecification {
           "raster-brightness-min": 0.3,
           "raster-brightness-max": 0.98,
           "raster-fade-duration": 0,
+        },
+      },
+      {
+        id: "hillshade",
+        type: "hillshade",
+        source: "dem",
+        layout: { visibility: hillshade ? "visible" : "none" },
+        paint: {
+          "hillshade-exaggeration": ["interpolate", ["linear"], ["zoom"], 3, 0.45, 8, 0.3],
+          "hillshade-shadow-color": "#5a4630",
+          "hillshade-highlight-color": "#fff6e0",
+          "hillshade-accent-color": "#8a7457",
+          "hillshade-illumination-direction": 315,
         },
       },
       {
@@ -76,3 +98,6 @@ export const ROUTE_COLORS = {
   activeCasing: "#f8f0dd",
   legacy: "#9b2c2c",
 } as const;
+
+export const DEFAULT_OWN_COLOR = "#9b2c2c";
+export const DEFAULT_ENEMY_COLOR = "#2d5486";
