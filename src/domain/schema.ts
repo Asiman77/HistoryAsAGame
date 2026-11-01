@@ -18,6 +18,7 @@ export const LocalizedText = z.object({
 export type LocalizedText = z.infer<typeof LocalizedText>;
 
 const Slug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "kebab-case id gözlənilir");
+const HexColor = z.string().regex(/^#[0-9a-fA-F]{6}$/);
 
 export const Certainty = z.enum(["exact", "approximate", "disputed"]);
 export type Certainty = z.infer<typeof Certainty>;
@@ -32,7 +33,7 @@ export const Source = z.object({
   title: z.string().min(1),
   author: z.string().optional(),
   url: z.url().optional(),
-  type: z.enum(["book", "article", "encyclopedia", "web", "primary"]),
+  type: z.enum(["book", "article", "encyclopedia", "web", "primary", "dataset"]),
   /** Page, chapter or a short remark on what the source supports. */
   note: z.string().optional(),
 });
@@ -50,7 +51,10 @@ export const HistoricalDate = DateParts.extend({
 });
 export type HistoricalDate = z.infer<typeof HistoricalDate>;
 
-export const Place = z.object({
+const LngLat = z.tuple([z.number().min(-180).max(180), z.number().min(-90).max(90)]);
+
+/** Where an event happens. The richer catalogue of places is `Place` (data/places.json). */
+export const Location = z.object({
   /** Name as it was used in the period of the event. */
   name: LocalizedText,
   /** Present-day name/location, shown in learning mode to avoid confusion. */
@@ -59,8 +63,10 @@ export const Place = z.object({
   lng: z.number().min(-180).max(180),
   /** Location itself is approximate (e.g. a battlefield whose exact site is unknown). */
   approximate: z.boolean().optional(),
+  /** Catalogue place this location belongs to. When omitted, the nearest place within 30 km is used. */
+  placeId: Slug.optional(),
 });
-export type Place = z.infer<typeof Place>;
+export type Location = z.infer<typeof Location>;
 
 export const EVENT_TYPES = [
   "birth",
@@ -78,12 +84,60 @@ export const EVENT_TYPES = [
 export const EventType = z.enum(EVENT_TYPES);
 export type EventType = z.infer<typeof EventType>;
 
+/** Emotional tone of an event. Drives music, ambience, map colour grading and the UI accent. */
+export const MOODS = [
+  "birth",
+  "childhood",
+  "hardship",
+  "exile",
+  "journey",
+  "rise",
+  "coronation",
+  "battle",
+  "victory",
+  "defeat",
+  "peace",
+  "diplomacy",
+  "culture",
+  "decline",
+  "death",
+] as const;
+export const Mood = z.enum(MOODS);
+export type Mood = z.infer<typeof Mood>;
+
+/**
+ * Schematic movement of one side in a battle, drawn as an animated arrow.
+ * Only directions supported by the sources (approach, flight) should be drawn.
+ */
+export const Maneuver = z.object({
+  side: z.enum(["own", "enemy"]),
+  kind: z.enum(["advance", "attack", "flank", "retreat"]),
+  /** [lng, lat] points, at least two. */
+  path: z.array(LngLat).min(2),
+  label: LocalizedText.optional(),
+});
+export type Maneuver = z.infer<typeof Maneuver>;
+
 export const BattleOutcome = z.object({
   result: z.enum(["victory", "defeat", "inconclusive"]),
+  /** The person's side, e.g. "Qızılbaşlar". */
+  ownSide: LocalizedText,
+  /** The opposing side as a whole, e.g. "Osmanlı ordusu". */
+  enemySide: LocalizedText,
   opponent: LocalizedText,
-  /** Forces of each side, if known. Numbers in chronicles are often inflated. */
+  commanders: z.object({ own: z.array(LocalizedText).min(1), enemy: z.array(LocalizedText).min(1) }),
+  /** Forces of each side, if known. Numbers in chronicles are often inflated: give ranges. */
   forces: z.object({ own: LocalizedText.optional(), enemy: LocalizedText.optional() }).optional(),
+  /** Where the force numbers come from. Falls back to the event's first source. */
+  forcesSource: Source.optional(),
+  /** Historical significance of the result. */
   context: LocalizedText,
+  /** Polities from the territory registry; used to colour the arrows. */
+  ownPolityId: Slug.optional(),
+  enemyPolityId: Slug.optional(),
+  /** Gunpowder artillery was a notable factor (drives the sound design only). */
+  artillery: z.boolean().optional(),
+  maneuvers: z.array(Maneuver).optional(),
 });
 export type BattleOutcome = z.infer<typeof BattleOutcome>;
 
@@ -115,7 +169,39 @@ export const QuizQuestion = z
   });
 export type QuizQuestion = z.infer<typeof QuizQuestion>;
 
-const LngLat = z.tuple([z.number().min(-180).max(180), z.number().min(-90).max(90)]);
+/** A timed subtitle line for narration audio, in seconds. */
+export const NarrationCue = z
+  .object({ start: z.number().min(0), end: z.number().min(0), text: LocalizedText })
+  .refine((c) => c.end > c.start, { message: "end start-dan böyük olmalıdır" });
+export type NarrationCue = z.infer<typeof NarrationCue>;
+
+/** Recorded or synthesised narration of the story text. Reserved: no event ships one yet. */
+export const NarrationAudio = z.object({
+  /** Paths under public/ without extension; `.webm` and `.mp3` are tried in that order. */
+  src: z.string().min(1),
+  cues: z.array(NarrationCue).min(1),
+  license: z.string().min(1),
+  voice: z.string().optional(),
+});
+export type NarrationAudio = z.infer<typeof NarrationAudio>;
+
+/** Short excerpt from a primary source, e.g. a poem or a traveller's account. */
+export const PrimaryExcerpt = z.object({
+  /** Original wording, when it is public domain. */
+  original: z.string().optional(),
+  /** Text shown to the student (modern Azerbaijani). */
+  text: LocalizedText,
+  /** Author and work, e.g. "Ambrogio Contarini, Səyahətnamə (1487)". */
+  attribution: LocalizedText,
+  /** Licence of the shown text, e.g. "Public domain (1873 tərcüməsi)". */
+  license: z.string().min(1),
+  /** Who translated the shown text, when it is a translation. */
+  translator: z.string().optional(),
+  /** Historian's remark, e.g. where the eyewitness is mistaken. */
+  note: LocalizedText.optional(),
+  source: Source,
+});
+export type PrimaryExcerpt = z.infer<typeof PrimaryExcerpt>;
 
 export const LifeEvent = z.object({
   id: Slug,
@@ -123,11 +209,14 @@ export const LifeEvent = z.object({
   order: z.number().int().min(0),
   date: HistoricalDate,
   type: EventType,
-  location: Place,
+  mood: Mood,
+  location: Location,
   /** Present when the person moves between places in this event. */
-  fromLocation: Place.optional(),
+  fromLocation: Location.optional(),
   /** Optional intermediate waypoints [lng, lat] between fromLocation and location. */
   route: z.array(LngLat).optional(),
+  /** Political map to show. When omitted, chosen by year (see lib/territory.ts). */
+  territorySnapshotId: Slug.optional(),
   title: LocalizedText,
   /** Verified historical facts only. */
   factualSummary: LocalizedText,
@@ -137,6 +226,8 @@ export const LifeEvent = z.object({
   sources: z.array(Source).min(1),
   choice: Choice.optional(),
   quiz: z.array(QuizQuestion).min(1).max(3).optional(),
+  narrationAudio: NarrationAudio.optional(),
+  primarySource: PrimaryExcerpt.optional(),
 });
 export type LifeEvent = z.infer<typeof LifeEvent>;
 
@@ -158,8 +249,8 @@ export const Person = z.object({
   /** Used in running text, e.g. "Gözünü Şah İsmayıl olaraq aç". Falls back to name. */
   shortName: LocalizedText.optional(),
   titles: z.array(LocalizedText),
-  birth: z.object({ date: HistoricalDate, place: Place }),
-  death: z.object({ date: HistoricalDate, place: Place }),
+  birth: z.object({ date: HistoricalDate, place: Location }),
+  death: z.object({ date: HistoricalDate, place: Location }),
   eraIds: z.array(Slug).min(1),
   portrait: ImageAsset.optional(),
   /** Short motto/quote for the landing card. */
@@ -179,10 +270,7 @@ export const Era = z.object({
   startYear: z.number().int(),
   endYear: z.number().int(),
   description: LocalizedText,
-  theme: z.object({
-    color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
-    accent: z.string().regex(/^#[0-9a-fA-F]{6}$/),
-  }),
+  theme: z.object({ color: HexColor, accent: HexColor }),
 });
 export type Era = z.infer<typeof Era>;
 
@@ -197,12 +285,24 @@ export const RELATION_TYPES = [
   "contemporary",
 ] as const;
 
+/** An event in one person's life where the other person's story is directly involved. */
+export const RelationMoment = z.object({
+  personId: Slug,
+  eventId: Slug,
+  /** Shown on that event, e.g. "Bu nikahdan doğulan qız Şah İsmayılın anası olacaq". */
+  note: LocalizedText,
+  /** Event in the other person's story to link to. Defaults to their first event. */
+  targetEventId: Slug.optional(),
+});
+export type RelationMoment = z.infer<typeof RelationMoment>;
+
 /** Directed relation: `from` is <type> of `to` (e.g. Uzun Həsən is grandparent of İsmayıl). */
 export const Relation = z.object({
   from: Slug,
   to: Slug,
   type: z.enum(RELATION_TYPES),
   note: LocalizedText.optional(),
+  moments: z.array(RelationMoment).optional(),
   sources: z.array(Source).optional(),
 });
 export type Relation = z.infer<typeof Relation>;
@@ -213,6 +313,148 @@ export const GlossaryEntry = z.object({
   id: Slug,
   term: LocalizedText,
   definition: LocalizedText,
+  /**
+   * Lower-case word stems that mark the term in running text. Azerbaijani is
+   * agglutinative, so "qızılbaş" also matches "qızılbaşlar", "qızılbaşların".
+   */
+  forms: z.array(z.string().min(2)).min(1),
+  sources: z.array(Source).optional(),
 });
 export const GlossaryFile = z.object({ entries: z.array(GlossaryEntry) });
 export type GlossaryEntry = z.infer<typeof GlossaryEntry>;
+
+// ---------------------------------------------------------------------------
+// Places
+// ---------------------------------------------------------------------------
+
+export const PLACE_TYPES = ["capital", "city", "fortress", "shrine", "battlefield", "port"] as const;
+export const PlaceType = z.enum(PLACE_TYPES);
+export type PlaceType = z.infer<typeof PlaceType>;
+
+export const PlacePeriod = z.object({
+  from: z.number().int(),
+  to: z.number().int(),
+  /** Name used in this period, when it differs from `names.historical`. */
+  name: LocalizedText.optional(),
+});
+
+/** A city or site drawn on the map independently of any person's events. */
+export const Place = z.object({
+  id: Slug,
+  names: z.object({ historical: LocalizedText, modern: LocalizedText.optional() }),
+  lat: z.number().min(-90).max(90),
+  lng: z.number().min(-180).max(180),
+  /** Base type. Whether a place is a capital in a given year comes from the territory snapshot. */
+  type: PlaceType,
+  /** 1 = always visible, 2 = regional, 3 = only when zoomed in. */
+  importance: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  /** Years in which the place is shown on the map. */
+  periods: z.array(PlacePeriod).min(1),
+  description: LocalizedText,
+  sources: z.array(Source).optional(),
+});
+export type Place = z.infer<typeof Place>;
+export const PlacesFile = z.object({ places: z.array(Place) });
+
+// ---------------------------------------------------------------------------
+// Territories
+// ---------------------------------------------------------------------------
+
+/** A state or dynasty; colours stay the same across snapshots. */
+export const Polity = z.object({
+  id: Slug,
+  name: LocalizedText,
+  color: HexColor,
+});
+export type Polity = z.infer<typeof Polity>;
+
+/** Building blocks for hand-made borders: each region is the Voronoi area around its seed points. */
+export const TerritoryRegion = z.object({ id: Slug, seeds: z.array(LngLat).min(1) });
+export const TerritoryRegistryFile = z.object({
+  /** [west, south, east, north] of the area that is drawn. */
+  bbox: z.tuple([z.number(), z.number(), z.number(), z.number()]),
+  polities: z.array(Polity),
+  regions: z.array(TerritoryRegion),
+});
+
+/** Authoring format of data/territories/snapshots/<id>.json. */
+export const TerritorySnapshotSource = z.object({
+  id: Slug,
+  year: z.number().int(),
+  title: LocalizedText,
+  certainty: Certainty,
+  note: LocalizedText.optional(),
+  polities: z
+    .array(
+      z.object({
+        polityId: Slug,
+        /** Overrides the registry name, e.g. "Ağqoyunlu (parçalanmış)". */
+        name: LocalizedText.optional(),
+        regions: z.array(Slug).min(1),
+        capitalId: Slug.optional(),
+        vassalOf: Slug.optional(),
+        /** Label position [lng, lat]; defaults to a point inside the largest part. */
+        labelAt: LngLat.optional(),
+      }),
+    )
+    .min(1),
+  sources: z.array(Source).min(1),
+});
+export type TerritorySnapshotSource = z.infer<typeof TerritorySnapshotSource>;
+
+const Geometry = z.object({
+  type: z.enum(["Polygon", "MultiPolygon"]),
+  coordinates: z.array(z.any()),
+});
+
+/** Built snapshot served to the browser (public/data/territories/<id>.json). */
+export const TerritorySnapshot = z.object({
+  id: Slug,
+  year: z.number().int(),
+  title: LocalizedText,
+  certainty: Certainty,
+  note: LocalizedText.optional(),
+  polities: z.array(
+    z.object({
+      id: Slug,
+      name: LocalizedText,
+      color: HexColor,
+      geometry: Geometry,
+      capitalId: Slug.optional(),
+      vassalOf: Slug.optional(),
+      labelAt: LngLat,
+    }),
+  ),
+  sources: z.array(Source),
+});
+export type TerritorySnapshot = z.infer<typeof TerritorySnapshot>;
+
+/** What the page needs to pick and prefetch snapshots, without the geometry. */
+export interface TerritorySnapshotMeta {
+  id: string;
+  year: number;
+  title: LocalizedText;
+  certainty: Certainty;
+  note?: LocalizedText;
+  sources: Source[];
+  polities: { id: string; name: LocalizedText; color: string; capitalId?: string; vassalOf?: string }[];
+}
+
+// ---------------------------------------------------------------------------
+// World context
+// ---------------------------------------------------------------------------
+
+export const WORLD_REGIONS = ["europe", "middle-east", "asia", "africa", "americas"] as const;
+
+/** "Meanwhile in the world" entry. */
+export const WorldEvent = z.object({
+  id: Slug,
+  year: z.number().int(),
+  endYear: z.number().int().optional(),
+  region: z.enum(WORLD_REGIONS),
+  title: LocalizedText,
+  description: LocalizedText,
+  sources: z.array(Source).min(1),
+});
+export type WorldEvent = z.infer<typeof WorldEvent>;
+export const WorldEventsFile = z.object({ events: z.array(WorldEvent) });

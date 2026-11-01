@@ -1,0 +1,46 @@
+{
+  "id": "y1739",
+  "year": 1739,
+  "title": {
+    "az": "Hindistan yürüşü və Əfşarların zirvəsi"
+  },
+  "certainty": "approximate",
+  "note": {
+    "az": "Nadir Qəndəharı (1738) və Kabili alıb, 1739-da İnd çayından qərbdəki Moğol torpaqlarını ilhaq edib. 1740-da Buxara ona tabe olur, Xivə tutulur. Moğollar zəifləmiş, Marathalar güclənmişdir."
+  },
+  "sources": [
+    {
+      "title": "Nader Shah's invasion of India",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Nader_Shah's_invasion_of_India"
+    },
+    {
+      "title": "Afsharid dynasty",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Afsharid_dynasty"
+    },
+    {
+      "title": "Khanate of Bukhara",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Khanate_of_Bukhara"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bosnia","albania","wallachia","bithynia","west-anatolia","teke","ankara","sivas","kastamonu","trebizond","karaman","cilicia","dulkadir","malatya","erzincan","erzurum","kars","van","bitlis","diyarbakir","mardin","urfa","mosul","jazira","kirkuk","baghdad","basra","euphrates-mid","aleppo","damascus","palestine","sinai","egypt-delta","upper-egypt","hejaz","cyprus","samtskhe"],"capitalId":"istanbul"},
+    {"polityId":"afsharid","regions":["azerbaijan","ardabil","nakhchivan","yerevan","karabakh","ganja","mughan","talysh","qazvin","ray","qum-kashan","hamadan","kermanshah","luristan","isfahan","fars","kerman","yazd","kavir","semnan","shirvan","absheron","derbent","shaki","gilan","khuzestan","mazandaran","astarabad","lar-hormuz","khorasan","khorasan-north","kuhistan","sistan","herat","kandahar","ghur","ghazni","kabul","peshawar","derajat","sindh","baluchistan","balkh","merv"],"capitalId":"meshed"},
+    {"polityId":"kartli","regions":["kartli"],"vassalOf":"afsharid","capitalId":"tiflis"},
+    {"polityId":"kakheti","regions":["kakheti"],"vassalOf":"afsharid"},
+    {"polityId":"imereti","regions":["imereti"],"vassalOf":"ottoman","capitalId":"kutaisi"},
+    {"polityId":"bukhara","regions":["transoxiana","badakhshan"],"vassalOf":"afsharid","capitalId":"buxara"},
+    {"polityId":"khiva","regions":["khwarezm"],"vassalOf":"afsharid","capitalId":"xive"},
+    {"polityId":"mughal","regions":["kashmir","punjab","multan","sirhind","delhi","agra","rohilkhand","rajputana","gujarat"],"capitalId":"dehli"},
+    {"polityId":"maratha","regions":["deccan","malwa","bundelkhand"]},
+    {"polityId":"russia","regions":["lower-volga","don-steppe","terek"]},
+    {"polityId":"crimea","regions":["crimea","kuban-steppe"],"vassalOf":"ottoman"}
+  ]
+}

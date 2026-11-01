@@ -1,0 +1,44 @@
+{
+  "id": "y1472",
+  "year": 1472,
+  "title": {
+    "az": "Ağqoyunlu dövlətinin zirvəsi"
+  },
+  "certainty": "approximate",
+  "note": {
+    "az": "Uzun Həsənin dövləti Şərqi Anadoludan Fars körfəzinə qədər uzanır, paytaxt Təbrizdir. Şərqdə Herat Teymurilərin əlindədir."
+  },
+  "sources": [
+    {
+      "title": "Aq Qoyunlu",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Aq_Qoyunlu"
+    },
+    {
+      "title": "Uzun Hasan",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Uzun_Hasan"
+    },
+    {
+      "title": "Sultan Husayn Bayqara",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Sultan_Husayn_Bayqara"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bosnia","albania","wallachia","bithynia","west-anatolia","teke","ankara","sivas","kastamonu","trebizond","karaman"],"capitalId":"istanbul"},
+    {"polityId":"dulkadir","regions":["dulkadir"],"vassalOf":"mamluk"},
+    {"polityId":"mamluk","regions":["egypt-delta","upper-egypt","sinai","palestine","damascus","aleppo","cilicia","malatya","hejaz"],"capitalId":"qahire"},
+    {"polityId":"agqoyunlu","regions":["diyarbakir","mardin","urfa","erzincan","erzurum","bitlis","van","kars","azerbaijan","ardabil","nakhchivan","yerevan","karabakh","ganja","mughan","talysh","qazvin","ray","qum-kashan","hamadan","kermanshah","luristan","isfahan","fars","kerman","yazd","kavir","semnan","baghdad","basra","kirkuk","mosul","jazira"],"capitalId":"tebriz"},
+    {"polityId":"timurid","regions":["khorasan","khorasan-north","herat","merv","balkh","badakhshan","ghur","sistan","kuhistan","transoxiana","tashkent","fergana","khwarezm","kabul","ghazni","kandahar","astarabad"],"capitalId":"herat"},
+    {"polityId":"shirvan","regions":["shirvan","absheron","derbent"]},
+    {"polityId":"georgia","regions":["kartli","kakheti","samtskhe","imereti"],"capitalId":"tiflis"},
+    {"polityId":"crimea","regions":["crimea"]},
+    {"polityId":"delhi-sultanate","regions":["delhi","sirhind","punjab"],"capitalId":"dehli"}
+  ]
+}

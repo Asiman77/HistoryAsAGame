@@ -1,0 +1,371 @@
+{
+  "events": [
+    {
+      "id": "zheng-he-voyages",
+      "year": 1405,
+      "endYear": 1433,
+      "region": "asia",
+      "title": { "az": "Çjen Xenin dəniz səfərləri" },
+      "description": { "az": "Min sülaləsinin admiralı Çjen Xe nəhəng donanma ilə yeddi dəfə Hind okeanına üzdü, Hindistana, Ərəbistana və Şərqi Afrikaya çatdı." },
+      "sources": [{ "title": "Zheng He", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Zheng_He" }]
+    },
+    {
+      "id": "joan-of-arc",
+      "year": 1429,
+      "region": "europe",
+      "title": { "az": "Janna d'Ark Orleanı azad edir" },
+      "description": { "az": "Yüzillik müharibədə gənc kəndli qızı Janna d'Ark Orlean mühasirəsini qırdı və fransızlara ruh verdi." },
+      "sources": [{ "title": "Joan of Arc", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Joan_of_Arc" }]
+    },
+    {
+      "id": "medici-florence",
+      "year": 1434,
+      "region": "europe",
+      "title": { "az": "Florensiyada Medicilər dövrü" },
+      "description": { "az": "Kozimo de Medici Florensiyanın faktiki hakimi oldu. Onun himayəsində İntibah sənəti və elmi çiçəkləndi." },
+      "sources": [{ "title": "Cosimo de' Medici", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Cosimo_de%27_Medici" }]
+    },
+    {
+      "id": "pachacuti",
+      "year": 1438,
+      "region": "americas",
+      "title": { "az": "İnka imperiyasının yüksəlişi" },
+      "description": { "az": "Paçakuti İnka hökmdarı oldu. Onun dövründə Kusko kiçik bir dövlətdən And dağları boyunca uzanan imperiyaya çevrilməyə başladı." },
+      "sources": [{ "title": "Pachacuti", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Pachacuti" }]
+    },
+    {
+      "id": "hangul",
+      "year": 1443,
+      "endYear": 1446,
+      "region": "asia",
+      "title": { "az": "Koreya əlifbası Hanqıl" },
+      "description": { "az": "Koreya kralı Sejonq xalqın asan öyrənə biləcəyi yeni əlifba yaratdırdı. Hanqıl 1446-da elan olundu və bu gün də işlənir." },
+      "sources": [{ "title": "Hangul", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Hangul" }]
+    },
+    {
+      "id": "gutenberg",
+      "year": 1455,
+      "region": "europe",
+      "title": { "az": "Qutenberq İncili çap olunur" },
+      "description": { "az": "Mayns şəhərində İohann Qutenberq daşınan metal hərflərlə kitab çap etdi. Kitablar ucuzlaşdı və bilik daha sürətlə yayılmağa başladı." },
+      "sources": [{ "title": "Gutenberg Bible", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Gutenberg_Bible" }]
+    },
+    {
+      "id": "fall-of-constantinople",
+      "year": 1453,
+      "region": "europe",
+      "title": { "az": "Konstantinopolun fəthi" },
+      "description": { "az": "II Mehmed Konstantinopolu aldı və Bizans imperiyası süquta uğradı. Şəhər İstanbul adı ilə Osmanlı paytaxtı oldu." },
+      "sources": [{ "title": "Fall of Constantinople", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Fall_of_Constantinople" }]
+    },
+    {
+      "id": "hundred-years-war-end",
+      "year": 1453,
+      "region": "europe",
+      "title": { "az": "Yüzillik müharibənin sonu" },
+      "description": { "az": "Kastilyon döyüşündə fransız topları ingilis qoşununu məğlub etdi. İngiltərə Kale istisna olmaqla Fransadakı torpaqlarını itirdi." },
+      "sources": [{ "title": "Hundred Years' War", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Hundred_Years%27_War" }]
+    },
+    {
+      "id": "ivan-iii",
+      "year": 1462,
+      "region": "europe",
+      "title": { "az": "III İvan Moskvada hakimiyyətə gəlir" },
+      "description": { "az": "III İvan rus knyazlıqlarını Moskva ətrafında birləşdirməyə başladı. 1478-də Novqorodu ilhaq etdi." },
+      "sources": [{ "title": "Ivan III of Russia", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ivan_III_of_Russia" }]
+    },
+    {
+      "id": "sonni-ali",
+      "year": 1464,
+      "region": "africa",
+      "title": { "az": "Sonqay imperiyasının yüksəlişi" },
+      "description": { "az": "Qərbi Afrikada Sonni Əli hakimiyyətə gəldi. 1468-də Tumbuktunu tutdu və Sonqayı Niger çayı boyunca böyük imperiyaya çevirdi." },
+      "sources": [{ "title": "Sonni Ali", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Sonni_Ali" }]
+    },
+    {
+      "id": "ferdinand-isabella",
+      "year": 1469,
+      "region": "europe",
+      "title": { "az": "Ferdinand və İzabellanın nikahı" },
+      "description": { "az": "Araqon şahzadəsi Ferdinand ilə Kastiliya şahzadəsi İzabella evləndi. Bu nikah sonralar vahid İspaniyanın əsasını qoydu." },
+      "sources": [{ "title": "Catholic Monarchs", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Catholic_Monarchs_of_Spain" }]
+    },
+    {
+      "id": "copernicus-born",
+      "year": 1473,
+      "region": "europe",
+      "title": { "az": "Kopernik doğulur" },
+      "description": { "az": "Torunda Nikolay Kopernik doğuldu. O, sonralar Yerin Günəş ətrafında fırlandığını əsaslandıran nəzəriyyəni irəli sürəcəkdi." },
+      "sources": [{ "title": "Nicolaus Copernicus", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nicolaus_Copernicus" }]
+    },
+    {
+      "id": "ugra",
+      "year": 1480,
+      "region": "europe",
+      "title": { "az": "Uqra çayı üzərində dayanma" },
+      "description": { "az": "Böyük Orda xanı Əhməd ilə III İvanın qoşunları Uqra çayının iki sahilində üz-üzə dayandı, böyük döyüş olmadı. Bu hadisə Moskvanın Ordadan asılılığının sonu sayılır." },
+      "sources": [{ "title": "Great Stand on the Ugra River", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Great_Stand_on_the_Ugra_River" }]
+    },
+    {
+      "id": "dias-cape",
+      "year": 1488,
+      "region": "africa",
+      "title": { "az": "Bartolomeu Diaş Afrikanın cənubunu dolanır" },
+      "description": { "az": "Portuqaliyalı dənizçi Diaş Ümid burnunu keçən ilk avropalı oldu və Hind okeanına dəniz yolunun mümkün olduğunu göstərdi." },
+      "sources": [{ "title": "Bartolomeu Dias", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Bartolomeu_Dias" }]
+    },
+    {
+      "id": "columbus",
+      "year": 1492,
+      "region": "americas",
+      "title": { "az": "Kolumb Amerikaya çatır" },
+      "description": { "az": "Kristofor Kolumbun gəmiləri Atlantik okeanını keçib Baham adalarına çatdı. Avropa ilə Amerika arasında daimi əlaqə başladı." },
+      "sources": [{ "title": "Voyages of Christopher Columbus", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Voyages_of_Christopher_Columbus" }]
+    },
+    {
+      "id": "granada",
+      "year": 1492,
+      "region": "europe",
+      "title": { "az": "Qranadanın süqutu" },
+      "description": { "az": "Pireney yarımadasında sonuncu müsəlman dövləti olan Qranada əmirliyi Kastiliya və Araqona təslim oldu." },
+      "sources": [{ "title": "Fall of Granada", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Fall_of_Granada" }]
+    },
+    {
+      "id": "vasco-da-gama",
+      "year": 1498,
+      "region": "asia",
+      "title": { "az": "Vasko da Qama Hindistana çatır" },
+      "description": { "az": "Portuqaliya donanması Afrikanı dolanaraq Kalikuta çatdı. Avropa ilə Asiya arasında dəniz ticarət yolu açıldı, bu isə quru İpək yolunun əhəmiyyətini zəiflətməyə başladı." },
+      "sources": [{ "title": "Vasco da Gama", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Vasco_da_Gama" }]
+    },
+    {
+      "id": "mona-lisa",
+      "year": 1503,
+      "region": "europe",
+      "title": { "az": "Leonardo \"Mona Liza\" üzərində işləyir" },
+      "description": { "az": "Leonardo da Vinçi Florensiyada \"Mona Liza\" portretinə başladı. Bu dövr Yüksək İntibah adlanır." },
+      "sources": [{ "title": "Mona Lisa", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Mona_Lisa" }]
+    },
+    {
+      "id": "sistine-ceiling",
+      "year": 1508,
+      "endYear": 1512,
+      "region": "europe",
+      "title": { "az": "Siksten kapellasının tavanı" },
+      "description": { "az": "Mikelancelo Romada Siksten kapellasının tavanını freskalarla bəzədi. İş dörd il çəkdi." },
+      "sources": [{ "title": "Sistine Chapel ceiling", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Sistine_Chapel_ceiling" }]
+    },
+    {
+      "id": "goa",
+      "year": 1510,
+      "region": "asia",
+      "title": { "az": "Portuqaliyalılar Qoanı tutur" },
+      "description": { "az": "Afonsu de Albukerke Hindistanın qərb sahilindəki Qoanı aldı. Şəhər Portuqaliyanın Asiyadakı əsas bazasına çevrildi." },
+      "sources": [{ "title": "Portuguese conquest of Goa", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Portuguese_conquest_of_Goa" }]
+    },
+    {
+      "id": "balboa-pacific",
+      "year": 1513,
+      "region": "americas",
+      "title": { "az": "Balboa Sakit okeanı görür" },
+      "description": { "az": "İspan Vasko Nunyes de Balboa Panama bərzəxini keçib Sakit okeanı görən ilk avropalı oldu." },
+      "sources": [{ "title": "Vasco Núñez de Balboa", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Vasco_N%C3%BA%C3%B1ez_de_Balboa" }]
+    },
+    {
+      "id": "orsha",
+      "year": 1514,
+      "region": "europe",
+      "title": { "az": "Orşa döyüşü" },
+      "description": { "az": "Çaldırandan iki həftə sonra, 8 sentyabr 1514-də Litva və Polşa qoşunu Orşa yaxınlığında Moskva ordusunu məğlub etdi. Həmin il Avropada da böyük müharibələr gedirdi." },
+      "sources": [{ "title": "Battle of Orsha", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Orsha" }]
+    },
+    {
+      "id": "luther",
+      "year": 1517,
+      "region": "europe",
+      "title": { "az": "Lüterin 95 tezisi" },
+      "description": { "az": "Martin Lüter kilsədəki indulgensiya satışını tənqid edən tezislərini yaydı. Bu, Reformasiyanın başlanğıcı oldu." },
+      "sources": [{ "title": "Ninety-five Theses", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ninety-five_Theses" }]
+    },
+    {
+      "id": "ottoman-egypt",
+      "year": 1517,
+      "region": "middle-east",
+      "title": { "az": "Osmanlılar Misiri tutur" },
+      "description": { "az": "Çaldırandan sonra I Səlim Məmlük sultanlığını məğlub etdi. Suriya, Misir və Hicaz Osmanlı dövlətinə keçdi." },
+      "sources": [{ "title": "Ottoman–Mamluk War (1516–1517)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ottoman%E2%80%93Mamluk_War_(1516%E2%80%931517)" }]
+    },
+    {
+      "id": "magellan",
+      "year": 1519,
+      "endYear": 1522,
+      "region": "americas",
+      "title": { "az": "Dünya ətrafında ilk səyahət" },
+      "description": { "az": "Magellanın başçılıq etdiyi ispan ekspedisiyası 1519-da yola çıxdı. Magellan yolda öldü, Elkanonun komandanlığı ilə bir gəmi 1522-də İspaniyaya qayıtdı." },
+      "sources": [{ "title": "Magellan expedition", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Magellan_expedition" }]
+    },
+    {
+      "id": "tenochtitlan",
+      "year": 1521,
+      "region": "americas",
+      "title": { "az": "Tenoçtitlanın süqutu" },
+      "description": { "az": "Ernan Kortes və onun yerli müttəfiqləri Aztek paytaxtı Tenoçtitlanı aldı. Aztek dövləti dağıldı." },
+      "sources": [{ "title": "Fall of Tenochtitlan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Fall_of_Tenochtitlan" }]
+    },
+    {
+      "id": "suleiman",
+      "year": 1520,
+      "region": "middle-east",
+      "title": { "az": "Qanuni Sultan Süleyman taxta çıxır" },
+      "description": { "az": "I Səlimin ölümündən sonra oğlu Süleyman Osmanlı sultanı oldu. Onun 46 illik hakimiyyəti dövlətin zirvə dövrü sayılır." },
+      "sources": [{ "title": "Suleiman the Magnificent", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Suleiman_the_Magnificent" }]
+    },
+    {
+      "id": "panipat-1526",
+      "year": 1526,
+      "region": "asia",
+      "title": { "az": "Babur Hindistanda Moğol dövlətini qurur" },
+      "description": { "az": "Teymuri şahzadəsi Babur Panipat döyüşündə Dehli sultanını məğlub etdi və Böyük Moğol imperiyasının əsasını qoydu." },
+      "sources": [{ "title": "First Battle of Panipat", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/First_Battle_of_Panipat" }]
+    },
+    {
+      "id": "newton-principia",
+      "year": 1687,
+      "region": "europe",
+      "title": { "az": "Nyutonun \"Prinsiplər\" əsəri" },
+      "description": { "az": "İsaak Nyuton hərəkət qanunlarını və ümumdünya cazibə qanununu izah edən əsərini nəşr etdi." },
+      "sources": [{ "title": "Philosophiæ Naturalis Principia Mathematica", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Philosophi%C3%A6_Naturalis_Principia_Mathematica" }]
+    },
+    {
+      "id": "glorious-revolution",
+      "year": 1688,
+      "region": "europe",
+      "title": { "az": "İngiltərədə \"Şanlı inqilab\"" },
+      "description": { "az": "II Ceyms taxtdan salındı, parlament III Vilyam və II Meri ilə hakimiyyəti bölüşdürən qaydalar qəbul etdi (Hüquqlar haqqında bill, 1689)." },
+      "sources": [{ "title": "Glorious Revolution", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Glorious_Revolution" }]
+    },
+    {
+      "id": "nerchinsk",
+      "year": 1689,
+      "region": "asia",
+      "title": { "az": "Nerçinsk müqaviləsi" },
+      "description": { "az": "Rusiya ilə Çin (Tsin imperiyası) arasında ilk sərhəd müqaviləsi imzalandı." },
+      "sources": [{ "title": "Treaty of Nerchinsk", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Treaty_of_Nerchinsk" }]
+    },
+    {
+      "id": "karlowitz",
+      "year": 1699,
+      "region": "europe",
+      "title": { "az": "Karlovits sülhü" },
+      "description": { "az": "Osmanlı dövləti Macarıstanın böyük hissəsini Habsburqlara verdi. Bu, Osmanlıların Avropada ilk böyük torpaq itkisi oldu." },
+      "sources": [{ "title": "Treaty of Karlowitz", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Treaty_of_Karlowitz" }]
+    },
+    {
+      "id": "great-northern-war",
+      "year": 1700,
+      "endYear": 1721,
+      "region": "europe",
+      "title": { "az": "Böyük Şimal müharibəsi" },
+      "description": { "az": "Rusiya, Danimarka və Saksoniya İsveçə qarşı müharibəyə başladı. 1709-da Poltavada I Pyotr XII Karlı məğlub etdi." },
+      "sources": [{ "title": "Great Northern War", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Great_Northern_War" }]
+    },
+    {
+      "id": "asante",
+      "year": 1701,
+      "region": "africa",
+      "title": { "az": "Aşanti imperiyasının yüksəlişi" },
+      "description": { "az": "İndiki Qana ərazisində Osei Tutu Aşanti dövlətini gücləndirdi, onun qızıl taxtı xalqın birliyinin rəmzi oldu." },
+      "sources": [{ "title": "Ashanti Empire", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ashanti_Empire" }]
+    },
+    {
+      "id": "st-petersburg",
+      "year": 1703,
+      "region": "europe",
+      "title": { "az": "Sankt-Peterburqun əsası qoyulur" },
+      "description": { "az": "I Pyotr Neva çayının mənsəbində yeni şəhər saldı. 1712-dən Peterburq Rusiyanın paytaxtı oldu." },
+      "sources": [{ "title": "Saint Petersburg", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Saint_Petersburg" }]
+    },
+    {
+      "id": "aurangzeb-death",
+      "year": 1707,
+      "region": "asia",
+      "title": { "az": "Övrəngzibin ölümü" },
+      "description": { "az": "Böyük Moğol padşahı Övrəngzib vəfat etdi. Ondan sonra imperiya zəifləməyə və parçalanmağa başladı. Bu, 1739-da Nadir Şahın yürüşünü asanlaşdırdı." },
+      "sources": [{ "title": "Aurangzeb", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Aurangzeb" }]
+    },
+    {
+      "id": "utrecht",
+      "year": 1713,
+      "region": "europe",
+      "title": { "az": "Utrext sülhü" },
+      "description": { "az": "İspan varisliyi müharibəsini bitirən müqavilələr Avropada qüvvələr balansını yenidən qurdu." },
+      "sources": [{ "title": "Peace of Utrecht", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Peace_of_Utrecht" }]
+    },
+    {
+      "id": "new-orleans",
+      "year": 1718,
+      "region": "americas",
+      "title": { "az": "Yeni Orleanın əsası qoyulur" },
+      "description": { "az": "Fransızlar Missisipi çayının aşağı axarında Yeni Orlean şəhərini saldılar." },
+      "sources": [{ "title": "New Orleans", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/New_Orleans" }]
+    },
+    {
+      "id": "persian-campaign",
+      "year": 1722,
+      "endYear": 1723,
+      "region": "middle-east",
+      "title": { "az": "I Pyotrun Xəzər yürüşü" },
+      "description": { "az": "Səfəvi dövləti əfqan hücumu ilə zəiflədiyi vaxt Rusiya Dərbəndi və Bakını tutdu. Osmanlılar da qərbdən hücum etdi. Nadirin gəncliyi bu böhranın içində keçdi." },
+      "sources": [{ "title": "Russo-Persian War (1722–1723)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Russo-Persian_War_(1722%E2%80%931723)" }]
+    },
+    {
+      "id": "bering",
+      "year": 1728,
+      "region": "asia",
+      "title": { "az": "Berinqin ekspedisiyası" },
+      "description": { "az": "Rusiya xidmətindəki danimarkalı dənizçi Vitus Berinq Asiya ilə Amerika arasındakı boğazdan keçdi. Boğaz sonralar onun adını aldı." },
+      "sources": [{ "title": "Vitus Bering", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Vitus_Bering" }]
+    },
+    {
+      "id": "linnaeus",
+      "year": 1735,
+      "region": "europe",
+      "title": { "az": "Linneyin \"Təbiətin sistemi\"" },
+      "description": { "az": "İsveç alimi Karl Linney bitki və heyvanların elmi təsnifatının əsasını qoyan əsərini nəşr etdi." },
+      "sources": [{ "title": "Systema Naturae", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Systema_Naturae" }]
+    },
+    {
+      "id": "qianlong",
+      "year": 1735,
+      "region": "asia",
+      "title": { "az": "Çində Tsyanlun dövrü" },
+      "description": { "az": "Tsyanlun imperatoru taxta çıxdı. Onun 60 illik hakimiyyətində Tsin imperiyası ən böyük ərazisinə çatdı." },
+      "sources": [{ "title": "Qianlong Emperor", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Qianlong_Emperor" }]
+    },
+    {
+      "id": "austrian-succession",
+      "year": 1740,
+      "endYear": 1748,
+      "region": "europe",
+      "title": { "az": "Avstriya varisliyi müharibəsi" },
+      "description": { "az": "Prussiya kralı II Fridrix Sileziyaya hücum etdi. Avropanın böyük dövlətləri Mariya Tereziyanın hakimiyyəti üstündə müharibəyə qoşuldu." },
+      "sources": [{ "title": "War of the Austrian Succession", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/War_of_the_Austrian_Succession" }]
+    },
+    {
+      "id": "messiah",
+      "year": 1742,
+      "region": "europe",
+      "title": { "az": "Hendelin \"Messiya\" oratoriyası" },
+      "description": { "az": "Georq Fridrix Hendelin \"Messiya\" əsəri ilk dəfə Dublində ifa olundu." },
+      "sources": [{ "title": "Messiah (Handel)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Messiah_(Handel)" }]
+    },
+    {
+      "id": "durrani",
+      "year": 1747,
+      "region": "asia",
+      "title": { "az": "Əhməd şah Dürrani" },
+      "description": { "az": "Nadir Şahın öldürülməsindən sonra onun sərkərdəsi Əhməd xan Əbdali Qəndəharda şah elan olundu. Bu, müasir Əfqanıstan dövlətinin başlanğıcı sayılır." },
+      "sources": [{ "title": "Ahmad Shah Durrani", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ahmad_Shah_Durrani" }]
+    }
+  ]
+}

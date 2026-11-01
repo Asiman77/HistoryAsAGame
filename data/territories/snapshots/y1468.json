@@ -1,0 +1,41 @@
+{
+  "id": "y1468",
+  "year": 1468,
+  "title": {
+    "az": "Cahanşahdan sonra"
+  },
+  "certainty": "disputed",
+  "note": {
+    "az": "1467-də Cahanşah öldürüldü. Azərbaycan Ağqoyunlulara keçir, Qaraqoyunlu qalıqları cənubda hələ dayanır, Teymuri Əbu Səid isə qərbə yürüş edir. Sərhədlər bu illərdə çox tez dəyişirdi."
+  },
+  "sources": [
+    {
+      "title": "Aq Qoyunlu",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Aq_Qoyunlu"
+    },
+    {
+      "title": "Abu Sa'id Mirza",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Abu_Sa'id_Mirza"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bosnia","bithynia","west-anatolia","teke","ankara","sivas","kastamonu","trebizond"],"capitalId":"istanbul"},
+    {"polityId":"karaman","regions":["karaman"],"capitalId":"konya"},
+    {"polityId":"dulkadir","regions":["dulkadir"],"vassalOf":"mamluk"},
+    {"polityId":"mamluk","regions":["egypt-delta","upper-egypt","sinai","palestine","damascus","aleppo","cilicia","malatya","hejaz"],"capitalId":"qahire"},
+    {"polityId":"agqoyunlu","regions":["diyarbakir","mardin","urfa","erzincan","erzurum","bitlis","van","kars","azerbaijan","ardabil","nakhchivan","yerevan","mosul","jazira","kirkuk"],"capitalId":"amid"},
+    {"polityId":"qaraqoyunlu","regions":["karabakh","ganja","mughan","hamadan","kermanshah","qazvin","isfahan","fars","kerman","yazd","qum-kashan","luristan","baghdad","basra"],"name":{"az":"Qaraqoyunlu (qalıqlar)"}},
+    {"polityId":"timurid","regions":["khorasan","khorasan-north","herat","merv","balkh","badakhshan","ghur","sistan","kuhistan","transoxiana","tashkent","fergana","khwarezm","kabul","ghazni","kandahar","mazandaran","astarabad","semnan","ray"],"capitalId":"herat"},
+    {"polityId":"shirvan","regions":["shirvan","absheron","derbent"]},
+    {"polityId":"georgia","regions":["kartli","kakheti","samtskhe","imereti"],"capitalId":"tiflis"},
+    {"polityId":"crimea","regions":["crimea"]},
+    {"polityId":"delhi-sultanate","regions":["delhi","sirhind","punjab"],"capitalId":"dehli"}
+  ]
+}

@@ -13,6 +13,7 @@
         "note": { "az": "1425-ci ilin fevral–martı J. Vudsun hesablamasıdır." }
       },
       "type": "birth",
+      "mood": "birth",
       "location": {
         "name": { "az": "Amid" },
         "modernName": { "az": "Diyarbəkir (Türkiyə)" },
@@ -38,6 +39,7 @@
       "order": 1,
       "date": { "year": 1435, "certainty": "exact" },
       "type": "childhood",
+      "mood": "childhood",
       "location": { "name": { "az": "Amid" }, "lat": 37.9144, "lng": 40.2306 },
       "title": { "az": "Babanın ölümü və çəkişmələr" },
       "factualSummary": {
@@ -64,6 +66,7 @@
         ]
       },
       "type": "coronation",
+      "mood": "rise",
       "location": { "name": { "az": "Amid" }, "lat": 37.9144, "lng": 40.2306 },
       "title": { "az": "Amiddə hakimiyyətə gəliş" },
       "factualSummary": {
@@ -104,6 +107,7 @@
       "order": 3,
       "date": { "year": 1457, "month": 5, "certainty": "exact" },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": { "name": { "az": "Amid" }, "lat": 37.9144, "lng": 40.2306 },
       "location": {
         "name": { "az": "Dəclə sahili" },
@@ -119,6 +123,19 @@
         "az": "Dəclənin bulanıq suyu baharın daşqını ilə qabarıb. Qarşımda qardaşımın və Qaraqoyunlu bəylərinin çadırları var. Bu döyüşdə qalib gələn tayfanın taleyini həll edəcək."
       },
       "outcome": {
+        "ownSide": { "az": "Həsən bəyin Ağqoyunlu qoşunu" },
+        "enemySide": { "az": "Cahangirin tərəfdarları və Qaraqoyunlu dəstələri" },
+        "commanders": {
+          "own": [{ "az": "Uzun Həsən" }],
+          "enemy": [{ "az": "Cahangir (Həsənin böyük qardaşı)" }]
+        },
+        "ownPolityId": "agqoyunlu",
+        "enemyPolityId": "qaraqoyunlu",
+        "maneuvers": [
+          { "side": "own", "kind": "advance", "path": [[40.1,37.9],[40.304,37.907],[40.5,37.85]] },
+          { "side": "enemy", "kind": "advance", "path": [[41,37.8],[40.806,37.795],[40.62,37.85]] },
+          { "side": "enemy", "kind": "retreat", "path": [[40.6,37.89],[40.814,37.996],[41.05,38.03]] }
+        ],
         "result": "victory",
         "opponent": { "az": "Cahangir və Qaraqoyunlu müttəfiqləri" },
         "context": { "az": "Ağqoyunlu daxilindəki hakimiyyət mübarizəsi Həsənin xeyrinə bitdi." }
@@ -133,6 +150,7 @@
       "order": 4,
       "date": { "year": 1458, "certainty": "approximate", "note": { "az": "Nikah 1457–1459-cu illər arasında, ehtimal ki, 1458-də olub." } },
       "type": "marriage",
+      "mood": "peace",
       "fromLocation": {
         "name": { "az": "Dəclə sahili" },
         "lat": 37.85,
@@ -191,6 +209,7 @@
         "note": { "az": "Bir mənbə ilk danışıqları 1463-cü ilə aid edir. Trabzon yürüşü ilə bağlılığı 1461-i daha inandırıcı edir." }
       },
       "type": "diplomacy",
+      "mood": "diplomacy",
       "location": {
         "name": { "az": "Trabzon" },
         "modernName": { "az": "Trabzon (Türkiyə)" },
@@ -232,6 +251,7 @@
         ]
       },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": { "name": { "az": "Amid" }, "lat": 37.9144, "lng": 40.2306 },
       "location": {
         "name": { "az": "Çapaqçur" },
@@ -248,6 +268,19 @@
         "az": "Cahanşahın ordusu qışlağa çəkilməyə hazırlaşır, arxayındır. Mən isə adamlarımla dağ keçidlərindən səssizcə enirəm. Səhər dumanında hücum edirik. Günortaya qədər Qaraqoyunlu hökmdarının cəsədi qarşıma gətirilir."
       },
       "outcome": {
+        "ownSide": { "az": "Ağqoyunlu qoşunu" },
+        "enemySide": { "az": "Qaraqoyunlu ordusu" },
+        "commanders": {
+          "own": [{ "az": "Uzun Həsən" }],
+          "enemy": [{ "az": "Cahanşah (həlak oldu)" }]
+        },
+        "ownPolityId": "agqoyunlu",
+        "enemyPolityId": "qaraqoyunlu",
+        "maneuvers": [
+          { "side": "enemy", "kind": "advance", "path": [[41,38.98],[40.806,38.908],[40.6,38.9]], "label": { "az": "düşərgə" }},
+          { "side": "own", "kind": "attack", "path": [[40.3,38.43],[40.358,38.644],[40.48,38.83]], "label": { "az": "qəfil hücum" }},
+          { "side": "enemy", "kind": "retreat", "path": [[40.56,38.93],[40.791,39.054],[41.05,39.1]] }
+        ],
         "result": "victory",
         "opponent": { "az": "Qaraqoyunlu hökmdarı Cahanşah" },
         "context": { "az": "Rəqib türkman dövlətinin başçısı öldü. Azərbaycan və İran Ağqoyunlulara açıldı." }
@@ -269,6 +302,7 @@
         "note": { "az": "Əbu Səid 5 fevralda (bəzi mənbələrə görə 8 fevralda) edam edildi." }
       },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": {
         "name": { "az": "Çapaqçur" },
         "lat": 38.88,
@@ -291,6 +325,19 @@
         "az": "Teymurinin nəvəsi böyük ordu ilə gəlib, amma qış Qarabağ düzündə onun düşmənidir. Mən döyüşə tələsmirəm. Yolları kəsirəm, karvanlar gəlib çatmır. Onun atları ac qalır. Xorasana qaçmaq istəyəndə artıq gec olur."
       },
       "outcome": {
+        "ownSide": { "az": "Ağqoyunlu qoşunu" },
+        "enemySide": { "az": "Teymuri ordusu" },
+        "commanders": {
+          "own": [{ "az": "Uzun Həsən" }],
+          "enemy": [{ "az": "Əbu Səid Mirzə (əsir alındı)" }]
+        },
+        "ownPolityId": "agqoyunlu",
+        "enemyPolityId": "timurid",
+        "maneuvers": [
+          { "side": "own", "kind": "flank", "path": [[46.9,40],[47.118,40.048],[47.3,39.92]], "label": { "az": "mühasirə" }},
+          { "side": "own", "kind": "flank", "path": [[47.4,40.35],[47.487,40.179],[47.42,40]] },
+          { "side": "enemy", "kind": "retreat", "path": [[47.45,39.85],[47.678,39.707],[47.85,39.5]], "label": { "az": "geri çəkilmə cəhdi" }}
+        ],
         "result": "victory",
         "opponent": { "az": "Teymuri sultanı Əbu Səid Mirzə" },
         "context": { "az": "Teymurilərin qərbə genişlənməsi dayandı. Həsən Azərbaycan və İranın böyük hissəsinin hakimi oldu." }
@@ -327,6 +374,7 @@
       "order": 8,
       "date": { "year": 1469, "certainty": "approximate", "note": { "az": "Paytaxtın köçürülməsi 1467–1469-cu illərin fəthlərindən sonra baş verdi." } },
       "type": "journey",
+      "mood": "victory",
       "fromLocation": {
         "name": { "az": "Qarabağ" },
         "lat": 39.9,
@@ -359,6 +407,7 @@
       "order": 9,
       "date": { "year": 1472, "month": 4, "certainty": "approximate", "note": { "az": "Katerino Zenonun saraya gəlişi, bir mənbəyə görə, 1472-ci ilin aprelidir." } },
       "type": "diplomacy",
+      "mood": "diplomacy",
       "location": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
       "title": { "az": "Venesiya səfiri Katerino Zeno" },
       "factualSummary": {
@@ -399,6 +448,7 @@
       "order": 10,
       "date": { "year": 1473, "month": 8, "day": 1, "certainty": "exact" },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
       "route": [[41.27, 39.9]],
       "location": {
@@ -416,6 +466,20 @@
         "az": "Süvarilərimiz qaçırmış kimi görünür. Has Murad paşa yemi udur və çayı keçir. O zaman hər tərəfdən üstünə gəlirik. Fəratın suyu qırmızıya boyanır. Oğlum Uğurlu qalib gəlib, ordugahda şənlik var. Amma Sultan Mehmedin özü hələ meydana çıxmayıb."
       },
       "outcome": {
+        "ownSide": { "az": "Ağqoyunlu qoşunu" },
+        "enemySide": { "az": "Osmanlı ön qüvvələri" },
+        "commanders": {
+          "own": [{ "az": "Uğurlu Məhəmməd (Uzun Həsənin oğlu)" }],
+          "enemy": [{ "az": "Has Murad paşa (həlak oldu)" }]
+        },
+        "ownPolityId": "agqoyunlu",
+        "enemyPolityId": "ottoman",
+        "maneuvers": [
+          { "side": "enemy", "kind": "advance", "path": [[39.572,39.974],[39.767,40.005],[39.962,39.974]], "label": { "az": "çayı keçir" }},
+          { "side": "own", "kind": "retreat", "path": [[40.022,39.984],[40.178,40.035],[40.342,40.034]], "label": { "az": "saxta geri çəkilmə" }},
+          { "side": "own", "kind": "flank", "path": [[40.172,40.294],[40.159,40.121],[40.022,40.014]], "label": { "az": "pusqu" }},
+          { "side": "enemy", "kind": "retreat", "path": [[39.962,39.964],[39.748,39.894],[39.522,39.894]] }
+        ],
         "result": "victory",
         "opponent": { "az": "Osmanlı sərkərdəsi Has Murad paşa" },
         "forces": { "own": { "az": "təqr. 10 000 (mənbələr ziddiyyətlidir)" }, "enemy": { "az": "məlum deyil" } },
@@ -432,6 +496,7 @@
       "order": 11,
       "date": { "year": 1473, "month": 8, "day": 11, "certainty": "exact" },
       "type": "battle",
+      "mood": "defeat",
       "fromLocation": {
         "name": { "az": "Fərat sahili (Tərcan yaxınlığı)" },
         "lat": 39.974,
@@ -453,6 +518,20 @@
         "az": "Bu dəfə qarşımda sultanın özü var. Oğlum Zeynal sağ cinahda düşür. Onun bayrağının yıxıldığını görən əsgərlər geri çəkilməyə başlayır. Mənə bənzəyən bir bəyi geridə qoyub meydandan çıxıram. Təbrizə gedən yol mənim üçün heç vaxt bu qədər uzun olmamışdı."
       },
       "outcome": {
+        "ownSide": { "az": "Ağqoyunlu ordusu" },
+        "enemySide": { "az": "Osmanlı ordusu" },
+        "commanders": {
+          "own": [{ "az": "Uzun Həsən" }, { "az": "Uğurlu Məhəmməd" }, { "az": "Zeynal (həlak oldu)" }],
+          "enemy": [{ "az": "II Mehmed" }, { "az": "şahzadə Bayezid" }, { "az": "şahzadə Mustafa" }]
+        },
+        "ownPolityId": "agqoyunlu",
+        "enemyPolityId": "ottoman",
+        "artillery": true,
+        "maneuvers": [
+          { "side": "enemy", "kind": "advance", "path": [[39.63,39.99],[39.825,40.021],[40.02,39.99]], "label": { "az": "yeniçərilər və toplar" }},
+          { "side": "own", "kind": "attack", "path": [[40.53,40.01],[40.337,39.969],[40.14,39.99]] },
+          { "side": "own", "kind": "retreat", "path": [[40.13,40.04],[40.341,40.161],[40.58,40.21]] }
+        ],
         "result": "defeat",
         "opponent": { "az": "Osmanlı sultanı II Mehmed (Fateh)" },
         "forces": { "own": { "az": "mənbələr ziddiyyətlidir (70 000-dən çox)" }, "enemy": { "az": "70 000–100 000" } },
@@ -477,6 +556,7 @@
       "order": 12,
       "date": { "year": 1474, "month": 10, "certainty": "approximate" },
       "type": "diplomacy",
+      "mood": "diplomacy",
       "fromLocation": {
         "name": { "az": "Otluqbeli" },
         "lat": 39.99,
@@ -492,6 +572,7 @@
       "narrative": {
         "az": "Venesiyalılar yenə gəlib, bu dəfə ikisi birdən. Kontarini İsfahanda ayaqlarıma qədər əyilir və yeni müharibədən danışır. Mən isə yorğunam, oğlum Uğurlu Şirazda üsyan qaldırıb. Ona deyirəm: \"Əvvəlcə öz evimi qaydaya salmalıyam.\""
       },
+      "primarySource": {"original":"The king seemed to me about seventy years of age, of large stature, with a pleasant countenance, and very lean.","text":{"az":"Hökmdar mənə təxminən yetmiş yaşında göründü: ucaboy, xoş simalı və çox arıq idi."},"attribution":{"az":"Ambrocio Kontarini, Uzun Həsənin İsfahandakı qəbulu haqqında (1474)"},"license":"Public domain (R. Kerr-in 1811-ci il ingiliscə nəşri); Azərbaycan dilinə tərcümə: layihə, CC0","translator":"Azərbaycan dilinə: layihə komandası","note":{"az":"Kontarini yaşı səhv təxmin edib: Uzun Həsən o vaxt təqribən 49 yaşında idi. Xəstəlik və yürüşlər onu yaşından böyük göstərə bilərdi."},"source":{"title":"A General History and Collection of Voyages and Travels, vol. 2, ch. 2, sec. 10","author":"Robert Kerr (red.), 1811","type":"primary","url":"https://franpritchett.com/00generallinks/kerr/vol02chap02sect06to10.html"}},
       "sources": [
         { "title": "Caterino Zeno", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Caterino_Zeno" },
         {
@@ -507,6 +588,7 @@
       "order": 13,
       "date": { "year": 1475, "certainty": "approximate", "note": { "az": "İsfahan Cümə məscidindəki kitabə 1475–1476-cı illərə aiddir." } },
       "type": "culture",
+      "mood": "culture",
       "fromLocation": { "name": { "az": "İsfahan" }, "lat": 32.6546, "lng": 51.668 },
       "location": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
       "title": { "az": "Qanunnamə və Həşt Behişt" },
@@ -544,6 +626,7 @@
         ]
       },
       "type": "death",
+      "mood": "death",
       "location": { "name": { "az": "Təbriz yaxınlığı" }, "lat": 38.08, "lng": 46.2919, "approximate": true },
       "title": { "az": "Qış düşərgəsində ölüm" },
       "factualSummary": {

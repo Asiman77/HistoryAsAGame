@@ -1,0 +1,47 @@
+{
+  "id": "y1460",
+  "year": 1460,
+  "title": {
+    "az": "Cahanşahın zirvəsi, Uzun Həsənin yüksəlişi"
+  },
+  "certainty": "approximate",
+  "note": {
+    "az": "Qaraqoyunlu Cahanşah Fars və İraqi-Əcəmi tutub. Uzun Həsən Ağqoyunluların yeganə hökmdarıdır. Osmanlılar Konstantinopolu almış, Trabzon hələ müstəqildir (1461-ə qədər)."
+  },
+  "sources": [
+    {
+      "title": "Jahan Shah",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Jahan_Shah"
+    },
+    {
+      "title": "Uzun Hasan",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Uzun_Hasan"
+    },
+    {
+      "title": "Empire of Trebizond",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Empire_of_Trebizond"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bithynia","west-anatolia","teke","ankara","sivas"],"capitalId":"istanbul"},
+    {"polityId":"trebizond","regions":["trebizond"],"capitalId":"trabzon"},
+    {"polityId":"karaman","regions":["karaman"],"capitalId":"konya"},
+    {"polityId":"dulkadir","regions":["dulkadir"],"vassalOf":"mamluk"},
+    {"polityId":"mamluk","regions":["egypt-delta","upper-egypt","sinai","palestine","damascus","aleppo","cilicia","malatya","hejaz"],"capitalId":"qahire"},
+    {"polityId":"agqoyunlu","regions":["diyarbakir","mardin","urfa","erzincan","jazira"],"capitalId":"amid"},
+    {"polityId":"qaraqoyunlu","regions":["azerbaijan","ardabil","nakhchivan","yerevan","karabakh","ganja","mughan","talysh","erzurum","van","bitlis","kars","qazvin","ray","qum-kashan","hamadan","kermanshah","luristan","isfahan","fars","kerman","yazd","kavir","semnan","baghdad","basra","kirkuk","mosul"],"capitalId":"tebriz"},
+    {"polityId":"timurid","regions":["khorasan","khorasan-north","herat","merv","balkh","badakhshan","ghur","sistan","kuhistan","transoxiana","tashkent","fergana","khwarezm","kabul","ghazni","kandahar","mazandaran","astarabad"],"capitalId":"herat"},
+    {"polityId":"shirvan","regions":["shirvan","absheron","derbent"]},
+    {"polityId":"georgia","regions":["kartli","kakheti","samtskhe","imereti"],"capitalId":"tiflis"},
+    {"polityId":"crimea","regions":["crimea"]},
+    {"polityId":"delhi-sultanate","regions":["delhi","sirhind","punjab"],"capitalId":"dehli"}
+  ]
+}

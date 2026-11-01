@@ -1,0 +1,47 @@
+{
+  "id": "y1736",
+  "year": 1736,
+  "title": {
+    "az": "Muğan qurultayı: Əfşarlar dövləti"
+  },
+  "certainty": "approximate",
+  "note": {
+    "az": "Nadir Cənubi Qafqazı geri alıb (1735), Rusiya Dərbənd və Bakını qaytarıb (Gəncə müqaviləsi, 1735). 1736-da Nadir şah seçilir. Qəndəhar hələ Hotakilərin əlindədir."
+  },
+  "sources": [
+    {
+      "title": "Treaty of Ganja (1735)",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Treaty_of_Ganja_(1735)"
+    },
+    {
+      "title": "Afsharid dynasty",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Afsharid_dynasty"
+    },
+    {
+      "title": "Maratha Confederacy",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Maratha_Confederacy"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bosnia","albania","wallachia","bithynia","west-anatolia","teke","ankara","sivas","kastamonu","trebizond","karaman","cilicia","dulkadir","malatya","erzincan","erzurum","kars","van","bitlis","diyarbakir","mardin","urfa","mosul","jazira","kirkuk","baghdad","basra","euphrates-mid","aleppo","damascus","palestine","sinai","egypt-delta","upper-egypt","hejaz","cyprus","samtskhe"],"capitalId":"istanbul"},
+    {"polityId":"afsharid","regions":["azerbaijan","ardabil","nakhchivan","yerevan","karabakh","ganja","mughan","talysh","qazvin","ray","qum-kashan","hamadan","kermanshah","luristan","isfahan","fars","kerman","yazd","kavir","semnan","shirvan","absheron","derbent","shaki","gilan","khuzestan","mazandaran","astarabad","lar-hormuz","khorasan","khorasan-north","kuhistan","sistan","herat"],"capitalId":"meshed"},
+    {"polityId":"kartli","regions":["kartli"],"vassalOf":"afsharid","capitalId":"tiflis"},
+    {"polityId":"kakheti","regions":["kakheti"],"vassalOf":"afsharid"},
+    {"polityId":"imereti","regions":["imereti"],"vassalOf":"ottoman","capitalId":"kutaisi"},
+    {"polityId":"hotaki","regions":["kandahar"],"capitalId":"qendehar"},
+    {"polityId":"mughal","regions":["kabul","ghazni","peshawar","kashmir","punjab","multan","derajat","sindh","sirhind","delhi","agra","rohilkhand","rajputana","gujarat"],"capitalId":"dehli"},
+    {"polityId":"maratha","regions":["deccan","malwa","bundelkhand"]},
+    {"polityId":"bukhara","regions":["transoxiana","balkh","badakhshan"],"capitalId":"buxara"},
+    {"polityId":"khiva","regions":["khwarezm"],"capitalId":"xive"},
+    {"polityId":"russia","regions":["lower-volga","don-steppe","terek"]},
+    {"polityId":"crimea","regions":["crimea","kuban-steppe"],"vassalOf":"ottoman"}
+  ]
+}

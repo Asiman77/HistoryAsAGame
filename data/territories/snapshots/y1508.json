@@ -1,0 +1,42 @@
+{
+  "id": "y1508",
+  "year": 1508,
+  "title": {
+    "az": "Səfəvilər İraqa çatır"
+  },
+  "certainty": "approximate",
+  "note": {
+    "az": "Səfəvilər Ağqoyunluların bütün torpaqlarını, Diyarbəkiri və Bağdadı alıb. Şərqdə Şeybani xan 1507-də Heratı tutub."
+  },
+  "sources": [
+    {
+      "title": "Safavid Iran",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Safavid_Iran"
+    },
+    {
+      "title": "Muhammad Shaybani",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Muhammad_Shaybani"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bosnia","albania","wallachia","bithynia","west-anatolia","teke","ankara","sivas","kastamonu","trebizond","karaman"],"capitalId":"istanbul"},
+    {"polityId":"dulkadir","regions":["dulkadir"],"vassalOf":"mamluk"},
+    {"polityId":"mamluk","regions":["egypt-delta","upper-egypt","sinai","palestine","damascus","aleppo","cilicia","malatya","hejaz"],"capitalId":"qahire"},
+    {"polityId":"safavid","regions":["azerbaijan","ardabil","nakhchivan","yerevan","karabakh","ganja","mughan","talysh","qazvin","ray","qum-kashan","hamadan","kermanshah","luristan","isfahan","fars","kerman","yazd","kavir","semnan","baghdad","basra","kirkuk","mosul","jazira","diyarbakir","mardin","urfa","erzincan","erzurum","bitlis","van","kars","khuzestan","mazandaran"],"capitalId":"tebriz"},
+    {"polityId":"shirvan","regions":["shirvan","absheron","derbent"],"vassalOf":"safavid"},
+    {"polityId":"gilan","regions":["gilan"],"vassalOf":"safavid","capitalId":"lahican"},
+    {"polityId":"shaybanid","regions":["transoxiana","tashkent","fergana","khorasan","khorasan-north","herat","merv","balkh","badakhshan","ghur","sistan","kuhistan","khwarezm","astarabad"],"capitalId":"semerqend"},
+    {"polityId":"kartli","regions":["kartli","samtskhe"],"capitalId":"tiflis"},
+    {"polityId":"kakheti","regions":["kakheti"]},
+    {"polityId":"imereti","regions":["imereti"],"capitalId":"kutaisi"},
+    {"polityId":"crimea","regions":["crimea"],"vassalOf":"ottoman"},
+    {"polityId":"delhi-sultanate","regions":["delhi","sirhind","punjab","agra"],"capitalId":"aqra"}
+  ]
+}

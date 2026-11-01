@@ -1,0 +1,47 @@
+{
+  "id": "y1520",
+  "year": 1520,
+  "title": {
+    "az": "Çaldırandan sonra"
+  },
+  "certainty": "approximate",
+  "note": {
+    "az": "Osmanlılar Diyarbəkiri və Şərqi Anadolunu alıb, 1517-də Məmlük sultanlığına son qoyub. Səfəvilər İran, Azərbaycan və İraqı saxlayır. Babur Kabildədir."
+  },
+  "sources": [
+    {
+      "title": "Battle of Chaldiran",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Battle_of_Chaldiran"
+    },
+    {
+      "title": "Ottoman–Mamluk War (1516–1517)",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Ottoman–Mamluk_War_(1516–1517)"
+    },
+    {
+      "title": "Babur",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Babur"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bosnia","albania","wallachia","bithynia","west-anatolia","teke","ankara","sivas","kastamonu","trebizond","karaman","dulkadir","malatya","cilicia","erzincan","erzurum","bitlis","diyarbakir","mardin","urfa","jazira","aleppo","damascus","palestine","sinai","egypt-delta","upper-egypt","hejaz"],"capitalId":"istanbul"},
+    {"polityId":"safavid","regions":["azerbaijan","ardabil","nakhchivan","yerevan","karabakh","ganja","mughan","talysh","qazvin","ray","qum-kashan","hamadan","kermanshah","luristan","isfahan","fars","kerman","yazd","kavir","semnan","baghdad","basra","kirkuk","mosul","van","kars","khuzestan","mazandaran","astarabad","khorasan","khorasan-north","herat","merv","kuhistan","sistan"],"capitalId":"tebriz"},
+    {"polityId":"shirvan","regions":["shirvan","absheron","derbent"],"vassalOf":"safavid"},
+    {"polityId":"gilan","regions":["gilan"],"vassalOf":"safavid","capitalId":"lahican"},
+    {"polityId":"shaybanid","regions":["transoxiana","tashkent","fergana","balkh"],"capitalId":"semerqend"},
+    {"polityId":"khiva","regions":["khwarezm"]},
+    {"polityId":"timurid","regions":["kabul","ghazni"],"name":{"az":"Babur (Kabil)"},"capitalId":"kabil"},
+    {"polityId":"kartli","regions":["kartli","samtskhe"],"capitalId":"tiflis"},
+    {"polityId":"kakheti","regions":["kakheti"]},
+    {"polityId":"imereti","regions":["imereti"],"capitalId":"kutaisi"},
+    {"polityId":"crimea","regions":["crimea"],"vassalOf":"ottoman"},
+    {"polityId":"delhi-sultanate","regions":["delhi","sirhind","punjab","agra","rohilkhand"],"capitalId":"aqra"}
+  ]
+}

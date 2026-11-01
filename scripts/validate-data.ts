@@ -6,71 +6,153 @@
 import fs from "node:fs";
 import path from "node:path";
 import { z } from "zod";
-import { Era, EventsFile, GlossaryFile, Person, RelationsFile } from "../src/domain/schema";
-import { checkEra, checkPerson, checkRelations, type Issue } from "../src/domain/integrity";
+import {
+  Era,
+  EventsFile,
+  GlossaryFile,
+  Person,
+  PlacesFile,
+  RelationsFile,
+  TerritoryRegistryFile,
+  TerritorySnapshotSource,
+  WorldEventsFile,
+  type LifeEvent,
+} from "../src/domain/schema";
+import {
+  checkEra,
+  checkEventReferences,
+  checkPerson,
+  checkRelationMoments,
+  checkRelations,
+  type Issue,
+} from "../src/domain/integrity";
 
 const root = path.join(process.cwd(), "data");
 const issues: Issue[] = [];
 const rel = (f: string) => path.relative(process.cwd(), f).replaceAll("\\", "/");
+const add = (file: string, message: string) => issues.push({ file: rel(file), message });
 
 function load<T>(file: string, schema: z.ZodType<T>): T | undefined {
   let raw: unknown;
   try {
     raw = JSON.parse(fs.readFileSync(file, "utf8"));
   } catch (e) {
-    issues.push({ file: rel(file), message: `JSON oxunmadı: ${(e as Error).message}` });
+    add(file, `JSON oxunmadı: ${(e as Error).message}`);
     return undefined;
   }
   const result = schema.safeParse(raw);
   if (!result.success) {
-    for (const i of result.error.issues)
-      issues.push({ file: rel(file), message: `${i.path.join(".") || "(root)"}: ${i.message}` });
+    for (const i of result.error.issues) add(file, `${i.path.join(".") || "(root)"}: ${i.message}`);
     return undefined;
   }
   return result.data;
 }
 
+const unique = (file: string, what: string, ids: string[]) => {
+  const seen = new Set<string>();
+  for (const id of ids) {
+    if (seen.has(id)) add(file, `təkrarlanan ${what}: ${id}`);
+    seen.add(id);
+  }
+  return seen;
+};
+
+// --- eras ---
 const eras: Era[] = [];
 for (const f of fs.readdirSync(path.join(root, "eras")).filter((f) => f.endsWith(".json"))) {
   const file = path.join(root, "eras", f);
   const era = load(file, Era);
   if (!era) continue;
-  if (`${era.id}.json` !== f) issues.push({ file: rel(file), message: `fayl adı id ilə uyğun deyil (${era.id})` });
+  if (`${era.id}.json` !== f) add(file, `fayl adı id ilə uyğun deyil (${era.id})`);
   issues.push(...checkEra(era, rel(file)));
   eras.push(era);
 }
 
+// --- places ---
+const placesFile = path.join(root, "places.json");
+const places = load(placesFile, PlacesFile)?.places ?? [];
+const placeIds = unique(placesFile, "place id", places.map((p) => p.id));
+for (const p of places) for (const r of p.periods) if (r.from > r.to) add(placesFile, `${p.id}: period from > to`);
+
+// --- territories ---
+const regFile = path.join(root, "territories", "registry.json");
+const registry = load(regFile, TerritoryRegistryFile);
+const polityIds = unique(regFile, "polity id", registry?.polities.map((p) => p.id) ?? []);
+const regionIds = unique(regFile, "region id", registry?.regions.map((r) => r.id) ?? []);
+if (!fs.existsSync(path.join(root, "territories", "land.json"))) add(regFile, "land.json yoxdur (scripts/prepare-land.ts)");
+const snapshotIds = new Set<string>();
+const snapshotYears = new Set<number>();
+const snapDir = path.join(root, "territories", "snapshots");
+for (const f of fs.existsSync(snapDir) ? fs.readdirSync(snapDir).filter((f) => f.endsWith(".json")) : []) {
+  const file = path.join(snapDir, f);
+  const s = load(file, TerritorySnapshotSource);
+  if (!s) continue;
+  if (`${s.id}.json` !== f) add(file, `fayl adı id ilə uyğun deyil (${s.id})`);
+  if (snapshotYears.has(s.year)) add(file, `eyni il üçün ikinci snapshot: ${s.year}`);
+  snapshotIds.add(s.id);
+  snapshotYears.add(s.year);
+  const used = new Map<string, string>();
+  for (const p of s.polities) {
+    if (!polityIds.has(p.polityId)) add(file, `naməlum polity: ${p.polityId}`);
+    if (p.capitalId && !placeIds.has(p.capitalId)) add(file, `${p.polityId}: naməlum paytaxt ${p.capitalId}`);
+    if (p.vassalOf && !s.polities.some((q) => q.polityId === p.vassalOf) && !polityIds.has(p.vassalOf))
+      add(file, `${p.polityId}: naməlum vassalOf ${p.vassalOf}`);
+    for (const r of p.regions) {
+      if (!regionIds.has(r)) add(file, `${p.polityId}: naməlum region ${r}`);
+      if (used.has(r)) add(file, `region ${r} iki dövlətdədir: ${used.get(r)} və ${p.polityId}`);
+      used.set(r, p.polityId);
+    }
+  }
+}
+
+// --- persons ---
 const personIds = new Set<string>();
+const eventIdsByPerson = new Map<string, Set<string>>();
 let eventCount = 0;
 const personsDir = path.join(root, "persons");
 for (const dir of fs.readdirSync(personsDir, { withFileTypes: true }).filter((d) => d.isDirectory())) {
   const personFile = path.join(personsDir, dir.name, "person.json");
   const eventsFile = path.join(personsDir, dir.name, "events.json");
   const person = load(personFile, Person);
-  const events = fs.existsSync(eventsFile) ? load(eventsFile, EventsFile)?.events : undefined;
-  if (!fs.existsSync(eventsFile)) issues.push({ file: rel(eventsFile), message: "fayl yoxdur" });
+  const events: LifeEvent[] | undefined = fs.existsSync(eventsFile) ? load(eventsFile, EventsFile)?.events : undefined;
+  if (!fs.existsSync(eventsFile)) add(eventsFile, "fayl yoxdur");
   if (!person) continue;
-  if (person.id !== dir.name) issues.push({ file: rel(personFile), message: `qovluq adı id ilə uyğun deyil (${person.id})` });
+  if (person.id !== dir.name) add(personFile, `qovluq adı id ilə uyğun deyil (${person.id})`);
   personIds.add(person.id);
   if (events) {
     eventCount += events.length;
+    eventIdsByPerson.set(person.id, new Set(events.map((e) => e.id)));
     issues.push(...checkPerson(person, events, eras, rel(eventsFile)));
-    if (events.length < 10)
-      console.warn(`⚠  ${person.id}: yalnız ${events.length} hadisə (hədəf 10–15)`);
+    issues.push(...checkEventReferences(events, { placeIds, polityIds, snapshotIds }, rel(eventsFile)));
+    if (events.length < 10) console.warn(`⚠  ${person.id}: yalnız ${events.length} hadisə (hədəf 10–15)`);
   }
 }
 
+// --- relations, glossary, world ---
 const relationsFile = path.join(root, "relations.json");
 if (fs.existsSync(relationsFile)) {
   const data = load(relationsFile, RelationsFile);
-  if (data) issues.push(...checkRelations(data.relations, personIds, rel(relationsFile)));
+  if (data) {
+    issues.push(...checkRelations(data.relations, personIds, rel(relationsFile)));
+    issues.push(...checkRelationMoments(data.relations, eventIdsByPerson, rel(relationsFile)));
+  }
 }
 const glossaryFile = path.join(root, "glossary.json");
-if (fs.existsSync(glossaryFile)) load(glossaryFile, GlossaryFile);
+const glossary = fs.existsSync(glossaryFile) ? (load(glossaryFile, GlossaryFile)?.entries ?? []) : [];
+unique(glossaryFile, "glossary id", glossary.map((g) => g.id));
+for (const g of glossary) for (const f of g.forms) if (f !== f.toLowerCase()) add(glossaryFile, `${g.id}: forms kiçik hərflə olmalıdır`);
+
+const worldFile = path.join(root, "world-events.json");
+const world = fs.existsSync(worldFile) ? (load(worldFile, WorldEventsFile)?.events ?? []) : [];
+unique(worldFile, "world event id", world.map((w) => w.id));
+for (const w of world) if (w.endYear !== undefined && w.endYear < w.year) add(worldFile, `${w.id}: endYear < year`);
 
 if (issues.length) {
   console.error(`✗ ${issues.length} problem tapıldı:\n`);
   for (const i of issues) console.error(`  ${i.file}\n    ${i.message}`);
   process.exit(1);
 }
-console.log(`✓ Data etibarlıdır: ${eras.length} dövr, ${personIds.size} şəxsiyyət, ${eventCount} hadisə.`);
+console.log(
+  `✓ Data etibarlıdır: ${eras.length} dövr, ${personIds.size} şəxsiyyət, ${eventCount} hadisə, ` +
+    `${places.length} məkan, ${snapshotIds.size} xəritə snapshot-u, ${world.length} dünya hadisəsi, ${glossary.length} termin.`,
+);

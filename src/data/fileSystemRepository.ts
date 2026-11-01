@@ -5,9 +5,14 @@ import {
   EventsFile,
   GlossaryFile,
   Person,
+  PlacesFile,
   RelationsFile,
+  TerritoryRegistryFile,
+  TerritorySnapshotSource,
+  WorldEventsFile,
   type LifeEvent,
   type Relation,
+  type TerritorySnapshotMeta,
 } from "@/domain/schema";
 import type { HistoryRepository, PersonFilter } from "./repository";
 
@@ -102,6 +107,63 @@ export class FileSystemRepository implements HistoryRepository {
     return this.memo("glossary", async () =>
       (await this.exists("glossary.json"))
         ? GlossaryFile.parse(await this.readJson("glossary.json")).entries
+        : [],
+    );
+  }
+
+  listPlaces() {
+    return this.memo("places", async () =>
+      (await this.exists("places.json")) ? PlacesFile.parse(await this.readJson("places.json")).places : [],
+    );
+  }
+
+  private registry() {
+    return this.memo("territory-registry", async () =>
+      TerritoryRegistryFile.parse(await this.readJson("territories", "registry.json")),
+    );
+  }
+
+  async listPolities() {
+    return (await this.registry()).polities;
+  }
+
+  listTerritorySnapshots(): Promise<TerritorySnapshotMeta[]> {
+    return this.memo("territory-snapshots", async () => {
+      if (!(await this.exists("territories", "snapshots"))) return [];
+      const { polities } = await this.registry();
+      const byId = new Map(polities.map((p) => [p.id, p]));
+      const files = await this.jsonFiles(path.join("territories", "snapshots"));
+      const metas = await Promise.all(
+        files.map(async (f): Promise<TerritorySnapshotMeta> => {
+          const s = TerritorySnapshotSource.parse(await this.readJson("territories", "snapshots", f));
+          return {
+            id: s.id,
+            year: s.year,
+            title: s.title,
+            certainty: s.certainty,
+            ...(s.note ? { note: s.note } : {}),
+            sources: s.sources,
+            polities: s.polities.map((p) => {
+              const meta = byId.get(p.polityId);
+              return {
+                id: p.polityId,
+                name: p.name ?? meta?.name ?? { az: p.polityId },
+                color: meta?.color ?? "#888888",
+                ...(p.capitalId ? { capitalId: p.capitalId } : {}),
+                ...(p.vassalOf ? { vassalOf: p.vassalOf } : {}),
+              };
+            }),
+          };
+        }),
+      );
+      return metas.sort((a, b) => a.year - b.year);
+    });
+  }
+
+  listWorldEvents() {
+    return this.memo("world-events", async () =>
+      (await this.exists("world-events.json"))
+        ? WorldEventsFile.parse(await this.readJson("world-events.json")).events
         : [],
     );
   }

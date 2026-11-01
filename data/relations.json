@@ -7,9 +7,67 @@
       "note": {
         "az": "Uzun Həsən Şah İsmayılın ana babasıdır: İsmayılın anası Həlimə (Aləmşah) bəyim Uzun Həsən ilə Despina xatunun qızıdır."
       },
+      "moments": [
+        {
+          "personId": "uzun-hasan",
+          "eventId": "uzun-hasan-despina",
+          "note": { "az": "Bu nikahdan doğulan qız, Həlimə (Aləmşah) bəyim, Şah İsmayılın anası olacaq." },
+          "targetEventId": "ismayil-birth"
+        },
+        {
+          "personId": "uzun-hasan",
+          "eventId": "uzun-hasan-death",
+          "note": { "az": "Doqquz il sonra nəvəsi İsmayıl Ərdəbildə doğulacaq." },
+          "targetEventId": "ismayil-birth"
+        },
+        {
+          "personId": "shah-ismayil",
+          "eventId": "ismayil-birth",
+          "note": { "az": "Ana babası Uzun Həsən 1478-ci ildə vəfat etmişdi. Onun həyatını da yaşaya bilərsən." },
+          "targetEventId": "uzun-hasan-despina"
+        },
+        {
+          "personId": "shah-ismayil",
+          "eventId": "ismayil-coronation",
+          "note": { "az": "Təbriz 1469-cu ildən Uzun Həsənin paytaxtı olmuşdu. İndi orada onun nəvəsi taxta çıxır." },
+          "targetEventId": "uzun-hasan-tabriz"
+        }
+      ],
       "sources": [
         { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I" },
         { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" }
+      ]
+    },
+    {
+      "from": "nadir-shah",
+      "to": "shah-ismayil",
+      "type": "successor",
+      "note": {
+        "az": "Nadir Şah 1736-da Muğan qurultayında taxta çıxaraq Şah İsmayılın 1501-də qurduğu Səfəvi sülaləsinin hakimiyyətinə faktiki son qoydu. Bu, qan qohumluğu deyil, taxt-tac varisliyidir."
+      },
+      "moments": [
+        {
+          "personId": "nadir-shah",
+          "eventId": "nadir-tahmasp",
+          "note": { "az": "Nadirin xidmət etdiyi II Təhmasib Şah İsmayılın qurduğu Səfəvi sülaləsindəndir." },
+          "targetEventId": "ismayil-coronation"
+        },
+        {
+          "personId": "nadir-shah",
+          "eventId": "nadir-mughan",
+          "note": { "az": "Burada 1501-də Şah İsmayılın Təbrizdə başlatdığı Səfəvi hakimiyyəti faktiki olaraq bitir." },
+          "targetEventId": "ismayil-coronation"
+        },
+        {
+          "personId": "shah-ismayil",
+          "eventId": "ismayil-coronation",
+          "note": { "az": "Bu sülalə 235 il sonra, 1736-da Muğan qurultayında Nadir Şah taxta çıxanda hakimiyyəti itirəcək." },
+          "targetEventId": "nadir-mughan"
+        }
+      ],
+      "sources": [
+        { "title": "Nader Shah", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah" },
+        { "title": "Safavid Iran", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Safavid_Iran" }
       ]
     }
   ]

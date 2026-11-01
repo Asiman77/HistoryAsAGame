@@ -1,0 +1,47 @@
+{
+  "id": "y1490",
+  "year": 1490,
+  "title": {
+    "az": "Sultan Yaqubdan sonra Ağqoyunlu"
+  },
+  "certainty": "approximate",
+  "note": {
+    "az": "Ağqoyunlu hələ geniş ərazini idarə edir, amma varislik çəkişmələri başlayıb. Gürcüstan çarlığı üç çarlığa bölünür. Gilanda Kar-Kiya hökmdarları müstəqildir."
+  },
+  "sources": [
+    {
+      "title": "Aq Qoyunlu",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Aq_Qoyunlu"
+    },
+    {
+      "title": "Ya'qub Beg",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Ya'qub_Beg"
+    },
+    {
+      "title": "Kingdom of Georgia",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Kingdom_of_Georgia"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bosnia","albania","wallachia","bithynia","west-anatolia","teke","ankara","sivas","kastamonu","trebizond","karaman"],"capitalId":"istanbul"},
+    {"polityId":"dulkadir","regions":["dulkadir"],"vassalOf":"mamluk"},
+    {"polityId":"mamluk","regions":["egypt-delta","upper-egypt","sinai","palestine","damascus","aleppo","cilicia","malatya","hejaz"],"capitalId":"qahire"},
+    {"polityId":"agqoyunlu","regions":["diyarbakir","mardin","urfa","erzincan","erzurum","bitlis","van","kars","azerbaijan","ardabil","nakhchivan","yerevan","karabakh","ganja","mughan","talysh","qazvin","ray","qum-kashan","hamadan","kermanshah","luristan","isfahan","fars","kerman","yazd","kavir","semnan","baghdad","basra","kirkuk","mosul","jazira"],"capitalId":"tebriz"},
+    {"polityId":"gilan","regions":["gilan"],"capitalId":"lahican"},
+    {"polityId":"timurid","regions":["khorasan","khorasan-north","herat","merv","balkh","badakhshan","ghur","sistan","kuhistan","transoxiana","tashkent","fergana","khwarezm","kabul","ghazni","kandahar","astarabad"],"capitalId":"herat"},
+    {"polityId":"shirvan","regions":["shirvan","absheron","derbent"]},
+    {"polityId":"kartli","regions":["kartli","samtskhe"],"capitalId":"tiflis"},
+    {"polityId":"kakheti","regions":["kakheti"]},
+    {"polityId":"imereti","regions":["imereti"],"capitalId":"kutaisi"},
+    {"polityId":"crimea","regions":["crimea"],"vassalOf":"ottoman"},
+    {"polityId":"delhi-sultanate","regions":["delhi","sirhind","punjab","agra"],"capitalId":"dehli"}
+  ]
+}

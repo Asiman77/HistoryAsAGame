@@ -1,0 +1,47 @@
+{
+  "id": "y1440",
+  "year": 1440,
+  "title": {
+    "az": "Teymurilər və türkman dövlətləri"
+  },
+  "certainty": "approximate",
+  "note": {
+    "az": "Şahruxun Teymuri dövləti şərqdə hakimdir. Qaraqoyunlular Azərbaycan və İraqı, Ağqoyunlular Diyarbəkir ətrafını idarə edir. Bizansdan yalnız Konstantinopol qalıb."
+  },
+  "sources": [
+    {
+      "title": "Timurid Empire",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Timurid_Empire"
+    },
+    {
+      "title": "Qara Qoyunlu",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Qara_Qoyunlu"
+    },
+    {
+      "title": "Aq Qoyunlu",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Aq_Qoyunlu"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","bithynia","west-anatolia","teke","ankara","sivas"],"capitalId":"edirne"},
+    {"polityId":"byzantine","regions":["constantinople"],"capitalId":"istanbul"},
+    {"polityId":"trebizond","regions":["trebizond"],"capitalId":"trabzon"},
+    {"polityId":"karaman","regions":["karaman"],"capitalId":"konya"},
+    {"polityId":"dulkadir","regions":["dulkadir"],"vassalOf":"mamluk"},
+    {"polityId":"mamluk","regions":["egypt-delta","upper-egypt","sinai","palestine","damascus","aleppo","cilicia","malatya","hejaz"],"capitalId":"qahire"},
+    {"polityId":"agqoyunlu","regions":["diyarbakir","mardin","urfa"],"capitalId":"amid"},
+    {"polityId":"qaraqoyunlu","regions":["azerbaijan","ardabil","nakhchivan","yerevan","karabakh","ganja","mughan","talysh","erzurum","erzincan","van","bitlis","kars","qazvin","hamadan","kermanshah","baghdad","basra","kirkuk","mosul"],"capitalId":"tebriz"},
+    {"polityId":"timurid","regions":["khorasan","khorasan-north","herat","merv","balkh","badakhshan","ghur","sistan","kuhistan","transoxiana","tashkent","fergana","khwarezm","kabul","ghazni","kandahar","kerman","yazd","fars","isfahan","qum-kashan","ray","semnan","kavir","mazandaran","astarabad","luristan"],"capitalId":"herat"},
+    {"polityId":"shirvan","regions":["shirvan","absheron","derbent"]},
+    {"polityId":"georgia","regions":["kartli","kakheti","samtskhe","imereti"],"capitalId":"tiflis"},
+    {"polityId":"delhi-sultanate","regions":["delhi","sirhind"],"capitalId":"dehli"}
+  ]
+}

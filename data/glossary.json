@@ -1,1 +1,178 @@
-{ "entries": [] }
+{
+  "entries": [
+    {
+      "id": "qizilbash",
+      "term": { "az": "qızılbaş" },
+      "definition": { "az": "Hərfi mənası \"qırmızı baş\". Səfəvi təriqətinin türk tayfalarından olan döyüşçü müridləri. On iki dilimli qırmızı papaq (tac-i Heydəri) taxırdılar və Səfəvi dövlətinin əsas hərbi qüvvəsi idilər." },
+      "forms": ["qızılbaş"]
+    },
+    {
+      "id": "qurultay",
+      "term": { "az": "qurultay" },
+      "definition": { "az": "Türk və monqol ənənəsində əyanların, tayfa başçılarının və sərkərdələrin böyük məclisi. Burada hökmdar seçilir və ya mühüm qərarlar qəbul edilirdi." },
+      "forms": ["qurultay"]
+    },
+    {
+      "id": "xanliq",
+      "term": { "az": "xanlıq" },
+      "definition": { "az": "Xanın idarə etdiyi dövlət və ya ərazi. Məsələn, Buxara və Xivə xanlıqları." },
+      "forms": ["xanlıq", "xanlığ"]
+    },
+    {
+      "id": "beylerbeyi",
+      "term": { "az": "bəylərbəyi" },
+      "definition": { "az": "\"Bəylərin bəyi\". Böyük əyalətin hərbi və mülki idarəçisi. Osmanlı və Səfəvi dövlətlərində ən yüksək canişin rütbələrindən biri idi." },
+      "forms": ["bəylərbəy"]
+    },
+    {
+      "id": "texellus",
+      "term": { "az": "təxəllüs" },
+      "definition": { "az": "Şairin şeirlərində istifadə etdiyi ədəbi ad. Şah İsmayılın təxəllüsü \"Xətai\" idi." },
+      "forms": ["təxəllüs"]
+    },
+    {
+      "id": "teriqet",
+      "term": { "az": "təriqət" },
+      "definition": { "az": "Sufi qardaşlığı: bir şeyxin (mürşidin) rəhbərlik etdiyi dini-mistik birlik. Səfəvi təriqətini XIV əsrdə Ərdəbildə Şeyx Səfiəddin qurmuşdu." },
+      "forms": ["təriqət"]
+    },
+    {
+      "id": "murid",
+      "term": { "az": "mürid" },
+      "definition": { "az": "Təriqətdə şeyxə (mürşidə) bağlı olan ardıcıl, şagird." },
+      "forms": ["mürid"]
+    },
+    {
+      "id": "sheyx",
+      "term": { "az": "şeyx" },
+      "definition": { "az": "Burada: sufi təriqətinin başçısı, mürşid. Səfəvi şeyxləri həm dini, həm də siyasi lider idilər." },
+      "forms": ["şeyx"]
+    },
+    {
+      "id": "sultan",
+      "term": { "az": "sultan" },
+      "definition": { "az": "\"Hakimiyyət sahibi\". Osmanlı, Məmlük və Ağqoyunlu kimi dövlətlərdə hökmdar titulu." },
+      "forms": ["sultan"]
+    },
+    {
+      "id": "padshah",
+      "term": { "az": "padşah" },
+      "definition": { "az": "Fars mənşəli \"böyük şah, hökmdar\" titulu. Böyük Moğol hökmdarları və Uzun Həsən bu titulla tanınırdı." },
+      "forms": ["padşah"]
+    },
+    {
+      "id": "mirze",
+      "term": { "az": "mirzə" },
+      "definition": { "az": "Adın sonunda gələndə \"şahzadə\" deməkdir (Əli Mirzə, Əbu Səid Mirzə). Adın əvvəlində isə savadlı katib və ya məmur mənasında işlənirdi." },
+      "forms": ["mirzə"]
+    },
+    {
+      "id": "pasha",
+      "term": { "az": "paşa" },
+      "definition": { "az": "Osmanlı dövlətində yüksək hərbi və mülki rütbə: vəzirlərə, bəylərbəyilərə və böyük sərkərdələrə verilirdi." },
+      "forms": ["paşa"]
+    },
+    {
+      "id": "turbe",
+      "term": { "az": "türbə" },
+      "definition": { "az": "Görkəmli şəxsin məzarı üzərində tikilmiş günbəzli bina, məqbərə." },
+      "forms": ["türbə"]
+    },
+    {
+      "id": "shie",
+      "term": { "az": "şiə" },
+      "definition": { "az": "İslamın iki əsas qolundan biri. On iki imam şiəliyi Şah İsmayılın dövründə Səfəvi dövlətinin rəsmi məzhəbi oldu." },
+      "forms": ["şiə"]
+    },
+    {
+      "id": "sunni",
+      "term": { "az": "sünni" },
+      "definition": { "az": "İslamın ən böyük qolu. Osmanlı dövləti, özbək xanlıqları və Böyük Moğollar sünni idi." },
+      "forms": ["sünni"]
+    },
+    {
+      "id": "mezheb",
+      "term": { "az": "məzhəb" },
+      "definition": { "az": "İslamda dini-hüquqi məktəb. Məsələn, Cəfəri məzhəbi şiə, Hənəfi məzhəbi isə sünni məktəbidir." },
+      "forms": ["məzhəb"]
+    },
+    {
+      "id": "zeydi",
+      "term": { "az": "zeydi" },
+      "definition": { "az": "Şiəliyin kiçik qollarından biri. Gilandakı Kar-Kiya hökmdarları zeydi idi." },
+      "forms": ["zeydi"]
+    },
+    {
+      "id": "sufi",
+      "term": { "az": "sufi" },
+      "definition": { "az": "İslam mistikası olan təsəvvüfün ardıcılı. Sufilər təriqətlərdə birləşirdilər." },
+      "forms": ["sufi"]
+    },
+    {
+      "id": "salname",
+      "term": { "az": "salnamə" },
+      "definition": { "az": "Hadisələri il-il təsvir edən tarixi əsər, xronika. Çox vaxt saray tarixçiləri tərəfindən yazılırdı." },
+      "forms": ["salnamə"]
+    },
+    {
+      "id": "qanunname",
+      "term": { "az": "qanunnamə" },
+      "definition": { "az": "Hökmdarın adından verilən qanunlar toplusu: vergi, ticarət, cəza və torpaq qaydalarını müəyyən edirdi." },
+      "forms": ["qanunnamə"]
+    },
+    {
+      "id": "yeniceri",
+      "term": { "az": "yeniçəri" },
+      "definition": { "az": "Osmanlı sultanının daimi piyada qoşunu. XV–XVI əsrlərdə odlu silahdan geniş istifadə edən ən intizamlı ordulardan biri idi." },
+      "forms": ["yeniçəri"]
+    },
+    {
+      "id": "divan",
+      "term": { "az": "divan" },
+      "definition": { "az": "İki mənası var: 1) bir şairin şeirlərinin toplusu (Xətai divanı); 2) hökmdarın dövlət şurası." },
+      "forms": ["divan"]
+    },
+    {
+      "id": "mesnevi",
+      "term": { "az": "məsnəvi" },
+      "definition": { "az": "Hər beytinin misraları öz aralarında qafiyələnən uzun şeir forması. \"Dəhnamə\" məsnəvidir." },
+      "forms": ["məsnəvi"]
+    },
+    {
+      "id": "eyvan",
+      "term": { "az": "eyvan" },
+      "definition": { "az": "Bir tərəfi açıq, tağlı böyük zal. İran və Azərbaycan məscid memarlığının əsas elementlərindən biridir." },
+      "forms": ["eyvan"]
+    },
+    {
+      "id": "miniatur",
+      "term": { "az": "miniatür" },
+      "definition": { "az": "Əlyazma kitablarını bəzəyən kiçik, incə rəsm. Təbriz miniatür məktəbi Səfəvilər dövründə zirvəsinə çatdı." },
+      "forms": ["miniatür"]
+    },
+    {
+      "id": "sulale",
+      "term": { "az": "sülalə" },
+      "definition": { "az": "Hakimiyyəti nəsildən-nəslə ötürən hökmdar ailəsi. Məsələn, Səfəvilər, Bayandurlar (Ağqoyunlu), Hotakilər." },
+      "forms": ["sülalə"]
+    },
+    {
+      "id": "eyan",
+      "term": { "az": "əyan" },
+      "definition": { "az": "Dövlətin nüfuzlu adamları: iri torpaq sahibləri, saray məmurları, tayfa başçıları." },
+      "forms": ["əyan"]
+    },
+    {
+      "id": "vassal",
+      "term": { "az": "vassal" },
+      "definition": { "az": "Daha güclü dövlətdən asılı olan, ona xərac verən və ya hərbi yardım göstərən, amma öz hökmdarını saxlayan dövlət." },
+      "forms": ["vassal"]
+    },
+    {
+      "id": "ilhaq",
+      "term": { "az": "ilhaq" },
+      "definition": { "az": "Bir dövlətin başqa dövlətin ərazisini zorla və ya müqavilə ilə öz tərkibinə qatması." },
+      "forms": ["ilhaq"]
+    }
+  ]
+}

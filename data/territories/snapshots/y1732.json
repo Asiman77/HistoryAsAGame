@@ -1,0 +1,45 @@
+{
+  "id": "y1732",
+  "year": 1732,
+  "title": {
+    "az": "Nadirin ilk qələbələrindən sonra"
+  },
+  "certainty": "approximate",
+  "note": {
+    "az": "Nadir əfqanları qovub, Təbrizi və Həmədanı geri alıb. Rusiya Gilanı qaytarıb (Rəşt müqaviləsi, 1732). Cənubi Qafqaz hələ Osmanlıların əlindədir."
+  },
+  "sources": [
+    {
+      "title": "Treaty of Resht",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Treaty_of_Resht"
+    },
+    {
+      "title": "Ottoman–Persian War (1730–1735)",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Ottoman–Persian_War_(1730–1735)"
+    },
+    {
+      "title": "Nader Shah",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Nader_Shah"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bosnia","albania","wallachia","bithynia","west-anatolia","teke","ankara","sivas","kastamonu","trebizond","karaman","cilicia","dulkadir","malatya","erzincan","erzurum","kars","van","bitlis","diyarbakir","mardin","urfa","mosul","jazira","kirkuk","baghdad","basra","euphrates-mid","aleppo","damascus","palestine","sinai","egypt-delta","upper-egypt","hejaz","cyprus","samtskhe","nakhchivan","yerevan","ganja","karabakh","kartli","kakheti"],"capitalId":"istanbul"},
+    {"polityId":"shirvan","regions":["shirvan","shaki"],"name":{"az":"Şirvan (Osmanlı vassalı)"},"vassalOf":"ottoman"},
+    {"polityId":"russia","regions":["lower-volga","don-steppe","terek","derbent","absheron"]},
+    {"polityId":"safavid","regions":["azerbaijan","ardabil","mughan","talysh","gilan","qazvin","ray","qum-kashan","hamadan","kermanshah","luristan","isfahan","fars","kerman","yazd","kavir","semnan","khuzestan","mazandaran","astarabad","lar-hormuz","khorasan","khorasan-north","kuhistan","sistan","herat"],"name":{"az":"Səfəvilər (Nadirin hakimiyyəti)"},"capitalId":"isfahan"},
+    {"polityId":"hotaki","regions":["kandahar"],"capitalId":"qendehar"},
+    {"polityId":"imereti","regions":["imereti"],"vassalOf":"ottoman","capitalId":"kutaisi"},
+    {"polityId":"mughal","regions":["kabul","ghazni","peshawar","kashmir","punjab","multan","derajat","sindh","sirhind","delhi","agra","rohilkhand","rajputana","gujarat","malwa","bundelkhand"],"capitalId":"dehli"},
+    {"polityId":"bukhara","regions":["transoxiana","balkh","badakhshan"],"capitalId":"buxara"},
+    {"polityId":"khiva","regions":["khwarezm"],"capitalId":"xive"},
+    {"polityId":"crimea","regions":["crimea","kuban-steppe"],"vassalOf":"ottoman"}
+  ]
+}

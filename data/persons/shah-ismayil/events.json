@@ -6,6 +6,7 @@
       "order": 0,
       "date": { "year": 1487, "month": 7, "day": 17, "certainty": "exact" },
       "type": "birth",
+      "mood": "birth",
       "location": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 },
       "title": { "az": "Ərdəbildə doğuluş" },
       "factualSummary": {
@@ -39,6 +40,7 @@
         "note": { "az": "Əksər mənbələr 9 iyul 1488-i göstərir. Fərrux Yasar haqqındakı məqalədə 9 iyun da qeyd olunur." }
       },
       "type": "childhood",
+      "mood": "hardship",
       "location": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 },
       "title": { "az": "Atanın ölüm xəbəri" },
       "factualSummary": {
@@ -58,6 +60,7 @@
       "order": 2,
       "date": { "year": 1488, "certainty": "approximate" },
       "type": "exile",
+      "mood": "exile",
       "fromLocation": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 },
       "route": [[51.67, 32.65]],
       "location": {
@@ -91,6 +94,7 @@
         ]
       },
       "type": "journey",
+      "mood": "hardship",
       "fromLocation": {
         "name": { "az": "İstəxr qalası" },
         "lat": 29.98,
@@ -138,6 +142,7 @@
       "order": 4,
       "date": { "year": 1494, "certainty": "approximate" },
       "type": "exile",
+      "mood": "exile",
       "fromLocation": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 },
       "route": [[49.58, 37.28]],
       "location": { "name": { "az": "Lahican (Gilan)" }, "lat": 37.2071, "lng": 50.0039 },
@@ -159,6 +164,7 @@
       "order": 5,
       "date": { "year": 1495, "certainty": "approximate", "note": { "az": "Lahicanda təqribən 1494–1499-cu illər." } },
       "type": "education",
+      "mood": "childhood",
       "location": { "name": { "az": "Lahican (Gilan)" }, "lat": 37.2071, "lng": 50.0039 },
       "title": { "az": "Lahicanda təhsil" },
       "factualSummary": {
@@ -191,6 +197,7 @@
       "order": 6,
       "date": { "year": 1499, "certainty": "approximate" },
       "type": "journey",
+      "mood": "journey",
       "fromLocation": { "name": { "az": "Lahican (Gilan)" }, "lat": 37.2071, "lng": 50.0039 },
       "route": [[49.58, 37.28]],
       "location": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 },
@@ -212,6 +219,7 @@
       "order": 7,
       "date": { "year": 1500, "certainty": "approximate", "note": { "az": "1500-cü ilin yayı." } },
       "type": "journey",
+      "mood": "rise",
       "fromLocation": { "name": { "az": "Ərdəbil" }, "lat": 38.2498, "lng": 48.2933 },
       "location": { "name": { "az": "Ərzincan" }, "lat": 39.75, "lng": 39.5 },
       "title": { "az": "Ərzincanda qızılbaşların toplanması" },
@@ -252,6 +260,7 @@
       "order": 8,
       "date": { "year": 1500, "month": 12, "certainty": "approximate" },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": { "name": { "az": "Ərzincan" }, "lat": 39.75, "lng": 39.5 },
       "route": [[44.79, 40.4]],
       "location": {
@@ -268,6 +277,19 @@
         "az": "Qış soyuğunda Kürün suyu atların sinəsinə qədər qalxır. Qarşımızda Şirvan bayraqları dalğalanır. Döyüş qısa və amansız olur. Axşam mənə Fərrux Yasarın öldüyünü xəbər verirlər. Atamın qanı yerdə qalmadı."
       },
       "outcome": {
+        "ownSide": { "az": "Qızılbaşlar" },
+        "enemySide": { "az": "Şirvanşah qoşunu" },
+        "commanders": {
+          "own": [{ "az": "İsmayıl" }],
+          "enemy": [{ "az": "Fərrux Yasar (həlak oldu)" }]
+        },
+        "ownPolityId": "safavid",
+        "enemyPolityId": "shirvan",
+        "maneuvers": [
+          { "side": "own", "kind": "advance", "path": [[48.16,40.17],[48.266,40.372],[48.43,40.53]], "label": { "az": "Kürü keçir" }},
+          { "side": "enemy", "kind": "advance", "path": [[48.76,40.67],[48.637,40.604],[48.5,40.58]] },
+          { "side": "enemy", "kind": "retreat", "path": [[48.48,40.61],[48.519,40.78],[48.61,40.93]] }
+        ],
         "result": "victory",
         "opponent": { "az": "Şirvanşah Fərrux Yasar" },
         "forces": { "own": { "az": "təqr. 7000" }, "enemy": { "az": "dəqiq məlum deyil" } },
@@ -284,6 +306,8 @@
       "order": 9,
       "date": { "year": 1501, "certainty": "approximate", "note": { "az": "K. Farrox döyüşü 1501-ci ilin iyul–avqustuna aid edir." } },
       "type": "battle",
+      "mood": "battle",
+      "territorySnapshotId": "y1490",
       "fromLocation": {
         "name": { "az": "Cabanı (Şamaxı yaxınlığı)" },
         "lat": 40.57,
@@ -300,6 +324,19 @@
         "az": "Əlvəndin ordusu üfüqü örtür, bizim hər birimizə dörd nəfər düşür. Qızılbaşlar \"Allah, Məhəmməd, Əli\" deyə hücuma keçir. Günortaya qədər Ağqoyunlu bayraqları yerə sərilir. Babamın taxtı qarşıdadır."
       },
       "outcome": {
+        "ownSide": { "az": "Qızılbaşlar" },
+        "enemySide": { "az": "Ağqoyunlu ordusu" },
+        "commanders": {
+          "own": [{ "az": "İsmayıl" }],
+          "enemy": [{ "az": "Əlvənd Mirzə" }]
+        },
+        "ownPolityId": "safavid",
+        "enemyPolityId": "agqoyunlu",
+        "maneuvers": [
+          { "side": "own", "kind": "attack", "path": [[45.335,39.854],[45.201,39.694],[45.025,39.584]] },
+          { "side": "enemy", "kind": "advance", "path": [[45.285,39.154],[45.121,39.312],[45.015,39.514]] },
+          { "side": "enemy", "kind": "retreat", "path": [[44.945,39.554],[44.707,39.567],[44.485,39.654]] }
+        ],
         "result": "victory",
         "opponent": { "az": "Ağqoyunlu hökmdarı Əlvənd Mirzə" },
         "forces": { "own": { "az": "təqr. 7000" }, "enemy": { "az": "təqr. 4 dəfə çox (dəqiq rəqəm məlum deyil)" } },
@@ -332,6 +369,7 @@
         "note": { "az": "22 dekabr 1501 (1 cəmadiyəlaxır 907) tarixini yalnız Qasım bəy Heyati (1554) verir." }
       },
       "type": "coronation",
+      "mood": "coronation",
       "fromLocation": { "name": { "az": "Şərur" }, "lat": 39.5536, "lng": 44.9846 },
       "location": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
       "title": { "az": "Təbrizdə taxta çıxma" },
@@ -360,6 +398,7 @@
       "order": 11,
       "date": { "year": 1503, "month": 6, "day": 21, "certainty": "exact" },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": { "name": { "az": "Təbriz" }, "lat": 38.08, "lng": 46.2919 },
       "location": {
         "name": { "az": "Həmədan yaxınlığı (Alma Bulağı)" },
@@ -375,6 +414,19 @@
         "az": "Muradın ordusu say-hesabsızdır, amma əsgərləri yorğun və pərakəndədir. Mənim adamlarım isə bir nəfər kimi hərəkət edir. Axşam düşmən düşərgəsi boşalır, sultan Murad qaçır. İranın qapıları açılır."
       },
       "outcome": {
+        "ownSide": { "az": "Qızılbaşlar" },
+        "enemySide": { "az": "Ağqoyunlu ordusu" },
+        "commanders": {
+          "own": [{ "az": "Şah İsmayıl" }],
+          "enemy": [{ "az": "Sultan Murad" }]
+        },
+        "ownPolityId": "safavid",
+        "enemyPolityId": "agqoyunlu",
+        "maneuvers": [
+          { "side": "own", "kind": "attack", "path": [[48.11,35.15],[48.316,35.019],[48.47,34.83]] },
+          { "side": "enemy", "kind": "advance", "path": [[48.86,34.45],[48.679,34.585],[48.55,34.77]] },
+          { "side": "enemy", "kind": "retreat", "path": [[48.51,34.75],[48.671,34.545],[48.76,34.3]] }
+        ],
         "result": "victory",
         "opponent": { "az": "Ağqoyunlu sultanı Murad" },
         "forces": { "own": { "az": "təqr. 12 000" }, "enemy": { "az": "70 000+ (salnamə rəqəmi)" } },
@@ -390,6 +442,7 @@
       "order": 12,
       "date": { "year": 1508, "certainty": "approximate" },
       "type": "journey",
+      "mood": "victory",
       "fromLocation": { "name": { "az": "Həmədan" }, "lat": 34.8, "lng": 48.51 },
       "location": { "name": { "az": "Bağdad" }, "lat": 33.3152, "lng": 44.3661 },
       "title": { "az": "Bağdadın tutulması" },
@@ -410,6 +463,7 @@
       "order": 13,
       "date": { "year": 1510, "month": 12, "day": 2, "certainty": "exact" },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": { "name": { "az": "Bağdad" }, "lat": 33.3152, "lng": 44.3661 },
       "route": [[51.42, 35.69], [59.6, 36.3]],
       "location": {
@@ -426,6 +480,21 @@
         "az": "Şərqə, Xorasan çöllərinə çıxırıq. Özbəklərin sayı bizdən çoxdur. Ona görə də geri çəkilmə taktikası ilə onları qala divarlarından uzağa çəkirik. Tələ işləyir. Şeybani xan qaçmağa çalışır, amma haqlanır."
       },
       "outcome": {
+        "ownSide": { "az": "Qızılbaşlar" },
+        "enemySide": { "az": "Özbək ordusu" },
+        "commanders": {
+          "own": [{ "az": "Şah İsmayıl" }],
+          "enemy": [{ "az": "Məhəmməd Şeybani xan (həlak oldu)" }]
+        },
+        "ownPolityId": "safavid",
+        "enemyPolityId": "shaybanid",
+        "maneuvers": [
+          { "side": "own", "kind": "retreat", "path": [[62.172,37.665],[61.992,37.636],[61.812,37.665]], "label": { "az": "saxta geri çəkilmə" }},
+          { "side": "enemy", "kind": "advance", "path": [[62.622,37.685],[62.424,37.643],[62.222,37.665]], "label": { "az": "təqib" }},
+          { "side": "own", "kind": "flank", "path": [[62.022,38.015],[62.165,37.893],[62.172,37.705]], "label": { "az": "pusqu" }},
+          { "side": "own", "kind": "flank", "path": [[62.022,37.315],[62.029,37.503],[62.172,37.625]] },
+          { "side": "enemy", "kind": "retreat", "path": [[62.222,37.685],[62.406,37.817],[62.622,37.885]] }
+        ],
         "result": "victory",
         "opponent": { "az": "Özbək hökmdarı Məhəmməd Şeybani xan" },
         "forces": { "own": { "az": "təqr. 17 000" }, "enemy": { "az": "sayca üstün idi (dəqiq rəqəm məlum deyil)" } },
@@ -441,6 +510,7 @@
       "order": 14,
       "date": { "year": 1514, "month": 8, "day": 23, "certainty": "exact" },
       "type": "battle",
+      "mood": "defeat",
       "fromLocation": {
         "name": { "az": "Mərv" },
         "lat": 37.665,
@@ -462,6 +532,21 @@
         "az": "Osmanlı ordusu arabaları zəncirlə bir-birinə bağlayıb arxasında toplar düzür. Bəylərimdən biri onlar hazırlaşmamış hücuma keçməyi məsləhət görür. Mən isə düşmənlə üz-üzə döyüşmək istəyirəm. Top gurultusu atlarımızı ürküdür. Yaralanıram. Bu gün məğlubiyyətin dadını ilk dəfə dadıram."
       },
       "outcome": {
+        "ownSide": { "az": "Qızılbaş süvariləri" },
+        "enemySide": { "az": "Osmanlı ordusu" },
+        "commanders": {
+          "own": [{ "az": "Şah İsmayıl" }, { "az": "Məhəmməd xan Ustaclu (həlak oldu)" }],
+          "enemy": [{ "az": "I Səlim" }, { "az": "Sinan paşa (Anadolu bəylərbəyi)" }]
+        },
+        "ownPolityId": "safavid",
+        "enemyPolityId": "ottoman",
+        "artillery": true,
+        "maneuvers": [
+          { "side": "enemy", "kind": "advance", "path": [[43.85,39.07],[44.06,39.104],[44.27,39.07]], "label": { "az": "toplar və arabalar" }},
+          { "side": "own", "kind": "attack", "path": [[44.75,39.25],[44.535,39.154],[44.3,39.13]], "label": { "az": "sağ cinah" }},
+          { "side": "own", "kind": "attack", "path": [[44.75,38.89],[44.515,38.914],[44.3,39.01]], "label": { "az": "sol cinah" }},
+          { "side": "own", "kind": "retreat", "path": [[44.41,39.07],[44.645,39.169],[44.9,39.19]] }
+        ],
         "result": "defeat",
         "opponent": { "az": "Osmanlı sultanı I Səlim" },
         "forces": { "own": { "az": "40 000–80 000, topsuz" }, "enemy": { "az": "60 000–100 000, 100–200 top" } },
@@ -520,6 +605,7 @@
       "order": 15,
       "date": { "year": 1522, "certainty": "approximate", "note": { "az": "Şeir yaradıcılığı ömür boyu davam edib. 1522 Behzadın kitabxanaya rəhbər təyinidir." } },
       "type": "culture",
+      "mood": "culture",
       "fromLocation": {
         "name": { "az": "Çaldıran düzü" },
         "lat": 39.07,
@@ -560,6 +646,7 @@
         "note": { "az": "Tarixdə ixtilaf yoxdur, ölüm yeri isə mübahisəlidir (aşağıya bax)." }
       },
       "type": "death",
+      "mood": "death",
       "location": {
         "name": { "az": "Təbriz yaxınlığı" },
         "lat": 38.08,

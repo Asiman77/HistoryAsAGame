@@ -1,0 +1,46 @@
+{
+  "id": "y1726",
+  "year": 1726,
+  "title": {
+    "az": "Böhran illəri: əfqan, Osmanlı və rus işğalları"
+  },
+  "certainty": "disputed",
+  "note": {
+    "az": "1722-də Hotaki əfqanları İsfahanı aldı. Osmanlılar Azərbaycanı və Qərbi İranı, Rusiya Xəzər sahillərini tutdu. II Təhmasib şimal-şərqdə dayaq axtarır. Bu illərdə sərhədlər çox qeyri-müəyyən idi."
+  },
+  "sources": [
+    {
+      "title": "Hotak dynasty",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Hotak_dynasty"
+    },
+    {
+      "title": "Ottoman–Persian War (1722–1727)",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Ottoman–Persian_War_(1722–1727)"
+    },
+    {
+      "title": "Russo-Persian War (1722–1723)",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Russo-Persian_War_(1722–1723)"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bosnia","albania","wallachia","bithynia","west-anatolia","teke","ankara","sivas","kastamonu","trebizond","karaman","cilicia","dulkadir","malatya","erzincan","erzurum","kars","van","bitlis","diyarbakir","mardin","urfa","mosul","jazira","kirkuk","baghdad","basra","euphrates-mid","aleppo","damascus","palestine","sinai","egypt-delta","upper-egypt","hejaz","cyprus","samtskhe","azerbaijan","ardabil","nakhchivan","yerevan","ganja","karabakh","kartli","kakheti","hamadan","kermanshah","luristan"],"capitalId":"istanbul"},
+    {"polityId":"shirvan","regions":["shirvan","shaki"],"name":{"az":"Şirvan (Osmanlı vassalı)"},"vassalOf":"ottoman"},
+    {"polityId":"russia","regions":["lower-volga","don-steppe","terek","derbent","absheron","gilan"]},
+    {"polityId":"hotaki","regions":["isfahan","fars","kerman","yazd","kavir","qum-kashan","ray","kandahar"],"capitalId":"isfahan"},
+    {"polityId":"safavid","regions":["mazandaran","astarabad","semnan","khorasan","khorasan-north","kuhistan"],"name":{"az":"Səfəvilər (II Təhmasib)"}},
+    {"polityId":"abdali","regions":["herat"],"capitalId":"herat"},
+    {"polityId":"imereti","regions":["imereti"],"vassalOf":"ottoman","capitalId":"kutaisi"},
+    {"polityId":"mughal","regions":["kabul","ghazni","peshawar","kashmir","punjab","multan","derajat","sindh","sirhind","delhi","agra","rohilkhand","rajputana","gujarat","malwa","bundelkhand"],"capitalId":"dehli"},
+    {"polityId":"bukhara","regions":["transoxiana","balkh","badakhshan"],"capitalId":"buxara"},
+    {"polityId":"khiva","regions":["khwarezm"],"capitalId":"xive"},
+    {"polityId":"crimea","regions":["crimea","kuban-steppe"],"vassalOf":"ottoman"}
+  ]
+}

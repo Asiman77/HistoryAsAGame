@@ -1,4 +1,14 @@
-import type { Era, GlossaryEntry, LifeEvent, Person, Relation } from "@/domain/schema";
+import type {
+  Era,
+  GlossaryEntry,
+  LifeEvent,
+  Person,
+  Place,
+  Polity,
+  Relation,
+  TerritorySnapshotMeta,
+  WorldEvent,
+} from "@/domain/schema";
 
 export interface PersonFilter {
   eraId?: string;
@@ -18,4 +28,9 @@ export interface HistoryRepository {
   getEvents(personId: string): Promise<LifeEvent[]>;
   getRelations(personId: string): Promise<Relation[]>;
   getGlossary(): Promise<GlossaryEntry[]>;
+  listPlaces(): Promise<Place[]>;
+  listPolities(): Promise<Polity[]>;
+  /** Snapshot metadata sorted by year. Geometry is fetched by the browser from public/data/territories/<id>.json. */
+  listTerritorySnapshots(): Promise<TerritorySnapshotMeta[]>;
+  listWorldEvents(): Promise<WorldEvent[]>;
 }

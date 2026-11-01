@@ -1,10 +1,10 @@
 import { bezierSpline, greatCircle, length, lineString, point } from "@turf/turf";
 import type { Feature, LineString } from "geojson";
-import type { LifeEvent, Place } from "@/domain/schema";
+import type { LifeEvent, Location } from "@/domain/schema";
 
 export type LngLat = [number, number];
 
-const toLngLat = (p: Place): LngLat => [p.lng, p.lat];
+const toLngLat = (p: Location): LngLat => [p.lng, p.lat];
 
 /** Offsets the midpoint sideways to get a gentle arc for short, waypoint-less hops. */
 function arcThrough(a: LngLat, b: LngLat): LngLat[] {

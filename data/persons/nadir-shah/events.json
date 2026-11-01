@@ -15,6 +15,7 @@
         ]
       },
       "type": "birth",
+      "mood": "birth",
       "location": {
         "name": { "az": "Dəstgerd (Dərəgəz)" },
         "modernName": { "az": "Dərəgəz, Xorasani-Rəzəvi (İran)" },
@@ -40,6 +41,7 @@
       "order": 1,
       "date": { "year": 1700, "certainty": "approximate" },
       "type": "childhood",
+      "mood": "hardship",
       "location": { "name": { "az": "Dərəgəz" }, "lat": 37.44, "lng": 59.11, "approximate": true },
       "title": { "az": "Çoban ailəsində uşaqlıq" },
       "factualSummary": {
@@ -66,6 +68,7 @@
         "note": { "az": "Əsirlik hekayəsi mənbələrdə \"iddia olunur\" kimi verilir və əfsanə ola bilər." }
       },
       "type": "exile",
+      "mood": "exile",
       "location": { "name": { "az": "Dərəgəz" }, "lat": 37.44, "lng": 59.11, "approximate": true },
       "title": { "az": "Özbək əsirliyi (rəvayət)" },
       "factualSummary": {
@@ -97,6 +100,7 @@
       "order": 3,
       "date": { "year": 1719, "certainty": "approximate", "note": { "az": "Oğlu Rzaqulunun doğum ili. Nikahın dəqiq tarixi məlum deyil." } },
       "type": "marriage",
+      "mood": "rise",
       "fromLocation": { "name": { "az": "Dərəgəz" }, "lat": 37.44, "lng": 59.11, "approximate": true },
       "location": {
         "name": { "az": "Əbivərd" },
@@ -123,6 +127,7 @@
       "order": 4,
       "date": { "year": 1726, "month": 11, "certainty": "approximate", "note": { "az": "Nadir 1726-cı ilin payızında Təhmasibə qoşuldu, Məşhəd həmin ilin sonunda alındı." } },
       "type": "journey",
+      "mood": "rise",
       "fromLocation": {
         "name": { "az": "Əbivərd" },
         "lat": 37.27,
@@ -169,6 +174,7 @@
       "order": 5,
       "date": { "year": 1729, "month": 9, "day": 29, "certainty": "exact", "note": { "az": "Döyüş 29 sentyabr – 5 oktyabr 1729-cu illərdə davam etdi." } },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": { "name": { "az": "Məşhəd" }, "lat": 36.2972, "lng": 59.6067 },
       "location": {
         "name": { "az": "Mehmandust (Damğan yaxınlığı)" },
@@ -184,6 +190,19 @@
         "az": "Əfqan süvariləri dalğa-dalğa üstümüzə gəlir. Mən isə tüfəngçilərimi sıra ilə düzmüşəm, illərlə məşq etdirmişəm. \"Atəş!\" əmrindən sonra tüstü dağılanda düşmən cinahları dağılmış olur. İsfahana gedən yol açılır."
       },
       "outcome": {
+        "ownSide": { "az": "II Təhmasibin ordusu (Nadirin komandanlığı ilə)" },
+        "enemySide": { "az": "Hotaki əfqanları" },
+        "commanders": {
+          "own": [{ "az": "Nadir (Təhmasibqulu xan)" }],
+          "enemy": [{ "az": "Əşrəf Hotaki" }]
+        },
+        "ownPolityId": "safavid",
+        "enemyPolityId": "hotaki",
+        "maneuvers": [
+          { "side": "own", "kind": "advance", "path": [[55.15,36.3],[54.954,36.243],[54.75,36.25]] },
+          { "side": "enemy", "kind": "attack", "path": [[54.25,36.22],[54.448,36.267],[54.65,36.25]] },
+          { "side": "enemy", "kind": "retreat", "path": [[54.66,36.25],[54.413,36.159],[54.15,36.15]] }
+        ],
         "result": "victory",
         "opponent": { "az": "Hotaki hökmdarı Əşrəf" },
         "forces": { "own": { "az": "16 000–25 000" }, "enemy": { "az": "25 000–50 000" } },
@@ -199,6 +218,7 @@
       "order": 6,
       "date": { "year": 1729, "month": 11, "certainty": "approximate" },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": { "name": { "az": "Mehmandust (Damğan yaxınlığı)" }, "lat": 36.25, "lng": 54.7 },
       "route": [[51.42, 35.69]],
       "location": { "name": { "az": "Mürçəxur (İsfahan yaxınlığı)" }, "lat": 33.09, "lng": 51.48, "approximate": true },
@@ -210,6 +230,19 @@
         "az": "İsfahanın göy günbəzləri uzaqdan görünür. Əşrəf son dəfə qarşımıza çıxır, amma əsgərləri artıq ruhdan düşüb. Bir neçə həftə sonra Təhmasib şahların şəhərinə qayıdır. Camaat isə küçələrdə mənim adımı çəkir."
       },
       "outcome": {
+        "ownSide": { "az": "II Təhmasibin ordusu (Nadirin komandanlığı ilə)" },
+        "enemySide": { "az": "Hotaki əfqanları" },
+        "commanders": {
+          "own": [{ "az": "Nadir (Təhmasibqulu xan)" }],
+          "enemy": [{ "az": "Əşrəf Hotaki" }]
+        },
+        "ownPolityId": "safavid",
+        "enemyPolityId": "hotaki",
+        "maneuvers": [
+          { "side": "own", "kind": "advance", "path": [[51.48,33.54],[51.512,33.34],[51.48,33.14]] },
+          { "side": "enemy", "kind": "attack", "path": [[51.5,32.69],[51.462,32.863],[51.48,33.04]] },
+          { "side": "enemy", "kind": "retreat", "path": [[51.5,33.04],[51.597,32.85],[51.63,32.64]], "label": { "az": "İsfahana" }}
+        ],
         "result": "victory",
         "opponent": { "az": "Hotaki hökmdarı Əşrəf" },
         "context": { "az": "Əfqanların İran üzərində hakimiyyəti sona çatdı, Səfəvi sülaləsi formal olaraq bərpa olundu." }
@@ -225,6 +258,7 @@
       "order": 7,
       "date": { "year": 1735, "month": 6, "day": 19, "certainty": "exact" },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": { "name": { "az": "İsfahan" }, "lat": 32.6546, "lng": 51.668 },
       "route": [[48.5146, 34.798], [46.2919, 38.08]],
       "location": {
@@ -242,6 +276,20 @@
         "az": "Osmanlı ordusu təpənin ətəyində üç dəfə bizdən çoxdur. Abdulla paşa düşünür ki, mən onun düşərgəsinə hücum edəcəyəm. Mən isə kiçik dəstə ilə onu açıq meydana çəkirəm. Axşama qədər paşanın başı çadırımın önündədir. Gəncənin açarları yolda gəlir."
       },
       "outcome": {
+        "ownSide": { "az": "Nadirin ordusu" },
+        "enemySide": { "az": "Osmanlı ordusu" },
+        "commanders": {
+          "own": [{ "az": "Nadir (Təhmasibqulu xan)" }],
+          "enemy": [{ "az": "Köprülüzadə Abdulla paşa (həlak oldu)" }]
+        },
+        "ownPolityId": "safavid",
+        "enemyPolityId": "ottoman",
+        "maneuvers": [
+          { "side": "enemy", "kind": "advance", "path": [[44.14,40.385],[44.346,40.382],[44.54,40.315]], "label": { "az": "Qars tərəfdən" }},
+          { "side": "own", "kind": "attack", "path": [[44.99,40.255],[44.811,40.252],[44.64,40.305]] },
+          { "side": "own", "kind": "flank", "path": [[44.74,40.655],[44.731,40.472],[44.59,40.355]] },
+          { "side": "enemy", "kind": "retreat", "path": [[44.55,40.325],[44.306,40.378],[44.09,40.505]] }
+        ],
         "result": "victory",
         "opponent": { "az": "Osmanlı sərkərdəsi Köprülü Abdulla paşa" },
         "forces": { "own": { "az": "təqr. 15 000 (ön dəstə)" }, "enemy": { "az": "təqr. 80 000" } },
@@ -271,6 +319,7 @@
         "note": { "az": "Qurultay 1736-cı ilin yanvarında (bəzi mənbələrə görə fevralında) başladı, tacqoyma 8 martda oldu." }
       },
       "type": "coronation",
+      "mood": "coronation",
       "fromLocation": {
         "name": { "az": "Bağavərd (Yegevard)" },
         "lat": 40.305,
@@ -339,6 +388,7 @@
         "note": { "az": "Mühasirə 1737-ci ilin aprelində başladı. Bəzi mənbələrə görə təslim 25 martda olub." }
       },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": {
         "name": { "az": "Muğan düzü" },
         "lat": 40.0,
@@ -355,6 +405,19 @@
         "az": "Qəndəharın divarları qalın, müdafiəçiləri inadkardır. Mən tələsmirəm: qalanın yanında yeni şəhər salıram, əsgərlərim evlərdə qışlayır. Bir il sonra son qüllə də düşür. Şərqə, Hindistana gedən yol açıqdır."
       },
       "outcome": {
+        "ownSide": { "az": "Nadir Şahın ordusu" },
+        "enemySide": { "az": "Qəndəhar qarnizonu" },
+        "commanders": {
+          "own": [{ "az": "Nadir Şah" }],
+          "enemy": [{ "az": "Hüseyn Hotaki" }]
+        },
+        "ownPolityId": "afsharid",
+        "enemyPolityId": "hotaki",
+        "maneuvers": [
+          { "side": "own", "kind": "attack", "path": [[65.36,31.513],[65.508,31.583],[65.67,31.603]], "label": { "az": "mühasirə" }},
+          { "side": "own", "kind": "attack", "path": [[65.71,31.963],[65.735,31.808],[65.71,31.653]] },
+          { "side": "own", "kind": "attack", "path": [[66.01,31.363],[65.857,31.452],[65.74,31.583]] }
+        ],
         "result": "victory",
         "opponent": { "az": "Hotaki hökmdarı Hüseyn" },
         "context": { "az": "Hotaki hakimiyyətinə son qoyuldu. Əfqan tayfaları, xüsusilə Əbdalilər, Nadirin ordusuna qoşuldu." }
@@ -376,6 +439,7 @@
         "note": { "az": "Köhnə (Yuli) təqvimi ilə 13 fevral. Britaniya mənbələri bu tarixi istifadə edir. 1739-cu ildə iki təqvim arasındakı fərq 11 gün idi." }
       },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": { "name": { "az": "Qəndəhar" }, "lat": 31.6133, "lng": 65.71 },
       "route": [[69.18, 34.53], [71.57, 34.01], [74.34, 31.55]],
       "location": { "name": { "az": "Karnal" }, "modernName": { "az": "Haryana ştatı (Hindistan)" }, "lat": 29.6857, "lng": 76.9905 },
@@ -387,6 +451,20 @@
         "az": "Moğolların düşərgəsi şəhər boyda, fillər qala kimidir. Mən isə süvarilərimi və zənburəklərimi (dəvə üstündə toplar) hazırlayıram. Döyüş üç saat çəkmir. Axşam Hindistan padşahı mənim çadırıma gəlir."
       },
       "outcome": {
+        "ownSide": { "az": "Nadir Şahın ordusu" },
+        "enemySide": { "az": "Böyük Moğol ordusu" },
+        "commanders": {
+          "own": [{ "az": "Nadir Şah" }],
+          "enemy": [{ "az": "Məhəmməd şah" }, { "az": "Xan Dövran (həlak oldu)" }, { "az": "Səadət xan (əsir alındı)" }]
+        },
+        "ownPolityId": "afsharid",
+        "enemyPolityId": "mughal",
+        "artillery": true,
+        "maneuvers": [
+          { "side": "own", "kind": "advance", "path": [[76.59,30.036],[76.796,29.905],[76.95,29.716]] },
+          { "side": "enemy", "kind": "attack", "path": [[77.041,29.286],[76.988,29.457],[76.991,29.636]] },
+          { "side": "enemy", "kind": "retreat", "path": [[77.021,29.646],[77.188,29.462],[77.291,29.236]] }
+        ],
         "result": "victory",
         "opponent": { "az": "Böyük Moğol padşahı Məhəmməd şah" },
         "forces": { "own": { "az": "təqr. 55 000 döyüşçü" }, "enemy": { "az": "təqr. 75 000 döyüşçü (düşərgədə 300 minə qədər insan)" } },
@@ -415,6 +493,7 @@
       "order": 11,
       "date": { "year": 1739, "month": 3, "day": 20, "certainty": "exact", "note": { "az": "Bəzi mənbələrdə 21 mart." } },
       "type": "journey",
+      "mood": "hardship",
       "fromLocation": { "name": { "az": "Karnal" }, "lat": 29.6857, "lng": 76.9905 },
       "location": { "name": { "az": "Dehli (Şahcahanabad)" }, "lat": 28.6562, "lng": 77.241 },
       "title": { "az": "Dehli" },
@@ -465,6 +544,7 @@
       "order": 12,
       "date": { "year": 1740, "certainty": "approximate" },
       "type": "diplomacy",
+      "mood": "diplomacy",
       "fromLocation": { "name": { "az": "Dehli" }, "lat": 28.6562, "lng": 77.241 },
       "route": [[74.34, 31.55], [69.18, 34.53], [62.2, 34.35], [59.6067, 36.2972]],
       "location": { "name": { "az": "Buxara" }, "modernName": { "az": "Buxara (Özbəkistan)" }, "lat": 39.7747, "lng": 64.4286 },
@@ -486,6 +566,7 @@
       "order": 13,
       "date": { "year": 1740, "certainty": "approximate", "note": { "az": "1740-cı ilin sonu." } },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": { "name": { "az": "Buxara" }, "lat": 39.7747, "lng": 64.4286 },
       "location": { "name": { "az": "Xivə (Xarəzm)" }, "modernName": { "az": "Xivə (Özbəkistan)" }, "lat": 41.3775, "lng": 60.3639 },
       "title": { "az": "Xarəzm yürüşü" },
@@ -496,6 +577,19 @@
         "az": "Elçilərimin başlarını mənə göndəriblər. Səhra boyunca gedirik, qum dişlərimizdə xırçıldayır. Xivənin divarları önündə İlbars xan diz çökəndə artıq bağışlamaq vaxtı keçib. Qul bazarlarının qapılarını açdırıram."
       },
       "outcome": {
+        "ownSide": { "az": "Nadir Şahın ordusu" },
+        "enemySide": { "az": "Xivə xanlığının qoşunu" },
+        "commanders": {
+          "own": [{ "az": "Nadir Şah" }],
+          "enemy": [{ "az": "İlbars xan" }]
+        },
+        "ownPolityId": "afsharid",
+        "enemyPolityId": "khiva",
+        "maneuvers": [
+          { "side": "own", "kind": "advance", "path": [[60.814,40.978],[60.585,41.125],[60.414,41.338]], "label": { "az": "Amudərya boyunca" }},
+          { "side": "enemy", "kind": "attack", "path": [[59.964,41.628],[60.157,41.546],[60.314,41.408]] },
+          { "side": "enemy", "kind": "retreat", "path": [[60.344,41.418],[60.221,41.608],[60.164,41.828]] }
+        ],
         "result": "victory",
         "opponent": { "az": "Xivə xanı İlbars" },
         "forces": { "enemy": { "az": "təqr. 30 000 özbək və türkmən süvarisi" } },
@@ -513,6 +607,7 @@
       "order": 14,
       "date": { "year": 1741, "month": 9, "certainty": "approximate", "note": { "az": "Dağıstan yürüşləri 1741–1743-cü illəri əhatə edir. Əndəlaldan geri çəkilmə 1741-ci ilin sentyabrındadır." } },
       "type": "journey",
+      "mood": "decline",
       "fromLocation": { "name": { "az": "Xivə" }, "lat": 41.3775, "lng": 60.3639 },
       "route": [[59.6067, 36.2972], [53.0, 36.2], [48.2894, 42.0577]],
       "location": {
@@ -542,6 +637,7 @@
       "order": 15,
       "date": { "year": 1743, "month": 12, "certainty": "approximate" },
       "type": "culture",
+      "mood": "diplomacy",
       "fromLocation": {
         "name": { "az": "Dağıstan dağları" },
         "lat": 42.25,
@@ -568,6 +664,7 @@
       "order": 16,
       "date": { "year": 1745, "month": 8, "day": 19, "certainty": "approximate", "note": { "az": "Döyüş 9–19 avqust 1745-ci ildə davam etdi." } },
       "type": "battle",
+      "mood": "battle",
       "fromLocation": { "name": { "az": "Nəcəf" }, "lat": 32.0003, "lng": 44.3354 },
       "route": [[43.13, 36.34], [44.0, 39.0]],
       "location": {
@@ -585,6 +682,19 @@
         "az": "Yenə də bu təpə. On il əvvəl burada Abdulla paşanı məğlub etmişdim. İndi qarşımda başqa paşa, daha böyük ordu var. On gün boyunca səngərlərdə top atəşi kəsilmir. Onuncu gün Osmanlı düşərgəsində üsyan qalxır, paşa ölür. Bu, mənim son böyük qələbəm olacaq."
       },
       "outcome": {
+        "ownSide": { "az": "Nadir Şahın ordusu" },
+        "enemySide": { "az": "Osmanlı ordusu" },
+        "commanders": {
+          "own": [{ "az": "Nadir Şah" }],
+          "enemy": [{ "az": "Yeğən Məhəmməd paşa" }]
+        },
+        "ownPolityId": "afsharid",
+        "enemyPolityId": "ottoman",
+        "maneuvers": [
+          { "side": "enemy", "kind": "advance", "path": [[44.17,40.35],[44.374,40.357],[44.57,40.3]] },
+          { "side": "own", "kind": "attack", "path": [[45.07,40.3],[44.87,40.268],[44.67,40.3]] },
+          { "side": "enemy", "kind": "retreat", "path": [[44.58,40.3],[44.313,40.334],[44.07,40.45]] }
+        ],
         "result": "victory",
         "opponent": { "az": "Osmanlı sərkərdəsi Yegen Məhəmməd paşa" },
         "forces": { "own": { "az": "təqr. 60 000" }, "enemy": { "az": "mənbələrdə 80 000–160 000" } },
@@ -610,6 +720,7 @@
         ]
       },
       "type": "death",
+      "mood": "death",
       "fromLocation": {
         "name": { "az": "Bağavərd yaxınlığı" },
         "lat": 40.3,

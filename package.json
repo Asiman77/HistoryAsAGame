@@ -5,7 +5,7 @@
   "description": "Tarixin İçində — Azərbaycan tarixi şəxsiyyətlərinin interaktiv həyat simulyasiyası",
   "scripts": {
     "postinstall": "node scripts/copy-maplibre-worker.mjs",
-    "predev": "node scripts/copy-maplibre-worker.mjs",
+    "predev": "node scripts/copy-maplibre-worker.mjs && tsx scripts/build-territories.ts",
     "dev": "next dev",
     "build": "npm run validate:data && next build",
     "start": "serve out -l 3000",
@@ -14,10 +14,13 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "prebuild": "node scripts/copy-maplibre-worker.mjs"
+    "prebuild": "node scripts/copy-maplibre-worker.mjs && tsx scripts/build-territories.ts",
+    "build:territories": "tsx scripts/build-territories.ts",
+    "generate:audio": "tsx scripts/generate-audio.ts"
   },
   "dependencies": {
     "@turf/turf": "^7.4.0",
+    "howler": "^2.2.4",
     "maplibre-gl": "^6.16.0",
     "motion": "^14.9.0",
     "next": "^16.4.3",
@@ -26,8 +29,10 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@breezystack/lamejs": "^1.2.7",
     "@playwright/test": "^1.64.1",
     "@tailwindcss/postcss": "^4.3.3",
+    "@types/howler": "^2.2.13",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

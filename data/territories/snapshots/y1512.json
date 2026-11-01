@@ -1,0 +1,48 @@
+{
+  "id": "y1512",
+  "year": 1512,
+  "title": {
+    "az": "Mərvdən sonra, Çaldırandan əvvəl"
+  },
+  "certainty": "approximate",
+  "note": {
+    "az": "Mərv qələbəsindən sonra Xorasan və Herat Səfəvilərə keçib. Xarəzmdə özbək Ərəbşahilər hakimiyyəti ələ alıb. Səfəvi dövləti ən geniş sərhədlərindədir."
+  },
+  "sources": [
+    {
+      "title": "Battle of Marv",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Battle_of_Marv"
+    },
+    {
+      "title": "Khanate of Khiva",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Khanate_of_Khiva"
+    },
+    {
+      "title": "Safavid Iran",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Safavid_Iran"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bosnia","albania","wallachia","bithynia","west-anatolia","teke","ankara","sivas","kastamonu","trebizond","karaman"],"capitalId":"istanbul"},
+    {"polityId":"dulkadir","regions":["dulkadir"],"vassalOf":"mamluk"},
+    {"polityId":"mamluk","regions":["egypt-delta","upper-egypt","sinai","palestine","damascus","aleppo","cilicia","malatya","hejaz"],"capitalId":"qahire"},
+    {"polityId":"safavid","regions":["azerbaijan","ardabil","nakhchivan","yerevan","karabakh","ganja","mughan","talysh","qazvin","ray","qum-kashan","hamadan","kermanshah","luristan","isfahan","fars","kerman","yazd","kavir","semnan","baghdad","basra","kirkuk","mosul","jazira","diyarbakir","mardin","urfa","erzincan","erzurum","bitlis","van","kars","khuzestan","mazandaran","astarabad","khorasan","khorasan-north","herat","merv","kuhistan","sistan"],"capitalId":"tebriz"},
+    {"polityId":"shirvan","regions":["shirvan","absheron","derbent"],"vassalOf":"safavid"},
+    {"polityId":"gilan","regions":["gilan"],"vassalOf":"safavid","capitalId":"lahican"},
+    {"polityId":"shaybanid","regions":["transoxiana","tashkent","fergana","balkh"],"capitalId":"semerqend"},
+    {"polityId":"khiva","regions":["khwarezm"]},
+    {"polityId":"kartli","regions":["kartli","samtskhe"],"capitalId":"tiflis"},
+    {"polityId":"kakheti","regions":["kakheti"]},
+    {"polityId":"imereti","regions":["imereti"],"capitalId":"kutaisi"},
+    {"polityId":"crimea","regions":["crimea"],"vassalOf":"ottoman"},
+    {"polityId":"delhi-sultanate","regions":["delhi","sirhind","punjab","agra"],"capitalId":"aqra"}
+  ]
+}
