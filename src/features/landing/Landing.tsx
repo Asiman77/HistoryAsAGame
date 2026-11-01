@@ -9,6 +9,8 @@ import { Divider, Star } from "@/components/Ornament";
 import { format, t, type Messages } from "@/lib/i18n";
 import { formatDate } from "@/lib/dates";
 import { withBasePath } from "@/lib/basePath";
+import { SettingsButton } from "@/features/settings/SettingsPanel";
+import { useProgress, type PersonProgress } from "@/lib/progress";
 
 export interface LandingPerson {
   person: Person;
@@ -30,10 +32,14 @@ export function Landing({ locale, persons, eras, messages: m }: Props) {
     [persons, eraId],
   );
   const eraById = useMemo(() => new Map(eras.map((e) => [e.id, e])), [eras]);
+  const progress = useProgress();
 
   return (
     <main className="parchment relative min-h-full overflow-x-hidden">
       <BackdropMap />
+      <div className="paper-card absolute top-3 right-3 z-20 rounded-lg p-1 sm:top-5 sm:right-5">
+        <SettingsButton m={m} />
+      </div>
 
       <section className="relative mx-auto max-w-6xl px-4 pt-14 pb-10 sm:px-8 sm:pt-20">
         <motion.p
@@ -100,6 +106,7 @@ export function Landing({ locale, persons, eras, messages: m }: Props) {
                 <PersonCard
                   person={person}
                   eventCount={eventCount}
+                  progress={progress.persons[person.id]}
                   eras={person.eraIds.map((id) => eraById.get(id)).filter((e): e is Era => !!e)}
                   locale={locale}
                   m={m}
@@ -108,6 +115,8 @@ export function Landing({ locale, persons, eras, messages: m }: Props) {
             ))}
           </AnimatePresence>
         </motion.ul>
+
+        <CollectionStrip persons={persons} progress={progress} locale={locale} m={m} />
 
         <p className="mt-12 text-center text-sm text-ink-faint">{m.landing.footer}</p>
       </section>
@@ -136,12 +145,14 @@ function EraChip({ active, onClick, label, color }: { active: boolean; onClick: 
 function PersonCard({
   person,
   eventCount,
+  progress,
   eras,
   locale,
   m,
 }: {
   person: Person;
   eventCount: number;
+  progress: PersonProgress | undefined;
   eras: Era[];
   locale: Locale;
   m: Messages;
@@ -195,7 +206,12 @@ function PersonCard({
           {t(person.shortBio, locale)}
         </p>
         <div className="mt-auto flex items-center justify-between gap-2 pt-2">
-          <span className="text-xs text-ink-faint">{format(m.landing.events, { count: eventCount })}</span>
+          <span className="text-xs text-ink-faint">
+            {progress && !progress.completed && progress.furthest > 0
+              ? format(m.collection.progress, { n: progress.furthest + 1, total: eventCount })
+              : format(m.landing.events, { count: eventCount })}
+            {progress?.completed && <span className="ml-1.5 text-[#7a5a17]">✦ {m.collection.card}</span>}
+          </span>
           <span
             className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium text-parchment-light transition-[gap] duration-300 group-hover:gap-3"
             style={{ background: accent }}
@@ -240,5 +256,60 @@ function BackdropMap() {
         fill="none"
       />
     </svg>
+  );
+}
+
+/** Earned "tarixi kart"s and quiz badges. Soft gamification: nothing to lose, no streaks. */
+function CollectionStrip({
+  persons,
+  progress,
+  locale,
+  m,
+}: {
+  persons: LandingPerson[];
+  progress: ReturnType<typeof useProgress>;
+  locale: Locale;
+  m: Messages;
+}) {
+  const earned = persons.filter(({ person }) => progress.collection.cards[person.id]);
+  return (
+    <section className="mt-14" aria-labelledby="collection-title">
+      <h2 id="collection-title" className="mb-3 text-center font-display text-2xl text-ink">
+        {m.collection.title}
+      </h2>
+      {earned.length === 0 ? (
+        <p className="text-center text-sm text-ink-faint">{m.collection.empty}</p>
+      ) : (
+        <ul className="flex flex-wrap justify-center gap-4">
+          {persons.map(({ person }) => {
+            const card = progress.collection.cards[person.id];
+            const badge = progress.collection.quizBadges[person.id];
+            return (
+              <li key={person.id}>
+                <div
+                  className={`paper-card miniature-frame flex w-32 flex-col items-center rounded-md p-3 text-center ${card ? "" : "opacity-40 grayscale"}`}
+                  aria-label={card ? `${m.collection.card}: ${t(person.name, locale)}` : undefined}
+                  aria-hidden={card ? undefined : true}
+                >
+                  {person.portrait ? (
+                    <Image
+                      src={withBasePath(person.portrait.src)}
+                      alt=""
+                      width={80}
+                      height={100}
+                      className="h-24 w-20 rounded-sm border-2 border-gold/70 object-cover object-top"
+                    />
+                  ) : (
+                    <span className="grid h-24 w-20 place-items-center font-display text-3xl text-ink-faint">{t(person.name, locale)[0]}</span>
+                  )}
+                  <span className="mt-2 font-display text-sm leading-tight font-semibold text-ink">{t(person.shortName ?? person.name, locale)}</span>
+                  {badge && <span className="mt-1 text-[10px] font-medium text-[#7a5a17]">✦ {m.collection.badge}</span>}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </section>
   );
 }

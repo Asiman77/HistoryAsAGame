@@ -1,12 +1,26 @@
 "use client";
 
+import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
-import type { BattleOutcome, Certainty, Choice, HistoricalDate, Locale, Source } from "@/domain/schema";
+import type {
+  BattleOutcome,
+  Certainty,
+  Choice,
+  HistoricalDate,
+  Locale,
+  PrimaryExcerpt,
+  Source,
+  WorldEvent,
+} from "@/domain/schema";
 import { EventIcon } from "@/components/EventIcon";
+import { GlossaryText } from "@/components/GlossaryText";
+import { withBasePath } from "@/lib/basePath";
 import { formatDate } from "@/lib/dates";
 import { format, t, type Messages } from "@/lib/i18n";
-import type { Step } from "./model";
+import { yearDelta } from "@/lib/worldContext";
+import type { Step, StepMoment } from "./model";
+import { Narration } from "./Narration";
 
 export type Mode = "story" | "learn";
 
@@ -29,7 +43,11 @@ export function StoryContent({ step, personName, mode, locale, m, chosen, onChoo
     <article className="flex flex-col gap-4">
       <header>
         <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="inline-flex items-center gap-1.5 rounded-sm bg-ink px-2 py-1 font-medium tracking-wide text-parchment-light uppercase">
+          <span
+            className="inline-flex items-center gap-1.5 rounded-sm px-2 py-1 font-medium tracking-wide text-parchment-light uppercase transition-colors duration-700"
+            style={{ background: "var(--mood-accent, var(--color-ink))" }}
+            title={`${m.mood[step.mood]}`}
+          >
             <EventIcon type={event.type} size={13} />
             {m.sim.types[event.type]}
           </span>
@@ -59,7 +77,9 @@ export function StoryContent({ step, personName, mode, locale, m, chosen, onChoo
         )}
       </header>
 
-      {event.outcome && <BattleCard outcome={event.outcome} personName={personName} locale={locale} m={m} />}
+      {event.outcome && (
+        <BattleCard outcome={event.outcome} personName={personName} source={event.sources[0]} locale={locale} m={m} />
+      )}
 
       <AnimatePresence mode="wait" initial={false}>
         {mode === "story" ? (
@@ -69,10 +89,12 @@ export function StoryContent({ step, personName, mode, locale, m, chosen, onChoo
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
+            className="flex flex-col gap-2"
           >
             <Badge tone="gold">{m.sim.narrativeBadge}</Badge>
-            <p className="mt-2 font-serif text-[1.08rem] leading-[1.75] text-ink italic first-letter:float-left first-letter:mr-2 first-letter:font-display first-letter:text-5xl first-letter:leading-[0.9] first-letter:text-carmine first-letter:not-italic">
-              {tr(event.narrative)}
+            {event.narrationAudio && <Narration narration={event.narrationAudio} locale={locale} m={m} />}
+            <p className="font-serif text-[1.08rem] leading-[1.75] text-ink italic first-letter:float-left first-letter:mr-2 first-letter:font-display first-letter:text-5xl first-letter:leading-[0.9] first-letter:text-carmine first-letter:not-italic">
+              <GlossaryText text={tr(event.narrative)} />
             </p>
           </motion.section>
         ) : (
@@ -85,20 +107,30 @@ export function StoryContent({ step, personName, mode, locale, m, chosen, onChoo
             className="flex flex-col gap-3"
           >
             <Badge tone="lapis">{m.sim.factsBadge}</Badge>
-            <p className="leading-relaxed text-ink">{tr(event.factualSummary)}</p>
+            <p className="leading-relaxed text-ink">
+              <GlossaryText text={tr(event.factualSummary)} />
+            </p>
             <DateDetails date={event.date} locale={locale} m={m} />
             <Sources sources={event.sources} m={m} />
           </motion.section>
         )}
       </AnimatePresence>
 
+      {event.primarySource && <PrimarySourceCard excerpt={event.primarySource} locale={locale} m={m} />}
+
+      {step.moments.map((mo, i) => (
+        <MomentCard key={i} moment={mo} locale={locale} m={m} />
+      ))}
+
       {event.choice && <ChoiceCard choice={event.choice} locale={locale} m={m} chosen={chosen} onChoose={onChoose} />}
+
+      {step.world.length > 0 && <WorldPanel year={event.date.year} events={step.world} locale={locale} m={m} />}
     </article>
   );
 }
 
 function Badge({ children, tone }: { children: React.ReactNode; tone: "gold" | "lapis" }) {
-  const cls = tone === "gold" ? "border-gold/60 text-gold" : "border-lapis/40 text-lapis";
+  const cls = tone === "gold" ? "border-gold/60 text-[#7a5a17]" : "border-lapis/40 text-lapis";
   return (
     <span className={`inline-block self-start rounded-full border px-2.5 py-0.5 text-[11px] font-medium tracking-wider uppercase ${cls}`}>
       {children}
@@ -141,6 +173,16 @@ function DateDetails({ date, locale, m }: { date: HistoricalDate; locale: Locale
   );
 }
 
+function SourceLink({ s }: { s: Source }) {
+  return s.url ? (
+    <a href={s.url} target="_blank" rel="noreferrer" className="text-lapis underline decoration-lapis/30 underline-offset-2 hover:decoration-lapis">
+      {s.title}
+    </a>
+  ) : (
+    <span className="italic">{s.title}</span>
+  );
+}
+
 function Sources({ sources, m }: { sources: Source[]; m: Messages }) {
   return (
     <div>
@@ -148,13 +190,7 @@ function Sources({ sources, m }: { sources: Source[]; m: Messages }) {
       <ol className="mt-1.5 list-decimal space-y-1 pl-5 text-sm text-ink-soft marker:text-ink-faint">
         {sources.map((s, i) => (
           <li key={i}>
-            {s.url ? (
-              <a href={s.url} target="_blank" rel="noreferrer" className="text-lapis underline decoration-lapis/30 underline-offset-2 hover:decoration-lapis">
-                {s.title}
-              </a>
-            ) : (
-              <span className="italic">{s.title}</span>
-            )}
+            <SourceLink s={s} />
             {s.author && <span>, {s.author}</span>}
             {s.note && <span className="text-ink-faint"> ({s.note})</span>}
           </li>
@@ -164,25 +200,62 @@ function Sources({ sources, m }: { sources: Source[]; m: Messages }) {
   );
 }
 
-function BattleCard({ outcome, personName, locale, m }: { outcome: BattleOutcome; personName: string; locale: Locale; m: Messages }) {
+function BattleCard({
+  outcome,
+  personName,
+  source,
+  locale,
+  m,
+}: {
+  outcome: BattleOutcome;
+  personName: string;
+  source: Source | undefined;
+  locale: Locale;
+  m: Messages;
+}) {
   const reduced = useReducedMotion();
   const color = { victory: "#2f7f7a", defeat: "#9b2c2c", inconclusive: "#7a5a17" }[outcome.result];
-  return (
-    <section className="relative overflow-hidden rounded-md border border-ink/15 bg-gradient-to-br from-parchment-light to-parchment-dark/60 p-4">
-      <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-3 text-center">
-        <div>
-          <p className="text-[11px] tracking-wider text-ink-faint uppercase">{m.sim.battle.own}</p>
-          <p className="mt-1 font-display text-base leading-tight font-semibold text-ink">{personName}</p>
-          {outcome.forces?.own && <p className="mt-1 text-xs text-ink-soft">{t(outcome.forces.own, locale)}</p>}
-        </div>
-        <div className="pt-3 font-display text-sm text-ink-faint italic">{m.sim.battle.vs}</div>
-        <div>
-          <p className="text-[11px] tracking-wider text-ink-faint uppercase">{m.sim.battle.enemy}</p>
-          <p className="mt-1 font-display text-base leading-tight font-semibold text-ink">{t(outcome.opponent, locale)}</p>
-          {outcome.forces?.enemy && <p className="mt-1 text-xs text-ink-soft">{t(outcome.forces.enemy, locale)}</p>}
-        </div>
+  const forcesSource = outcome.forcesSource ?? source;
+  const side = (who: "own" | "enemy") => {
+    const own = who === "own";
+    return (
+      <div>
+        <p className="text-[11px] tracking-wider text-ink-faint uppercase">{own ? m.sim.battle.own : m.sim.battle.enemy}</p>
+        <p className="mt-1 font-display text-base leading-tight font-semibold text-ink">
+          {t(own ? outcome.ownSide : outcome.enemySide, locale)}
+        </p>
+        <ul className="mt-1 space-y-0.5 text-xs text-ink-soft" aria-label={m.sim.battle.commanders}>
+          {(own ? outcome.commanders.own : outcome.commanders.enemy).map((c, i) => (
+            <li key={i}>
+              <GlossaryText text={t(c, locale)} />
+            </li>
+          ))}
+        </ul>
+        {outcome.forces?.[who] && (
+          <p className="mt-1.5 text-xs font-medium text-ink">
+            <span className="text-ink-faint">{m.sim.battle.forces}: </span>
+            {t(outcome.forces[who]!, locale)}
+          </p>
+        )}
       </div>
-      <div className="mt-4 flex items-center gap-3">
+    );
+  };
+  return (
+    <section
+      className="relative overflow-hidden rounded-md border border-ink/15 bg-gradient-to-br from-parchment-light to-parchment-dark/60 p-4"
+      aria-label={`${personName}: ${m.sim.types.battle}`}
+    >
+      <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-3 text-center">
+        {side("own")}
+        <div className="pt-4 font-display text-sm text-ink-faint italic">{m.sim.battle.vs}</div>
+        {side("enemy")}
+      </div>
+      {outcome.forces && forcesSource && (
+        <p className="mt-2 text-center text-[11px] text-ink-faint">
+          {m.sim.battle.forcesNote} {m.sim.battle.source}: <SourceLink s={forcesSource} />
+        </p>
+      )}
+      <div className="mt-4 flex items-start gap-3">
         <motion.span
           initial={reduced ? false : { scale: 1.8, opacity: 0, rotate: -14 }}
           animate={{ scale: 1, opacity: 1, rotate: -6 }}
@@ -192,9 +265,128 @@ function BattleCard({ outcome, personName, locale, m }: { outcome: BattleOutcome
         >
           {m.sim.battle.result[outcome.result]}
         </motion.span>
-        <p className="text-sm leading-snug text-ink-soft">{t(outcome.context, locale)}</p>
+        <div className="text-sm leading-snug text-ink-soft">
+          <p className="text-[11px] font-semibold tracking-wider text-ink uppercase">{m.sim.battle.significance}</p>
+          <p className="mt-0.5">
+            <GlossaryText text={t(outcome.context, locale)} />
+          </p>
+        </div>
+      </div>
+      {!!outcome.maneuvers?.length && <p className="mt-3 text-[11px] text-ink-faint italic">{m.map.battleSchematic}</p>}
+    </section>
+  );
+}
+
+function MomentCard({ moment, locale, m }: { moment: StepMoment; locale: Locale; m: Messages }) {
+  return (
+    <section className="flex items-start gap-3 rounded-md border border-gold/50 bg-gold/10 p-3">
+      {moment.person.portrait && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={withBasePath(moment.person.portrait.src)}
+          alt=""
+          className="size-12 shrink-0 rounded-full border-2 border-gold object-cover object-top"
+        />
+      )}
+      <div className="min-w-0">
+        <p className="text-[11px] font-semibold tracking-wider text-[#7a5a17] uppercase">{m.relations.title}</p>
+        <p className="mt-0.5 text-sm leading-snug text-ink">{t(moment.note, locale)}</p>
+        <Link
+          href={`/${locale}/person/${moment.person.id}/?step=${moment.targetEventId}`}
+          className="mt-1.5 inline-block text-sm font-medium text-lapis underline decoration-lapis/30 underline-offset-2 hover:decoration-lapis"
+        >
+          {format(m.relations.goto, {
+            name: t(moment.person.name, locale),
+            title: t(moment.targetTitle, locale),
+            year: moment.targetYear,
+          })}
+        </Link>
       </div>
     </section>
+  );
+}
+
+function WorldPanel({ year, events, locale, m }: { year: number; events: WorldEvent[]; locale: Locale; m: Messages }) {
+  const [open, setOpen] = useState(true);
+  return (
+    <section className="rounded-md border border-lapis/20 bg-lapis/[0.04]">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        className="flex w-full items-center justify-between gap-2 px-3 py-2 text-left"
+      >
+        <span className="flex items-center gap-2 text-xs font-semibold tracking-wider text-lapis uppercase">
+          <GlobeIcon /> {m.world.title} · {year}
+        </span>
+        <span aria-hidden className={`text-lapis transition-transform ${open ? "rotate-180" : ""}`}>
+          ▾
+        </span>
+      </button>
+      {open && (
+        <ul className="space-y-2.5 px-3 pb-3">
+          {events.map((w) => {
+            const d = yearDelta(w, year);
+            const when = d === 0 ? m.world.same : d < 0 ? format(m.world.before, { n: -d }) : format(m.world.after, { n: d });
+            return (
+              <li key={w.id} className="text-sm">
+                <p className="flex flex-wrap items-baseline gap-x-2">
+                  <span className="font-semibold text-ink">
+                    {w.year}
+                    {w.endYear ? `–${w.endYear}` : ""}: {t(w.title, locale)}
+                  </span>
+                  <span className="text-[11px] text-ink-faint">
+                    {m.world.regions[w.region]} · {when}
+                  </span>
+                </p>
+                <p className="mt-0.5 leading-snug text-ink-soft">{t(w.description, locale)}</p>
+                {w.sources[0]?.url && (
+                  <a
+                    href={w.sources[0].url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[11px] text-lapis underline decoration-lapis/30 underline-offset-2"
+                  >
+                    {w.sources[0].title}
+                  </a>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </section>
+  );
+}
+
+function GlobeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" />
+    </svg>
+  );
+}
+
+function PrimarySourceCard({ excerpt, locale, m }: { excerpt: PrimaryExcerpt; locale: Locale; m: Messages }) {
+  return (
+    <figure className="miniature-frame rounded-md bg-parchment-light p-4">
+      <p className="text-[11px] font-semibold tracking-wider text-[#7a5a17] uppercase">{m.primary.title}</p>
+      {excerpt.original && (
+        <blockquote className="mt-2 font-serif text-ink-soft italic">
+          <span className="sr-only">{m.primary.original}: </span>
+          {excerpt.original}
+        </blockquote>
+      )}
+      <blockquote className="mt-2 font-serif text-[1.02rem] leading-relaxed text-ink">
+        {excerpt.original && <span className="sr-only">{m.primary.translation}: </span>}“{t(excerpt.text, locale)}”
+      </blockquote>
+      {excerpt.note && <p className="mt-2 text-xs leading-snug text-ink-soft">{t(excerpt.note, locale)}</p>}
+      <figcaption className="mt-2 text-xs text-ink-faint">
+        — {t(excerpt.attribution, locale)}
+        {excerpt.translator && <> · {excerpt.translator}</>} · {m.primary.license}: {excerpt.license} · <SourceLink s={excerpt.source} />
+      </figcaption>
+    </figure>
   );
 }
 
@@ -240,7 +432,9 @@ function ChoiceCard({
     >
       <div className="p-4">
         <p className="text-[11px] font-semibold tracking-wider text-carmine uppercase">{m.sim.choice.open}</p>
-        <p className="mt-1 font-serif text-[1.02rem] leading-relaxed text-ink">{t(choice.prompt, locale)}</p>
+        <p className="mt-1 font-serif text-[1.02rem] leading-relaxed text-ink">
+          <GlossaryText text={t(choice.prompt, locale)} />
+        </p>
         {!answered && <p className="mt-2 text-xs text-ink-faint">{m.sim.choice.pick}</p>}
         <ul className="mt-3 space-y-2">
           {choice.options.map((opt, i) => {
@@ -298,7 +492,9 @@ function ChoiceCard({
                 {chosen === choice.historicalOptionIndex ? m.sim.choice.match : m.sim.choice.differ}
               </p>
               <p className="mt-2 text-xs font-semibold tracking-wide text-ink uppercase">{m.sim.choice.why}</p>
-              <p className="mt-1 text-sm leading-relaxed text-ink-soft">{t(choice.why, locale)}</p>
+              <p className="mt-1 text-sm leading-relaxed text-ink-soft">
+                <GlossaryText text={t(choice.why, locale)} />
+              </p>
               <p className="mt-3 text-xs text-ink-faint italic">{m.sim.choice.note}</p>
             </motion.div>
           )}

@@ -50,10 +50,21 @@ export function Timeline({ steps, eras, index, onSelect, locale, m, compact = fa
                 type="button"
                 onClick={() => onSelect(i)}
                 aria-current={state === "current" ? "step" : undefined}
-                aria-label={`${s.event.date.year}: ${t(s.event.title, locale)}`}
-                title={t(s.event.title, locale)}
+                aria-label={`${s.event.date.year}: ${t(s.event.title, locale)}${s.moments.length ? ` (${m.relations.timelineMark})` : ""}`}
+                title={
+                  s.moments.length
+                    ? `${t(s.event.title, locale)} · ${s.moments.map((mo) => t(mo.person.name, locale)).join(", ")}`
+                    : t(s.event.title, locale)
+                }
                 className="group relative z-10 flex flex-col items-center gap-1 outline-none"
               >
+                {s.moments.length > 0 && (
+                  <span
+                    aria-hidden
+                    data-testid="timeline-moment"
+                    className="absolute -top-1 right-1 z-20 size-3 rounded-full border-2 border-parchment-light bg-gold shadow"
+                  />
+                )}
                 <motion.span
                   animate={{ scale: state === "current" ? 1.18 : 1 }}
                   transition={{ type: "spring", stiffness: 380, damping: 22 }}

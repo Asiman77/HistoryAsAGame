@@ -135,6 +135,22 @@ body {
 }
 .place-marker .label {
   transition: opacity 250ms ease;
+  pointer-events: auto;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0 2px;
+}
+.place-marker .label[data-static="true"] {
+  cursor: default;
+}
+.place-marker .label:not([data-static="true"]):hover {
+  text-decoration: underline;
+  text-decoration-color: rgb(42 28 16 / 0.4);
+  text-underline-offset: 3px;
+}
+.place-marker[data-state="future"] .label {
+  pointer-events: none;
 }
 .place-marker[data-label="hidden"] .label {
   opacity: 0;
@@ -158,6 +174,240 @@ body {
   pointer-events: none;
   filter: drop-shadow(0 3px 4px rgb(40 20 5 / 0.45));
   transition: opacity 400ms ease;
+}
+
+/* ---------- Political map labels (old-map lettering) ---------- */
+.polity-label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0.8;
+  text-shadow:
+    0 0 2px var(--color-parchment-light),
+    0 0 6px var(--color-parchment-light);
+  transition: opacity 1200ms var(--ease-out-soft);
+}
+.polity-label[data-vassal="true"] {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
+.polity-label[data-state="out"],
+.polity-label[data-label="hidden"] {
+  opacity: 0;
+}
+
+/* ---------- Landmarks (catalogue places) ---------- */
+.landmark {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 400ms ease, transform 400ms var(--ease-out-soft);
+}
+.landmark[data-visible="false"] {
+  opacity: 0;
+  transform: scale(0.7);
+  pointer-events: none;
+}
+.landmark .place-icon {
+  filter: drop-shadow(0 1px 1.5px rgb(40 20 5 / 0.45));
+  transition: transform 200ms var(--ease-out-soft);
+}
+.landmark:hover .place-icon,
+.landmark:focus-visible .place-icon {
+  transform: scale(1.18);
+}
+.landmark[data-type="capital"] .place-icon {
+  width: 28px;
+  height: 28px;
+}
+.landmark .lm-label {
+  margin-top: 1px;
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  line-height: 1.1;
+  color: var(--color-ink-soft);
+  white-space: nowrap;
+  text-shadow:
+    0 0 3px var(--color-parchment-light),
+    0 0 6px var(--color-parchment-light);
+  transition: opacity 250ms ease;
+}
+.landmark[data-type="capital"] .lm-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.landmark[data-label="hidden"] .lm-label {
+  opacity: 0;
+}
+/* Modern name on hover/focus. */
+.landmark .lm-modern {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 11px;
+  color: var(--color-parchment-light);
+  background: rgb(42 28 16 / 0.85);
+  border-radius: 4px;
+  padding: 2px 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+.landmark:hover .lm-modern,
+.landmark:focus-visible .lm-modern {
+  opacity: 1;
+}
+
+/* ---------- Battle arrows ---------- */
+.battle-label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-style: italic;
+  white-space: nowrap;
+  color: var(--color-ink);
+  background: rgb(248 240 221 / 0.88);
+  border-left: 3px solid;
+  border-radius: 2px;
+  padding: 1px 6px;
+  pointer-events: none;
+  animation: fade-in 500ms var(--ease-out-soft) both;
+}
+
+/* ---------- Relation medallion on the map ---------- */
+.moment-medallion {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 3px;
+  border-radius: 9999px;
+  background: var(--color-parchment-light);
+  box-shadow:
+    0 0 0 2px var(--color-gold),
+    0 6px 16px -6px rgb(40 20 5 / 0.6);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-ink);
+  text-decoration: none;
+  animation: fade-in 700ms var(--ease-out-soft) both;
+}
+.moment-medallion img {
+  width: 30px;
+  height: 30px;
+  border-radius: 9999px;
+  object-fit: cover;
+  object-position: top;
+}
+.moment-medallion:hover {
+  box-shadow:
+    0 0 0 2px var(--color-carmine),
+    0 6px 16px -6px rgb(40 20 5 / 0.6);
+}
+
+/* ---------- Map overlays: mood grading and paper grain ---------- */
+.mood-grade {
+  mix-blend-mode: multiply;
+  transition:
+    background-color 1500ms ease,
+    opacity 1500ms ease;
+}
+.map-paper {
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(ellipse at 30% 20%, rgb(255 250 235 / 0.35), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.33 0 0 0 0 0.18 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* Light mode: no blending over the WebGL canvas, which costs a full-screen composite on weak GPUs. */
+.lite .mood-grade {
+  mix-blend-mode: normal;
+  opacity: 0.08 !important;
+}
+.lite .paper-card {
+  background-image: none;
+}
+
+/* ---------- Glossary ---------- */
+.glossary-term {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: help;
+  text-decoration: underline dotted;
+  text-decoration-color: color-mix(in srgb, var(--mood-accent, var(--color-lapis)) 70%, transparent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+.glossary-term:hover,
+.glossary-term:focus-visible {
+  color: var(--color-lapis);
+}
+
+/* ---------- Buttons used on the start screen ---------- */
+.btn-primary {
+  border-radius: 9999px;
+  background: var(--color-ink);
+  color: var(--color-parchment-light);
+  padding: 0.7rem 1.25rem;
+  font-weight: 600;
+  transition: background-color 200ms ease;
+}
+.btn-primary:hover {
+  background: var(--color-ink-soft);
+}
+.btn-secondary {
+  border-radius: 9999px;
+  border: 1px solid rgb(42 28 16 / 0.3);
+  color: var(--color-ink);
+  padding: 0.55rem 1.25rem;
+  font-weight: 500;
+}
+.btn-secondary:hover {
+  border-color: var(--color-ink);
+}
+
+/* ---------- Volume sliders ---------- */
+.range {
+  accent-color: var(--color-lapis);
+}
+
+/* ---------- Teacher mode: projector-sized text ---------- */
+html.teacher-mode {
+  font-size: 125%;
+}
+html.teacher-mode .place-marker .label {
+  font-size: 16px;
+}
+html.teacher-mode .polity-label {
+  font-size: 14px;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @keyframes pulse-ring {

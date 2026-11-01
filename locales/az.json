@@ -62,6 +62,10 @@
       "own": "Sənin qoşunun",
       "enemy": "Rəqib",
       "forces": "Qüvvələr",
+      "forcesNote": "Rəqəmlər təxminidir, salnamələr onları çox vaxt şişirdir.",
+      "source": "Mənbə",
+      "commanders": "Komandanlar",
+      "significance": "Tarixi əhəmiyyəti",
       "context": "Kontekst",
       "result": {
         "victory": "Qələbə",
@@ -110,11 +114,129 @@
     "restart": "Yenidən yaşa",
     "others": "Başqa şəxsiyyət seç",
     "backToJourney": "Həyat xəttinə qayıt",
-    "distanceNote": "Marşrut nöqtələri arasındakı düz xətlərlə hesablanıb."
+    "distanceNote": "Marşrut nöqtələri arasındakı düz xətlərlə hesablanıb.",
+    "cardEarned": "Tarixi kart qazandın",
+    "cardEarnedText": "{name} kolleksiyana əlavə olundu.",
+    "badgeEarned": "Sınaq nişanı: bütün suallara düz cavab",
+    "teacherReveal": "Cavabı göstər",
+    "teacherHint": "Sinif birlikdə cavab versin, sonra cavabı göstər."
   },
   "map": {
     "loading": "Xəritə yüklənir…",
     "error": "Xəritə yüklənmədi. İnternet bağlantısını yoxla.",
-    "attribution": "© OpenFreeMap © OpenMapTiles © OpenStreetMap, Natural Earth"
+    "region": "Tarixi xəritə",
+    "attribution": "© OpenFreeMap © OpenMapTiles © OpenStreetMap, Natural Earth, Mapzen Terrain Tiles",
+    "legendTitle": "Siyasi xəritə",
+    "approxBorders": "Sərhədlər təxminidir",
+    "approxBordersHelp": "Orta əsrlərdə sərhədlər dəqiq xətt deyildi: dövlətlər qalalar, şəhərlər və tayfalar üzərində hakimiyyət qururdu. Xəritə ümumi mənzərəni göstərir.",
+    "vassal": "asılı",
+    "showLegend": "Xəritə açarını göstər",
+    "hideLegend": "Xəritə açarını gizlət",
+    "snapshotSources": "Mənbələr",
+    "battleSchematic": "Sxematik təsvir: tərəflərin hərəkət istiqaməti",
+    "own": "Sənin tərəfin",
+    "enemy": "Rəqib",
+    "placeTypes": {
+      "capital": "Paytaxt",
+      "city": "Şəhər",
+      "fortress": "Qala",
+      "shrine": "Ziyarətgah",
+      "battlefield": "Döyüş meydanı",
+      "port": "Liman"
+    },
+    "placeHere": "Bu həyatda burada",
+    "placeNothing": "Bu şəxsiyyətin hekayəsində bu şəhər ayrıca mərhələ deyil.",
+    "placeGoto": "Mərhələyə keç",
+    "close": "Bağla"
+  },
+  "mood": {
+    "birth": "Doğuluş",
+    "childhood": "Uşaqlıq",
+    "hardship": "Çətinlik",
+    "exile": "Sürgün",
+    "journey": "Yol",
+    "rise": "Yüksəliş",
+    "coronation": "Taxta çıxma",
+    "battle": "Döyüş",
+    "victory": "Qələbə",
+    "defeat": "Məğlubiyyət",
+    "peace": "Sülh",
+    "diplomacy": "Diplomatiya",
+    "culture": "Mədəniyyət",
+    "decline": "Tənəzzül",
+    "death": "Ölüm"
+  },
+  "start": {
+    "begin": "Hekayəyə başla",
+    "resume": "Qaldığın yerdən davam et",
+    "resumeAt": "{n}-ci mərhələ: {title}",
+    "restart": "Başdan başla",
+    "deepLink": "{title} mərhələsindən başla",
+    "sound": "Səs orta səviyyədədir",
+    "soundOff": "Səs söndürülüb",
+    "toggleSound": "Səsi söndür",
+    "enableSound": "Səsi aç",
+    "years": "{from} – {to}"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "open": "Səs və ayarlar",
+    "muteAll": "Bütün səsi söndür",
+    "unmuteAll": "Səsi aç",
+    "master": "Ümumi səs",
+    "channels": {
+      "music": "Musiqi",
+      "ambience": "Mühit səsləri",
+      "sfx": "Effektlər",
+      "voice": "Nağılçı"
+    },
+    "muteChannel": "{name}: söndür",
+    "unmuteChannel": "{name}: aç",
+    "lightMode": "Yüngül rejim",
+    "lightModeHelp": "Zəif kompüterlər üçün: animasiyalar, relyef kölgəsi və mühit səsləri azaldılır.",
+    "teacherMode": "Müəllim rejimi",
+    "teacherModeHelp": "Projektor üçün böyük şrift. Mərhələləri müəllim idarə edir (← → və ya PageUp/PageDown), sınaqda cavabı müəllim açır.",
+    "saved": "Seçimlər bu brauzerdə yadda qalır.",
+    "audioCredits": "Hazırkı musiqi və səslər müvəqqəti sintez olunmuş nümunələrdir (CC0)."
+  },
+  "world": {
+    "title": "Bu zaman dünyada",
+    "same": "eyni il",
+    "before": "{n} il əvvəl",
+    "after": "{n} il sonra",
+    "regions": {
+      "europe": "Avropa",
+      "middle-east": "Yaxın Şərq",
+      "asia": "Asiya",
+      "africa": "Afrika",
+      "americas": "Amerika"
+    }
+  },
+  "relations": {
+    "title": "Tarixi kəsişmə",
+    "goto": "{name}: {title} ({year}) →",
+    "timelineMark": "Başqa bir hekayə ilə kəsişmə"
+  },
+  "glossary": {
+    "label": "Termin"
+  },
+  "narration": {
+    "play": "Nağılçını dinlə",
+    "pause": "Dayandır",
+    "subtitles": "Subtitr"
+  },
+  "primary": {
+    "title": "İlkin mənbədən",
+    "original": "Orijinal",
+    "translation": "Tərcümə",
+    "license": "Lisenziya"
+  },
+  "collection": {
+    "title": "Kolleksiyan",
+    "empty": "Bir həyatı sona qədər yaşa və ilk tarixi kartını qazan.",
+    "card": "Tarixi kart",
+    "badge": "Sınaq nişanı",
+    "progress": "{n} / {total} mərhələ",
+    "continue": "Davam et"
   }
 }

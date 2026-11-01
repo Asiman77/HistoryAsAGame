@@ -9,6 +9,9 @@ import { Divider } from "@/components/Ornament";
 import { formatDate } from "@/lib/dates";
 import { format, t, type Messages } from "@/lib/i18n";
 import type { Journey } from "@/features/simulation/model";
+import { getAudioEngine } from "@/features/audio/engine";
+import { withBasePath } from "@/lib/basePath";
+import { recordQuiz, useProgress } from "@/lib/progress";
 
 const MAX_QUESTIONS = 6;
 
@@ -17,11 +20,13 @@ interface Props {
   choices: Record<string, number>;
   locale: Locale;
   m: Messages;
+  /** Teacher mode: the class answers together and the teacher reveals the answer. */
+  teacher: boolean;
   onRestart: () => void;
   onBack: () => void;
 }
 
-export function LegacyPanel({ journey, choices, locale, m, onRestart, onBack }: Props) {
+export function LegacyPanel({ journey, choices, locale, m, teacher, onRestart, onBack }: Props) {
   const { person, stats, steps } = journey;
   const reduced = useReducedMotion();
   const lastAge = steps.at(-1)!.age;
@@ -44,6 +49,10 @@ export function LegacyPanel({ journey, choices, locale, m, onRestart, onBack }: 
           {format(m.legacy.lived, { from: formatDate(person.birth.date, m), to: formatDate(person.death.date, m) })}
         </p>
       </motion.header>
+
+      <motion.div {...item(1)}>
+        <EarnedCard journey={journey} locale={locale} m={m} />
+      </motion.div>
 
       <motion.p {...item(1)} className="font-serif text-[1.05rem] leading-relaxed text-ink">
         {t(person.legacy, locale)}
@@ -79,7 +88,7 @@ export function LegacyPanel({ journey, choices, locale, m, onRestart, onBack }: 
 
       {journey.quiz.length > 0 && (
         <motion.section {...item(3)}>
-          <Quiz questions={journey.quiz} locale={locale} m={m} />
+          <Quiz questions={journey.quiz} locale={locale} m={m} teacher={teacher} onFinish={(score, total) => recordQuiz(person.id, score, total)} />
         </motion.section>
       )}
 
@@ -114,11 +123,25 @@ function pickQuestions(all: QuizQuestion[]): QuizQuestion[] {
   return Array.from({ length: MAX_QUESTIONS }, (_, i) => all[Math.floor(i * step)]!);
 }
 
-function Quiz({ questions: all, locale, m }: { questions: QuizQuestion[]; locale: Locale; m: Messages }) {
+function Quiz({
+  questions: all,
+  locale,
+  m,
+  teacher,
+  onFinish,
+}: {
+  questions: QuizQuestion[];
+  locale: Locale;
+  m: Messages;
+  teacher: boolean;
+  onFinish: (score: number, total: number) => void;
+}) {
   const questions = useMemo(() => pickQuestions(all), [all]);
   const [started, setStarted] = useState(false);
   const [qi, setQi] = useState(0);
   const [answer, setAnswer] = useState<number | null>(null);
+  /** Teacher mode: the option the class settled on, before the answer is revealed. */
+  const [classPick, setClassPick] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const done = qi >= questions.length;
   const q = questions[qi];
@@ -127,6 +150,7 @@ function Quiz({ questions: all, locale, m }: { questions: QuizQuestion[]; locale
     return (
       <div className="rounded-md border border-lapis/25 bg-lapis/5 p-4">
         <h3 className="font-display text-xl font-semibold text-lapis">{m.legacy.quiz}</h3>
+        {teacher && <p className="mt-1 text-sm text-ink-soft">{m.legacy.teacherHint}</p>}
         <button
           type="button"
           onClick={() => setStarted(true)}
@@ -146,9 +170,20 @@ function Quiz({ questions: all, locale, m }: { questions: QuizQuestion[]; locale
         <p className="mt-1 text-ink-soft">
           {ratio >= 0.8 ? m.legacy.scoreGreat : ratio >= 0.5 ? m.legacy.scoreGood : m.legacy.scoreLow}
         </p>
+        {score === questions.length && (
+          <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-gold bg-gold/15 px-3 py-1 text-sm font-medium text-[#7a5a17]">
+            <span aria-hidden>✦</span> {m.legacy.badgeEarned}
+          </p>
+        )}
       </div>
     );
   }
+
+  const reveal = (i: number) => {
+    setAnswer(i);
+    if (i === q!.correctIndex) setScore((s) => s + 1);
+    getAudioEngine().playSfx(i === q!.correctIndex ? "chime" : "page");
+  };
 
   return (
     <div className="rounded-md border border-lapis/25 bg-lapis/5 p-4">
@@ -157,34 +192,52 @@ function Quiz({ questions: all, locale, m }: { questions: QuizQuestion[]; locale
       </p>
       <AnimatePresence mode="wait">
         <motion.div key={qi} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.25 }}>
-          <p className="mt-1 font-medium text-ink">{t(q!.question, locale)}</p>
+          <p className={`mt-1 font-medium text-ink ${teacher ? "text-xl" : ""}`}>{t(q!.question, locale)}</p>
           <ul className="mt-3 space-y-2">
             {q!.options.map((opt, i) => {
-              const state = answer === null ? "idle" : i === q!.correctIndex ? "correct" : i === answer ? "wrong" : "other";
+              const state =
+                answer === null
+                  ? classPick === i
+                    ? "picked"
+                    : "idle"
+                  : i === q!.correctIndex
+                    ? "correct"
+                    : i === answer
+                      ? "wrong"
+                      : "other";
               return (
                 <li key={i}>
                   <button
                     type="button"
                     disabled={answer !== null}
-                    onClick={() => {
-                      setAnswer(i);
-                      if (i === q!.correctIndex) setScore((s) => s + 1);
-                    }}
-                    className={`w-full rounded border px-3 py-2 text-left text-sm transition-colors ${
+                    aria-pressed={teacher ? classPick === i : undefined}
+                    onClick={() => (teacher ? setClassPick(i) : reveal(i))}
+                    className={`flex w-full items-start gap-2 rounded border px-3 py-2 text-left text-sm transition-colors ${
                       {
                         idle: "border-ink/20 bg-parchment-light hover:border-lapis",
+                        picked: "border-lapis bg-lapis/10 text-ink",
                         correct: "border-turquoise bg-turquoise/10 text-ink",
                         wrong: "border-carmine bg-carmine/10 text-ink",
                         other: "border-ink/10 opacity-60",
                       }[state]
                     }`}
                   >
-                    {t(opt, locale)}
+                    {teacher && <span className="font-display font-semibold text-lapis">{String.fromCharCode(65 + i)}</span>}
+                    <span>{t(opt, locale)}</span>
                   </button>
                 </li>
               );
             })}
           </ul>
+          {teacher && answer === null && (
+            <button
+              type="button"
+              onClick={() => reveal(classPick ?? -1)}
+              className="mt-3 rounded-full bg-ink px-4 py-1.5 text-sm font-medium text-parchment-light hover:bg-ink-soft"
+            >
+              {m.legacy.teacherReveal}
+            </button>
+          )}
           {answer !== null && (
             <div className="mt-3" aria-live="polite">
               <p className={`font-semibold ${answer === q!.correctIndex ? "text-turquoise" : "text-carmine"}`}>
@@ -194,7 +247,10 @@ function Quiz({ questions: all, locale, m }: { questions: QuizQuestion[]; locale
               <button
                 type="button"
                 onClick={() => {
+                  const last = qi + 1 >= questions.length;
+                  if (last) onFinish(score, questions.length);
                   setAnswer(null);
+                  setClassPick(null);
                   setQi((n) => n + 1);
                 }}
                 className="mt-3 rounded-full bg-lapis px-4 py-1.5 text-sm font-medium text-parchment-light hover:bg-lapis-light"
@@ -205,6 +261,29 @@ function Quiz({ questions: all, locale, m }: { questions: QuizQuestion[]; locale
           )}
         </motion.div>
       </AnimatePresence>
+    </div>
+  );
+}
+
+/** Soft reward: the person's card joins the collection when their life is finished. */
+function EarnedCard({ journey, locale, m }: { journey: Journey; locale: Locale; m: Messages }) {
+  const progress = useProgress();
+  const { person } = journey;
+  if (!progress.collection.cards[person.id]) return null;
+  return (
+    <div className="flex items-center gap-3 rounded-md border border-gold/60 bg-gradient-to-r from-gold/15 to-transparent p-3" role="status">
+      {person.portrait && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={withBasePath(person.portrait.src)}
+          alt=""
+          className="h-14 w-11 shrink-0 rounded-sm border-2 border-gold object-cover object-top shadow"
+        />
+      )}
+      <div>
+        <p className="text-[11px] font-semibold tracking-wider text-[#7a5a17] uppercase">{m.legacy.cardEarned}</p>
+        <p className="text-sm text-ink">{format(m.legacy.cardEarnedText, { name: t(person.name, locale) })}</p>
+      </div>
     </div>
   );
 }

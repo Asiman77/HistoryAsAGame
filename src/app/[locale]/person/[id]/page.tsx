@@ -25,14 +25,38 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function PersonPage({ params }: { params: Params }) {
   const { locale, id } = await params;
   const repo = getRepository();
-  const [person, events, eras] = await Promise.all([repo.getPerson(id), repo.getEvents(id), repo.listEras()]);
+  const [person, events, eras, places, snapshots, polities, worldEvents, glossary, relations] = await Promise.all([
+    repo.getPerson(id),
+    repo.getEvents(id),
+    repo.listEras(),
+    repo.listPlaces(),
+    repo.listTerritorySnapshots(),
+    repo.listPolities(),
+    repo.listWorldEvents(),
+    repo.getGlossary(),
+    repo.getRelations(id),
+  ]);
   if (!person || events.length === 0) notFound();
 
-  return (
-    <SimulationView
-      journey={buildJourney(person, events, eras)}
-      locale={locale as Locale}
-      messages={getMessages(locale as Locale)}
-    />
-  );
+  const otherIds = [...new Set(relations.flatMap((r) => [r.from, r.to]).filter((x) => x !== id))];
+  const others = (
+    await Promise.all(
+      otherIds.map(async (oid) => {
+        const [p, ev] = await Promise.all([repo.getPerson(oid), repo.getEvents(oid)]);
+        return p ? { person: p, events: ev } : null;
+      }),
+    )
+  ).filter((x) => x !== null);
+
+  const journey = buildJourney(person, events, eras, {
+    places,
+    snapshots,
+    polityColors: Object.fromEntries(polities.map((p) => [p.id, p.color])),
+    worldEvents,
+    glossary,
+    relations,
+    others,
+  });
+
+  return <SimulationView journey={journey} locale={locale as Locale} messages={getMessages(locale as Locale)} />;
 }
