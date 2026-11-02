@@ -7,7 +7,7 @@
     "postinstall": "node scripts/copy-maplibre-worker.mjs",
     "predev": "node scripts/copy-maplibre-worker.mjs && tsx scripts/build-territories.ts",
     "dev": "next dev",
-    "build": "npm run validate:data && next build",
+    "build": "npm run validate:data && next build && node scripts/flatten-segments.mjs",
     "start": "serve out -l 3000",
     "validate:data": "tsx scripts/validate-data.ts",
     "typecheck": "tsc --noEmit",
