@@ -530,6 +530,22 @@ export type Relation = z.infer<typeof Relation>;
 
 export const RelationsFile = z.object({ relations: z.array(Relation) });
 
+/** Days with their own design in "Tarixdə bu gün" (data/commemorations.json). */
+export const Commemoration = z
+  .object({
+    id: Slug,
+    month: z.number().int().min(1).max(12),
+    day: z.number().int().min(1).max(31),
+    style: z.enum(["memorial", "victory", "celebration"]),
+    title: LocalizedText,
+    description: LocalizedText,
+    ref: z.lazy(() => EntityRef).optional(),
+    sources: z.array(Source).min(1),
+  })
+  .refine((c) => c.day <= new Date(Date.UTC(2024, c.month, 0)).getUTCDate(), { message: "belə gün yoxdur" });
+export type Commemoration = z.infer<typeof Commemoration>;
+export const CommemorationsFile = z.object({ days: z.array(Commemoration) });
+
 export const GlossaryEntry = z.object({
   id: Slug,
   term: LocalizedText,

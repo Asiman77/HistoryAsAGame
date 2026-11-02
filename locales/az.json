@@ -486,5 +486,12 @@
     "noEra": "Dövr seçilməyib",
     "summary": "{rulers} hökmdar, {persons} şəxsiyyət, {events} hadisə",
     "openFull": "Tam zaman xətti"
+  },
+  "onThisDay": {
+    "title": "Tarixdə bu gün",
+    "month": "Bu ay tarixdə",
+    "noneToday": "{date} tarixində baş vermiş hadisəmiz yoxdur, bu ayın hadisələrinə bax.",
+    "none": "Bu ay üçün hadisə tapılmadı.",
+    "yearsAgo": "{n} il əvvəl"
   }
 }

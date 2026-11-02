@@ -754,3 +754,44 @@ html.teacher-mode .polity-label {
   outline: 2px solid var(--color-lapis-light);
   outline-offset: 2px;
 }
+
+/* ---------- "Tarixdə bu gün": memorial and victory days ---------- */
+.special-day {
+  color: #f4f1ea;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.08), 0 24px 60px -24px rgb(0 0 0 / 0.7);
+}
+.special-day::before {
+  /* Flag stripe along the top. */
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 6px;
+  background: linear-gradient(#00b5e2 0 33%, #ef3340 33% 66%, #509e2f 66%);
+}
+.special-memorial {
+  background: radial-gradient(ellipse at 20% 0%, rgb(255 196 107 / 0.16), transparent 55%), #0b1118;
+}
+.special-memorial::after {
+  /* A slow candle glow behind the text. */
+  content: "";
+  position: absolute;
+  left: 8%;
+  top: -20%;
+  width: 40%;
+  height: 80%;
+  background: radial-gradient(ellipse, rgb(255 196 107 / 0.22), transparent 65%);
+  animation: candle 3.4s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.special-victory {
+  background:
+    radial-gradient(ellipse at 85% 10%, rgb(0 181 226 / 0.28), transparent 55%),
+    radial-gradient(ellipse at 10% 90%, rgb(80 158 47 / 0.22), transparent 55%),
+    #0d2a3f;
+}
+.special-celebration {
+  background: linear-gradient(135deg, #0d2a3f, #12304a);
+}
+.lite .special-memorial::after {
+  animation: none;
+}

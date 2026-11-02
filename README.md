@@ -248,6 +248,13 @@ Sürgünün altındakı rəngli zolaqlar dövrləri göstərir, zolağa klik etd
 Performans: il rəqəmi və sürgü dərhal, siyahılar `useDeferredValue` ilə yenilənir. Sərhədlər 140 ms, tema isə 320 ms sakitlikdən sonra dəyişir.
 Sürükləmə zamanı kadr intervalı ölçülüb: median və p95 təxminən 16.7 ms. Ana səhifədəki kompakt versiya yalnız öz qutusunu dövrün rənginə boyayır.
 
+## "Tarixdə bu gün" (ana səhifə)
+
+Blok ziyarətçinin bugünkü tarixini brauzerdə oxuyur, statik HTML-də isə placeholder göstərilir. Sonra ortaq indeksdən həmin gün və ayda baş verən mərhələləri tapır.
+Yalnız gün dəqiqliyi olan mərhələlər götürülür. Belə mərhələ yoxdursa, "Bu ay tarixdə" göstərilir. Hər mərhələdən simulyasiyaya dərin keçid var.
+Xüsusi günlərin (27 Sentyabr Anım Günü, 8 Noyabr Zəfər Günü) öz dizaynı var. Onlar `data/commemorations.json`-dadır və mənbə ilə gəlir.
+Önizləmə üçün `/az/?today=09-27` linkindən istifadə etmək olar (müəllimlər və testlər üçün).
+
 ## Məkan səhifələri (`/places/<id>/`)
 
 Hər məkan üçün səhifə `data/places.json`-dan avtomatik yaranır. Səhifə ortaq hadisə indeksindən (`getHistoryIndex()`, `src/lib/historyIndex.ts`)

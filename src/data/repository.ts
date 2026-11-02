@@ -4,6 +4,7 @@ import type { IndexedEvent } from "@/lib/historyIndex";
 import type {
   Era,
   GlossaryEntry,
+  Commemoration,
   LifeEvent,
   Person,
   Place,
@@ -46,6 +47,8 @@ export interface HistoryRepository {
   getEvents(personId: string): Promise<LifeEvent[]>;
   getRelations(personId: string): Promise<Relation[]>;
   getGlossary(): Promise<GlossaryEntry[]>;
+  /** Days with a special design in "Tarixdə bu gün" (27 Sentyabr, 8 Noyabr...). */
+  listCommemorations(): Promise<Commemoration[]>;
   listPlaces(): Promise<Place[]>;
   listPolities(): Promise<Polity[]>;
   listRulers(): Promise<Ruler[]>;

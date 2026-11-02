@@ -33,6 +33,7 @@ import {
   WorldEventsFile,
   ThemeFile,
   MOODS,
+  CommemorationsFile,
   type LifeEvent,
   type Person as PersonT,
 } from "../src/domain/schema";
@@ -426,6 +427,15 @@ for (const { steps, file } of loadedStates)
         else pending.set(`${r.type}:${r.id}`, [...(pending.get(`${r.type}:${r.id}`) ?? []), x.id]);
       }
     }
+const commFile = path.join(root, "commemorations.json");
+const commemorations = fs.existsSync(commFile) ? (load(commFile, CommemorationsFile)?.days ?? []) : [];
+unique(commFile, "commemoration id", commemorations.map((c) => c.id));
+unique(commFile, "tarix", commemorations.map((c) => `${c.month}-${c.day}`));
+for (const c of commemorations)
+  if (c.ref) {
+    refCount++;
+    for (const i of checkRef(c.ref, entities, c.id) as RefIssue[]) if (i.level === "error") issues.push({ file: "data/commemorations.json", message: i.message });
+  }
 for (const pl of places)
   for (const u of pl.upcoming ?? [])
     if (u.ref) {

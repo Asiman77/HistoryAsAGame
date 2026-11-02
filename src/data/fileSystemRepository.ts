@@ -4,6 +4,7 @@ import {
   Era,
   EventsFile,
   GlossaryFile,
+  CommemorationsFile,
   Person,
   PlacesFile,
   PlannedFile,
@@ -135,6 +136,12 @@ export class FileSystemRepository implements HistoryRepository {
       (await this.exists("glossary.json"))
         ? GlossaryFile.parse(await this.readJson("glossary.json")).entries
         : [],
+    );
+  }
+
+  listCommemorations() {
+    return this.memo("commemorations", async () =>
+      (await this.exists("commemorations.json")) ? CommemorationsFile.parse(await this.readJson("commemorations.json")).days : [],
     );
   }
 

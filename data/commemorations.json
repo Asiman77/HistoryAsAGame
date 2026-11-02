@@ -1,0 +1,34 @@
+{
+  "days": [
+    {
+      "id": "anim-gunu",
+      "month": 9,
+      "day": 27,
+      "style": "memorial",
+      "title": { "az": "Anım Günü" },
+      "description": {
+        "az": "44 günlük Vətən müharibəsində şəhid olanların xatirəsi anılır. Gün 2 dekabr 2020-ci il tarixli Prezident Fərmanı ilə təsis edilib: müharibə 27 sentyabr 2020-ci ildə başlamışdı."
+      },
+      "ref": { "type": "conflict", "id": "karabakh-war-2020", "stepId": "2020-09-27" },
+      "sources": [
+        { "title": "Remembrance Day (Azerbaijan)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Remembrance_Day_(Azerbaijan)" },
+        { "title": "Azerbaijan observes Remembrance Day", "type": "web", "url": "https://report.az/en/karabakh/azerbaijan-observes-remembrance-day" }
+      ]
+    },
+    {
+      "id": "zefer-gunu",
+      "month": 11,
+      "day": 8,
+      "style": "victory",
+      "title": { "az": "Zəfər Günü" },
+      "description": {
+        "az": "8 noyabr 2020-ci ildə Şuşanın azad olunduğu elan edildi. Zəfər Günü əvvəlcə 10 noyabr kimi təsis olunmuş, 3 dekabr 2020-ci ildə 8 noyabra keçirilmişdir."
+      },
+      "ref": { "type": "conflict", "id": "karabakh-war-2020", "stepId": "2020-11-08" },
+      "sources": [
+        { "title": "Victory Day (Azerbaijan)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Victory_Day_(Azerbaijan)" },
+        { "title": "November 10 declared Victory Day in Azerbaijan, September 27 – Memorial Day", "type": "web", "url": "https://jam-news.net/?p=58552", "note": "Tarixin 8 noyabra keçirilməsi: president.az, 3 dekabr 2020" }
+      ]
+    }
+  ]
+}

@@ -5,6 +5,9 @@ import { motion, useReducedMotion } from "motion/react";
 import type { Locale, PlannedEntity, Theme } from "@/domain/schema";
 import type { TimeExplorerData } from "@/data/timeExplorer";
 import { TimeExplorer } from "@/features/timeline/TimeExplorer";
+import { OnThisDayBlock } from "@/features/home/OnThisDay";
+import type { Commemoration } from "@/domain/schema";
+import type { ResolvedRef } from "@/domain/registry";
 import { DEFAULT_YEAR } from "@/features/timeline/TimelinePageClient";
 import { ThemeShell } from "@/features/theme/ThemeShell";
 import { Divider, Star } from "@/components/Ornament";
@@ -30,10 +33,12 @@ interface Props {
   persons: LandingPerson[];
   theme: Theme;
   timeline: TimeExplorerData;
+  commemorations: Commemoration[];
+  commemorationRefs: Record<string, ResolvedRef>;
 }
 
 /** Home: three sections, each with its own page and cards; all run on the same simulation engine. */
-export function Hub({ locale, messages: m, categories, persons, theme, timeline }: Props) {
+export function Hub({ locale, messages: m, categories, persons, theme, timeline, commemorations, commemorationRefs }: Props) {
   const reduced = useReducedMotion();
   const progress = useProgress();
   const fade = (i: number) => ({
@@ -103,6 +108,10 @@ export function Hub({ locale, messages: m, categories, persons, theme, timeline 
             );
           })}
         </ul>
+
+        <div className="mt-10">
+          <OnThisDayBlock events={timeline.events} commemorations={commemorations} commemorationRefs={commemorationRefs} locale={locale} m={m} />
+        </div>
 
         <section className="mt-10" aria-labelledby="hub-timeline">
           <h2 id="hub-timeline" className="mb-3 text-center font-display text-2xl font-semibold text-ink">
