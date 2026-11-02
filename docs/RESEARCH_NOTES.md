@@ -168,3 +168,20 @@ Mərhələlər `data/states/afshar/steps.json`-dadır, hər birinin mənbəsi va
 
 Ruler cədvəlinə əlavə olunanlar: Zəndlər (Kərim xan, Lütfəli xan), Dürranilər (Əhməd şah, Teymur şah, Zaman şah), Qacarlar (Məhəmmədhəsən xan,
 Ağa Məhəmməd xan), II Teymuraz, II İrakli, Pənahəli xan, İbrahimxəlil xan, Hacı Çələbi, Fətəli xan. Digər xanlıqların xanları üçün panel "tezliklə" deyir.
+
+## 44 günlük Vətən müharibəsi
+
+Əsas mənbə AZƏRTAC-ın [Vətən müharibəsinin xronikası](https://azertag.az/bolme/chronicle_of_the_patriotic_war) seriyasıdır (27 sentyabr – 9 noyabr, hər gün üçün ayrıca məqalə).
+Adları sadalanmadan yalnız sayı verilən günlər üçün Prezidentin müraciətlərinin tam mətni yoxlanılıb: 4 oktyabr (Cəbrayıl şəhəri və 9 kənd) və 20 oktyabr (Zəngilan şəhəri, 6 kənd, 18 kənd).
+
+| Məqam | Qərar |
+|---|---|
+| Qubadlı şəhəri | Xronikada 25 oktyabr (Prezidentin tviti) və 26 oktyabr (adlar sadalanan müraciət) var. Step 25 oktyabrdır, hər iki mənbə göstərilir |
+| Eyni kəndin iki dəfə çəkilməsi | Hacılı (Cəbrayıl) və Zərnəli (Zəngilan) rəsmi siyahılarda iki dəfə keçir. Sayğacda bir dəfə sayılır, panelda "təkrar xatırlanır" yazılır |
+| Ağbənd və İran sərhədi | "Dövlət sərhədinin tam nəzarətə götürülməsi" Prezidentin açıqlaması kimi, ona istinadla verilir (mod.gov.az) |
+| 9 noyabr | 23 kəndin adı var; əlavə "48 kənd, 1 qəsəbə, 8 strateji yüksəklik" yalnız sayla verilib |
+| Cəbhə xətti | Çəkilmir: etibarlı açıq data yoxdur |
+| Koordinatlar | OpenStreetMap Nominatim. Rayon mərkəzindən 30 km-dən uzaq və ya küçə tipli nəticələr rədd edilib; 28 məntəqə xəritəsiz qalıb |
+| Zəfər Günü | 2020-ci ilin dekabrında 10 noyabr kimi təsis olunub, sonra 8 noyabra keçirilib |
+| Qəhrəmanlar | Yalnız 9 dekabr 2020 sərəncamı (82 nəfər). Sonrakı sərəncamlar, doğum yerləri və təsvirlər hələ əlavə edilməyib |
+| Dil | Mətnlər rəsmi mənbələrin faktlarını neytral, nifrət ifadəsi olmadan verir; zorakılıq qrafik təsvir edilmir |

@@ -33,3 +33,14 @@ describe("registry", () => {
     expect(checkRef({ type: "person", id: "nadir-shah", stepId: "nadir-mughan" }, reg, "e")).toEqual([]);
   });
 });
+
+describe("battles inside a conflict", () => {
+  const r = buildRegistry({
+    simulations: [],
+    others: [{ type: "battle", id: "shusha-2020", title: { az: "Şuşa əməliyyatı" }, url: "/conflicts/karabakh-war-2020/?step=2020-11-08" }],
+    planned: [],
+  });
+  it("link to the conflict day that shows them", () => {
+    expect(resolveRef({ type: "battle", id: "shusha-2020" }, r).href).toBe("/conflicts/karabakh-war-2020/?step=2020-11-08");
+  });
+});

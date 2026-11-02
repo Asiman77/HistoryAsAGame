@@ -1,0 +1,38 @@
+{
+  "id": "armenia",
+  "name": {
+    "az": "Ermənistan Respublikası"
+  },
+  "color": "#8a7457",
+  "periods": [
+    {
+      "from": 1991,
+      "to": 2100
+    }
+  ],
+  "facts": [
+    {
+      "from": 2020,
+      "to": 2020,
+      "status": "war",
+      "statusNote": {
+        "az": "Azərbaycan ilə müharibə; 10 noyabr 2020-ci il bəyanatı ilə hərbi əməliyyatlar dayandırıldı."
+      },
+      "languages": {
+        "az": "Erməni dili"
+      },
+      "sources": [
+        {
+          "title": "Armenia",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Armenia"
+        },
+        {
+          "title": "2020 Nagorno-Karabakh war",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/2020_Nagorno-Karabakh_war"
+        }
+      ]
+    }
+  ]
+}

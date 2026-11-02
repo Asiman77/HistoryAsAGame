@@ -12,6 +12,13 @@ import type {
   Ruler,
   State,
   StateStep,
+  Battle,
+  Commander,
+  Conflict,
+  Hero,
+  Settlement,
+  Track,
+  WarDay,
   TerritorySnapshotMeta,
   WorldEvent,
 } from "@/domain/schema";
@@ -46,6 +53,12 @@ export interface HistoryRepository {
   getState(id: string): Promise<State | null>;
   /** Stages sorted by `order`. */
   getStateSteps(id: string): Promise<StateStep[]>;
+  listConflicts(): Promise<Conflict[]>;
+  getConflict(id: string): Promise<Conflict | null>;
+  /** Days sorted by `order`. */
+  getConflictDays(id: string): Promise<WarDay[]>;
+  getConflictExtras(id: string): Promise<{ settlements: Settlement[]; heroes: Hero[]; commanders: Commander[]; tracks: Track[] }>;
+  listBattles(): Promise<Battle[]>;
   /** Entities announced but not built yet (data/planned.json). */
   listPlanned(): Promise<PlannedEntity[]>;
   /** Index of every entity, used to resolve cross-links. */

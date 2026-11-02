@@ -17,7 +17,7 @@ import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { GlossaryProvider } from "@/components/GlossaryText";
 import { getAudioEngine } from "@/features/audio/engine";
 import { MapLegend } from "@/features/map/MapLegend";
-import { MapStage, type Phase } from "@/features/map/MapStage";
+import { MapStage, type MapExtensionFactory, type Phase } from "@/features/map/MapStage";
 import { PlaceCard } from "@/features/map/PlaceCard";
 import { PolityPanel } from "@/features/map/PolityPanel";
 import { DEFAULT_ENEMY_COLOR, DEFAULT_OWN_COLOR } from "@/features/map/style";
@@ -68,8 +68,14 @@ interface Props<S extends EngineStep> {
   finalMood?: Mood;
   /** Story / learning mode toggle. */
   modes?: boolean;
-  /** SFX when a step opens. */
-  stepSfx?: (step: S) => "drum" | "whoosh";
+  /** SFX when a step opens; null keeps it quiet (memorial stages). */
+  stepSfx?: (step: S) => "drum" | "whoosh" | "victory" | null;
+  /** Start screen art and theme. */
+  gate?: { art?: React.ReactNode; dark?: boolean };
+  /** Extra map layers owned by the simulation kind. */
+  mapExtension?: MapExtensionFactory;
+  /** Background mood for the final panel and modal overlays. */
+  moodOverride?: Mood | null;
   /** Category list this simulation belongs to, for the HUD back link. */
   indexLink: { href: string; label: string };
   /** Extra strip under the timeline, e.g. the dynasty of a state. */
@@ -98,6 +104,9 @@ export function SimulationEngine<S extends EngineStep>({
   stepSfx = (s) => (s.battle ? "drum" : "whoosh"),
   indexLink,
   belowTimeline,
+  gate,
+  mapExtension,
+  moodOverride = null,
 }: Props<S>) {
   const { steps, places, eras } = data;
   const [started, setStarted] = useState(false);
@@ -134,7 +143,7 @@ export function SimulationEngine<S extends EngineStep>({
   const panelW = teacher ? 560 : 430;
   const final = phase === "legacy";
   const shownStep = final ? steps[last]! : step;
-  const mood = final ? finalMood : step.mood;
+  const mood = moodOverride ?? (final ? finalMood : step.mood);
   const moodStyle = MOOD_STYLES[mood];
 
   // ---- where to start: saved progress (the deep link is read in GateController) ----
@@ -188,7 +197,8 @@ export function SimulationEngine<S extends EngineStep>({
       firstStep.current = false;
       return;
     }
-    engine.playSfx(final ? "chime" : stepSfx(step));
+    const sfx = final ? "chime" : stepSfx(step);
+    if (sfx) engine.playSfx(sfx);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [engine, started, index, phase]);
   const onBattleArrow = useCallback(
@@ -411,6 +421,8 @@ export function SimulationEngine<S extends EngineStep>({
     title,
     subtitle: data.subtitle,
     ...(data.image ? { image: data.image } : {}),
+    ...(gate?.art ? { art: gate.art } : {}),
+    dark: gate?.dark ?? false,
     locale,
     m,
     resume,
@@ -442,6 +454,7 @@ export function SimulationEngine<S extends EngineStep>({
             onBattleArrow={onBattleArrow}
             onFollow={(ref: ResolvedRef) => ref.href && followHref(ref.href)}
             onSelectPolity={setPolityId}
+            extension={mapExtension}
           />
 
           {/* Mood colour grading, parchment grain and vignette over the map. */}

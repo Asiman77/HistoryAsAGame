@@ -1,0 +1,13 @@
+{
+  "id": "georgia-modern",
+  "name": {
+    "az": "Gürcüstan"
+  },
+  "color": "#8f6a4f",
+  "periods": [
+    {
+      "from": 1991,
+      "to": 2100
+    }
+  ]
+}

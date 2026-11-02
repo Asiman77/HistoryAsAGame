@@ -1,0 +1,1551 @@
+{
+  "days": [
+    {
+      "id": "2020-09-27",
+      "date": {
+        "year": 2020,
+        "month": 9,
+        "day": 27,
+        "certainty": "exact"
+      },
+      "dayNumber": 1,
+      "kind": "operation",
+      "title": {
+        "az": "Əks-hücum əməliyyatının başlanması"
+      },
+      "summary": {
+        "az": "27 sentyabr səhər Ermənistan silahlı qüvvələri cəbhəboyu Azərbaycan Ordusunun mövqelərini və yaşayış məntəqələrini atəşə tutdu. Bunun qarşısını almaq üçün Azərbaycan Ordusu əks-hücum əməliyyatına başladı; əməliyyat sonradan \"Dəmir yumruq\" adlandırıldı. Prezident, Ali Baş Komandan İlham Əliyev xalqa müraciət etdi, axşam hərbi vəziyyət elan olundu. Günün sonunda Füzuli və Cəbrayıl istiqamətlərində altı kənd, Murov dağ silsiləsində isə Murov zirvəsi azad edildi."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Cəbhə xətti: Murovdan Horadizə"
+        },
+        "lat": 39.95,
+        "lng": 46.75,
+        "approximate": true
+      },
+      "zoom": 7.4,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "qaraxanbeyli-fuzuli",
+        "nuzgar-fuzuli",
+        "yuxari-ebdurrehmanli-fuzuli",
+        "boyuk-mercanli-cebrayil",
+        "kend-horadiz-fuzuli",
+        "qervend-fuzuli",
+        "murov-zirvesi-kelbecer"
+      ],
+      "commanders": [
+        "ilham-aliyev",
+        "zakir-hasanov"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 27 sentyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_27_sentyabr-1886223"
+        }
+      ],
+      "quiz": [
+        {
+          "question": {
+            "az": "Vətən müharibəsi hansı tarixdə başladı?"
+          },
+          "options": [
+            {
+              "az": "27 sentyabr 2020"
+            },
+            {
+              "az": "8 noyabr 2020"
+            },
+            {
+              "az": "10 noyabr 2020"
+            },
+            {
+              "az": "4 oktyabr 2020"
+            }
+          ],
+          "correctIndex": 0,
+          "explanation": {
+            "az": "Əks-hücum əməliyyatı 27 sentyabr 2020-ci ildə başladı. Bu gün Anım Günü kimi qeyd olunur."
+          }
+        }
+      ],
+      "order": 0
+    },
+    {
+      "id": "2020-09-28-tartar",
+      "date": {
+        "year": 2020,
+        "month": 9,
+        "day": 28,
+        "certainty": "exact"
+      },
+      "dayNumber": 2,
+      "kind": "memorial",
+      "title": {
+        "az": "Tərtər: atəş altında şəhər"
+      },
+      "summary": {
+        "az": "Döyüşlərin ilk günlərindən cəbhəyə yaxın Tərtər şəhəri və rayonun kəndləri artilleriya atəşinə tutuldu. 28 sentyabrda Tərtər Rayon Məhkəməsinin yerləşdiyi əraziyə və məcburi köçkünlər üçün tikilmiş binaya düşən mərmilər mülki şəxslərin həyatına son qoydu. Şəhər sonrakı həftələrdə də dəfələrlə atəşə tutuldu."
+      },
+      "mood": "death",
+      "location": {
+        "name": {
+          "az": "Tərtər"
+        },
+        "lat": 40.3418,
+        "lng": 46.9283,
+        "approximate": true
+      },
+      "zoom": 8.6,
+      "territorySnapshotId": "y2020",
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 28 sentyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_28_sentyabr-1887221"
+        }
+      ],
+      "order": 1
+    },
+    {
+      "id": "2020-10-03",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 3,
+        "certainty": "exact"
+      },
+      "dayNumber": 7,
+      "kind": "liberation",
+      "title": {
+        "az": "Suqovuşan"
+      },
+      "summary": {
+        "az": "Azərbaycan Ordusu Madagiz qəsəbəsini azad etdi və orada Azərbaycan bayrağını qaldırdı. Prezident İlham Əliyev qəsəbənin tarixi adını bərpa edərək onu Suqovuşan adlandırdı. Həmin gün Tərtər rayonunun Talış, Cəbrayıl rayonunun beş, Füzuli rayonunun bir kəndi də azad edildi."
+      },
+      "mood": "victory",
+      "location": {
+        "name": {
+          "az": "Suqovuşan"
+        },
+        "lat": 40.17,
+        "lng": 46.66,
+        "approximate": true
+      },
+      "zoom": 7.6,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "suqovusan-terter",
+        "talis-terter",
+        "mehdili-cebrayil",
+        "caxirli-cebrayil",
+        "asagi-maralyan-cebrayil",
+        "seybey-cebrayil",
+        "quycaq-cebrayil",
+        "asagi-ebdurrehmanli-fuzuli"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 3 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_3_oktyabr-1891951"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "id": "2020-10-04",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 4,
+        "certainty": "exact"
+      },
+      "dayNumber": 8,
+      "kind": "liberation",
+      "title": {
+        "az": "Cəbrayıl şəhəri"
+      },
+      "summary": {
+        "az": "Azərbaycan Ordusu Cəbrayıl şəhərini və rayonun doqquz kəndini azad etdi. Prezident İlham Əliyev xalqa müraciət edərək azad olunan yaşayış məntəqələrinin adlarını bir-bir sadaladı."
+      },
+      "mood": "victory",
+      "location": {
+        "name": {
+          "az": "Cəbrayıl"
+        },
+        "lat": 39.3667,
+        "lng": 47.1303,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "cebrayil-cebrayil",
+        "karxulu-cebrayil",
+        "sukurbeyli-cebrayil",
+        "yuxari-maralyan-cebrayil",
+        "cereken-cebrayil",
+        "daskesen-cebrayil",
+        "horovlu-cebrayil",
+        "decal-cebrayil",
+        "mahmudlu-cebrayil",
+        "ceferabad-cebrayil"
+      ],
+      "officialStatement": {
+        "title": {
+          "az": "Prezident İlham Əliyevin xalqa müraciəti (4 oktyabr 2020)"
+        },
+        "url": "https://report.az/qarabag/azerbaycan-prezidenti-ilham-eliyev-xalqa-muraciet-edib",
+        "date": "4 oktyabr 2020"
+      },
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 4 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_4_oktyabr-1892177"
+        },
+        {
+          "title": "Report.az: Prezidentin xalqa müraciəti, 4 oktyabr 2020",
+          "type": "web",
+          "url": "https://report.az/qarabag/azerbaycan-prezidenti-ilham-eliyev-xalqa-muraciet-edib"
+        }
+      ],
+      "quiz": [
+        {
+          "question": {
+            "az": "Müharibə zamanı azad edilən ilk rayon mərkəzi hansı şəhər idi?"
+          },
+          "options": [
+            {
+              "az": "Cəbrayıl"
+            },
+            {
+              "az": "Füzuli"
+            },
+            {
+              "az": "Şuşa"
+            },
+            {
+              "az": "Qubadlı"
+            }
+          ],
+          "correctIndex": 0,
+          "explanation": {
+            "az": "Cəbrayıl şəhəri 4 oktyabr 2020-ci ildə azad edildi."
+          }
+        }
+      ],
+      "order": 3
+    },
+    {
+      "id": "2020-10-05",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 5,
+        "certainty": "exact"
+      },
+      "dayNumber": 9,
+      "kind": "liberation",
+      "title": {
+        "az": "Cəbrayıl istiqamətində irəliləyiş"
+      },
+      "summary": {
+        "az": "Cəbrayıl rayonunun Şıxəli Ağalı, Sarıcalı və Məzrə kəndləri, həmçinin müxtəlif istiqamətlərdə bir neçə strateji yüksəklik azad edildi."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Cəbrayıl rayonu"
+        },
+        "lat": 39.3017,
+        "lng": 47.1028,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "sixeli-agali-cebrayil",
+        "saricali-cebrayil",
+        "mezre-cebrayil"
+      ],
+      "extraLiberated": {
+        "heights": 0
+      },
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 5 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_5_oktyabr-1893317"
+        }
+      ],
+      "order": 4
+    },
+    {
+      "id": "2020-10-09",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 9,
+        "certainty": "exact"
+      },
+      "dayNumber": 13,
+      "kind": "liberation",
+      "title": {
+        "az": "Hadrut"
+      },
+      "summary": {
+        "az": "Hadrut qəsəbəsi və səkkiz kənd azad edildi. Prezident, Ali Baş Komandan İlham Əliyev bununla əlaqədar xalqa müraciət etdi."
+      },
+      "mood": "victory",
+      "location": {
+        "name": {
+          "az": "Hadrut"
+        },
+        "lat": 39.4755,
+        "lng": 47.0599,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "hadrut-xocavend",
+        "cayli-xocavend",
+        "yuxari-guzdek-xocavend",
+        "gorazilli-xocavend",
+        "qislaq-xocavend",
+        "qaracalli-xocavend",
+        "efendiler-xocavend",
+        "suleymanli-xocavend",
+        "sur-xocavend"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 9 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_9_oktyabr-1897085"
+        }
+      ],
+      "order": 5
+    },
+    {
+      "id": "2020-10-11-ganja",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 11,
+        "certainty": "exact"
+      },
+      "dayNumber": 15,
+      "kind": "memorial",
+      "title": {
+        "az": "Gəncə: dinc sakinlərin xatirəsinə"
+      },
+      "summary": {
+        "az": "Cəbhə zonasından uzaqda yerləşən Gəncə şəhəri dəfələrlə raket atəşinə tutuldu. 11 oktyabr gecəsi şəhərin mərkəzindəki çoxmənzilli yaşayış binalarına raket düşdü: rəsmi məlumata görə 7 nəfər həlak oldu, 34 nəfər yaralandı. 17 oktyabr gecəsi Gəncəyə növbəti raket hücumu nəticəsində 13 nəfər həlak oldu, 48 nəfər xəsarət aldı."
+      },
+      "mood": "death",
+      "location": {
+        "name": {
+          "az": "Gəncə"
+        },
+        "lat": 40.6828,
+        "lng": 46.3606,
+        "approximate": true
+      },
+      "zoom": 8.6,
+      "territorySnapshotId": "y2020",
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 11 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_11_oktyabr-1897618"
+        },
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 17 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_17_oktyabr-1901211"
+        }
+      ],
+      "order": 6
+    },
+    {
+      "id": "2020-10-14",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 14,
+        "certainty": "exact"
+      },
+      "dayNumber": 18,
+      "kind": "liberation",
+      "title": {
+        "az": "Füzuli və Xocavənd kəndləri"
+      },
+      "summary": {
+        "az": "Füzuli rayonunun üç, Xocavənd rayonunun beş kəndi azad edildi."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Füzuli–Xocavənd istiqaməti"
+        },
+        "lat": 39.5219,
+        "lng": 47.0612,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "qaradagli-fuzuli",
+        "xatunbulaq-fuzuli",
+        "qarakollu-fuzuli",
+        "bulutan-xocavend",
+        "melikcanli-xocavend",
+        "kemertuk-xocavend",
+        "teke-xocavend",
+        "tagaser-xocavend"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 14 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_14_oktyabr-1899145"
+        }
+      ],
+      "order": 7
+    },
+    {
+      "id": "2020-10-15",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 15,
+        "certainty": "exact"
+      },
+      "dayNumber": 19,
+      "kind": "liberation",
+      "title": {
+        "az": "Arış, Doşulu və Xocavənd kəndləri"
+      },
+      "summary": {
+        "az": "Füzuli rayonunun Arış, Cəbrayıl rayonunun Doşulu, Xocavənd rayonunun dörd kəndi azad edildi."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Xocavənd istiqaməti"
+        },
+        "lat": 39.5425,
+        "lng": 47.0529,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "aris-fuzuli",
+        "dosulu-cebrayil",
+        "edise-xocavend",
+        "dudukcu-xocavend",
+        "edilli-xocavend",
+        "ciraquz-xocavend"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 15 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_15_oktyabr-1899679"
+        }
+      ],
+      "order": 8
+    },
+    {
+      "id": "2020-10-16",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 16,
+        "certainty": "exact"
+      },
+      "dayNumber": 20,
+      "kind": "liberation",
+      "title": {
+        "az": "Xocavəndin dağ kəndləri"
+      },
+      "summary": {
+        "az": "Xocavənd rayonunun Xırmancıq, Ağbulaq və Axullu kəndləri azad edildi."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Xocavənd"
+        },
+        "lat": 39.619,
+        "lng": 47.031,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "xirmanciq-xocavend",
+        "agbulaq-xocavend",
+        "axullu-xocavend"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 16 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_16_oktyabr-1900393"
+        }
+      ],
+      "order": 9
+    },
+    {
+      "id": "2020-10-17",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 17,
+        "certainty": "exact"
+      },
+      "dayNumber": 21,
+      "kind": "liberation",
+      "title": {
+        "az": "Füzuli şəhəri"
+      },
+      "summary": {
+        "az": "Füzuli şəhəri və rayonun yeddi kəndi azad edildi. Prezident İlham Əliyev bununla əlaqədar xalqa müraciət etdi. Ertəsi gün Füzuli şəhərində Azərbaycan bayrağı qaldırıldı."
+      },
+      "mood": "victory",
+      "location": {
+        "name": {
+          "az": "Füzuli"
+        },
+        "lat": 39.5541,
+        "lng": 47.1418,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "fuzuli-fuzuli",
+        "qocehmedli-fuzuli",
+        "cimen-fuzuli",
+        "cuvarli-fuzuli",
+        "pirehmedli-fuzuli",
+        "musabeyli-fuzuli",
+        "i-siqli-fuzuli",
+        "dedeli-fuzuli"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 17 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_17_oktyabr-1901211"
+        },
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 18 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_18_oktyabr-1901501"
+        }
+      ],
+      "quiz": [
+        {
+          "question": {
+            "az": "Füzuli şəhəri hansı tarixdə azad edildi?"
+          },
+          "options": [
+            {
+              "az": "17 oktyabr 2020"
+            },
+            {
+              "az": "4 oktyabr 2020"
+            },
+            {
+              "az": "25 oktyabr 2020"
+            },
+            {
+              "az": "8 noyabr 2020"
+            }
+          ],
+          "correctIndex": 0,
+          "explanation": {
+            "az": "Füzuli şəhəri müharibənin 21-ci günü, 17 oktyabrda azad edildi."
+          }
+        }
+      ],
+      "order": 10
+    },
+    {
+      "id": "2020-10-19",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 19,
+        "certainty": "exact"
+      },
+      "dayNumber": 23,
+      "kind": "liberation",
+      "title": {
+        "az": "Cəbrayılın on üç kəndi"
+      },
+      "summary": {
+        "az": "Cəbrayıl rayonunun on üç kəndi azad edildi."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Cəbrayıl rayonu"
+        },
+        "lat": 39.2762,
+        "lng": 46.9983,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "soltanli-cebrayil",
+        "emirvarli-cebrayil",
+        "masanli-cebrayil",
+        "hesenli-cebrayil",
+        "elikeyxanli-cebrayil",
+        "qumlaq-cebrayil",
+        "hacili-cebrayil",
+        "goyercinveyselli-cebrayil",
+        "niyazqullar-cebrayil",
+        "kecel-memmedli-cebrayil",
+        "sahvelli-cebrayil",
+        "haci-i-smayilli-cebrayil",
+        "i-saqli-cebrayil"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 19 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_19_oktyabr-1902681"
+        }
+      ],
+      "order": 11
+    },
+    {
+      "id": "2020-10-20",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 20,
+        "certainty": "exact"
+      },
+      "dayNumber": 24,
+      "kind": "liberation",
+      "title": {
+        "az": "Zəngilan şəhəri"
+      },
+      "summary": {
+        "az": "Zəngilan şəhəri və rayonun altı kəndi, həmçinin Füzuli, Cəbrayıl və Xocavənd rayonlarının 18 kəndi azad edildi. Prezident İlham Əliyev xalqa müraciətində Xocavənd rayonundakı Vəng kəndinə Çinarlı adını verdi."
+      },
+      "mood": "victory",
+      "location": {
+        "name": {
+          "az": "Zəngilan"
+        },
+        "lat": 39.3781,
+        "lng": 46.993,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "zengilan-zengilan",
+        "havali-zengilan",
+        "zerneli-zengilan",
+        "memmedbeyli-zengilan",
+        "hekeri-zengilan",
+        "serifan-zengilan",
+        "muganli-zengilan",
+        "dordcinar-fuzuli",
+        "kurdler-fuzuli",
+        "qargabazar-fuzuli",
+        "asagi-veyselli-fuzuli",
+        "yuxari-aybasanli-fuzuli",
+        "safarsa-cebrayil",
+        "hesenqaydi-cebrayil",
+        "fuganli-cebrayil",
+        "i-mambagi-cebrayil",
+        "das-veyselli-cebrayil",
+        "agtepe-cebrayil",
+        "yarehmedli-cebrayil",
+        "agcakend-xocavend",
+        "mulkudere-xocavend",
+        "dasbasi-xocavend",
+        "gunesli-xocavend",
+        "cinarli-xocavend"
+      ],
+      "officialStatement": {
+        "title": {
+          "az": "Prezident İlham Əliyevin xalqa müraciəti (20 oktyabr 2020)"
+        },
+        "url": "https://report.az/qarabag/prezident-ilham-eliyev-xalqa-muraciet-edecek-20-10-2020",
+        "date": "20 oktyabr 2020"
+      },
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 20 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_20_oktyabr-1903692"
+        },
+        {
+          "title": "Report.az: Prezidentin xalqa müraciətinin tam mətni, 20 oktyabr 2020",
+          "type": "web",
+          "url": "https://report.az/qarabag/prezident-ilham-eliyev-xalqa-muraciet-edecek-20-10-2020"
+        }
+      ],
+      "order": 12
+    },
+    {
+      "id": "2020-10-21",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 21,
+        "certainty": "exact"
+      },
+      "dayNumber": 25,
+      "kind": "liberation",
+      "title": {
+        "az": "Mincivan"
+      },
+      "summary": {
+        "az": "Zəngilan rayonunun Mincivan qəsəbəsi və on üç kəndi, həmçinin Füzuli rayonunun üç, Cəbrayıl rayonunun beş kəndi azad edildi."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Mincivan"
+        },
+        "lat": 39.2038,
+        "lng": 46.8597,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "mincivan-zengilan",
+        "xurama-zengilan",
+        "xumarli-zengilan",
+        "saril-zengilan",
+        "babayli-zengilan",
+        "ucuncu-agali-zengilan",
+        "hacalli-zengilan",
+        "qirax-muslan-zengilan",
+        "udgun-zengilan",
+        "turabad-zengilan",
+        "i-ceri-muslan-zengilan",
+        "melikli-zengilan",
+        "cahangirbeyli-zengilan",
+        "baharli-zengilan",
+        "gecegozlu-fuzuli",
+        "asagi-seyidehmedli-fuzuli",
+        "zerger-fuzuli",
+        "balyand-cebrayil",
+        "papi-cebrayil",
+        "tulus-cebrayil",
+        "hacili-cebrayil",
+        "tinli-cebrayil"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 21 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_21_oktyabr-1904668"
+        }
+      ],
+      "order": 13
+    },
+    {
+      "id": "2020-10-22",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 22,
+        "certainty": "exact"
+      },
+      "dayNumber": 26,
+      "kind": "liberation",
+      "title": {
+        "az": "Ağbənd: İran sərhədi"
+      },
+      "summary": {
+        "az": "Zəngilan rayonunun on üç kəndi və Ağbənd qəsəbəsi, Füzuli və Cəbrayıl rayonlarının yeddi kəndi azad edildi. Prezident İlham Əliyevin açıqlamasına görə, Ağbənd qəsəbəsinin azad edilməsi ilə Azərbaycan ilə İran arasındakı dövlət sərhədinin tam nəzarətə götürülməsi təmin olundu."
+      },
+      "mood": "victory",
+      "location": {
+        "name": {
+          "az": "Ağbənd"
+        },
+        "lat": 39.1597,
+        "lng": 46.7773,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "mollaveli-fuzuli",
+        "yuxari-refedinli-fuzuli",
+        "asagi-refedinli-fuzuli",
+        "sirik-cebrayil",
+        "sixlar-cebrayil",
+        "mestalibeyli-cebrayil",
+        "derzili-cebrayil",
+        "kolluqislaq-zengilan",
+        "malatkesin-zengilan",
+        "kend-zengilan-zengilan",
+        "genlik-zengilan",
+        "veliqulubeyli-zengilan",
+        "qaradere-zengilan",
+        "copedere-zengilan",
+        "tatar-zengilan",
+        "tiri-zengilan",
+        "emirxanli-zengilan",
+        "qarqulu-zengilan",
+        "bartaz-zengilan",
+        "dellekli-zengilan",
+        "agbend-zengilan"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 22 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_22_oktyabr-1905710"
+        },
+        {
+          "title": "Müdafiə Nazirliyi: Ağbənd qəsəbəsinin azad edilməsi ilə İran ilə dövlət sərhədinin tam nəzarətə götürülməsi təmin olundu",
+          "type": "web",
+          "url": "https://mod.gov.az/en/news/president-ilham-aliyev-with-the-liberation-of-aghband-settlement-taking-full-control-over-the-azerbaijani-iranian-state-33198.html"
+        }
+      ],
+      "order": 14
+    },
+    {
+      "id": "2020-10-23",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 23,
+        "certainty": "exact"
+      },
+      "dayNumber": 27,
+      "kind": "liberation",
+      "title": {
+        "az": "Qubadlıya yol"
+      },
+      "summary": {
+        "az": "Xocavənd, Cəbrayıl və Zəngilan rayonlarının doqquz kəndi, Qubadlı rayonunun isə ilk dörd kəndi azad edildi."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Qubadlı istiqaməti"
+        },
+        "lat": 39.3135,
+        "lng": 46.8235,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "dolanlar-xocavend",
+        "bunyadli-xocavend",
+        "dag-tumas-cebrayil",
+        "nusus-cebrayil",
+        "xelefli-cebrayil",
+        "minbasili-cebrayil",
+        "veyselli-cebrayil",
+        "venedli-zengilan",
+        "mirzehesenli-zengilan",
+        "zilanli-qubadli",
+        "kurd-mahrizli-qubadli",
+        "muganli-qubadli",
+        "alaqursaq-qubadli"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 23 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_23_oktyabr-1906688"
+        }
+      ],
+      "order": 15
+    },
+    {
+      "id": "2020-10-25",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 25,
+        "certainty": "exact"
+      },
+      "dayNumber": 29,
+      "kind": "liberation",
+      "title": {
+        "az": "Qubadlı şəhəri"
+      },
+      "summary": {
+        "az": "Azərbaycan Ordusu Qubadlı şəhərini və Zəngilan, Cəbrayıl, Qubadlı rayonlarının kəndlərini azad etdi. Ertəsi gün Prezident İlham Əliyev xalqa müraciət edərək azad olunan yaşayış məntəqələrinin adlarını sadaladı və Qubadlının azad edilməsində fərqlənmiş hərbi birlik komandirləri Yaşar Həsənovu və Zaur Quliyevi təbrik etdi."
+      },
+      "mood": "victory",
+      "location": {
+        "name": {
+          "az": "Qubadlı"
+        },
+        "lat": 39.3092,
+        "lng": 46.7493,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "qubadli-qubadli",
+        "birinci-alibeyli-zengilan",
+        "i-kinci-alibeyli-zengilan",
+        "rebend-zengilan",
+        "yenikend-zengilan",
+        "qovsudlu-cebrayil",
+        "sofulu-cebrayil",
+        "dag-masanli-cebrayil",
+        "kurdler-cebrayil",
+        "hovuslu-cebrayil",
+        "celebiler-cebrayil",
+        "padar-qubadli",
+        "efendiler-qubadli",
+        "yusifbeyli-qubadli",
+        "caytumas-qubadli",
+        "xanliq-qubadli",
+        "sariyataq-qubadli",
+        "mollaburhan-qubadli"
+      ],
+      "commanders": [
+        "yashar-hasanov",
+        "zaur-guliyev"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 25 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_25_oktyabr-1907564"
+        },
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 26 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_26_oktyabr-1908634"
+        }
+      ],
+      "order": 16
+    },
+    {
+      "id": "2020-10-28",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 28,
+        "certainty": "exact"
+      },
+      "dayNumber": 32,
+      "kind": "liberation",
+      "title": {
+        "az": "Zəngilan, Füzuli, Cəbrayıl və Qubadlı kəndləri"
+      },
+      "summary": {
+        "az": "Dörd rayonun on üç kəndi azad edildi."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Cəbrayıl–Qubadlı istiqaməti"
+        },
+        "lat": 39.3058,
+        "lng": 46.8008,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "birinci-agali-zengilan",
+        "i-kinci-agali-zengilan",
+        "zerneli-zengilan",
+        "mandili-fuzuli",
+        "qazanzemi-cebrayil",
+        "xanagabulaq-cebrayil",
+        "cullu-cebrayil",
+        "quscular-cebrayil",
+        "qaraagac-cebrayil",
+        "qiyasli-qubadli",
+        "ebilce-qubadli",
+        "qilican-qubadli"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 28 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_28_oktyabr-1910728"
+        }
+      ],
+      "order": 17
+    },
+    {
+      "id": "2020-10-28-barda",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 28,
+        "certainty": "exact"
+      },
+      "dayNumber": 32,
+      "kind": "memorial",
+      "title": {
+        "az": "Bərdə: dinc sakinlərin xatirəsinə"
+      },
+      "summary": {
+        "az": "27 və 28 oktyabrda cəbhə xəttindən uzaqda yerləşən Bərdə şəhəri və rayonun kəndləri raket atəşinə tutuldu. Baş Prokurorluğun məlumatına görə, 28 oktyabrda Bərdəyə edilən hücum nəticəsində həlak olan mülki şəxslərin sayı 21-ə çatdı."
+      },
+      "mood": "death",
+      "location": {
+        "name": {
+          "az": "Bərdə"
+        },
+        "lat": 40.3747,
+        "lng": 47.1269,
+        "approximate": true
+      },
+      "zoom": 8.6,
+      "territorySnapshotId": "y2020",
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 27 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_27_oktyabr-1909762"
+        },
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 28 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_28_oktyabr-1910728"
+        }
+      ],
+      "order": 18
+    },
+    {
+      "id": "2020-10-30",
+      "date": {
+        "year": 2020,
+        "month": 10,
+        "day": 30,
+        "certainty": "exact"
+      },
+      "dayNumber": 34,
+      "kind": "liberation",
+      "title": {
+        "az": "Araz boyunca"
+      },
+      "summary": {
+        "az": "Cəbrayıl, Zəngilan və Qubadlı rayonlarının doqquz kəndi azad edildi. Cəbrayıl və Zəngilan rayonlarındakı sərhəd zastavalarında dövlət bayrağı qaldırıldı."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Araz vadisi"
+        },
+        "lat": 39.2672,
+        "lng": 46.8167,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "xudaverdili-cebrayil",
+        "qurbantepe-cebrayil",
+        "sahveledli-cebrayil",
+        "xubyarli-cebrayil",
+        "aladin-zengilan",
+        "vejneli-zengilan",
+        "kavdadiq-qubadli",
+        "memer-qubadli",
+        "mollali-qubadli"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 30 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_30_oktyabr-1912686"
+        }
+      ],
+      "order": 19
+    },
+    {
+      "id": "2020-11-02",
+      "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 2,
+        "certainty": "exact"
+      },
+      "dayNumber": 37,
+      "kind": "liberation",
+      "title": {
+        "az": "Gilətağ və Muradxanlı"
+      },
+      "summary": {
+        "az": "Cəbrayıl, Zəngilan və Qubadlı rayonlarının səkkiz kəndi azad edildi."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Qubadlı–Zəngilan"
+        },
+        "lat": 39.3252,
+        "lng": 46.6912,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "caprand-cebrayil",
+        "haci-i-saqli-cebrayil",
+        "qosabulaq-cebrayil",
+        "dere-giletag-zengilan",
+        "boyuk-giletag-zengilan",
+        "i-siqli-qubadli",
+        "muradxanli-qubadli",
+        "milanli-qubadli"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 2 noyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_2_noyabr-1914722"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "id": "2020-11-04",
+      "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 4,
+        "certainty": "exact"
+      },
+      "dayNumber": 39,
+      "kind": "liberation",
+      "title": {
+        "az": "Mirək və Başarat"
+      },
+      "summary": {
+        "az": "Cəbrayıl, Zəngilan və Qubadlı rayonlarının yeddi kəndi azad edildi."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Qubadlı"
+        },
+        "lat": 39.2964,
+        "lng": 46.7615,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "mirek-cebrayil",
+        "kavdar-cebrayil",
+        "mesediismayilli-zengilan",
+        "sefibeyli-zengilan",
+        "basarat-qubadli",
+        "qarakisiler-qubadli",
+        "qaracalli-qubadli"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 4 noyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_4_noyabr-1916696"
+        }
+      ],
+      "order": 21
+    },
+    {
+      "id": "2020-11-07",
+      "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 7,
+        "certainty": "exact"
+      },
+      "dayNumber": 42,
+      "kind": "liberation",
+      "title": {
+        "az": "Şuşaya yaxınlaşma"
+      },
+      "summary": {
+        "az": "Füzuli, Cəbrayıl, Qubadlı, Zəngilan, Xocalı və Xocavənd rayonlarının on altı kəndi azad edildi."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Xocavənd–Xocalı"
+        },
+        "lat": 39.5071,
+        "lng": 46.9581,
+        "approximate": true
+      },
+      "zoom": 8,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "yuxari-veyselli-fuzuli",
+        "yuxari-seyidehmedli-fuzuli",
+        "qorqan-fuzuli",
+        "ucuncu-mahmudlu-fuzuli",
+        "qacar-fuzuli",
+        "divanalilar-fuzuli",
+        "yuxari-mezre-cebrayil",
+        "yanarhac-cebrayil",
+        "qezyan-qubadli",
+        "balasoltanli-qubadli",
+        "merdanli-qubadli",
+        "besdeli-zengilan",
+        "qarabulaq-xocali",
+        "mosxmaat-xocali",
+        "ataqut-xocavend",
+        "tsakuri-xocavend"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 7 noyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_7_noyabr-1919906"
+        }
+      ],
+      "order": 22
+    },
+    {
+      "id": "2020-11-08",
+      "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 8,
+        "certainty": "exact"
+      },
+      "dayNumber": 43,
+      "kind": "liberation",
+      "title": {
+        "az": "Şuşa azad olundu"
+      },
+      "summary": {
+        "az": "8 noyabrda Azərbaycan Ordusu Şuşa şəhərini işğaldan azad etdi. Prezident İlham Əliyev və birinci xanım Mehriban Əliyeva Fəxri xiyabanı və Şəhidlər xiyabanını ziyarət etdilər; dövlət başçısı Şəhidlər xiyabanında xalqa müraciət etdi. Müzəffər Ali Baş Komandan birlik komandiri general-leytenant Hikmət Mirzəyevə zəng edərək onu Şuşanın azad olunması münasibətilə təbrik etdi. Bu gün sonradan Zəfər Günü elan edildi."
+      },
+      "mood": "victory",
+      "location": {
+        "name": {
+          "az": "Şuşa"
+        },
+        "lat": 39.7579,
+        "lng": 46.7517,
+        "approximate": true
+      },
+      "zoom": 9,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "susa-susa"
+      ],
+      "commanders": [
+        "ilham-aliyev",
+        "hikmat-mirzayev"
+      ],
+      "related": [
+        {
+          "type": "battle",
+          "id": "shusha-2020"
+        }
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 8 noyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_8_noyabr-1920582"
+        }
+      ],
+      "quiz": [
+        {
+          "question": {
+            "az": "Şuşa hansı tarixdə azad edildi?"
+          },
+          "options": [
+            {
+              "az": "8 noyabr 2020"
+            },
+            {
+              "az": "10 noyabr 2020"
+            },
+            {
+              "az": "17 oktyabr 2020"
+            },
+            {
+              "az": "1 dekabr 2020"
+            }
+          ],
+          "correctIndex": 0,
+          "explanation": {
+            "az": "Şuşa 8 noyabr 2020-ci ildə azad edildi; bu gün Zəfər Günü kimi qeyd olunur."
+          }
+        }
+      ],
+      "order": 23
+    },
+    {
+      "id": "2020-11-09",
+      "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 9,
+        "certainty": "exact"
+      },
+      "dayNumber": 44,
+      "kind": "liberation",
+      "title": {
+        "az": "Müharibənin son günü"
+      },
+      "summary": {
+        "az": "Füzuli, Xocalı, Xocavənd, Cəbrayıl, Qubadlı və Zəngilan rayonlarının 23 kəndi, ardınca daha 48 kənd, 1 qəsəbə və 8 strateji yüksəklik azad edildi. Bu barədə Prezident İlham Əliyev məlumat verdi."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Qarabağ"
+        },
+        "lat": 39.5043,
+        "lng": 46.899,
+        "approximate": true
+      },
+      "zoom": 7.6,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "qobu-dilagarda-fuzuli",
+        "yal-pirehmedli-fuzuli",
+        "yuxari-yaglivend-fuzuli",
+        "dilagarda-fuzuli",
+        "seyid-mahmudlu-fuzuli",
+        "elesgerli-fuzuli",
+        "demirciler-xocali",
+        "canaqci-xocali",
+        "medetkend-xocali",
+        "signaq-xocali",
+        "susanliq-xocavend",
+        "domi-xocavend",
+        "tug-xocavend",
+        "akaku-xocavend",
+        "azix-xocavend",
+        "huseynalilar-cebrayil",
+        "soyudlu-cebrayil",
+        "asagi-sirik-cebrayil",
+        "yuxari-mollu-qubadli",
+        "asagi-mollu-qubadli",
+        "xocik-qubadli",
+        "kecikli-zengilan",
+        "ordekli-zengilan"
+      ],
+      "extraLiberated": {
+        "villages": 48,
+        "towns": 1,
+        "heights": 8
+      },
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 9 noyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_9_noyabr-1921350"
+        }
+      ],
+      "order": 24
+    },
+    {
+      "id": "2020-11-10",
+      "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 10,
+        "certainty": "exact"
+      },
+      "kind": "statement",
+      "title": {
+        "az": "Üçtərəfli bəyanat: müharibənin sonu"
+      },
+      "summary": {
+        "az": "Noyabrın 10-na keçən gecə Azərbaycan Prezidenti, Ermənistanın baş naziri və Rusiya Prezidenti münaqişə zonasında atəşin və bütün hərbi əməliyyatların tam dayandırılması barədə bəyanat imzaladılar. Prezident İlham Əliyev xalqa müraciət etdi. Bəyanata əsasən Ağdam, Kəlbəcər və Laçın rayonları Azərbaycana qaytarılmalı idi."
+      },
+      "mood": "peace",
+      "location": {
+        "name": {
+          "az": "Qarabağ"
+        },
+        "lat": 39.8,
+        "lng": 46.8,
+        "approximate": true
+      },
+      "zoom": 7.2,
+      "territorySnapshotId": "y2020",
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 9 noyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_9_noyabr-1921350"
+        },
+        {
+          "title": "2020 Nagorno-Karabakh ceasefire agreement",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/2020_Nagorno-Karabakh_ceasefire_agreement"
+        }
+      ],
+      "quiz": [
+        {
+          "question": {
+            "az": "Üçtərəfli bəyanat hansı tarixdə imzalandı?"
+          },
+          "options": [
+            {
+              "az": "10 noyabr 2020"
+            },
+            {
+              "az": "8 noyabr 2020"
+            },
+            {
+              "az": "27 sentyabr 2020"
+            },
+            {
+              "az": "20 noyabr 2020"
+            }
+          ],
+          "correctIndex": 0,
+          "explanation": {
+            "az": "Bəyanat noyabrın 10-na keçən gecə imzalandı və hərbi əməliyyatlar dayandırıldı."
+          }
+        }
+      ],
+      "order": 25
+    },
+    {
+      "id": "2020-11-20",
+      "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 20,
+        "certainty": "exact"
+      },
+      "kind": "epilogue",
+      "title": {
+        "az": "Ağdam qaytarıldı"
+      },
+      "summary": {
+        "az": "Bəyanata əsasən 20 noyabrda Ağdam rayonunun işğal altında olan hissəsi Azərbaycana təhvil verildi."
+      },
+      "mood": "rise",
+      "location": {
+        "name": {
+          "az": "Ağdam"
+        },
+        "lat": 39.9911,
+        "lng": 46.9285,
+        "approximate": true
+      },
+      "zoom": 8.4,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "agdam-district"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 9 noyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_9_noyabr-1921350"
+        }
+      ],
+      "order": 26
+    },
+    {
+      "id": "2020-11-25",
+      "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 25,
+        "certainty": "exact"
+      },
+      "kind": "epilogue",
+      "title": {
+        "az": "Kəlbəcər qaytarıldı"
+      },
+      "summary": {
+        "az": "Bəyanata əsasən 25 noyabrda Kəlbəcər rayonu Azərbaycana təhvil verildi."
+      },
+      "mood": "rise",
+      "location": {
+        "name": {
+          "az": "Kəlbəcər"
+        },
+        "lat": 40.1063,
+        "lng": 46.0436,
+        "approximate": true
+      },
+      "zoom": 8.2,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "kalbajar-district"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 9 noyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_9_noyabr-1921350"
+        }
+      ],
+      "order": 27
+    },
+    {
+      "id": "2020-12-01",
+      "date": {
+        "year": 2020,
+        "month": 12,
+        "day": 1,
+        "certainty": "exact"
+      },
+      "kind": "epilogue",
+      "title": {
+        "az": "Laçın qaytarıldı"
+      },
+      "summary": {
+        "az": "Bəyanata əsasən 1 dekabrda Laçın rayonu Azərbaycana təhvil verildi."
+      },
+      "mood": "peace",
+      "location": {
+        "name": {
+          "az": "Laçın"
+        },
+        "lat": 39.6392,
+        "lng": 46.5463,
+        "approximate": true
+      },
+      "zoom": 8.2,
+      "territorySnapshotId": "y2020",
+      "liberated": [
+        "lachin-district"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 9 noyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_9_noyabr-1921350"
+        }
+      ],
+      "order": 28
+    }
+  ]
+}

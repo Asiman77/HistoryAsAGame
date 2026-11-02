@@ -1,0 +1,15 @@
+{
+  "id": "muasir",
+  "name": {
+    "az": "Müstəqil Azərbaycan"
+  },
+  "startYear": 1991,
+  "endYear": 2025,
+  "description": {
+    "az": "1991-ci ildə dövlət müstəqilliyinin bərpasından sonrakı dövr."
+  },
+  "theme": {
+    "color": "#dfe7ea",
+    "accent": "#2f8a84"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "iran",
+  "name": {
+    "az": "İran İslam Respublikası"
+  },
+  "color": "#4f7a9a",
+  "periods": [
+    {
+      "from": 1979,
+      "to": 2100
+    }
+  ]
+}

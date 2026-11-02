@@ -1,0 +1,19 @@
+{
+  "id": "shusha-2020",
+  "conflictId": "karabakh-war-2020",
+  "name": {
+    "az": "Şuşa əməliyyatı"
+  },
+  "stepId": "2020-11-08",
+  "dates": "noyabr 2020",
+  "summary": {
+    "az": "Vətən müharibəsinin həlledici əməliyyatı: 8 noyabr 2020-ci ildə Şuşa şəhəri azad edildi."
+  },
+  "sources": [
+    {
+      "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 8 noyabr",
+      "type": "web",
+      "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_8_noyabr-1920582"
+    }
+  ]
+}

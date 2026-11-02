@@ -12,6 +12,14 @@ import {
   RulersFile,
   State,
   StateStepsFile,
+  Battle,
+  CommandersFile,
+  Conflict,
+  HeroesFile,
+  Settlement,
+  SoundtrackFile,
+  WarDaysFile,
+  type WarDay,
   type StateStep,
   RelationsFile,
   TerritoryRegistryFile,
@@ -211,6 +219,49 @@ export class FileSystemRepository implements HistoryRepository {
     });
   }
 
+  listConflicts(): Promise<Conflict[]> {
+    return this.memo("conflicts", async () => {
+      if (!(await this.exists("conflicts"))) return [];
+      const dirs = await fs.readdir(path.join(this.root, "conflicts"), { withFileTypes: true });
+      return Promise.all(dirs.filter((d) => d.isDirectory()).map(async (d) => Conflict.parse(await this.readJson("conflicts", d.name, "conflict.json"))));
+    });
+  }
+
+  async getConflict(id: string): Promise<Conflict | null> {
+    return (await this.listConflicts()).find((c) => c.id === id) ?? null;
+  }
+
+  getConflictDays(id: string): Promise<WarDay[]> {
+    return this.memo(`war-days:${id}`, async () => {
+      const { days } = WarDaysFile.parse(await this.readJson("conflicts", id, "days.json"));
+      return [...days].sort((a, b) => a.order - b.order);
+    });
+  }
+
+  async getConflictExtras(id: string) {
+    const read = async <T>(file: string, parse: (raw: unknown) => T, fallback: T): Promise<T> =>
+      (await this.exists("conflicts", id, file)) ? parse(await this.readJson("conflicts", id, file)) : fallback;
+    const [settlements, heroes, commanders, tracks] = await Promise.all([
+      read("settlements.json", (r) => Settlement.array().parse((r as { settlements: unknown }).settlements), []),
+      read("heroes.json", (r) => HeroesFile.parse(r).heroes, []),
+      read("commanders.json", (r) => CommandersFile.parse(r).commanders, []),
+      read("soundtrack.json", (r) => SoundtrackFile.parse(r).tracks, []),
+    ]);
+    return { settlements, heroes, commanders, tracks };
+  }
+
+  listBattles(): Promise<Battle[]> {
+    return this.memo("battles", async () => {
+      const out: Battle[] = [];
+      for (const c of await this.listConflicts()) {
+        if (!(await this.exists("conflicts", c.id, "battles"))) continue;
+        for (const f of await this.jsonFiles(path.join("conflicts", c.id, "battles")))
+          out.push(Battle.parse(await this.readJson("conflicts", c.id, "battles", f)));
+      }
+      return out;
+    });
+  }
+
   listPlanned() {
     return this.memo("planned", async () =>
       (await this.exists("planned.json")) ? PlannedFile.parse(await this.readJson("planned.json")).entities : [],
@@ -219,12 +270,22 @@ export class FileSystemRepository implements HistoryRepository {
 
   getRegistry(): Promise<Registry> {
     return this.memo("registry", async () => {
-      const [persons, places, planned, states] = await Promise.all([
+      const [persons, places, planned, states, conflicts, battles] = await Promise.all([
         this.allPersons(),
         this.listPlaces(),
         this.listPlanned(),
         this.listStates(),
+        this.listConflicts(),
+        this.listBattles(),
       ]);
+      const conflictSims = await Promise.all(
+        conflicts.map(async (c) => ({
+          type: "conflict" as const,
+          id: c.id,
+          title: c.name,
+          steps: (await this.getConflictDays(c.id)).map((d) => ({ id: d.id, title: d.title, year: d.date.year })),
+        })),
+      );
       const stateSims = await Promise.all(
         states.map(async (st) => ({
           type: "state" as const,
@@ -244,8 +305,11 @@ export class FileSystemRepository implements HistoryRepository {
         })),
       );
       return buildRegistry({
-        simulations: [...personSims, ...stateSims],
-        others: places.map((pl) => ({ type: "place" as const, id: pl.id, title: pl.names.historical })),
+        simulations: [...personSims, ...stateSims, ...conflictSims],
+        others: [
+          ...places.map((pl) => ({ type: "place" as const, id: pl.id, title: pl.names.historical })),
+          ...battles.map((b) => ({ type: "battle" as const, id: b.id, title: b.name, url: `/conflicts/${b.conflictId}/?step=${b.stepId}` })),
+        ],
         planned,
       });
     });

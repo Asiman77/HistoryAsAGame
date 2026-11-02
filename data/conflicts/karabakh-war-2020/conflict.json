@@ -1,0 +1,66 @@
+{
+  "id": "karabakh-war-2020",
+  "name": {
+    "az": "44 günlük Vətən müharibəsi"
+  },
+  "heading": {
+    "az": "Şanlı Zəfər tariximiz"
+  },
+  "years": "27 sentyabr – 10 noyabr 2020",
+  "description": {
+    "az": "27 sentyabr – 10 noyabr 2020. Gün-gün azad olunan torpaqlar, sərkərdələr və şəhid qəhrəmanlar."
+  },
+  "legacy": {
+    "az": "44 gün davam edən Vətən müharibəsi təqribən otuz illik işğala son qoydu. Rəsmi açıqlamalara görə müharibə zamanı şəhərlər, qəsəbələr, yüzlərlə kənd və strateji yüksəkliklər azad edildi, 10 noyabr bəyanatı ilə Ağdam, Kəlbəcər və Laçın rayonları qaytarıldı. Bu qələbə həyatını Vətən uğrunda qurban vermiş şəhidlərin və döyüşlərdə iştirak etmiş qəhrəmanların hünəri ilə qazanıldı."
+  },
+  "introDate": {
+    "az": "27 sentyabr 2020"
+  },
+  "finalNotes": [
+    {
+      "title": {
+        "az": "27 Sentyabr — Anım Günü"
+      },
+      "text": {
+        "az": "2020-ci ilin dekabrında imzalanan fərmanla müharibənin başladığı gün Vətən müharibəsində həlak olanların xatirəsini anmaq üçün Anım Günü elan edildi."
+      },
+      "sources": [
+        {
+          "title": "Memorial Day (Azerbaijan)",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Memorial_Day_(Azerbaijan)"
+        }
+      ]
+    },
+    {
+      "title": {
+        "az": "8 Noyabr — Zəfər Günü"
+      },
+      "text": {
+        "az": "Zəfər Günü əvvəlcə 10 noyabr kimi müəyyən edilmişdi, sonra Şuşanın azad edildiyi 8 noyabra keçirildi."
+      },
+      "sources": [
+        {
+          "title": "Victory Day (Azerbaijan)",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Victory_Day_(Azerbaijan)"
+        }
+      ]
+    }
+  ],
+  "eraIds": [
+    "muasir"
+  ],
+  "sources": [
+    {
+      "title": "2020 Nagorno-Karabakh war",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/2020_Nagorno-Karabakh_war"
+    },
+    {
+      "title": "AZƏRTAC: Vətən müharibəsinin xronikası",
+      "type": "web",
+      "url": "https://azertag.az/bolme/chronicle_of_the_patriotic_war"
+    }
+  ]
+}

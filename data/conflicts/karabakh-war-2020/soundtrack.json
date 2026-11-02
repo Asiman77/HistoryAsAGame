@@ -1,0 +1,26 @@
+{
+  "tracks": [
+    {
+      "trackId": "veten-yaxsidir",
+      "title": {
+        "az": "Vətən yaxşıdır"
+      },
+      "performer": "Xudayar Yusifzadə",
+      "mood": "victory",
+      "license": "Müəllif hüququ ilə qorunur",
+      "rightsHolder": "Müəyyənləşdirilməlidir (mahnının və səs yazısının hüquq sahibləri)",
+      "permissionStatus": "pending"
+    },
+    {
+      "trackId": "bayati-shiraz",
+      "title": {
+        "az": "Bayatı-Şiraz"
+      },
+      "performer": "Seçilməlidir",
+      "mood": "death",
+      "license": "Muğamın özü ənənəvidir; konkret səs yazısı müəllif və əlaqəli hüquqlarla qorunur",
+      "rightsHolder": "Seçilən səs yazısının hüquq sahibi",
+      "permissionStatus": "pending"
+    }
+  ]
+}

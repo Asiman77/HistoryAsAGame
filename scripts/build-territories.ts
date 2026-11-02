@@ -41,6 +41,9 @@ const outDir = path.join(process.cwd(), "public", "data", "territories");
 export function buildTerritories(): TerritorySnapshot[] {
   const registry = TerritoryRegistryFile.parse(JSON.parse(fs.readFileSync(path.join(dataDir, "registry.json"), "utf8")));
   const land = JSON.parse(fs.readFileSync(path.join(dataDir, "land.json"), "utf8")) as Poly;
+  const countries = (
+    JSON.parse(fs.readFileSync(path.join(dataDir, "countries.json"), "utf8")) as { countries: Record<string, Poly["geometry"]> }
+  ).countries;
   const polityDir = path.join(process.cwd(), "data", "polities");
   const polities = new Map(
     fs
@@ -74,7 +77,22 @@ export function buildTerritories(): TerritorySnapshot[] {
       polities: src.polities.map((p) => {
         const meta = polities.get(p.polityId);
         if (!meta) throw new Error(`${file}: naməlum polity ${p.polityId}`);
-        const parts = p.regions.flatMap((g) => registry.groups?.[g] ?? [g]).flatMap((r) => {
+        if (p.iso) {
+          const g = countries[p.iso];
+          if (!g) throw new Error(`${file}: naməlum ölkə ${p.iso}`);
+          const f: Poly = { type: "Feature", properties: {}, geometry: g };
+          return {
+            id: p.polityId,
+            name: p.name ?? meta.name,
+            color: meta.color,
+            geometry: g,
+            ...(p.capitalId ? { capitalId: p.capitalId } : {}),
+            ...(p.vassalOf ? { vassalOf: p.vassalOf } : {}),
+            labelAt: p.labelAt ?? labelPoint(f),
+            areaKm2: Math.round(area(f) / 1e10) * 1e4,
+          };
+        }
+        const parts = p.regions!.flatMap((g) => registry.groups?.[g] ?? [g]).flatMap((r) => {
           const c = cellsByRegion.get(r);
           if (!c) throw new Error(`${file}: naməlum region ${r}`);
           return c;

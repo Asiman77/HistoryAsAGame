@@ -22,6 +22,9 @@ interface GateProps {
   title: string;
   subtitle: string;
   image?: ImageAsset;
+  /** Replaces the portrait, e.g. the flag intro of the war section. */
+  art?: React.ReactNode;
+  dark?: boolean;
   locale: Locale;
   m: Messages;
   resume: GateTarget | null;
@@ -60,13 +63,13 @@ export function GateController({
  * First screen of a simulation. Browsers only allow sound after a user
  * gesture, so the story (and its music) starts with this click.
  */
-export function StartGate({ title, subtitle, image, locale, m, resume, jump, onStart }: GateProps) {
+export function StartGate({ title, subtitle, image, art, dark = false, locale, m, resume, jump, onStart }: GateProps) {
   const reduced = useReducedMotion();
   const s = useSettings();
 
   return (
     <motion.div
-      className="absolute inset-0 z-50 grid place-items-center bg-ink/45 p-4 backdrop-blur-[2px]"
+      className={`absolute inset-0 z-50 grid place-items-center p-4 ${dark ? "bg-[#05080d]" : "bg-ink/45 backdrop-blur-[2px]"}`}
       initial={reduced ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -76,12 +79,13 @@ export function StartGate({ title, subtitle, image, locale, m, resume, jump, onS
         role="dialog"
         aria-modal="true"
         aria-labelledby="start-title"
-        className="paper-card miniature-frame flex w-full max-w-md flex-col items-center rounded-xl p-6 text-center sm:p-8"
+        className={`flex w-full max-w-md flex-col items-center rounded-xl p-6 text-center sm:p-8 ${dark ? "gate-dark" : "paper-card miniature-frame"}`}
         initial={reduced ? false : { y: 16, scale: 0.98 }}
         animate={{ y: 0, scale: 1 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        {image && (
+        {art}
+        {!art && image && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={withBasePath(image.src)}

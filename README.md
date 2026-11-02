@@ -62,6 +62,8 @@ data/                    bütün kontent, kodda heç bir şəxsiyyət yoxdur
   rulers.json            hökmdarlar: ad, titul, sülalə, doğum və ölüm, portret, personId
   reigns.json            hakimiyyət cədvəli: { polityId, rulerId, start, end, certainty }
   states/<id>/           dövlət simulyasiyası: state.json + steps.json (mərhələlər)
+  conflicts/<id>/        müharibə: conflict.json, days.json, settlements.json, heroes.json, commanders.json,
+                         soundtrack.json, battles/*.json
 public/audio/            musiqi, mühit və effekt səsləri (.webm + .mp3)
 locales/az.json          UI mətnləri
 public/portraits/        public domain portretlər
@@ -127,7 +129,7 @@ keçidlər ani olur. Real GPU-da (Intel Iris Xe) marşrut animasiyası 60 fps g�
 |---|---|
 | `/az/` | Ana səhifə: üç bölmə və kolleksiya |
 | `/az/persons/`, `/az/persons/<id>/` | Tarixi şəxsiyyətlər |
-| `/az/conflicts/` | Döyüşlər və müharibələr ("Şanlı Zəfər tariximiz") |
+| `/az/conflicts/`, `/az/conflicts/<id>/` | Döyüşlər və müharibələr: "Şanlı Zəfər tariximiz", 44 günlük Vətən müharibəsi |
 | `/az/states/`, `/az/states/<id>/` | Dövlətlər (ilk olaraq Əfşarlar dövləti) |
 | `/az/person/<id>/` | Köhnə ünvan, `?step=` saxlanmaqla `/persons/<id>/`-ə yönləndirir |
 
@@ -155,6 +157,28 @@ Tətbiq daxilində keçidlə gələndə səs artıq açıq olduğundan start ekr
 **Validasiya.** `npm run validate:data` hər referansı eyni registry ilə yoxlayır:
 - mövcud olmayan obyekt **xəbərdarlıqdır** və hədəfə görə qruplaşdırılaraq göstərilir;
 - mövcud obyektdə olmayan `stepId` və ya adı (`label`) olmayan sınıq referans **xətadır**.
+
+## "Şanlı Zəfər tariximiz": 44 günlük Vətən müharibəsi
+
+`/az/conflicts/karabakh-war-2020/`: 27 sentyabr – 10 noyabr 2020 günlər üzrə, sonra Ağdam, Kəlbəcər və Laçının qaytarılması (epiloq).
+
+- **Mənbələr:** hadisələr AZƏRTAC-ın gündəlik "Vətən müharibəsinin xronikası" seriyasına, Prezidentin müraciətlərinə (Report.az-da tam mətn)
+  və Müdafiə Nazirliyinin açıqlamalarına əsaslanır. Hər günün mənbəsi panelda göstərilir.
+- **`WarDay`:** `{ id, order, date, dayNumber?, kind: operation | liberation | memorial | statement | epilogue, title, summary, mood, location, zoom?,
+  liberated[], extraLiberated?, commanders[], fallenHeroes[], officialStatement?, related[], sources[], quiz? }`.
+- **Xəritə:** dövlətlər beynəlxalq səviyyədə tanınmış sərhədlərlə (Natural Earth). Rəsmi açıqlamalarda adı çəkilən hər yaşayış məntəqəsi azad olunduğu günə
+  qədər boz, sonra bayraq rənglərində göstərilir; həmin günün məntəqələri "dalğa" animasiyası və adları ilə vurğulanır. **Cəbhə xətti çəkilmir**,
+  çünki etibarlı açıq data yoxdur. Koordinatlar OpenStreetMap-dəndir (ODbL); 250 məntəqədən etibarlı koordinatı tapılmayan 28-i yalnız siyahıda göstərilir.
+- **Sayğaclar:** "Müharibənin N-ci günü" və rəsmi açıqlamalarda adı çəkilən (və ya sayı verilən) azad olunmuş yaşayış məntəqələrinin cəmi.
+- **Xatirə günləri:** Tərtər, Gəncə və Bərdə üçün sakit ton, qərənfil motivi, şam işığı, səs effekti yoxdur, musiqi balaban ağısına keçir.
+- **Şuşa (8 noyabr):** ayrıca təntənəli səhnə: dalğalanan bayraq, qələbə fanfarı və "triumph" musiqi qatı.
+- **Giriş:** qaranlıq fonda bayrağın zolaqları açılır, aypara və səkkizguşəli ulduz görünür, sonra "27 sentyabr 2020" tarixi.
+- **Qəhrəmanlar:** 9 dekabr 2020-ci il sərəncamı ilə "Vətən Müharibəsi Qəhrəmanı" adı verilən 82 hərbi qulluqçu (ad, rütbə, "ölümündən sonra").
+  Rəsmi mənbələr ölüm tarixlərini vermədiyi üçün qəhrəmanlar günlərə bağlanmır, ayrıca xatirə bölməsində göstərilir.
+  Foto yoxdur: `photo` sahəsi yalnız rəsmi, icazəli şəkil üçündür, müasir real şəxslər üçün AI şəkli yaradılmır. Hazırda hörmətli siluet göstərilir.
+- **Sərkərdələr:** yalnız AZƏRTAC xronikasında adı çəkilən komandanlar, 2020-ci il vəzifələri ilə.
+- **Musiqi:** `soundtrack.json` icazə statusunu saxlayır; "Vətən yaxşıdır" və "Bayatı-Şiraz" `pending`-dir və build-ə düşmür (bax `docs/AUDIO_CREDITS.md`).
+- **Döyüşlər:** `battles/shusha-2020.json` (Şuşa əməliyyatı) registry-də müharibənin 8 noyabr gününə aparan link kimi qeyd olunur.
 
 ## Dövlət simulyasiyası
 
@@ -309,3 +333,6 @@ Tarixi mənbələr və mübahisəli məqamlar `docs/RESEARCH_NOTES.md`-dədir.
 | historical-basemaps | Yoxlanılıb, **istifadə olunmayıb**: GPL-3.0, lazımi dövlətlər yoxdur (bax `data/territories/README.md`) | GPL-3.0 |
 | Musiqi və səslər | Koddan sintez olunmuş placeholder-lər (`docs/AUDIO_CREDITS.md`) | CC0 1.0 |
 | Kontarininin sitatı | R. Kerr, *A General History and Collection of Voyages and Travels*, 1811 | Public domain |
+| 2020-ci il ölkə sərhədləri (`data/territories/countries.json`) | Natural Earth 1:50m admin-0 | Public domain |
+| Azad olunan məntəqələrin koordinatları | © OpenStreetMap contributors, Nominatim ilə | ODbL |
+| Şəkillər | `docs/IMAGE_CREDITS.md` | |

@@ -472,3 +472,54 @@ html.teacher-mode .polity-label {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ---------- War section: start screen, liberation markers, memorial ---------- */
+.gate-dark {
+  background: radial-gradient(ellipse at 50% 0%, rgb(255 255 255 / 0.06), transparent 60%), #0b1118;
+  color: #f4f1ea;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.08), 0 30px 80px -20px rgb(0 0 0 / 0.8);
+}
+.gate-dark h1 { color: #fff; }
+.gate-dark p { color: rgb(244 241 234 / 0.75); }
+.gate-dark .btn-secondary { color: #f4f1ea; border-color: rgb(244 241 234 / 0.35); }
+.gate-dark .btn-primary { background: #ef3340; color: #fff; }
+.gate-dark .btn-primary:hover { background: #c92633; }
+
+.liberation-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: #12304a;
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 0 0 3px #fff, 0 0 6px #fff;
+  animation: fade-in 600ms var(--ease-out-soft) both;
+}
+
+.candle-glow {
+  position: relative;
+}
+.candle-glow::before {
+  content: "";
+  position: absolute;
+  inset: -30% -10% auto;
+  height: 160%;
+  background: radial-gradient(ellipse at 50% 30%, rgb(255 196 107 / 0.35), transparent 60%);
+  animation: candle 3.2s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes candle {
+  0% { opacity: 0.65; transform: scale(1); }
+  40% { opacity: 0.9; transform: scale(1.03); }
+  100% { opacity: 0.7; transform: scale(0.98); }
+}
+.flag-wave {
+  animation: flag-wave 2.4s ease-in-out infinite;
+  transform-origin: left center;
+}
+@keyframes flag-wave {
+  0%, 100% { transform: skewY(0deg) scaleX(1); }
+  50% { transform: skewY(-2deg) scaleX(0.98); }
+}
+.lite .candle-glow::before,
+.lite .flag-wave { animation: none; }

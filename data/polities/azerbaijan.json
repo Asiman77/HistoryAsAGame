@@ -1,0 +1,41 @@
+{
+  "id": "azerbaijan",
+  "name": {
+    "az": "Azərbaycan Respublikası"
+  },
+  "color": "#2f8a84",
+  "periods": [
+    {
+      "from": 1991,
+      "to": 2100
+    }
+  ],
+  "facts": [
+    {
+      "from": 2020,
+      "to": 2020,
+      "status": "war",
+      "statusNote": {
+        "az": "Vətən müharibəsi (27 sentyabr – 10 noyabr 2020): ərazi bütövlüyünün bərpası uğrunda əks-hücum əməliyyatı."
+      },
+      "religion": {
+        "az": "Dövlət dünyəvidir; əhalinin əksəriyyəti müsəlmandır"
+      },
+      "languages": {
+        "az": "Azərbaycan dili (dövlət dili)"
+      },
+      "sources": [
+        {
+          "title": "Azerbaijan",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Azerbaijan"
+        },
+        {
+          "title": "2020 Nagorno-Karabakh war",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/2020_Nagorno-Karabakh_war"
+        }
+      ]
+    }
+  ]
+}

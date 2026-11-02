@@ -1,0 +1,128 @@
+{
+  "commanders": [
+    {
+      "id": "ilham-aliyev",
+      "name": {
+        "az": "İlham Əliyev"
+      },
+      "position": {
+        "az": "Azərbaycan Respublikasının Prezidenti, Silahlı Qüvvələrin Ali Baş Komandanı"
+      },
+      "role": {
+        "az": "Əks-hücum əməliyyatına rəhbərlik etdi, azad olunan yaşayış məntəqələri barədə xalqa müraciətlər etdi."
+      },
+      "days": [
+        "2020-09-27",
+        "2020-10-04",
+        "2020-10-20",
+        "2020-11-08",
+        "2020-11-10"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 27 sentyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_27_sentyabr-1886223"
+        },
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 8 noyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_8_noyabr-1920582"
+        }
+      ]
+    },
+    {
+      "id": "zakir-hasanov",
+      "name": {
+        "az": "Zakir Həsənov"
+      },
+      "position": {
+        "az": "Müdafiə naziri, general-polkovnik"
+      },
+      "role": {
+        "az": "Müdafiə Nazirliyinin rəhbəri; əks-hücum əməliyyatının gedişinə dair müşavirələr keçirdi."
+      },
+      "days": [
+        "2020-09-27"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 6 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_6_oktyabr-1894399"
+        }
+      ]
+    },
+    {
+      "id": "hikmat-mirzayev",
+      "name": {
+        "az": "Hikmət Mirzəyev"
+      },
+      "position": {
+        "az": "Birlik komandiri, general-leytenant"
+      },
+      "role": {
+        "az": "Ali Baş Komandan onu Şuşa şəhərinin azad olunması münasibətilə təbrik etdi. 9 dekabr 2020-ci il sərəncamı ilə \"Vətən Müharibəsi Qəhrəmanı\" adı verildi."
+      },
+      "days": [
+        "2020-11-08"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 8 noyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_8_noyabr-1920582"
+        },
+        {
+          "title": "Report.az: \"Vətən Müharibəsi Qəhrəmanı\" adı verildi (9 dekabr 2020)",
+          "type": "web",
+          "url": "https://report.az/daxili-siyaset/veten-muharibesi-qehremani-adi-verildi"
+        }
+      ]
+    },
+    {
+      "id": "yashar-hasanov",
+      "name": {
+        "az": "Yaşar Həsənov"
+      },
+      "position": {
+        "az": "Hərbi birlik komandiri"
+      },
+      "role": {
+        "az": "Qubadlı şəhəri və rayonun kəndlərinin azad olunmasında fərqləndi."
+      },
+      "days": [
+        "2020-10-25"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 26 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_26_oktyabr-1908634"
+        }
+      ]
+    },
+    {
+      "id": "zaur-guliyev",
+      "name": {
+        "az": "Zaur Quliyev"
+      },
+      "position": {
+        "az": "Hərbi birlik komandiri"
+      },
+      "role": {
+        "az": "Qubadlı şəhəri və rayonun kəndlərinin azad olunmasında fərqləndi."
+      },
+      "days": [
+        "2020-10-25"
+      ],
+      "sources": [
+        {
+          "title": "AZƏRTAC: Vətən müharibəsinin xronikası, 26 oktyabr",
+          "type": "web",
+          "url": "https://azertag.az/xeber/veten_muharibesinin_xronikasi_26_oktyabr-1908634"
+        }
+      ]
+    }
+  ]
+}

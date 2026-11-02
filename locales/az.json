@@ -334,5 +334,47 @@
       "religion": "Din",
       "languages": "Dil"
     }
+  },
+  "war": {
+    "toFinal": "Zəfər və xatirə",
+    "finalTitle": "Zəfər",
+    "day": "Gün",
+    "liberatedCounter": "Azad olunub",
+    "dayOf": "Müharibənin {n}-ci günü",
+    "kinds": {
+      "operation": "Əməliyyat",
+      "liberation": "Azadlıq",
+      "memorial": "Xatirə",
+      "statement": "Bəyanat",
+      "epilogue": "Qayıdış"
+    },
+    "shushaBanner": "Şuşa azad olundu!",
+    "memorialNote": "Həlak olan dinc sakinlərin xatirəsi əziz tutulur.",
+    "liberatedTitle": "Azad olunan yaşayış məntəqələri",
+    "liberatedCount": "Rəsmi açıqlamada adı çəkilən {n} yaşayış məntəqəsi",
+    "settlementKinds": {
+      "city": "şəhər",
+      "town": "qəsəbə",
+      "village": "kənd",
+      "height": "yüksəklik",
+      "district": "rayon"
+    },
+    "repeated": "təkrar xatırlanır",
+    "noCoordinate": "Etibarlı koordinat tapılmadığı üçün xəritədə işarələnməyib",
+    "extraLiberated": "Bundan əlavə adları sadalanmadan: {villages} kənd, {towns} qəsəbə, {heights} strateji yüksəklik.",
+    "commandersOfDay": "Bu gün adı çəkilən sərkərdələr",
+    "mapNote": "Xəritədə cəbhə xətti çəkilmir: yalnız rəsmi açıqlamalarda adı çəkilən azad olunmuş yaşayış məntəqələri işarələnir. Koordinatlar: © OpenStreetMap contributors (ODbL).",
+    "heroesButton": "Qəhrəmanlar ({n})",
+    "commandersButton": "Sərkərdələr",
+    "memorialKicker": "Əbədi xatirə",
+    "heroesTitle": "Vətən Müharibəsi Qəhrəmanları",
+    "heroesLead": "9 dekabr 2020-ci il sərəncamı ilə \"Vətən Müharibəsi Qəhrəmanı\" adı verilən hərbi qulluqçular. Fotolar və ətraflı məlumat yalnız rəsmi, icazəli mənbələrdən əlavə olunacaq.",
+    "fallenHeroes": "Şəhid qəhrəmanlar",
+    "livingHeroes": "Qəhrəmanlar",
+    "posthumous": "ölümündən sonra",
+    "heroesSource": "Mənbə: Prezidentin 9 dekabr 2020-ci il sərəncamı (Report.az). Sonrakı sərəncamlarla verilən adlar hələ əlavə edilməyib.",
+    "commandersTitle": "Sərkərdələr",
+    "commandersNote": "Siyahıya yalnız AZƏRTAC xronikasında adı çəkilən komandanlar daxildir. Vəzifələr 2020-ci il üzrədir.",
+    "musicPending": "Bu bölmə üçün planlaşdırılan {n} musiqi əsəri hüquq sahiblərinin icazəsini gözləyir. Hazırda müvəqqəti sintez səslər istifadə olunur."
   }
 }

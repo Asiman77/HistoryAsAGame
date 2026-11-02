@@ -1,0 +1,13 @@
+{
+  "id": "russian-federation",
+  "name": {
+    "az": "Rusiya Federasiyası"
+  },
+  "color": "#5c6b7a",
+  "periods": [
+    {
+      "from": 1991,
+      "to": 2100
+    }
+  ]
+}

@@ -310,6 +310,31 @@ function layerQanun(sec: number, r: () => number): Buf {
   return melody(seq, 80, q, sec, 0.5, 0.5);
 }
 
+/** Solemn culmination: brass-like chords in Rast over timpani rolls (Şuşa, Zəfər). */
+function layerTriumph(sec: number, r: () => number): Buf {
+  const out = buf(sec);
+  const BRASS: Voice = { harmonics: [1, 0.7, 0.55, 0.45, 0.35, 0.28, 0.2, 0.15], vibratoHz: 5, vibratoDepth: 0.003, attack: 0.35, release: 0.6, breath: 0.01, lowpass: 2600, formant: [1100, 1.1] };
+  // Rast on D: major-like with a lowered 7th; chord roots I–IV–V–I, each 3.5 s.
+  const RAST = [0, 2, 4, 5, 7, 9, 10, 12];
+  const f = (st: number, oct = 0) => D3 * Math.pow(2, (st + 12 * oct) / 12);
+  const chords = [[0, 4, 7], [5, 9, 12], [7, 11, 14], [0, 4, 7], [5, 9, 12], [7, 11, 14], [0, 7, 12], [0, 4, 7]];
+  chords.forEach((c, i) => {
+    for (const st of c) mix(out, sustained(BRASS, f(st), 3.6, r), 0.4 + i * 3.4, 0.22);
+    // timpani roll into each chord
+    for (let k = 0; k < 6; k++) mix(out, drum("nagara", r), 0.4 + i * 3.4 - 0.5 + k * 0.08, 0.15 + k * 0.05);
+  });
+  const melody: Note[] = [[4, 1], [5, 0.5], [7, 2.5], [5, 1], [4, 1], [2, 2], [4, 1], [5, 1], [7, 3], [9, 1], [7, 1], [4, 2], [0, 4]];
+  const tp = (fq: number, s2: number, p?: number) => sustained(ZURNA, fq * 2, s2, r, p && p * 2);
+  // Rast steps for the melody (the shared helper is Şur-based)
+  let t0 = 3.8;
+  for (const [deg, beats] of melody) {
+    const st = RAST[deg % 8]! + 12 * Math.floor(deg / 8);
+    mix(out, tp(f(st), beats * 0.55), t0, 0.12);
+    t0 += beats * 0.6;
+  }
+  return out;
+}
+
 // ---------------------------------------------------------------- ambience
 function windAmb(sec: number, r: () => number): Buf {
   const lfo = (i: number) => 450 + 300 * Math.sin((TAU * 0.07 * i) / SR) + 150 * Math.sin((TAU * 0.19 * i) / SR + 1);
@@ -520,6 +545,7 @@ const MUSIC_BUILDERS: Record<string, (sec: number, r: () => number) => Buf> = {
   festive: layerFestive,
   journey: layerJourney,
   qanun: layerQanun,
+  triumph: layerTriumph,
 };
 const AMBIENCE_BUILDERS: Record<string, (sec: number, r: () => number) => Buf> = {
   wind: windAmb,
@@ -551,13 +577,16 @@ async function main() {
     mix(sprite, normalize(sfx(name as SfxName, rng(seed++)), 0.8), offset / 1000);
   clips.push({ name: AUDIO_SPRITE.file, data: sprite, kbps: 48 });
 
-  for (const c of clips) fs.writeFileSync(path.join(OUT, `${c.name}.mp3`), mp3(c.data, c.kbps));
-  const webm = await webmAll(clips);
+  // `npx tsx scripts/generate-audio.ts music-triumph` regenerates only that clip.
+  const only = process.argv.slice(2);
+  const chosen = only.length ? clips.filter((c) => only.includes(c.name)) : clips;
+  for (const c of chosen) fs.writeFileSync(path.join(OUT, `${c.name}.mp3`), mp3(c.data, c.kbps));
+  const webm = await webmAll(chosen);
   for (const [name, data] of webm) fs.writeFileSync(path.join(OUT, `${name}.webm`), data);
 
   let total = 0;
   for (const f of fs.readdirSync(OUT)) total += fs.statSync(path.join(OUT, f)).size;
-  console.log(`audio → public/audio/: ${clips.length} clips, ${(total / 1024 / 1024).toFixed(1)} MB`);
+  console.log(`audio → public/audio/: ${chosen.length} clips, ${(total / 1024 / 1024).toFixed(1)} MB`);
 }
 
 main().catch((e) => {

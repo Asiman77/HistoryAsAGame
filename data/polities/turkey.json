@@ -1,0 +1,13 @@
+{
+  "id": "turkey",
+  "name": {
+    "az": "Türkiyə Respublikası"
+  },
+  "color": "#a8382f",
+  "periods": [
+    {
+      "from": 1923,
+      "to": 2100
+    }
+  ]
+}

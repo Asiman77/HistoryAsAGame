@@ -106,6 +106,12 @@
     {"polityId":"karabakh-kh","rulerId":"panah-ali-khan","start":{"year":1748},"end":{"year":1763},"certainty":"approximate"},
     {"polityId":"karabakh-kh","rulerId":"ibrahim-khalil-khan","start":{"year":1763},"end":{"year":1806},"certainty":"approximate"},
     {"polityId":"sheki-kh","rulerId":"haji-chalabi","start":{"year":1743},"end":{"year":1755},"certainty":"approximate"},
-    {"polityId":"quba-kh","rulerId":"fatali-khan","start":{"year":1758},"end":{"year":1789},"certainty":"approximate"}
+    {"polityId":"quba-kh","rulerId":"fatali-khan","start":{"year":1758},"end":{"year":1789},"certainty":"approximate"},
+    {"polityId":"azerbaijan","rulerId":"ilham-aliyev","start":{"year":2003},"end":{"year":2025},"certainty":"exact"},
+    {"polityId":"armenia","rulerId":"armen-sarkissian","start":{"year":2018},"end":{"year":2022},"certainty":"exact"},
+    {"polityId":"georgia-modern","rulerId":"salome-zourabichvili","start":{"year":2018},"end":{"year":2024},"certainty":"exact"},
+    {"polityId":"iran","rulerId":"ali-khamenei","start":{"year":1989},"end":{"year":2025},"certainty":"exact"},
+    {"polityId":"turkey","rulerId":"recep-tayyip-erdogan","start":{"year":2014},"end":{"year":2025},"certainty":"exact"},
+    {"polityId":"russian-federation","rulerId":"vladimir-putin","start":{"year":2012},"end":{"year":2025},"certainty":"exact"}
   ]
 }

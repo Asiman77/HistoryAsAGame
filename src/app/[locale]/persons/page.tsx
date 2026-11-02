@@ -18,7 +18,7 @@ export default async function PersonsPage({ params }: { params: Promise<{ locale
     <Landing
       locale={locale}
       persons={cards}
-      eras={eras}
+      eras={eras.filter((e) => persons.some((p) => p.eraIds.includes(e.id)))}
       messages={m}
       heading={{ kicker: m.categories.persons.kicker, title: m.categories.persons.title, lead: m.categories.persons.lead }}
       backHref={`/${locale}/`}

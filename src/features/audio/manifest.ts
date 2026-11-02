@@ -26,6 +26,7 @@ export const MUSIC_LAYERS = {
   festive: { file: "music-festive", seconds: 26, gain: 0.7 },
   journey: { file: "music-journey", seconds: 26, gain: 0.7 },
   qanun: { file: "music-qanun", seconds: 26, gain: 0.7 },
+  triumph: { file: "music-triumph", seconds: 28, gain: 0.75 },
 } as const satisfies Record<string, Layer>;
 export type MusicLayer = keyof typeof MUSIC_LAYERS;
 
@@ -71,7 +72,7 @@ export const MOOD_SOUND: Record<Mood, MoodSound> = {
   rise: { music: ["festive"], ambience: ["crowd"] },
   coronation: { music: ["festive", "qanun"], ambience: ["crowd"] },
   battle: { music: ["battle"], ambience: ["hooves", "crowd"] },
-  victory: { music: ["festive"], ambience: ["crowd"] },
+  victory: { music: ["festive", "triumph"], ambience: ["crowd"] },
   defeat: { music: ["balaban"], ambience: ["wind"] },
   peace: { music: ["peace"], ambience: ["market"] },
   diplomacy: { music: ["qanun"], ambience: ["market"] },

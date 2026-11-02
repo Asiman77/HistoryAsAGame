@@ -29,7 +29,7 @@ export function entityPath(type: EntityType, id: string, stepId?: string): strin
 export interface RegistrySources {
   simulations: { type: EntityType; id: string; title: LocalizedText; image?: ImageAsset; steps: { id: string; title: LocalizedText; year: number }[] }[];
   /** Entities without pages that still exist (places, rulers, battles inside a conflict...). */
-  others: { type: EntityType; id: string; title: LocalizedText; image?: ImageAsset }[];
+  others: { type: EntityType; id: string; title: LocalizedText; image?: ImageAsset; url?: string }[];
   planned: PlannedEntity[];
 }
 
@@ -37,7 +37,7 @@ export function buildRegistry({ simulations, others, planned }: RegistrySources)
   const reg: Registry = {};
   for (const p of planned)
     reg[refKey(p.type, p.id)] = { type: p.type, id: p.id, title: p.title, url: null, steps: {}, planned: true };
-  for (const o of others) reg[refKey(o.type, o.id)] = { ...o, url: null, steps: {} };
+  for (const o of others) reg[refKey(o.type, o.id)] = { ...o, url: o.url ?? null, steps: {} };
   for (const s of simulations)
     reg[refKey(s.type, s.id)] = {
       type: s.type,
@@ -73,7 +73,7 @@ export function resolveRef(ref: EntityRef, reg: Registry): ResolvedRef {
     type: ref.type,
     id: ref.id,
     title: e?.title ?? ref.label ?? { az: ref.id },
-    href: live && e.url ? (entityPath(ref.type, ref.id, step ? ref.stepId : undefined) ?? null) : null,
+    href: live && e.url ? (entityPath(ref.type, ref.id, step ? ref.stepId : undefined) ?? e.url) : null,
     exists: live,
     ...(ref.note ? { note: ref.note } : {}),
     ...(e?.image ? { image: e.image } : {}),

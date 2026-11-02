@@ -478,14 +478,18 @@ export const TerritorySnapshotSource = z.object({
         polityId: Slug,
         /** Overrides the registry name, e.g. "Ağqoyunlu (parçalanmış)". */
         name: LocalizedText.optional(),
-        regions: z.array(Slug).min(1),
+        /** Hand-made borders: regions from the registry. */
+        regions: z.array(Slug).min(1).optional(),
+        /** Present-day borders: ISO 3166 alpha-3 code in data/territories/countries.json. */
+        iso: z.string().regex(/^[A-Z]{3}$/).optional(),
         capitalId: Slug.optional(),
         vassalOf: Slug.optional(),
         /** Label position [lng, lat]; defaults to a point inside the largest part. */
         labelAt: LngLat.optional(),
       }),
     )
-    .min(1),
+    .min(1)
+    .refine((ps) => ps.every((p) => !!p.regions !== !!p.iso), { message: "hər dövlətdə ya regions, ya da iso olmalıdır" }),
   sources: z.array(Source).min(1),
 });
 export type TerritorySnapshotSource = z.infer<typeof TerritorySnapshotSource>;
@@ -608,3 +612,125 @@ export const State = z.object({
   sources: z.array(Source).min(1),
 });
 export type State = z.infer<typeof State>;
+
+// ---------------------------------------------------------------------------
+// Conflicts (wars) and battles
+// ---------------------------------------------------------------------------
+
+/** A settlement that changed hands in a war (coordinates from OpenStreetMap, ODbL). */
+export const Settlement = z.object({
+  id: Slug,
+  name: LocalizedText,
+  district: LocalizedText,
+  kind: z.enum(["city", "town", "village", "height", "district"]),
+  /** Omitted when no reliable coordinate was found: the name is listed, no marker is drawn. */
+  lat: z.number().min(-90).max(90).optional(),
+  lng: z.number().min(-180).max(180).optional(),
+});
+export type Settlement = z.infer<typeof Settlement>;
+
+export const OfficialStatement = z.object({ title: LocalizedText, url: z.url(), date: z.string().min(1) });
+
+/** One day (or one memorial / epilogue stage) of a war. */
+export const WarDay = z.object({
+  id: Slug,
+  order: z.number().int().min(0),
+  date: HistoricalDate,
+  /** "Müharibənin N-ci günü"; absent for the epilogue. */
+  dayNumber: z.number().int().min(1).optional(),
+  kind: z.enum(["operation", "liberation", "memorial", "statement", "epilogue"]),
+  title: LocalizedText,
+  /** Facts from official sources only. */
+  summary: LocalizedText,
+  mood: Mood,
+  location: Location,
+  zoom: z.number().min(2.5).max(10).optional(),
+  territorySnapshotId: Slug.optional(),
+  /** Settlement ids announced as liberated (or returned) on this day. */
+  liberated: z.array(Slug).optional(),
+  /** Liberated places announced only as a number, without names. */
+  extraLiberated: z.object({ villages: z.number().int().min(0).optional(), towns: z.number().int().min(0).optional(), heights: z.number().int().min(0).optional() }).optional(),
+  commanders: z.array(Slug).optional(),
+  /** Heroes who fell on this day; only when an official source gives the date. */
+  fallenHeroes: z.array(Slug).optional(),
+  officialStatement: OfficialStatement.optional(),
+  related: z.array(EntityRef).optional(),
+  sources: z.array(Source).min(1),
+  quiz: z.array(QuizQuestion).min(1).max(3).optional(),
+});
+export type WarDay = z.infer<typeof WarDay>;
+export const WarDaysFile = z.object({ days: z.array(WarDay).min(1) });
+
+export const Conflict = z.object({
+  id: Slug,
+  name: LocalizedText,
+  /** Section heading, e.g. "Şanlı Zəfər tariximiz". */
+  heading: LocalizedText,
+  years: z.string().min(1),
+  description: LocalizedText,
+  legacy: LocalizedText,
+  /** Short notes on the final screen (memorial days etc.). */
+  finalNotes: z.array(z.object({ title: LocalizedText, text: LocalizedText, sources: z.array(Source).min(1) })).optional(),
+  /** Date revealed by the intro, e.g. "27 sentyabr 2020". */
+  introDate: LocalizedText,
+  eraIds: z.array(Slug).min(1),
+  sources: z.array(Source).min(1),
+});
+export type Conflict = z.infer<typeof Conflict>;
+
+export const Commander = z.object({
+  id: Slug,
+  name: LocalizedText,
+  /** Position in the year of the conflict. */
+  position: LocalizedText,
+  role: LocalizedText,
+  /** Days (step ids) the commander is named in. */
+  days: z.array(Slug),
+  sources: z.array(Source).min(1),
+});
+export type Commander = z.infer<typeof Commander>;
+export const CommandersFile = z.object({ commanders: z.array(Commander) });
+
+/** Photos only from official sources with clear permission; never generated for real people. */
+export const HeroPhoto = z.object({ url: z.string().min(1), source: z.string().min(1), license: z.string().min(1), permissionNote: z.string().min(1) });
+
+export const Hero = z.object({
+  id: Slug,
+  name: LocalizedText,
+  rank: LocalizedText,
+  posthumous: z.boolean(),
+  birthPlace: LocalizedText.optional(),
+  awards: z.array(LocalizedText).min(1),
+  description: LocalizedText.optional(),
+  photo: HeroPhoto.optional(),
+  sources: z.array(Source).min(1),
+});
+export type Hero = z.infer<typeof Hero>;
+export const HeroesFile = z.object({ heroes: z.array(Hero) });
+
+/** Music for a conflict. Copyrighted tracks stay "pending" until the rights holder agrees; only "granted" ones are built. */
+export const Track = z.object({
+  trackId: Slug,
+  title: LocalizedText,
+  performer: z.string().min(1),
+  mood: Mood,
+  license: z.string().min(1),
+  rightsHolder: z.string().min(1),
+  permissionStatus: z.enum(["pending", "granted"]),
+  /** Path under public/ without extension, only for granted tracks. */
+  file: z.string().optional(),
+});
+export type Track = z.infer<typeof Track>;
+export const SoundtrackFile = z.object({ tracks: z.array(Track) });
+
+export const Battle = z.object({
+  id: Slug,
+  conflictId: Slug,
+  name: LocalizedText,
+  /** Day of the conflict simulation that shows this battle. */
+  stepId: Slug,
+  dates: z.string().min(1),
+  summary: LocalizedText,
+  sources: z.array(Source).min(1),
+});
+export type Battle = z.infer<typeof Battle>;

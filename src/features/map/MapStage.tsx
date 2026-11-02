@@ -17,6 +17,12 @@ import { boundsOf, cumulativeLengths, easeInOutCubic, sliceAlong } from "./polyl
 
 export type Phase = "journey" | "legacy";
 
+/** Map layers owned by a simulation kind (e.g. liberated settlements of a war). */
+export interface MapExtension {
+  update(index: number, final: boolean, instant: boolean): void;
+}
+export type MapExtensionFactory = (map: MlMap, lib: typeof import("maplibre-gl"), locale: Locale) => MapExtension;
+
 interface Props {
   steps: EngineStep[];
   places: MapPlace[];
@@ -35,6 +41,7 @@ interface Props {
   onBattleArrow?: (m: Maneuver, artillery: boolean) => void;
   onFollow?: (ref: ResolvedRef) => void;
   onSelectPolity?: (polityId: string) => void;
+  extension?: MapExtensionFactory;
 }
 
 /** Copied from node_modules by scripts/copy-maplibre-worker.mjs. */
@@ -77,6 +84,7 @@ export function MapStage({
   onBattleArrow,
   onFollow,
   onSelectPolity,
+  extension,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MlMap | null>(null);
@@ -86,6 +94,7 @@ export function MapStage({
   const territoriesRef = useRef<TerritoryLayers | null>(null);
   const landmarksRef = useRef<LandmarkLayer | null>(null);
   const battleRef = useRef<BattleLayer | null>(null);
+  const extensionRef = useRef<MapExtension | null>(null);
   const momentsRef = useRef<Marker[]>([]);
   const declutterRef = useRef<() => void>(() => {});
   const tokenRef = useRef(0);
@@ -176,6 +185,7 @@ export function MapStage({
           (id) => callbacks.current.onSelectPolity?.(id),
         );
         battleRef.current = new BattleLayer(map, maplibregl, locale);
+        if (extension) extensionRef.current = extension(map, maplibregl, locale);
         landmarksRef.current = new LandmarkLayer(map, maplibregl, landmarks, locale, m, (id) =>
           callbacks.current.onSelectPlace(id),
         );
@@ -276,6 +286,7 @@ export function MapStage({
       territoriesRef.current = null;
       landmarksRef.current = null;
       battleRef.current = null;
+      extensionRef.current = null;
       map?.remove();
       mapRef.current = null;
     };
@@ -313,6 +324,7 @@ export function MapStage({
     const shownStep = phase === "legacy" ? steps.at(-1)! : step;
     const loc: LngLat = [step.location.lng, step.location.lat];
     battle.clear();
+    extensionRef.current?.update(index, phase === "legacy", instant);
     for (const mk of momentsRef.current) mk.remove();
     momentsRef.current = [];
 

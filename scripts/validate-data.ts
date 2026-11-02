@@ -18,6 +18,14 @@ import {
   State,
   StateStepsFile,
   type StateStep,
+  Battle,
+  CommandersFile,
+  Conflict,
+  HeroesFile,
+  Settlement,
+  SoundtrackFile,
+  WarDaysFile,
+  type WarDay,
   PlannedFile,
   RelationsFile,
   TerritoryRegistryFile,
@@ -27,6 +35,7 @@ import {
   type Person as PersonT,
 } from "../src/domain/schema";
 import { buildRegistry, checkRef, type RefIssue } from "../src/domain/registry";
+import { compareDates } from "../src/lib/dates";
 import {
   checkEra,
   checkEventReferences,
@@ -125,6 +134,10 @@ for (const [g, parts] of Object.entries(groups)) {
 const expand = (r: string) => groups[r] ?? [r];
 for (const g of Object.keys(groups)) regionIds.add(g);
 if (!fs.existsSync(path.join(root, "territories", "land.json"))) add(regFile, "land.json yoxdur (scripts/prepare-land.ts)");
+const countriesFile = path.join(root, "territories", "countries.json");
+const countryCodes = new Set<string>(
+  fs.existsSync(countriesFile) ? Object.keys(JSON.parse(fs.readFileSync(countriesFile, "utf8")).countries) : [],
+);
 const snapshotIds = new Set<string>();
 const snapshotYears = new Set<number>();
 const snapDir = path.join(root, "territories", "snapshots");
@@ -142,7 +155,8 @@ for (const f of fs.existsSync(snapDir) ? fs.readdirSync(snapDir).filter((f) => f
     if (p.capitalId && !placeIds.has(p.capitalId)) add(file, `${p.polityId}: naməlum paytaxt ${p.capitalId}`);
     if (p.vassalOf && !s.polities.some((q) => q.polityId === p.vassalOf) && !polityIds.has(p.vassalOf))
       add(file, `${p.polityId}: naməlum vassalOf ${p.vassalOf}`);
-    for (const r of p.regions) {
+    if (p.iso && !countryCodes.has(p.iso)) add(file, `${p.polityId}: naməlum ölkə kodu ${p.iso}`);
+    for (const r of p.regions ?? []) {
       if (!regionIds.has(r)) add(file, `${p.polityId}: naməlum region ${r}`);
       for (const part of expand(r)) {
         if (used.has(part)) add(file, `region ${part} iki dövlətdədir: ${used.get(part)} və ${p.polityId}`);
@@ -224,6 +238,51 @@ for (const d of fs.existsSync(statesDir) ? fs.readdirSync(statesDir, { withFileT
   loadedStates.push({ id: st.id, steps, file: rel(stFile) });
 }
 
+// --- conflicts ---
+const conflictsDir = path.join(root, "conflicts");
+const loadedConflicts: { id: string; days: WarDay[]; file: string }[] = [];
+const battles: { id: string; url: string }[] = [];
+for (const d of fs.existsSync(conflictsDir) ? fs.readdirSync(conflictsDir, { withFileTypes: true }).filter((x) => x.isDirectory()) : []) {
+  const base = path.join(conflictsDir, d.name);
+  const c = load(path.join(base, "conflict.json"), Conflict);
+  const dFile = path.join(base, "days.json");
+  const days = load(dFile, WarDaysFile)?.days;
+  if (!c || !days) continue;
+  if (c.id !== d.name) add(path.join(base, "conflict.json"), `qovluq adı id ilə uyğun deyil (${c.id})`);
+  const sFile = path.join(base, "settlements.json");
+  const settlementIds = new Set(
+    fs.existsSync(sFile) ? (load(sFile, z.object({ settlements: Settlement.array() }).passthrough())?.settlements ?? []).map((x) => x.id) : [],
+  );
+  const heroIds = new Set(fs.existsSync(path.join(base, "heroes.json")) ? (load(path.join(base, "heroes.json"), HeroesFile)?.heroes ?? []).map((h) => h.id) : []);
+  const cFile = path.join(base, "commanders.json");
+  const commanders = fs.existsSync(cFile) ? (load(cFile, CommandersFile)?.commanders ?? []) : [];
+  const commanderIds = new Set(commanders.map((x) => x.id));
+  unique(dFile, "day id", days.map((x) => x.id));
+  for (const x of days) {
+    for (const id of x.liberated ?? []) if (!settlementIds.has(id)) add(dFile, `${x.id}: naməlum yaşayış məntəqəsi ${id}`);
+    for (const id of x.commanders ?? []) if (!commanderIds.has(id)) add(dFile, `${x.id}: naməlum komandan ${id}`);
+    for (const id of x.fallenHeroes ?? []) if (!heroIds.has(id)) add(dFile, `${x.id}: naməlum qəhrəman ${id}`);
+    if (x.territorySnapshotId && !snapshotIds.has(x.territorySnapshotId)) add(dFile, `${x.id}: naməlum snapshot ${x.territorySnapshotId}`);
+  }
+  const sorted = [...days].sort((a, b) => a.order - b.order);
+  for (let i = 1; i < sorted.length; i++)
+    if (compareDates(sorted[i]!.date, sorted[i - 1]!.date) < 0) add(dFile, `xronologiya pozulub: ${sorted[i - 1]!.id} → ${sorted[i]!.id}`);
+  for (const cm of commanders) for (const day of cm.days) if (!days.some((x) => x.id === day)) add(cFile, `${cm.id}: naməlum gün ${day}`);
+  const tFile = path.join(base, "soundtrack.json");
+  for (const t of fs.existsSync(tFile) ? (load(tFile, SoundtrackFile)?.tracks ?? []) : []) {
+    if (t.permissionStatus === "granted" && !t.file) add(tFile, `${t.trackId}: icazə var, amma fayl göstərilməyib`);
+    if (t.permissionStatus === "pending" && t.file) add(tFile, `${t.trackId}: icazə gözlənilir, fayl əlavə edilməməlidir`);
+  }
+  const bDir = path.join(base, "battles");
+  for (const bf of fs.existsSync(bDir) ? fs.readdirSync(bDir).filter((x) => x.endsWith(".json")) : []) {
+    const b = load(path.join(bDir, bf), Battle);
+    if (!b) continue;
+    if (!days.some((x) => x.id === b.stepId)) add(path.join(bDir, bf), `naməlum stepId ${b.stepId}`);
+    battles.push({ id: b.id, url: `/conflicts/${c.id}/?step=${b.stepId}` });
+  }
+  loadedConflicts.push({ id: c.id, days, file: rel(dFile) });
+}
+
 // --- cross-links: every ref resolved through the same registry the pages use ---
 const plannedFile = path.join(root, "planned.json");
 const planned = fs.existsSync(plannedFile) ? (load(plannedFile, PlannedFile)?.entities ?? []) : [];
@@ -237,6 +296,15 @@ const entities = buildRegistry({
   others: places.map((p) => ({ type: "place" as const, id: p.id, title: p.names.historical })),
   planned,
 });
+for (const c of loadedConflicts)
+  entities[`conflict:${c.id}`] = {
+    type: "conflict",
+    id: c.id,
+    title: { az: c.id },
+    url: `/conflicts/${c.id}/`,
+    steps: Object.fromEntries(c.days.map((x) => [x.id, { title: x.title, year: x.date.year }])),
+  };
+for (const b of battles) entities[`battle:${b.id}`] = { type: "battle", id: b.id, title: { az: b.id }, url: b.url, steps: {} };
 for (const st of loadedStates)
   entities[`state:${st.id}`] = {
     type: "state",
@@ -259,6 +327,15 @@ for (const { person, events, file } of loaded)
           const key = `${r.type}:${r.id}`;
           pending.set(key, [...(pending.get(key) ?? []), e.id]);
         }
+      }
+    }
+for (const { days, file } of loadedConflicts)
+  for (const x of days)
+    for (const r of x.related ?? []) {
+      refCount++;
+      for (const i of checkRef(r, entities, x.id) as RefIssue[]) {
+        if (i.level === "error") issues.push({ file, message: i.message });
+        else pending.set(`${r.type}:${r.id}`, [...(pending.get(`${r.type}:${r.id}`) ?? []), x.id]);
       }
     }
 for (const { steps, file } of loadedStates)
@@ -285,5 +362,5 @@ if (issues.length) {
 }
 console.log(
   `✓ Data etibarlıdır: ${eras.length} dövr, ${personIds.size} şəxsiyyət, ${eventCount} hadisə, ` +
-    `${loadedStates.length} dövlət simulyasiyası, ${places.length} məkan, ${polities.length} dövlət, ${rulers.length} hökmdar, ${snapshotIds.size} xəritə snapshot-u, ${world.length} dünya hadisəsi, ${glossary.length} termin, ${refCount} çarpaz keçid.`,
+    `${loadedStates.length} dövlət simulyasiyası, ${loadedConflicts.length} müharibə, ${places.length} məkan, ${polities.length} dövlət, ${rulers.length} hökmdar, ${snapshotIds.size} xəritə snapshot-u, ${world.length} dünya hadisəsi, ${glossary.length} termin, ${refCount} çarpaz keçid.`,
 );

@@ -22,6 +22,7 @@ Bunlar real alət səsi deyil, sintez təqlididir. Dərsdə istifadədən əvvə
 | `music-festive` | music | yüksəliş, taxta çıxma, qələbə | qaval/daf + tar + nağara zərbələri | sintez | CC0 1.0 |
 | `music-journey` | music | yol | daf ritmi + tar ostinatosu + kamança | sintez | CC0 1.0 |
 | `music-qanun` | music | doğuluş, diplomatiya, mədəniyyət | qanun arpeciosu | sintez | CC0 1.0 |
+| `music-triumph` | music | qələbə (Şuşa, Zəfər) | Rast məqamında mis alətləri təqlid edən akkordlar, timpan (nağara) diyirləmələri, zurna melodiyası | sintez | CC0 1.0 |
 | `amb-wind` | ambience | sürgün, ölüm, çətinlik | külək | sintez | CC0 1.0 |
 | `amb-crowd` | ambience | döyüş düşərgəsi, taxta çıxma | izdiham uğultusu | sintez | CC0 1.0 |
 | `amb-hooves` | ambience | yol, döyüş | at ayaq səsləri + külək | sintez | CC0 1.0 |
@@ -47,3 +48,15 @@ Uyğun mənbələr (yükləmədən əvvəl hər faylın lisenziyasını ayrıca 
 
 Hələ heç bir hadisədə `narrationAudio` yoxdur. Əlavə edəndə fayllar `public/audio/narration/<event-id>.webm|.mp3` kimi saxlanmalı,
 səsləndirənin razılığı və lisenziya bu sənədə əlavə olunmalıdır. TTS istifadə olunarsa, xidmətin şərtləri kommersiya olmayan təhsil istifadəsinə icazə verməlidir.
+
+## "Şanlı Zəfər tariximiz" bölməsinin playlist-i
+
+`data/conflicts/karabakh-war-2020/soundtrack.json` planlaşdırılan əsərlərin **yalnız metadata**sını saxlayır:
+
+| Əsər | İfaçı | Status |
+|---|---|---|
+| "Vətən yaxşıdır" | Xudayar Yusifzadə | `pending`: müəllif hüququ ilə qorunur, icazə alınmayıb |
+| "Bayatı-Şiraz" | seçilməlidir | `pending`: muğam ənənəvidir, amma konkret səs yazısı qorunur |
+
+Fayllar yüklənməyib, mahnı sözləri heç yerdə yazılmayıb. Prod build-ə yalnız `permissionStatus: "granted"` olan və `file` sahəsi göstərilən treklər düşür
+(validasiya `pending` trekə fayl əlavə edilməsinə icazə vermir). İcazə alınana qədər bölmədə yuxarıdakı CC0 sintez qatları səslənir.

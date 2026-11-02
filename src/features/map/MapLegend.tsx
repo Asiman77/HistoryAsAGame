@@ -48,6 +48,7 @@ export function MapLegend({ snapshot, battle, locale, m, defaultOpen, onSelectPo
             className="overflow-hidden"
           >
             <div className="max-h-[40vh] overflow-y-auto px-3 pb-3">
+              {snapshot.certainty !== "exact" && (
               <button
                 type="button"
                 onClick={() => setHelp((h) => !h)}
@@ -56,6 +57,7 @@ export function MapLegend({ snapshot, battle, locale, m, defaultOpen, onSelectPo
               >
                 ≈ {m.map.approxBorders} <span aria-hidden>ⓘ</span>
               </button>
+              )}
               {help && <p className="mb-2 leading-snug text-ink-soft">{m.map.approxBordersHelp}</p>}
               {snapshot.note && <p className="mb-2 leading-snug text-ink-soft">{t(snapshot.note, locale)}</p>}
               <p className="mb-1 text-[10px] text-ink-faint">{m.polity.legendHint}</p>

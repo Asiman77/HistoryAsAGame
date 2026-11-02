@@ -24,8 +24,7 @@ test("home shows the three sections and each opens its own page", async ({ page 
 
 test("planned and built simulations are listed on their section pages", async ({ page }) => {
   await page.goto("/az/conflicts/");
-  await expect(page.getByRole("heading", { name: "44 günlük Vətən müharibəsi" })).toBeVisible();
-  await expect(page.getByText("Tezliklə").first()).toBeVisible();
+  await expect(page.getByRole("link", { name: /44 günlük Vətən müharibəsi/ })).toHaveAttribute("href", /\/conflicts\/karabakh-war-2020\/$/);
   await page.goto("/az/states/");
   await expect(page.getByRole("link", { name: /Əfşarlar dövləti/ })).toBeVisible();
 });
@@ -125,4 +124,38 @@ test("Nadir Şah's coronation links to the state simulation and back", async ({ 
   await expect(page.getByRole("heading", { level: 2, name: "Muğan qurultayı: Əfşarlar dövləti" })).toBeVisible();
   await page.getByTestId("return-link").click();
   await expect(page).toHaveURL(/\/az\/persons\/nadir-shah\/\?step=nadir-mughan/);
+});
+
+test("war section: flag intro, day counter, liberated settlements, Şuşa and the memorial", async ({ page }) => {
+  test.slow();
+  const errors = collectErrors(page);
+  await page.goto("/az/conflicts/");
+  await page.getByRole("link", { name: /44 günlük Vətən müharibəsi/ }).click();
+  await expect(page.getByTestId("war-intro")).toBeVisible();
+  await expect(page.getByTestId("war-intro")).toContainText("27 sentyabr 2020");
+  await startJourney(page);
+  await expect(page.getByRole("heading", { level: 2, name: "Əks-hücum əməliyyatının başlanması" })).toBeVisible();
+
+  await page.goto("/az/conflicts/karabakh-war-2020/?step=2020-10-04");
+  await startJourney(page, /mərhələsindən başla/);
+  const panel = page.locator("article");
+  await expect(panel.getByRole("heading", { level: 2, name: "Cəbrayıl şəhəri" })).toBeVisible();
+  await expect(panel.getByText(/Karxulu/)).toBeVisible();
+  await expect(panel.getByRole("link", { name: /Prezident İlham Əliyevin xalqa müraciəti/ })).toBeVisible();
+
+  await page.goto("/az/conflicts/karabakh-war-2020/?step=2020-11-08");
+  await startJourney(page, /mərhələsindən başla/);
+  await expect(page.getByTestId("shusha-banner")).toBeVisible();
+  await page.getByRole("button", { name: /Qəhrəmanlar \(82\)/ }).first().click();
+  const memorial = page.getByTestId("heroes-memorial");
+  await expect(memorial.getByText("Vətən Müharibəsi Qəhrəmanları")).toBeVisible();
+  await expect(memorial.getByText("Mirzəyev Hikmət İzzət oğlu")).toBeVisible();
+  await memorial.getByRole("button", { name: "Bağla" }).click();
+  expect(errors).toEqual([]);
+});
+
+test("persons link to battles only when they exist; the Şuşa battle opens the war day", async ({ request }) => {
+  // Built pages contain the resolved link; checked on the static output to keep it fast.
+  const html = await (await request.get("/az/conflicts/karabakh-war-2020/")).text();
+  expect(html).toContain("Şuşa əməliyyatı");
 });

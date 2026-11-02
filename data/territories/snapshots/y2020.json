@@ -1,0 +1,57 @@
+{
+  "id": "y2020",
+  "year": 2020,
+  "title": {
+    "az": "2020: beynəlxalq səviyyədə tanınmış sərhədlər"
+  },
+  "certainty": "exact",
+  "note": {
+    "az": "Dövlətlər beynəlxalq səviyyədə tanınmış sərhədləri ilə göstərilir. Cəbhə xətti xəritədə çəkilmir: etibarlı açıq data olmadığı üçün yalnız rəsmi açıqlamalarda adı çəkilən azad edilmiş yaşayış məntəqələri işarələnir."
+  },
+  "sources": [
+    {
+      "title": "Natural Earth: Admin 0 Countries 1:50m",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/"
+    },
+    {
+      "title": "2020 Nagorno-Karabakh war",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/2020_Nagorno-Karabakh_war"
+    }
+  ],
+  "polities": [
+    {
+      "polityId": "azerbaijan",
+      "iso": "AZE",
+      "capitalId": "baki",
+      "labelAt": [
+        48.6,
+        40.55
+      ]
+    },
+    {
+      "polityId": "armenia",
+      "iso": "ARM",
+      "capitalId": "irevan"
+    },
+    {
+      "polityId": "georgia-modern",
+      "iso": "GEO",
+      "capitalId": "tiflis"
+    },
+    {
+      "polityId": "iran",
+      "iso": "IRN",
+      "capitalId": "tehran"
+    },
+    {
+      "polityId": "turkey",
+      "iso": "TUR"
+    },
+    {
+      "polityId": "russian-federation",
+      "iso": "RUS"
+    }
+  ]
+}
