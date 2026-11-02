@@ -663,3 +663,94 @@ html.teacher-mode .polity-label {
   white-space: nowrap;
   text-shadow: 0 0 3px var(--color-parchment-light), 0 0 6px var(--color-parchment-light);
 }
+
+/* ---------- Time slider map: capitals and persons ---------- */
+.capital-star {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  pointer-events: none;
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--color-ink);
+  text-shadow: 0 0 3px var(--color-parchment-light), 0 0 6px var(--color-parchment-light);
+}
+.capital-star span {
+  color: var(--color-gold);
+  font-size: 14px;
+}
+.person-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: transform 300ms var(--ease-out-soft);
+}
+.person-pin img {
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  object-fit: cover;
+  object-position: top;
+  border: 2px solid var(--color-gold);
+  box-shadow: 0 4px 10px -4px rgb(40 20 5 / 0.6);
+}
+.person-pin b {
+  margin-top: 2px;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  background: rgb(248 240 221 / 0.92);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+.person-pin:hover {
+  transform: translateY(-2px);
+}
+
+/* ---------- Time slider: range input on a coloured era track ---------- */
+.year-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 28px;
+  background: transparent;
+  cursor: pointer;
+}
+.year-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: rgb(42 28 16 / 0.15);
+}
+.year-range::-moz-range-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: rgb(42 28 16 / 0.15);
+}
+.year-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  margin-top: -9px;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background: var(--color-carmine);
+  border: 3px solid var(--color-parchment-light);
+  box-shadow: 0 2px 6px rgb(40 20 5 / 0.45);
+}
+.year-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: var(--color-carmine);
+  border: 3px solid var(--color-parchment-light);
+  box-shadow: 0 2px 6px rgb(40 20 5 / 0.45);
+}
+.year-range:focus-visible {
+  outline: none;
+}
+.year-range:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--color-lapis-light);
+  outline-offset: 2px;
+}

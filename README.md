@@ -233,6 +233,21 @@ Kodda heç nə dəyişmir. Giriş ekranı, səhifə, e2e testlər yeni qovluğu 
 `data/eras/<id>.json` faylı yaradın (fayl adı `id` ilə eyni olmalıdır) və şəxsiyyətlərin `eraIds` siyahısına əlavə edin.
 Giriş ekranındakı dövr filtri onu avtomatik göstərir. Dövrün `themeId` sahəsi onun temasını göstərir (aşağıya bax).
 
+## Qlobal zaman sürgüsü (`/timeline/` və ana səhifə)
+
+İl sürgüsü 1400–2020 aralığını əhatə edir. Paylaşmaq üçün `/timeline/?year=1514` linkindən istifadə olunur. İl dəyişəndə bunlar yenilənir:
+- ən yaxın ərazi snapshot-u (sərhədlər crossfade ilə dəyişir) və paytaxtlar (★);
+- həmin il hökm sürənlər (`Reign` cədvəlindən);
+- həmin il yaşayan şəxsiyyətlər, portret, yaş və o vaxtkı yeri ilə;
+- bütün kateqoriyalardan həmin ilin hadisələri.
+
+Ölkəyə və ya hökmdara klik etdikdə hökmdar paneli seçilmiş il üçün açılır.
+Snapshot 30 ildən köhnədirsə, xəritə solğun göstərilir və "Bu dövr üçün məzmun hazırlanır" kartında ən yaxın illərə keçid düymələri olur.
+Sürgünün altındakı rəngli zolaqlar dövrləri göstərir, zolağa klik etdikdə həmin dövrün əvvəlinə keçid olur.
+
+Performans: il rəqəmi və sürgü dərhal, siyahılar `useDeferredValue` ilə yenilənir. Sərhədlər 140 ms, tema isə 320 ms sakitlikdən sonra dəyişir.
+Sürükləmə zamanı kadr intervalı ölçülüb: median və p95 təxminən 16.7 ms. Ana səhifədəki kompakt versiya yalnız öz qutusunu dövrün rənginə boyayır.
+
 ## Məkan səhifələri (`/places/<id>/`)
 
 Hər məkan üçün səhifə `data/places.json`-dan avtomatik yaranır. Səhifə ortaq hadisə indeksindən (`getHistoryIndex()`, `src/lib/historyIndex.ts`)

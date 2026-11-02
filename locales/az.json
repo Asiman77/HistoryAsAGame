@@ -463,5 +463,28 @@
   },
   "hub": {
     "explore": "Bütün kateqoriyalar üzrə"
+  },
+  "timeline": {
+    "title": "Zaman xətti",
+    "kicker": "1400–2020",
+    "lead": "Sürgünü çək: sərhədlər, paytaxtlar, hökmdarlar və həmin il yaşayan şəxsiyyətlər dəyişir.",
+    "year": "İl",
+    "back": "{n} il geri",
+    "forward": "{n} il irəli",
+    "eras": "Dövrlər",
+    "gap": "Bu dövr üçün məzmun hazırlanır",
+    "gapHelp": "Bu il üçün hələ siyasi xəritəmiz yoxdur. Arxada ən yaxın xəritə solğun göstərilir.",
+    "mapLabel": "{year}-ci ilin siyasi xəritəsi",
+    "mapOf": "Xəritə",
+    "rulers": "Hökm sürənlər",
+    "noRulers": "Bu il üçün hökmdar cədvəlində qeyd yoxdur.",
+    "persons": "Bu il yaşayanlar",
+    "noPersons": "Simulyasiyası olan şəxsiyyətlərdən heç biri bu il yaşamırdı.",
+    "events": "{year}-ci ilin hadisələri",
+    "noEvents": "Bu il üçün hadisə yoxdur. Ən yaxın hadisəli illər:",
+    "age": "{age} yaşında",
+    "noEra": "Dövr seçilməyib",
+    "summary": "{rulers} hökmdar, {persons} şəxsiyyət, {events} hadisə",
+    "openFull": "Tam zaman xətti"
   }
 }

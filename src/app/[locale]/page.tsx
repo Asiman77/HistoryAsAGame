@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getRepository } from "@/data";
+import { loadTimeExplorerData } from "@/data/timeExplorer";
 import type { Locale } from "@/domain/schema";
 import { Hub, type CategorySummary } from "@/features/landing/Hub";
 import type { LandingPerson } from "@/features/landing/Landing";
@@ -20,5 +21,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     { id: "conflicts", available: conflicts.map((c) => t(c.name, locale)), planned: planned.filter((p) => p.type === "conflict") },
     { id: "states", available: states.map((st) => t(st.name, locale)), planned: planned.filter((p) => p.type === "state") },
   ];
-  return <Hub locale={locale} messages={getMessages(locale)} categories={categories} persons={cards} theme={themes[DEFAULT_THEME_ID]!} />;
+  const timeline = await loadTimeExplorerData(repo);
+  return <Hub locale={locale} messages={getMessages(locale)} categories={categories} persons={cards} theme={themes[DEFAULT_THEME_ID]!} timeline={timeline} />;
 }

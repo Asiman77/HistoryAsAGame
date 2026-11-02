@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import type { Locale, PlannedEntity, Theme } from "@/domain/schema";
+import type { TimeExplorerData } from "@/data/timeExplorer";
+import { TimeExplorer } from "@/features/timeline/TimeExplorer";
+import { DEFAULT_YEAR } from "@/features/timeline/TimelinePageClient";
 import { ThemeShell } from "@/features/theme/ThemeShell";
 import { Divider, Star } from "@/components/Ornament";
 import { SettingsButton } from "@/features/settings/SettingsPanel";
@@ -26,10 +29,11 @@ interface Props {
   categories: CategorySummary[];
   persons: LandingPerson[];
   theme: Theme;
+  timeline: TimeExplorerData;
 }
 
 /** Home: three sections, each with its own page and cards; all run on the same simulation engine. */
-export function Hub({ locale, messages: m, categories, persons, theme }: Props) {
+export function Hub({ locale, messages: m, categories, persons, theme, timeline }: Props) {
   const reduced = useReducedMotion();
   const progress = useProgress();
   const fade = (i: number) => ({
@@ -100,8 +104,18 @@ export function Hub({ locale, messages: m, categories, persons, theme }: Props) 
           })}
         </ul>
 
+        <section className="mt-10" aria-labelledby="hub-timeline">
+          <h2 id="hub-timeline" className="mb-3 text-center font-display text-2xl font-semibold text-ink">
+            {m.timeline.title}
+          </h2>
+          <TimeExplorer data={timeline} locale={locale} messages={m} initialYear={DEFAULT_YEAR} compact />
+        </section>
+
         {/* Ways across all categories. */}
         <nav className="mt-8 flex flex-wrap justify-center gap-3" aria-label={m.hub.explore} data-testid="hub-explore">
+          <Link href={`/${locale}/timeline/`} className="paper-card rounded-full px-4 py-2 text-sm font-medium text-lapis hover:-translate-y-0.5 transition-transform">
+            {m.timeline.title} →
+          </Link>
           <Link href={`/${locale}/places/`} className="paper-card rounded-full px-4 py-2 text-sm font-medium text-lapis hover:-translate-y-0.5 transition-transform">
             {m.places.title} →
           </Link>
