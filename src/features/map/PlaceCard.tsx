@@ -17,10 +17,12 @@ interface Props {
   m: Messages;
   onGoto: (index: number) => void;
   onClose: () => void;
+  /** Opens the place page ("Bu şəhərin tarixi"), keeping the way back. */
+  onHistory?: () => void;
 }
 
 /** City card: short history plus what happened here in this person's life. */
-export function PlaceCard({ place, year, capital, steps, locale, m, onGoto, onClose }: Props) {
+export function PlaceCard({ place, year, capital, steps, locale, m, onGoto, onClose, onHistory }: Props) {
   const reduced = useReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
   const here = steps.map((s, i) => ({ s, i })).filter(({ s }) => s.placeId === place.id);
@@ -66,6 +68,11 @@ export function PlaceCard({ place, year, capital, steps, locale, m, onGoto, onCl
         </button>
       </div>
       <p className="mt-3 text-sm leading-relaxed text-ink">{t(place.description, locale)}</p>
+      {onHistory && (
+        <button type="button" onClick={onHistory} className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-lapis/40 bg-lapis/5 px-3 py-1 text-sm font-medium text-lapis hover:bg-lapis/10" data-testid="place-history-link">
+          {m.places.cityHistory} →
+        </button>
+      )}
       <h3 className="mt-4 text-[11px] font-semibold tracking-wider text-ink uppercase">{m.map.placeHere}</h3>
       {here.length ? (
         <ul className="mt-1.5 space-y-1">

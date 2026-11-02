@@ -233,6 +233,19 @@ Kodda heç nə dəyişmir. Giriş ekranı, səhifə, e2e testlər yeni qovluğu 
 `data/eras/<id>.json` faylı yaradın (fayl adı `id` ilə eyni olmalıdır) və şəxsiyyətlərin `eraIds` siyahısına əlavə edin.
 Giriş ekranındakı dövr filtri onu avtomatik göstərir. Dövrün `themeId` sahəsi onun temasını göstərir (aşağıya bax).
 
+## Məkan səhifələri (`/places/<id>/`)
+
+Hər məkan üçün səhifə `data/places.json`-dan avtomatik yaranır. Səhifə ortaq hadisə indeksindən (`getHistoryIndex()`, `src/lib/historyIndex.ts`)
+həmin məkanda baş verən bütün mərhələləri (şəxsiyyət, döyüş, dövlət) xronoloji sıra ilə göstərir. Hər mərhələdən simulyasiyaya dərin keçid var.
+
+- **Hansı dövlətin tərkibində olub:** build zamanı ərazi snapshot-larında point-in-polygon ilə hesablanır (`src/lib/placeHistory.ts`).
+  Bir snapshot ən çox 30 il "əhatə edir". Daha uzun boşluqlar "Bu dövr üçün məzmun hazırlanır" kimi göstərilir, məkan isə yalnız mövcud olduğu illərdə göstərilir.
+- **Uyğunlaşdırma:** şəxsiyyət və dövlət mərhələləri 30 km radiusla məkana bağlanır. Müharibə günləri isə yalnız ad və ya `placeId` ilə bağlanır,
+  çünki cəbhə nöqtələri bir-birinə çox yaxındır.
+- **Tema:** hər mərhələ öz dövrünün rəngindədir (`.theme-scope`). Səhifənin teması ekranın ortasındakı mərhələyə uyğun dəyişir.
+- **Tezliklə:** `Place.upcoming` hələ simulyasiyası olmayan fəsilləri göstərir (məs. Şuşa üçün Qarabağ xanlığı).
+- Xəritədə şəhər kartında "Bu şəhərin tarixi" düyməsi var.
+
 ## Dövr temaları və atmosfer
 
 Görünüş data ilə idarə olunur, komponentlərdə hardcode olunmur. Hər `Era` bir temaya bağlıdır. Şəxsiyyət, dövlət və müharibə onu miras alır

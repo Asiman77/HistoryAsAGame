@@ -434,5 +434,34 @@
       "score": "{n} / {total} düzgün",
       "of": "{n} / {total}"
     }
+  },
+  "places": {
+    "title": "Məkanlar",
+    "kicker": "Şəhərlər və qalalar",
+    "lead": "Bir şəhərin tarixini əsrlər boyu izlə: kim hökm sürdü, burada nə baş verdi.",
+    "cityHistory": "Bu şəhərin tarixi",
+    "modernName": "Bu gün",
+    "membership": "Dövrlər üzrə hansı dövlətin tərkibində olub",
+    "membershipNote": "Tarixi xəritələrimizə (təxmini sərhədlər) əsasən hesablanıb.",
+    "capital": "paytaxt",
+    "vassal": "asılı",
+    "gap": "Bu dövr üçün məzmun hazırlanır",
+    "timeline": "Burada baş verənlər",
+    "categories": {
+      "person": "Şəxsiyyət",
+      "battle": "Döyüş",
+      "state": "Dövlət"
+    },
+    "open": "Simulyasiyada aç",
+    "soon": "Tezliklə",
+    "empty": "Bu məkanla bağlı simulyasiya mərhələsi hələ yoxdur.",
+    "eventsCount": "{n} hadisə",
+    "sources": "Mənbələr",
+    "allPlaces": "Bütün məkanlar",
+    "withEvents": "Hadisəsi olan məkanlar",
+    "others": "Digər məkanlar"
+  },
+  "hub": {
+    "explore": "Bütün kateqoriyalar üzrə"
   }
 }

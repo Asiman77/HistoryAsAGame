@@ -33,16 +33,27 @@ export function ClaimBadge({
   locale,
   m,
   size = "sm",
+  interactive = true,
 }: {
   type: ClaimType;
   why?: LocalizedText | undefined;
   locale: Locale;
   m: Messages;
   size?: "sm" | "xs";
+  /** false inside links and cards: a plain chip with a native tooltip. */
+  interactive?: boolean;
 }) {
   const id = useId();
   const [open, setOpen] = useState(false);
   const c = CLAIM_STYLE[type];
+  const cls = `inline-flex items-center gap-1 rounded-full border font-semibold tracking-wide uppercase ${size === "xs" ? "px-1.5 py-px text-[10px]" : "px-2.5 py-0.5 text-[11px]"}`;
+  if (!interactive)
+    return (
+      <span className={cls} style={{ color: c.fg, background: c.bg, borderColor: c.border }} title={`${m.claims.why[type]} ${why ? t(why, locale) : m.claims.help[type]}`} data-claim-type={type}>
+        <ClaimIcon type={type} size={size === "xs" ? 11 : 12} />
+        {m.claims.types[type]}
+      </span>
+    );
   return (
     <span className="group relative inline-flex" data-claim-type={type}>
       <button

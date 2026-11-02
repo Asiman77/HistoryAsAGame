@@ -30,7 +30,7 @@ export interface StateSimulationData extends SimulationData<StateSimStep> {
   quiz: QuizQuestion[];
 }
 
-const ICON: Partial<Record<Mood, EventType>> = {
+export const STATE_ICON: Partial<Record<Mood, EventType>> = {
   coronation: "coronation",
   battle: "battle",
   victory: "battle",
@@ -73,7 +73,7 @@ export function buildStateSimulation(state: State, stages: StateStep[], ctx: Sta
       year: stage.date.year,
       title: stage.title,
       timelineLabel: String(stage.date.year),
-      icon: ICON[stage.mood] ?? "diplomacy",
+      icon: STATE_ICON[stage.mood] ?? "diplomacy",
       mood: stage.mood,
       location: stage.location,
       zoom: stage.zoom ?? 4.5,

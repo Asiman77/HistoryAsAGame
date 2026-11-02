@@ -100,6 +100,13 @@ export function Hub({ locale, messages: m, categories, persons, theme }: Props) 
           })}
         </ul>
 
+        {/* Ways across all categories. */}
+        <nav className="mt-8 flex flex-wrap justify-center gap-3" aria-label={m.hub.explore} data-testid="hub-explore">
+          <Link href={`/${locale}/places/`} className="paper-card rounded-full px-4 py-2 text-sm font-medium text-lapis hover:-translate-y-0.5 transition-transform">
+            {m.places.title} →
+          </Link>
+        </nav>
+
         <CollectionStrip persons={persons} progress={progress} locale={locale} m={m} />
         <p className="mt-12 text-center text-sm text-ink-faint">{m.landing.footer}</p>
       </section>

@@ -408,6 +408,7 @@ export function SimulationEngine<S extends EngineStep>({
           m={m}
           onGoto={(i) => go(i)}
           onClose={() => setPlaceId(null)}
+          onHistory={() => followHref(`/places/${selectedPlace.id}/`)}
         />
       ) : polityId ? (
         <PolityPanel

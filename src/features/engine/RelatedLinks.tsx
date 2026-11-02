@@ -65,15 +65,8 @@ export function RelatedLinks({ refs, locale, m, here, onPlace }: Props) {
           <ul className="flex flex-wrap gap-1.5">
             {chips.map((r) => (
               <li key={`${r.type}:${r.id}`}>
-                {r.href ? (
-                  <Link
-                    href={`/${locale}${r.href}`}
-                    onClick={follow(r)}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-lapis/40 bg-lapis/5 px-2.5 py-1 text-xs font-medium text-lapis hover:bg-lapis/10"
-                  >
-                    <TypeDot type={r.type} /> {t(r.title, locale)} →
-                  </Link>
-                ) : r.type === "place" && r.exists && onPlace ? (
+                {r.type === "place" && r.exists && onPlace ? (
+                  // Inside a simulation a place opens its card on the map; the card links to the place page.
                   <button
                     type="button"
                     onClick={() => onPlace(r.id)}
@@ -81,6 +74,14 @@ export function RelatedLinks({ refs, locale, m, here, onPlace }: Props) {
                   >
                     <TypeDot type={r.type} /> {t(r.title, locale)}
                   </button>
+                ) : r.href ? (
+                  <Link
+                    href={`/${locale}${r.href}`}
+                    onClick={follow(r)}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-lapis/40 bg-lapis/5 px-2.5 py-1 text-xs font-medium text-lapis hover:bg-lapis/10"
+                  >
+                    <TypeDot type={r.type} /> {t(r.title, locale)} →
+                  </Link>
                 ) : (
                   <span
                     className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-ink/25 px-2.5 py-1 text-xs text-ink-faint"

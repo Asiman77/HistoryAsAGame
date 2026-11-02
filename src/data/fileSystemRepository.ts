@@ -24,6 +24,7 @@ import {
   RelationsFile,
   TerritoryRegistryFile,
   TerritorySnapshotSource,
+  TerritorySnapshot,
   ThemeFile,
   WorldEventsFile,
   type LifeEvent,
@@ -32,6 +33,7 @@ import {
 } from "@/domain/schema";
 import { buildRegistry, type Registry } from "@/domain/registry";
 import { resolveThemes, type ThemeMap } from "@/lib/theme";
+import { buildHistoryIndex, type IndexedEvent } from "@/lib/historyIndex";
 import type { HistoryRepository, PersonFilter } from "./repository";
 
 /**
@@ -277,6 +279,36 @@ export class FileSystemRepository implements HistoryRepository {
     );
   }
 
+  getHistoryIndex(): Promise<IndexedEvent[]> {
+    return this.memo("history-index", async () => {
+      const [eras, places, persons, states, conflicts] = await Promise.all([
+        this.listEras(),
+        this.listPlaces(),
+        this.allPersons(),
+        this.listStates(),
+        this.listConflicts(),
+      ]);
+      return buildHistoryIndex({
+        eras,
+        places,
+        persons: await Promise.all(persons.map(async (person) => ({ person, events: await this.getEvents(person.id) }))),
+        states: await Promise.all(states.map(async (state) => ({ state, steps: await this.getStateSteps(state.id) }))),
+        conflicts: await Promise.all(conflicts.map(async (conflict) => ({ conflict, days: await this.getConflictDays(conflict.id) }))),
+      });
+    });
+  }
+
+  getTerritorySnapshot(id: string): Promise<TerritorySnapshot | null> {
+    return this.memo(`territory:${id}`, async () => {
+      const file = path.join(this.root, "..", "public", "data", "territories", `${id}.json`);
+      try {
+        return TerritorySnapshot.parse(JSON.parse(await fs.readFile(file, "utf8")));
+      } catch {
+        return null;
+      }
+    });
+  }
+
   getRegistry(): Promise<Registry> {
     return this.memo("registry", async () => {
       const [persons, places, planned, states, conflicts, battles] = await Promise.all([
@@ -316,7 +348,7 @@ export class FileSystemRepository implements HistoryRepository {
       return buildRegistry({
         simulations: [...personSims, ...stateSims, ...conflictSims],
         others: [
-          ...places.map((pl) => ({ type: "place" as const, id: pl.id, title: pl.names.historical })),
+          ...places.map((pl) => ({ type: "place" as const, id: pl.id, title: pl.names.historical, url: `/places/${pl.id}/` })),
           ...battles.map((b) => ({ type: "battle" as const, id: b.id, title: b.name, url: `/conflicts/${b.conflictId}/?step=${b.stepId}` })),
         ],
         planned,

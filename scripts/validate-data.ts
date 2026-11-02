@@ -426,6 +426,15 @@ for (const { steps, file } of loadedStates)
         else pending.set(`${r.type}:${r.id}`, [...(pending.get(`${r.type}:${r.id}`) ?? []), x.id]);
       }
     }
+for (const pl of places)
+  for (const u of pl.upcoming ?? [])
+    if (u.ref) {
+      refCount++;
+      for (const i of checkRef(u.ref, entities, `${pl.id}.upcoming ${u.year}`) as RefIssue[]) {
+        if (i.level === "error") issues.push({ file: "data/places.json", message: i.message });
+        else pending.set(`${u.ref.type}:${u.ref.id}`, [...(pending.get(`${u.ref.type}:${u.ref.id}`) ?? []), `${pl.id}.upcoming`]);
+      }
+    }
 for (const p of planned)
   if (loaded.some(({ person }) => p.type === "person" && p.id === person.id))
     console.warn(`⚠  data/planned.json: ${p.type}:${p.id} artıq mövcuddur, planned-dən silin`);

@@ -12,7 +12,9 @@ const reg = buildRegistry({
 describe("registry", () => {
   it("builds deep links per simulation type", () => {
     expect(entityPath("state", "afshar", "1736-mughan")).toBe("/states/afshar/?step=1736-mughan");
-    expect(entityPath("place", "tebriz")).toBeNull();
+    // Places have their own pages; rulers and battles still live inside other simulations.
+    expect(entityPath("place", "tebriz")).toBe("/places/tebriz/");
+    expect(entityPath("ruler", "x")).toBeNull();
   });
 
   it("resolves an existing ref to an active link with the step title", () => {

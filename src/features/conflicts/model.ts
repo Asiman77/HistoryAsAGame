@@ -40,7 +40,7 @@ export interface ConflictSimulationData extends SimulationData<ConflictStep> {
   quiz: QuizQuestion[];
 }
 
-const ICON: Record<WarDay["kind"], EventType> = {
+export const WAR_DAY_ICON: Record<WarDay["kind"], EventType> = {
   operation: "battle",
   liberation: "battle",
   memorial: "death",
@@ -82,7 +82,7 @@ export function buildConflictSimulation(conflict: Conflict, days: WarDay[], ctx:
       year: day.date.year,
       title: day.title,
       timelineLabel: `${day.date.day} ${SHORT_MONTHS[(day.date.month ?? 1) - 1]}`,
-      icon: ICON[day.kind],
+      icon: WAR_DAY_ICON[day.kind],
       mood,
       location: day.location,
       zoom: day.zoom ?? 8,

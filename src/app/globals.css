@@ -637,3 +637,29 @@ html.teacher-mode .polity-label {
 }
 .lite .candle-glow::before,
 .lite .flag-wave { animation: none; }
+
+/* ---------- Mini map markers (place pages, compare) ---------- */
+.mini-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+.mini-marker::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: var(--marker-color);
+  border: 2px solid var(--color-parchment-light);
+  box-shadow: 0 0 0 1px rgb(42 28 16 / 0.4);
+}
+.mini-marker span {
+  margin-bottom: 2px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink);
+  white-space: nowrap;
+  text-shadow: 0 0 3px var(--color-parchment-light), 0 0 6px var(--color-parchment-light);
+}

@@ -1,5 +1,6 @@
 import type { Registry } from "@/domain/registry";
 import type { ThemeMap } from "@/lib/theme";
+import type { IndexedEvent } from "@/lib/historyIndex";
 import type {
   Era,
   GlossaryEntry,
@@ -21,6 +22,7 @@ import type {
   Track,
   WarDay,
   TerritorySnapshotMeta,
+  TerritorySnapshot,
   WorldEvent,
 } from "@/domain/schema";
 
@@ -66,4 +68,8 @@ export interface HistoryRepository {
   listPlanned(): Promise<PlannedEntity[]>;
   /** Index of every entity, used to resolve cross-links. */
   getRegistry(): Promise<Registry>;
+  /** Every dated step of every simulation, chronological (places, time slider, "Tarixdə bu gün", compare). */
+  getHistoryIndex(): Promise<IndexedEvent[]>;
+  /** Built snapshot with geometry (public/data/territories/<id>.json), for build-time point-in-polygon. */
+  getTerritorySnapshot(id: string): Promise<TerritorySnapshot | null>;
 }

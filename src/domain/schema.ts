@@ -573,6 +573,13 @@ export const Place = z.object({
   periods: z.array(PlacePeriod).min(1),
   description: LocalizedText,
   sources: z.array(Source).optional(),
+  /**
+   * Announced chapters of the place's history that have no simulation yet
+   * (Şuşa: the Karabakh khanate). Shown as "tezliklə" items on the place page.
+   */
+  upcoming: z
+    .array(z.object({ year: z.number().int(), title: LocalizedText, ref: z.lazy(() => EntityRef).optional(), sources: z.array(Source).min(1) }))
+    .optional(),
 });
 export type Place = z.infer<typeof Place>;
 export const PlacesFile = z.object({ places: z.array(Place) });
