@@ -85,6 +85,8 @@ export function buildStateSimulation(state: State, stages: StateStep[], ctx: Sta
       related: (stage.related ?? []).map((r) => resolveRef(r, ctx.registry)),
       focusPolityId: polityId,
       themeId: themeOf(stage.date.year, stage.themeId),
+      claimType: stage.claimType ?? "fact",
+      claims: stage.claims ?? [],
       ...(stage.capitalId ? { capitalId: stage.capitalId } : {}),
       stage,
       polityId,

@@ -5,6 +5,10 @@ import type { Locale } from "@/domain/schema";
 import { EventIcon } from "@/components/EventIcon";
 import { GlossaryText } from "@/components/GlossaryText";
 import { RelatedLinks } from "@/features/engine/RelatedLinks";
+import { ClaimBadge } from "@/features/claims/ClaimBadge";
+import { ClaimList, StepClaimNotice } from "@/features/claims/ClaimList";
+import { FactOrLegendQuiz } from "@/features/claims/FactOrLegendQuiz";
+import { classifyItems } from "@/lib/claims";
 import { SimulationEngine } from "@/features/engine/SimulationEngine";
 import { Quiz } from "@/features/legacy/LegacyPanel";
 import { CertaintyBadge } from "@/features/simulation/StoryContent";
@@ -54,6 +58,7 @@ export function StateSimulation({ data, locale, messages: m }: { data: StateSimu
           {data.quiz.length > 0 && (
             <Quiz questions={data.quiz} locale={locale} m={m} teacher={teacher} onFinish={(score, total) => recordQuiz(data.key, score, total)} />
           )}
+          <FactOrLegendQuiz items={classifyItems(data.steps)} locale={locale} m={m} />
           <div className="flex flex-wrap gap-2">
             <Link href={`/${locale}/states/`} className="rounded-full border border-ink/30 px-4 py-2 text-sm font-medium text-ink hover:border-ink">
               {m.states.others}
@@ -112,6 +117,7 @@ function StageContent({
           </span>
           <span className="font-medium text-ink-soft">{formatDate(stage.date, m)}</span>
           <CertaintyBadge certainty={stage.date.certainty} m={m} />
+          {step.claimType !== "fact" && <ClaimBadge type={step.claimType} locale={locale} m={m} size="xs" />}
         </div>
         <h2 className="mt-3 font-display text-[1.7rem] leading-tight font-semibold text-ink sm:text-3xl">{t(stage.title, locale)}</h2>
         <p className="mt-1.5 text-sm text-ink-soft">
@@ -137,9 +143,11 @@ function StageContent({
         </p>
       )}
 
-      <p className="leading-relaxed text-ink">
-        <GlossaryText text={t(stage.summary, locale)} />
-      </p>
+      <StepClaimNotice type={step.claimType} locale={locale} m={m}>
+        <p className="leading-relaxed text-ink">
+          <GlossaryText text={t(stage.summary, locale)} />
+        </p>
+      </StepClaimNotice>
 
       {!!stage.events?.length && (
         <ol className="space-y-1.5 border-l-2 border-gold/50 pl-3 text-sm">
@@ -161,6 +169,8 @@ function StageContent({
           ))}
         </dl>
       )}
+
+      <ClaimList claims={step.claims} locale={locale} m={m} />
 
       <RelatedLinks refs={step.related} locale={locale} m={m} here={here} onPlace={onPlace} />
 

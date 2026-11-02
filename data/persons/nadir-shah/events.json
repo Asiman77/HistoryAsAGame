@@ -37,6 +37,31 @@
     },
     {
       "id": "nadir-childhood",
+      "claims": [
+        {
+          "id": "nadir-father-herdsman",
+          "claimType": "fact",
+          "text": {
+            "az": "Nadirin atası İmamqulu çoban idi."
+          },
+          "why": {
+            "az": "Tarixçilər bunu təsdiqləyir. Onun həm də kürk tikməsi isə yalnız ehtimal kimi deyilir."
+          },
+          "sources": [
+            {
+              "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+              "author": "Michael Axworthy",
+              "type": "book",
+              "note": "I.B. Tauris, 2006, s. 17"
+            },
+            {
+              "title": "Nader Shah",
+              "url": "https://en.wikipedia.org/wiki/Nader_Shah",
+              "type": "encyclopedia"
+            }
+          ]
+        }
+      ],
       "personId": "nadir-shah",
       "order": 1,
       "date": { "year": 1700, "certainty": "approximate" },
@@ -57,6 +82,76 @@
     },
     {
       "id": "nadir-captivity",
+      "claimType": "legend",
+      "claims": [
+        {
+          "id": "nadir-uzbek-captivity",
+          "claimType": "legend",
+          "text": {
+            "az": "1704-cü ildə özbək basqınçıları 17 yaşlı Nadiri anası ilə birlikdə əsir apardı. Anası əsirlikdə öldü."
+          },
+          "why": {
+            "az": "Bu hekayəni təsdiq edən müasir sənəd yoxdur. Tarixçilər onu «rəvayətə görə» deyə verir, hekayənin başqa variantı da var."
+          },
+          "sources": [
+            {
+              "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+              "author": "Michael Axworthy",
+              "type": "book",
+              "note": "I.B. Tauris, 2006, s. 52"
+            },
+            {
+              "title": "Nader Shah",
+              "url": "https://en.wikipedia.org/wiki/Nader_Shah",
+              "type": "encyclopedia"
+            }
+          ],
+          "firstRecorded": {
+            "source": {
+              "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+              "author": "Michael Axworthy",
+              "type": "book",
+              "note": "I.B. Tauris, 2006, s. 52"
+            },
+            "note": {
+              "az": "Axworthy hekayəni rəvayət kimi təqdim edir. Onun ən erkən yazılı qeydini biz yoxlaya bilmədik."
+            }
+          },
+          "versions": [
+            {
+              "text": {
+                "az": "Nadir və anası özbəklərin əsirliyinə düşür, Nadir sonra qaçır."
+              },
+              "sources": [
+                {
+                  "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+                  "author": "Michael Axworthy",
+                  "type": "book",
+                  "note": "I.B. Tauris, 2006, s. 52"
+                }
+              ]
+            },
+            {
+              "text": {
+                "az": "Nadir türkmənləri gələcəkdə kömək vədi ilə razı salıb azad olur."
+              },
+              "sources": [
+                {
+                  "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+                  "author": "Michael Axworthy",
+                  "type": "book",
+                  "note": "I.B. Tauris, 2006, s. 52"
+                },
+                {
+                  "title": "Nader Shah",
+                  "url": "https://en.wikipedia.org/wiki/Nader_Shah",
+                  "type": "encyclopedia"
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "personId": "nadir-shah",
       "order": 2,
       "date": {

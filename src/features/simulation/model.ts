@@ -90,6 +90,8 @@ export function buildJourney(person: Person, events: LifeEvent[], allEras: Era[]
     battle: event.outcome ?? null,
     related: ctx ? (event.related ?? []).map((r) => resolveRef(r, ctx.registry)) : [],
     themeId: themeOf(event.date.year, event.themeId),
+    claimType: event.claimType ?? "fact",
+    claims: event.claims ?? [],
     event,
     age: ageAt(person.birth.date, event.date),
     world: ctx ? pickWorldEvents(event.date.year, ctx.worldEvents) : [],

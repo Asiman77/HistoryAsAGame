@@ -9,6 +9,8 @@ import { EventIcon } from "@/components/EventIcon";
 import { getAudioEngine } from "@/features/audio/engine";
 import type { MoodSound } from "@/features/audio/manifest";
 import { RelatedLinks } from "@/features/engine/RelatedLinks";
+import { ClaimBadge } from "@/features/claims/ClaimBadge";
+import { ClaimList, StepClaimNotice } from "@/features/claims/ClaimList";
 import { SimulationEngine } from "@/features/engine/SimulationEngine";
 import { Quiz } from "@/features/legacy/LegacyPanel";
 import { formatDate } from "@/lib/dates";
@@ -179,7 +181,10 @@ function DayContent({
         <h2 className="mt-3 font-display text-[1.7rem] leading-tight font-semibold text-ink sm:text-3xl">{t(day.title, locale)}</h2>
       </header>
 
-      <p className={`leading-relaxed text-ink ${memorial ? "font-serif text-[1.05rem]" : ""}`}>{t(day.summary, locale)}</p>
+      <StepClaimNotice type={step.claimType} locale={locale} m={m}>
+        <p className={`leading-relaxed text-ink ${memorial ? "font-serif text-[1.05rem]" : ""}`}>{t(day.summary, locale)}</p>
+      </StepClaimNotice>
+      {step.claimType !== "fact" && <ClaimBadge type={step.claimType} locale={locale} m={m} size="xs" />}
 
       {memorial && <p className="text-sm text-ink-soft italic">{m.war.memorialNote}</p>}
 
@@ -228,6 +233,8 @@ function DayContent({
           📜 {t(day.officialStatement.title, locale)}
         </a>
       )}
+
+      <ClaimList claims={step.claims} locale={locale} m={m} />
 
       <RelatedLinks refs={step.related} locale={locale} m={m} here={here} onPlace={onPlace} />
       <OverlayButtons m={m} onOpen={onOpen} count={data.heroes.length} />

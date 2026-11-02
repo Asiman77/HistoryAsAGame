@@ -393,5 +393,46 @@
   "theme": {
     "art": "Fon",
     "ai": "Rəssam təsəvvürü (AI illüstrasiya)"
+  },
+  "claims": {
+    "title": "Fakt və rəvayət",
+    "types": {
+      "fact": "Fakt",
+      "disputed": "Mübahisəli",
+      "legend": "Rəvayət",
+      "literary": "Bədii mətn"
+    },
+    "help": {
+      "fact": "Mənbələrlə təsdiqlənib.",
+      "disputed": "Tarixçilər arasında fərqli versiyalar var.",
+      "legend": "Xalq rəvayəti və ya sonrakı dövrdə yaranmış hekayədir, sənədlə təsdiqlənmir.",
+      "literary": "Hekayə rejimi üçün yazılmış bədii mətndir, tarixi iddia deyil. Hisslər, dialoq və təfərrüatlar təsəvvürdür."
+    },
+    "why": {
+      "fact": "Bu niyə fakt sayılır?",
+      "disputed": "Bu niyə mübahisəlidir?",
+      "legend": "Bu niyə rəvayət sayılır?",
+      "literary": "Bu niyə bədii mətndir?"
+    },
+    "firstRecorded": "İlk qeyd",
+    "versions": "Versiyalar",
+    "sources": "Mənbələr",
+    "hiddenLegends": "{n} rəvayət gizlədilib",
+    "show": "Göstər",
+    "legendStep": "Bu mərhələ rəvayətə əsaslanır. Onu fakt kimi deyil, nəsildən-nəslə ötürülən hekayə kimi oxu.",
+    "disputedStep": "Bu mərhələ barədə tarixçilərin fikirləri fərqlidir.",
+    "legendHiddenStep": "Bu mərhələ rəvayətdir və ayarlarda rəvayətlər gizlədilib.",
+    "showLegends": "Rəvayətləri göstər",
+    "showLegendsHelp": "Söndürülsə, rəvayət kimi işarələnmiş hekayələr bağlı görünür və istəyəndə açılır.",
+    "quiz": {
+      "title": "Fakt yoxsa rəvayət?",
+      "lead": "İfadəni oxu və onun nə olduğunu seç. Sonra izahı gör.",
+      "correct": "Düzdür!",
+      "wrong": "Əslində: {type}",
+      "next": "Növbəti ifadə",
+      "again": "Yenidən",
+      "score": "{n} / {total} düzgün",
+      "of": "{n} / {total}"
+    }
   }
 }

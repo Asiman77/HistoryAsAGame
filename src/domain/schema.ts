@@ -77,6 +77,39 @@ export const Source = z.object({
 });
 export type Source = z.infer<typeof Source>;
 
+// ---------------------------------------------------------------------------
+// Fact and legend
+// ---------------------------------------------------------------------------
+
+/**
+ * fact: confirmed by sources. disputed: historians give different versions.
+ * legend: folk tradition or a story that appears in later sources.
+ * literary: dramatic text written for story mode, not a historical claim.
+ */
+export const CLAIM_TYPES = ["fact", "disputed", "legend", "literary"] as const;
+export const ClaimType = z.enum(CLAIM_TYPES);
+export type ClaimType = z.infer<typeof ClaimType>;
+
+export const Claim = z
+  .object({
+    id: Slug,
+    claimType: ClaimType,
+    /** The statement itself, as a student would read it. */
+    text: LocalizedText,
+    /** Why it has this type ("Bu niyə rəvayət sayılır?"). */
+    why: LocalizedText.optional(),
+    sources: z.array(Source),
+    /** Where a legend was first written down, as far as is known. */
+    firstRecorded: z.object({ source: Source, year: z.number().int().optional(), note: LocalizedText.optional() }).optional(),
+    /** Competing versions of a disputed point (a legend may have variants too). */
+    versions: z.array(z.object({ text: LocalizedText, sources: z.array(Source).min(1) })).optional(),
+  })
+  .refine((c) => c.claimType !== "fact" || c.sources.length > 0, { message: "fakt mənbəsiz ola bilməz" })
+  .refine((c) => c.claimType !== "legend" || !!c.firstRecorded, { message: "rəvayət üçün ilk qeyd (firstRecorded) lazımdır" })
+  .refine((c) => c.claimType !== "disputed" || (c.versions?.length ?? 0) >= 2, { message: "mübahisəli iddia üçün ən azı iki versiya lazımdır" })
+  .refine((c) => c.claimType === "literary" || !!c.why || c.claimType === "fact", { message: "mübahisəli və rəvayət iddiası üçün 'why' izahı lazımdır" });
+export type Claim = z.infer<typeof Claim>;
+
 /** Gregorian date with explicit precision and certainty. */
 export const HistoricalDate = DateParts.extend({
   certainty: Certainty,
@@ -270,6 +303,10 @@ export const LifeEvent = z.object({
   related: z.array(EntityRef).optional(),
   /** Theme variant for this step only, e.g. the Indian campaign (data/themes). */
   themeId: Slug.optional(),
+  /** What kind of statement the step as a whole is (default "fact"; the narrative is always "literary"). */
+  claimType: ClaimType.optional(),
+  /** Individual statements classified as fact, disputed, legend or literary. */
+  claims: z.array(Claim).optional(),
 });
 export type LifeEvent = z.infer<typeof LifeEvent>;
 
@@ -744,6 +781,10 @@ export const StateStep = z.object({
   related: z.array(EntityRef).optional(),
   /** Theme variant for this step only, e.g. the Indian campaign (data/themes). */
   themeId: Slug.optional(),
+  /** What kind of statement the stage as a whole is (default "fact"). */
+  claimType: ClaimType.optional(),
+  /** Individual statements classified as fact, disputed, legend or literary. */
+  claims: z.array(Claim).optional(),
   sources: z.array(Source).min(1),
   quiz: z.array(QuizQuestion).min(1).max(3).optional(),
 });
@@ -814,6 +855,10 @@ export const WarDay = z.object({
   related: z.array(EntityRef).optional(),
   /** Theme variant for this step only, e.g. the Indian campaign (data/themes). */
   themeId: Slug.optional(),
+  /** What kind of statement the stage as a whole is (default "fact"). */
+  claimType: ClaimType.optional(),
+  /** Individual statements classified as fact, disputed, legend or literary. */
+  claims: z.array(Claim).optional(),
   sources: z.array(Source).min(1),
   quiz: z.array(QuizQuestion).min(1).max(3).optional(),
 });

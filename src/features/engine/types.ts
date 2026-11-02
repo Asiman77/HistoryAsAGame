@@ -1,5 +1,7 @@
 import type {
   BattleOutcome,
+  Claim,
+  ClaimType,
   EventType,
   GlossaryEntry,
   ImageAsset,
@@ -48,6 +50,10 @@ export interface EngineStep {
   capitalId?: string;
   /** Period theme of this step (data/themes): step variant → entity → era. */
   themeId: string;
+  /** The step as a whole: fact unless the data says it rests on a legend or is disputed. */
+  claimType: ClaimType;
+  /** Classified statements shown under "Fakt və rəvayət". */
+  claims: Claim[];
 }
 
 export interface MapPlace {

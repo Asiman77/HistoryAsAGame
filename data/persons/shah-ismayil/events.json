@@ -141,6 +141,85 @@
     },
     {
       "id": "ismayil-flight-gilan",
+      "claims": [
+        {
+          "id": "ismayil-gilan-refuge",
+          "claimType": "fact",
+          "text": {
+            "az": "Lahicanda Kar-Kiya hökmdarı Mirzə Əli İsmayıla sığınacaq verdi və onu Ağqoyunlulara təhvil vermədi."
+          },
+          "sources": [
+            {
+              "title": "Shah Ismail Safavi",
+              "url": "https://en.wikishia.net/view/Shah_Ismail_Safavi",
+              "type": "encyclopedia"
+            }
+          ]
+        },
+        {
+          "id": "ismayil-basket-oath",
+          "claimType": "legend",
+          "text": {
+            "az": "Mirzə Əli kiçik İsmayılı səbətə qoyub sıx yarpaqlı ağacdan asdırdı və Rüstəm bəyin adamlarına Quran üzərində and içdi ki, İsmayıl Gilan torpağında deyil."
+          },
+          "why": {
+            "az": "Hekayə Səfəvi dövrünün sənədlərində deyil, sonrakı danışılarda və müasir kitablarda rast gəlinir, təfərrüatları da fərqlidir (səbət və ya beşik). İsmayılın Lahicanda gizlədildiyi isə faktdır."
+          },
+          "sources": [
+            {
+              "title": "New painting by artist Chingiz Mehbaliyev",
+              "url": "https://en.apa.az/art/xeber_new_painting_by_artist_chingiz_mehbaliye_-217533",
+              "type": "web",
+              "note": "APA; Z. Bünyadovun «Azərbaycan tarixi» kitabına (s. 398) istinadla"
+            },
+            {
+              "title": "Shah Ismail Khatai: Starting point for Safavid dynasty",
+              "url": "https://azernews.az/nation/92030.html",
+              "type": "web",
+              "note": "Azernews, 5 sentyabr 2017"
+            }
+          ],
+          "firstRecorded": {
+            "source": {
+              "title": "New painting by artist Chingiz Mehbaliyev",
+              "url": "https://en.apa.az/art/xeber_new_painting_by_artist_chingiz_mehbaliye_-217533",
+              "type": "web",
+              "note": "APA; Z. Bünyadovun «Azərbaycan tarixi» kitabına (s. 398) istinadla"
+            },
+            "note": {
+              "az": "APA-ya görə hekayə Z. Bünyadovun redaktəsi ilə çıxan «Azərbaycan tarixi»ndə (s. 398) danışılır. Daha erkən yazılı mənbəsini müəyyənləşdirə bilmədik."
+            }
+          },
+          "versions": [
+            {
+              "text": {
+                "az": "Səbətə qoyulub ağacdan asılır."
+              },
+              "sources": [
+                {
+                  "title": "New painting by artist Chingiz Mehbaliyev",
+                  "url": "https://en.apa.az/art/xeber_new_painting_by_artist_chingiz_mehbaliye_-217533",
+                  "type": "web",
+                  "note": "APA; Z. Bünyadovun «Azərbaycan tarixi» kitabına (s. 398) istinadla"
+                }
+              ]
+            },
+            {
+              "text": {
+                "az": "Beşiyə qoyulub ağac budağından asılır."
+              },
+              "sources": [
+                {
+                  "title": "Shah Ismail Khatai: Starting point for Safavid dynasty",
+                  "url": "https://azernews.az/nation/92030.html",
+                  "type": "web",
+                  "note": "Azernews, 5 sentyabr 2017"
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "personId": "shah-ismayil",
       "order": 4,
       "date": { "year": 1494, "certainty": "approximate" },
@@ -163,6 +242,45 @@
     },
     {
       "id": "ismayil-lahijan-education",
+      "claims": [
+        {
+          "id": "ismayil-teacher-lahiji",
+          "claimType": "disputed",
+          "text": {
+            "az": "İsmayılın Lahicandakı müəllimi Şəmsəddin Lahici idi."
+          },
+          "why": {
+            "az": "Bunu sonrakı Səfəvi salnamələri yazır, lakin müasir bir tədqiqat bu məlumatın etibarlılığını şübhə altına alır."
+          },
+          "sources": [],
+          "versions": [
+            {
+              "text": {
+                "az": "Səfəvi salnamələrinə əsaslanan ənənəvi baxış: müəllimi Şəmsəddin Lahici idi."
+              },
+              "sources": [
+                {
+                  "title": "Shah Ismail Safavi",
+                  "url": "https://en.wikishia.net/view/Shah_Ismail_Safavi",
+                  "type": "encyclopedia"
+                }
+              ]
+            },
+            {
+              "text": {
+                "az": "Müəllim haqqındakı xəbər sonradan yaranmış ola bilər, tədqiqatçı onu əfsanəvi sayır."
+              },
+              "sources": [
+                {
+                  "title": "Shames al Din Gilani Teacher of Shah Ismail Safavi, Fact or Legend",
+                  "url": "https://www.magiran.com/paper/1249730/?lang=en",
+                  "type": "article"
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "personId": "shah-ismayil",
       "order": 5,
       "date": { "year": 1495, "certainty": "approximate", "note": { "az": "Lahicanda təqribən 1494–1499-cu illər." } },
@@ -476,6 +594,31 @@
     },
     {
       "id": "ismayil-merv",
+      "claims": [
+        {
+          "id": "ismayil-shaybani-skull",
+          "claimType": "fact",
+          "text": {
+            "az": "Mərv döyüşündən sonra Şeybani xanın kəllə sümüyü qızılla örtülüb qiymətli daşlarla bəzədilmiş qədəhə çevrildi."
+          },
+          "why": {
+            "az": "Qəribə səslənsə də, bu xəbəri tarixçilər mənbələrə əsaslanaraq verir. O dövrün hökmdarları məğlub düşməni belə alçaldırdı."
+          },
+          "sources": [
+            {
+              "title": "Medieval Persia 1040–1797",
+              "author": "David Morgan",
+              "type": "book",
+              "note": "Routledge, 2014"
+            },
+            {
+              "title": "Battle of Marv",
+              "url": "https://en.wikipedia.org/wiki/Battle_of_Marv",
+              "type": "encyclopedia"
+            }
+          ]
+        }
+      ],
       "personId": "shah-ismayil",
       "order": 13,
       "date": { "year": 1510, "month": 12, "day": 2, "certainty": "exact" },
@@ -526,6 +669,34 @@
     },
     {
       "id": "ismayil-chaldiran",
+      "claims": [
+        {
+          "id": "chaldiran-council",
+          "claimType": "fact",
+          "text": {
+            "az": "Döyüşdən əvvəl Məhəmməd xan Ustaclu və Nur Əli xəlifə Osmanlılar mövqe tutmamış hücum etməyi təklif etdi. Durmuş xan Şamlu və şah bunu rədd etdi: hazır olmayan düşmənə hücumu qorxaqlıq saydılar."
+          },
+          "sources": [
+            {
+              "title": "Iran under the Safavids",
+              "author": "Roger Savory",
+              "type": "book",
+              "note": "Cambridge UP, 2007, s. 41"
+            },
+            {
+              "title": "ČĀLDERĀN",
+              "author": "Michael J. McCaffrey",
+              "type": "encyclopedia",
+              "note": "Encyclopaedia Iranica, IV/6, 1990, s. 656–658"
+            },
+            {
+              "title": "Mohammad Khan Ustajlu",
+              "url": "https://en.wikipedia.org/wiki/Mohammad_Khan_Ustajlu",
+              "type": "encyclopedia"
+            }
+          ]
+        }
+      ],
       "personId": "shah-ismayil",
       "order": 14,
       "date": { "year": 1514, "month": 8, "day": 23, "certainty": "exact" },

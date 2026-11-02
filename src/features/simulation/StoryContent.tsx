@@ -18,6 +18,8 @@ import { formatDate } from "@/lib/dates";
 import { format, t, type Messages } from "@/lib/i18n";
 import { yearDelta } from "@/lib/worldContext";
 import { RelatedLinks } from "@/features/engine/RelatedLinks";
+import { ClaimBadge } from "@/features/claims/ClaimBadge";
+import { ClaimList, StepClaimNotice } from "@/features/claims/ClaimList";
 import type { Step } from "./model";
 import { Narration } from "./Narration";
 import type { Mode } from "./useStoredMode";
@@ -55,6 +57,7 @@ export function StoryContent({ step, personName, mode, locale, m, chosen, onChoo
           </span>
           <span className="font-medium text-ink-soft">{formatDate(event.date, m)}</span>
           <CertaintyBadge certainty={event.date.certainty} m={m} />
+          {step.claimType !== "fact" && <ClaimBadge type={step.claimType} locale={locale} m={m} size="xs" />}
         </div>
         <h2 className="mt-3 font-display text-[1.7rem] leading-tight font-semibold text-ink sm:text-3xl">
           {tr(event.title)}
@@ -83,6 +86,7 @@ export function StoryContent({ step, personName, mode, locale, m, chosen, onChoo
         <BattleCard outcome={event.outcome} personName={personName} source={event.sources[0]} locale={locale} m={m} />
       )}
 
+      <StepClaimNotice type={step.claimType} locale={locale} m={m}>
       <AnimatePresence mode="wait" initial={false}>
         {mode === "story" ? (
           <motion.section
@@ -93,7 +97,10 @@ export function StoryContent({ step, personName, mode, locale, m, chosen, onChoo
             transition={{ duration: 0.25 }}
             className="flex flex-col gap-2"
           >
-            <Badge tone="gold">{m.sim.narrativeBadge}</Badge>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge tone="gold">{m.sim.narrativeBadge}</Badge>
+              <ClaimBadge type="literary" locale={locale} m={m} size="xs" />
+            </div>
             {event.narrationAudio && <Narration narration={event.narrationAudio} locale={locale} m={m} />}
             <p className="font-serif text-[1.08rem] leading-[1.75] text-ink italic first-letter:float-left first-letter:mr-2 first-letter:font-display first-letter:text-5xl first-letter:leading-[0.9] first-letter:text-carmine first-letter:not-italic">
               <GlossaryText text={tr(event.narrative)} />
@@ -108,15 +115,20 @@ export function StoryContent({ step, personName, mode, locale, m, chosen, onChoo
             transition={{ duration: 0.25 }}
             className="flex flex-col gap-3"
           >
-            <Badge tone="lapis">{m.sim.factsBadge}</Badge>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge tone="lapis">{m.sim.factsBadge}</Badge>
+              <ClaimBadge type="fact" locale={locale} m={m} size="xs" />
+            </div>
             <p className="leading-relaxed text-ink">
               <GlossaryText text={tr(event.factualSummary)} />
             </p>
             <DateDetails date={event.date} locale={locale} m={m} />
             <Sources sources={event.sources} m={m} />
+            <ClaimList claims={step.claims} locale={locale} m={m} />
           </motion.section>
         )}
       </AnimatePresence>
+      </StepClaimNotice>
 
       {event.primarySource && <PrimarySourceCard excerpt={event.primarySource} locale={locale} m={m} />}
 

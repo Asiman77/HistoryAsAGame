@@ -88,6 +88,31 @@ Hər hadisənin öz `sources[]` siyahısı var. Burada isə ümumi mənzərə v�
 
 **Yoxlanmamış, data-ya daxil edilməyən:** Muğan qurultayında Qarabağ bəylərinin etirazı (yalnız zəif mənbədə rast gəlindi).
 
+## Fakt və rəvayət təsnifatı (`claimType`)
+
+Hər addım standart olaraq `fact` sayılır: `factualSummary` yalnız mənbəli məlumatdır, `narrative` isə həmişə `literary`-dir.
+Ayrı-ayrı ifadələr `claims[]`-də təsnif olunur. Validator qaydaları belədir:
+- `fact` mənbəsiz ola bilməz.
+- `legend` üçün ilk qeyd (`firstRecorded`) və izah (`why`) məcburidir.
+- `disputed` üçün ən azı iki mənbəli versiya lazımdır.
+- Addım bütövlükdə `legend` və ya `disputed` işarələnibsə, eyni növdən iddia olmalıdır.
+
+Bu mərhələdə üç şəxsiyyətin uşaqlıq və gənclik rəvayətləri xüsusi axtarıldı (noyabr 2026):
+
+| İddia | Növ | Əsas | Qeyd |
+|---|---|---|---|
+| Mirzə Əli İsmayılı səbətdə ağacdan asıb "Gilan torpağında deyil" deyə and içir | `legend` | APA (Z. Bünyadovun «Azərbaycan tarixi», s. 398 istinadı ilə), Azernews (2017, "beşik" variantı) | Səfəvi dövrünün mənbəsində tapılmadı. Ən erkən yazılı qeyd müəyyənləşdirilmədi və bu, datada açıq yazılıb |
+| Lahicanda müəllimi Şəmsəddin Lahici idi | `disputed` | WikiShia (salnamələrə əsasən) / magiran məqaləsi ("Fact or Legend") | |
+| Şeybaninin kəlləsindən qızıl qədəh | `fact` | D. Morgan, *Medieval Persia* (2014), Wikipedia "Battle of Marv" | Babura göndərilməsi barədə xəbər yoxlanmadığı üçün daxil edilmədi |
+| Çaldıranda erkən hücum təklifinin rədd edilməsi | `fact` | Savory (2007, s. 41), Iranica "ČĀLDERĀN" | "Mən karvan quldurı deyiləm" sözləri yalnız "deyilənə görə" kimi rast gəlindi, daxil edilmədi |
+| Nadirin özbək əsirliyi (1704) | `legend` (addım da `legend`) | Axworthy (2006, s. 52) | İkinci variant: türkmənləri kömək vədi ilə razı salır. Ən erkən XVIII əsr qeydi yoxlanmayıb |
+| Nadirin atası çoban idi | `fact` | Axworthy (2006, s. 17) | Kürkçülük yalnız ehtimaldır, ayrıca iddia kimi verilmədi |
+| Sara xatun ilə Mehmedin "oğlum / ana" müraciəti | `fact` | Minorsky (EI², X), Runciman (1990), Osmanlı salnaməçilərinə istinadla | |
+| «Dədə Qorqud» Ağqoyunlu sarayında yazıya alınıb | `disputed` | Lewis, Kafadar, Shaw (Wikipedia "Book of Dede Korkut" vasitəsilə) | |
+
+**Uzun Həsən haqqında** mənbəli bir xalq rəvayəti tapılmadı. Ağqoyunlu dövrü ilə bağlı yeganə mübahisəli məqam «Dədə Qorqud» fərziyyəsidir.
+Nadirin ölümündə Əliqulu xanın rolu (`RESEARCH_NOTES` yuxarıda) mənbəli versiyalar toplanana qədər `claims`-ə əlavə edilmədi.
+
 ## Portretlər
 
 | Fayl | Lisenziya | Mənbə |

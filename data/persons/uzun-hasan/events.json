@@ -210,6 +210,37 @@
     },
     {
       "id": "uzun-hasan-sara-khatun",
+      "claims": [
+        {
+          "id": "sara-khatun-mother",
+          "claimType": "fact",
+          "text": {
+            "az": "Danışıqlarda Sara xatun sultan Mehmedə «oğlum» deyə müraciət edirdi, Mehmed də onu «ana» adlandırırdı."
+          },
+          "why": {
+            "az": "Bunu Osmanlı salnaməçiləri yazır, tarixçilər (Minorsky, Runciman) onlara istinad edir."
+          },
+          "sources": [
+            {
+              "title": "Uzun Hasan",
+              "author": "V. Minorsky",
+              "type": "encyclopedia",
+              "note": "Encyclopaedia of Islam, 2-ci nəşr, X cild, 2000"
+            },
+            {
+              "title": "The Fall of Constantinople, 1453",
+              "author": "Steven Runciman",
+              "type": "book",
+              "note": "Cambridge UP, 1990"
+            },
+            {
+              "title": "Sara Khatun",
+              "url": "https://en.wikipedia.org/wiki/Sara_Khatun",
+              "type": "encyclopedia"
+            }
+          ]
+        }
+      ],
       "personId": "uzun-hasan",
       "order": 5,
       "date": {
@@ -607,6 +638,57 @@
     },
     {
       "id": "uzun-hasan-qanunname",
+      "claims": [
+        {
+          "id": "dede-qorqud-aqqoyunlu",
+          "claimType": "disputed",
+          "text": {
+            "az": "«Kitabi-Dədə Qorqud» Ağqoyunlu sarayında yazıya alınıb."
+          },
+          "why": {
+            "az": "Bu, fərziyyədir. Alimlər dastanın yazıya alınma vaxtını fərqli göstərir, ən qədim əlyazmalar isə XVI əsrə aiddir."
+          },
+          "sources": [],
+          "versions": [
+            {
+              "text": {
+                "az": "G. Lewis: XV əsrin əvvəllərində, ehtimal ki, Bayandur xandan gəldiyini iddia edən Ağqoyunlu hökmdarlarının himayəsində yazılıb."
+              },
+              "sources": [
+                {
+                  "title": "Book of Dede Korkut",
+                  "url": "https://en.wikipedia.org/wiki/Book_of_Dede_Korkut",
+                  "type": "encyclopedia"
+                }
+              ]
+            },
+            {
+              "text": {
+                "az": "C. Kafadar: XV əsrdən tez deyil. Müəllif həm Ağqoyunlu, həm Osmanlı hökmdarlarını tərifləyir, bu da Uzun Həsən dövrünə (1466–1478) işarə edə bilər."
+              },
+              "sources": [
+                {
+                  "title": "Book of Dede Korkut",
+                  "url": "https://en.wikipedia.org/wiki/Book_of_Dede_Korkut",
+                  "type": "encyclopedia"
+                }
+              ]
+            },
+            {
+              "text": {
+                "az": "S. J. Shaw: XIV əsr."
+              },
+              "sources": [
+                {
+                  "title": "Book of Dede Korkut",
+                  "url": "https://en.wikipedia.org/wiki/Book_of_Dede_Korkut",
+                  "type": "encyclopedia"
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "personId": "uzun-hasan",
       "order": 13,
       "date": { "year": 1475, "certainty": "approximate", "note": { "az": "İsfahan Cümə məscidindəki kitabə 1475–1476-cı illərə aiddir." } },

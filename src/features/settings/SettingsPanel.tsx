@@ -89,6 +89,12 @@ export function SettingsButton({ m, align = "right" }: { m: Messages; align?: "l
               checked={s.teacherMode}
               onChange={(v) => updateSettings({ teacherMode: v })}
             />
+            <Toggle
+              label={m.claims.showLegends}
+              help={m.claims.showLegendsHelp}
+              checked={s.showLegends}
+              onChange={(v) => updateSettings({ showLegends: v })}
+            />
           </div>
           <p className="mt-3 text-[11px] text-ink-faint">{m.settings.saved}</p>
           <p className="text-[11px] text-ink-faint">{m.settings.audioCredits}</p>

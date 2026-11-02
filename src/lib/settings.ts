@@ -13,6 +13,8 @@ export interface Settings {
   lightMode: boolean | null;
   /** Projector view: large text, teacher-driven stages and class quizzes. */
   teacherMode: boolean;
+  /** Show statements classified as legend (rəvayət); hidden ones collapse behind a button. */
+  showLegends: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -26,6 +28,7 @@ export const DEFAULT_SETTINGS: Settings = {
   },
   lightMode: null,
   teacherMode: false,
+  showLegends: true,
 };
 
 function sanitize(raw: unknown): Settings {
@@ -44,6 +47,7 @@ function sanitize(raw: unknown): Settings {
     channels,
     lightMode: typeof r.lightMode === "boolean" ? r.lightMode : null,
     teacherMode: typeof r.teacherMode === "boolean" ? r.teacherMode : false,
+    showLegends: typeof r.showLegends === "boolean" ? r.showLegends : true,
   };
 }
 

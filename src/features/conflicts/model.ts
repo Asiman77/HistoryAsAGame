@@ -94,6 +94,8 @@ export function buildConflictSimulation(conflict: Conflict, days: WarDay[], ctx:
       related: (day.related ?? []).map((r) => resolveRef(r, ctx.registry)),
       focusPolityId: "azerbaijan",
       themeId: themeOf(day.date.year, day.themeId),
+      claimType: day.claimType ?? "fact",
+      claims: day.claims ?? [],
       day,
       liberatedNow: now,
       liberatedTotal: Object.entries(liberatedAt).filter(([id, v]) => v <= i && byId.get(id)?.kind !== "district").length + extra,

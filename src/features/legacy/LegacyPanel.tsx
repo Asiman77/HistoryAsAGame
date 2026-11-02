@@ -12,6 +12,8 @@ import type { Journey } from "@/features/simulation/model";
 import { getAudioEngine } from "@/features/audio/engine";
 import { withBasePath } from "@/lib/basePath";
 import { recordQuiz, useProgress } from "@/lib/progress";
+import { classifyItems } from "@/lib/claims";
+import { FactOrLegendQuiz } from "@/features/claims/FactOrLegendQuiz";
 
 const MAX_QUESTIONS = 6;
 
@@ -91,6 +93,10 @@ export function LegacyPanel({ journey, choices, locale, m, teacher, onRestart, o
           <Quiz questions={journey.quiz} locale={locale} m={m} teacher={teacher} onFinish={(score, total) => recordQuiz(person.id, score, total)} />
         </motion.section>
       )}
+
+      <motion.section {...item(3)}>
+        <FactOrLegendQuiz items={classifyItems(journey.steps)} locale={locale} m={m} />
+      </motion.section>
 
       <motion.div {...item(4)} className="flex flex-wrap gap-2 pt-1">
         <button type="button" onClick={onRestart} className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-parchment-light hover:bg-ink-soft">

@@ -284,6 +284,11 @@ Hər mərhələdə ±12 il daxilində ən yaxın 3 hadisə göstərilir, mümkü
 ### `Era`
 `id`, `name`, `startYear`, `endYear`, `description`, `themeId` (`data/themes`). Dövrlər üst-üstə düşəndə (Ağqoyunlu 1503-ə qədər, Səfəvi 1501-dən) ən son başlayan dövr seçilir.
 
+### `Claim` (fakt və rəvayət)
+`LifeEvent`, `StateStep`, `WarDay`: `claimType?` (`fact` standartdır) və `claims[]`: `{ id, claimType: fact | disputed | legend | literary, text, why?, sources, firstRecorded?, versions? }`.
+UI hər növü rəng, ikon və "Bu niyə ... sayılır?" izahı ilə göstərir. Ayarlarda "Rəvayətləri göstər" seçimi var, final ekranında isə "Fakt yoxsa rəvayət?" quizi.
+Təsnifatın əsasları `docs/RESEARCH_NOTES.md`-dədir.
+
 ### `Theme` (`data/themes/<id>.json`)
 `palette { primary, accent, surface, text, link? }`, `fonts { display, body }`, `textures`, `ornaments { border, divider, corner }`,
 `backgroundArt[]`, `ambientEffect`, `mapStyleVariant`, `musicThemeId`, `moodTones?`. Variant faylı `extends` ilə yalnız fərqli hissələri yazır

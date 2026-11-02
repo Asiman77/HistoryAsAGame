@@ -342,6 +342,26 @@ for (const t of Object.values(themes)) {
   }
 }
 
+// --- fact and legend: a step marked legend/disputed must say why; claim ids are unique ---
+const claimIds = new Map<string, string>();
+const claimCounts: Record<string, number> = { fact: 0, disputed: 0, legend: 0, literary: 0 };
+const checkClaims = (file: string, steps: { id: string; claimType?: string | undefined; claims?: { id: string; claimType: string }[] | undefined }[]) => {
+  for (const s of steps) {
+    for (const c of s.claims ?? []) {
+      claimCounts[c.claimType] = (claimCounts[c.claimType] ?? 0) + 1;
+      const seen = claimIds.get(c.id);
+      if (seen) issues.push({ file, message: `${s.id}: iddia id-si təkrarlanır: ${c.id} (${seen})` });
+      claimIds.set(c.id, `${file}#${s.id}`);
+    }
+    if ((s.claimType === "legend" || s.claimType === "disputed") && !s.claims?.some((c) => c.claimType === s.claimType))
+      issues.push({ file, message: `${s.id}: '${s.claimType}' kimi işarələnib, amma eyni növdən izahlı iddia (claims) yoxdur` });
+    if (s.claimType === "literary") issues.push({ file, message: `${s.id}: mərhələ bütövlükdə 'literary' ola bilməz (bədii mətn narrative-dədir)` });
+  }
+};
+for (const { events, file } of loaded) checkClaims(file, events);
+for (const { steps, file } of loadedStates) checkClaims(file, steps);
+for (const { days, file } of loadedConflicts) checkClaims(file, days);
+
 // --- cross-links: every ref resolved through the same registry the pages use ---
 const plannedFile = path.join(root, "planned.json");
 const planned = fs.existsSync(plannedFile) ? (load(plannedFile, PlannedFile)?.entities ?? []) : [];
@@ -421,5 +441,5 @@ if (issues.length) {
 }
 console.log(
   `✓ Data etibarlıdır: ${eras.length} dövr, ${personIds.size} şəxsiyyət, ${eventCount} hadisə, ` +
-    `${loadedStates.length} dövlət simulyasiyası, ${loadedConflicts.length} müharibə, ${places.length} məkan, ${polities.length} dövlət, ${rulers.length} hökmdar, ${snapshotIds.size} xəritə snapshot-u, ${world.length} dünya hadisəsi, ${glossary.length} termin, ${refCount} çarpaz keçid.`,
+    `${loadedStates.length} dövlət simulyasiyası, ${loadedConflicts.length} müharibə, ${places.length} məkan, ${polities.length} dövlət, ${rulers.length} hökmdar, ${snapshotIds.size} xəritə snapshot-u, ${world.length} dünya hadisəsi, ${glossary.length} termin, ${refCount} çarpaz keçid, ${Object.keys(themes).length} tema, iddialar: ${claimCounts.fact} fakt, ${claimCounts.disputed} mübahisəli, ${claimCounts.legend} rəvayət.`,
 );
