@@ -45,6 +45,7 @@
     }
   },
   "eraIds": ["sefevi", "efshar"],
+  "themeId": "efshar",
   "portrait": {
     "src": "/portraits/nadir-shah.jpg",
     "alt": { "az": "Nadir şahın təqribən 1740-cı ilə aid müasir portreti" },

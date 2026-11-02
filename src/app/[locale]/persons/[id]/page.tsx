@@ -37,6 +37,7 @@ export default async function PersonPage({ params }: { params: Params }) {
     repo.getGlossary(),
     repo.getRegistry(),
   ]);
+  const themes = await repo.listThemes();
   if (!person || events.length === 0) notFound();
   const political = await loadPoliticalContext(repo, person.birth.date.year, person.death.date.year);
 
@@ -48,6 +49,7 @@ export default async function PersonPage({ params }: { params: Params }) {
     glossary,
     registry,
     political,
+    themes,
   });
 
   return <PersonSimulation journey={journey} locale={locale as Locale} messages={getMessages(locale as Locale)} />;

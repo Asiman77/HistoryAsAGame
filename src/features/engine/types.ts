@@ -1,6 +1,5 @@
 import type {
   BattleOutcome,
-  Era,
   EventType,
   GlossaryEntry,
   ImageAsset,
@@ -15,6 +14,7 @@ import type {
 } from "@/domain/schema";
 import type { ResolvedRef } from "@/domain/registry";
 import type { LngLat } from "@/lib/geo";
+import type { EraView, ThemeMap } from "@/lib/theme";
 
 /**
  * What every simulation step has in common, whatever it stands for: a life
@@ -46,6 +46,8 @@ export interface EngineStep {
   focusPolityId?: string;
   /** Capital to emphasise on the map in this step. */
   capitalId?: string;
+  /** Period theme of this step (data/themes): step variant → entity → era. */
+  themeId: string;
 }
 
 export interface MapPlace {
@@ -69,7 +71,11 @@ export interface SimulationData<S extends EngineStep = EngineStep> {
   image?: ImageAsset;
   steps: S[];
   places: MapPlace[];
-  eras: Era[];
+  eras: EraView[];
+  /** Theme of the final screen and the start gate. */
+  themeId: string;
+  /** Every theme the steps use, resolved. */
+  themes: ThemeMap;
   landmarks: Place[];
   snapshots: TerritorySnapshotMeta[];
   polityColors: Record<string, string>;

@@ -35,6 +35,7 @@ export default async function ConflictPage({ params }: { params: Params }) {
     repo.getGlossary(),
     repo.getRegistry(),
   ]);
+  const themes = await repo.listThemes();
   if (!conflict || days.length === 0) notFound();
   const political = await loadPoliticalContext(repo, days[0]!.date.year, days.at(-1)!.date.year);
   const data = buildConflictSimulation(conflict, days, {
@@ -46,6 +47,7 @@ export default async function ConflictPage({ params }: { params: Params }) {
     registry,
     political,
     ...extras,
+    themes,
   });
   return <ConflictSimulation data={data} locale={locale as Locale} messages={getMessages(locale as Locale)} />;
 }

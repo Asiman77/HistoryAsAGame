@@ -15,6 +15,7 @@ import type { EngineStep, MapPlace, PoliticalContext, SimulationData } from "@/f
 import { matchPlace, placesForSpan } from "@/lib/places";
 import { pickSnapshotId } from "@/lib/territory";
 import { pickWorldEvents } from "@/lib/worldContext";
+import { eraViews, pickThemeId, pickThemes, type ThemeMap } from "@/lib/theme";
 
 /** A historical stage of a state as a simulation step. */
 export interface StateSimStep extends EngineStep {
@@ -54,12 +55,16 @@ export interface StateContext {
   glossary: GlossaryEntry[];
   registry: Registry;
   political: PoliticalContext;
+  themes: ThemeMap;
 }
 
 export function buildStateSimulation(state: State, stages: StateStep[], ctx: StateContext): StateSimulationData {
   const from = stages[0]!.date.year;
   const to = stages.at(-1)!.date.year;
   const landmarks = placesForSpan(ctx.places, from, to);
+  const stateEras = ctx.eras.filter((e) => state.eraIds.includes(e.id));
+  const themeOf = (year: number, stepThemeId?: string) =>
+    pickThemeId({ stepThemeId, entityThemeId: state.themeId, year, entityEras: stateEras, allEras: ctx.eras });
 
   const steps: StateSimStep[] = stages.map((stage) => {
     const polityId = stage.polityId ?? state.polityId;
@@ -79,6 +84,7 @@ export function buildStateSimulation(state: State, stages: StateStep[], ctx: Sta
       battle: null,
       related: (stage.related ?? []).map((r) => resolveRef(r, ctx.registry)),
       focusPolityId: polityId,
+      themeId: themeOf(stage.date.year, stage.themeId),
       ...(stage.capitalId ? { capitalId: stage.capitalId } : {}),
       stage,
       polityId,
@@ -103,7 +109,9 @@ export function buildStateSimulation(state: State, stages: StateStep[], ctx: Sta
     state,
     steps,
     places: [...places.values()],
-    eras: ctx.eras.filter((e) => state.eraIds.includes(e.id)),
+    eras: eraViews(stateEras, ctx.themes),
+    themeId: themeOf(to),
+    themes: pickThemes(ctx.themes, [...steps.map((s) => s.themeId), themeOf(to)]),
     landmarks,
     snapshots: ctx.snapshots,
     polityColors: ctx.polityColors,

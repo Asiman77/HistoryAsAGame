@@ -24,12 +24,14 @@ import {
   RelationsFile,
   TerritoryRegistryFile,
   TerritorySnapshotSource,
+  ThemeFile,
   WorldEventsFile,
   type LifeEvent,
   type Relation,
   type TerritorySnapshotMeta,
 } from "@/domain/schema";
 import { buildRegistry, type Registry } from "@/domain/registry";
+import { resolveThemes, type ThemeMap } from "@/lib/theme";
 import type { HistoryRepository, PersonFilter } from "./repository";
 
 /**
@@ -70,6 +72,13 @@ export class FileSystemRepository implements HistoryRepository {
       const files = await this.jsonFiles("eras");
       const eras = await Promise.all(files.map(async (f) => Era.parse(await this.readJson("eras", f))));
       return eras.sort((a, b) => a.startYear - b.startYear);
+    });
+  }
+
+  listThemes(): Promise<ThemeMap> {
+    return this.memo("themes", async () => {
+      const files = await this.jsonFiles("themes");
+      return resolveThemes(await Promise.all(files.map(async (f) => ThemeFile.parse(await this.readJson("themes", f)))));
     });
   }
 

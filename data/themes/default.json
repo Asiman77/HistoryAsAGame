@@ -1,0 +1,12 @@
+{
+  "id": "default",
+  "name": { "az": "Ümumi (perqament)" },
+  "palette": { "primary": "#9b2c2c", "accent": "#b8862b", "surface": "#f2e6cc", "text": "#2a1c10", "link": "#23446b" },
+  "fonts": { "display": "noto-serif-display", "body": "noto-sans" },
+  "textures": { "background": "parchment", "paper": "parchment", "frame": "parchment" },
+  "ornaments": { "border": "double-rule", "divider": "star", "corner": "rosette" },
+  "backgroundArt": [],
+  "ambientEffect": "none",
+  "mapStyleVariant": "manuscript",
+  "musicThemeId": "klassik"
+}

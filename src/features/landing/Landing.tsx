@@ -4,7 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import type { Era, Locale, Person } from "@/domain/schema";
+import type { Locale, Person } from "@/domain/schema";
+import { ThemeShell } from "@/features/theme/ThemeShell";
+import { ArtCredit } from "@/features/theme/Atmosphere";
+import { DEFAULT_THEME_ID, type EraView, type ThemeMap } from "@/lib/theme";
 import { Divider, Star } from "@/components/Ornament";
 import { format, t, type Messages } from "@/lib/i18n";
 import { formatDate } from "@/lib/dates";
@@ -20,7 +23,9 @@ export interface LandingPerson {
 interface Props {
   locale: Locale;
   persons: LandingPerson[];
-  eras: Era[];
+  eras: EraView[];
+  /** Themes of the listed eras plus the default; picking an era puts the page into its period. */
+  themes: ThemeMap;
   messages: Messages;
   /** Page heading: the persons category page reuses this layout. */
   heading: { kicker: string; title: string; lead: string };
@@ -28,7 +33,7 @@ interface Props {
   backHref?: string;
 }
 
-export function Landing({ locale, persons, eras, messages: m, heading, backHref }: Props) {
+export function Landing({ locale, persons, eras, themes, messages: m, heading, backHref }: Props) {
   const [eraId, setEraId] = useState<string | null>(null);
   const reduced = useReducedMotion();
   const visible = useMemo(
@@ -37,9 +42,12 @@ export function Landing({ locale, persons, eras, messages: m, heading, backHref 
   );
   const eraById = useMemo(() => new Map(eras.map((e) => [e.id, e])), [eras]);
   const progress = useProgress();
+  const eraTheme = eraId ? themes[eraById.get(eraId)?.themeId ?? ""] : undefined;
+  const theme = eraTheme ?? themes[DEFAULT_THEME_ID]!;
 
   return (
-    <main className="parchment relative min-h-full overflow-x-hidden">
+    <ThemeShell theme={theme}>
+    <main className="relative min-h-full overflow-x-hidden">
       <BackdropMap />
       <div className="paper-card absolute top-3 right-3 z-20 rounded-lg p-1 sm:top-5 sm:right-5">
         <SettingsButton m={m} />
@@ -98,7 +106,7 @@ export function Landing({ locale, persons, eras, messages: m, heading, backHref 
                 active={eraId === era.id}
                 onClick={() => setEraId(era.id)}
                 label={t(era.name, locale)}
-                color={era.theme.accent}
+                color={era.color}
               />
             ))}
           </div>
@@ -119,7 +127,7 @@ export function Landing({ locale, persons, eras, messages: m, heading, backHref 
                   person={person}
                   eventCount={eventCount}
                   progress={progress.persons[person.id]}
-                  eras={person.eraIds.map((id) => eraById.get(id)).filter((e): e is Era => !!e)}
+                  eras={person.eraIds.map((id) => eraById.get(id)).filter((e): e is EraView => !!e)}
                   locale={locale}
                   m={m}
                 />
@@ -131,8 +139,12 @@ export function Landing({ locale, persons, eras, messages: m, heading, backHref 
         <CollectionStrip persons={persons} progress={progress} locale={locale} m={m} />
 
         <p className="mt-12 text-center text-sm text-ink-faint">{m.landing.footer}</p>
+        <div className="mt-3">
+          <ArtCredit theme={theme} locale={locale} label={m.theme} />
+        </div>
       </section>
     </main>
+    </ThemeShell>
   );
 }
 
@@ -165,12 +177,12 @@ function PersonCard({
   person: Person;
   eventCount: number;
   progress: PersonProgress | undefined;
-  eras: Era[];
+  eras: EraView[];
   locale: Locale;
   m: Messages;
 }) {
   const name = t(person.name, locale);
-  const accent = eras.at(-1)?.theme.accent ?? "#8a6a2f";
+  const accent = eras.at(-1)?.color ?? "#8a6a2f";
   return (
     <Link
       href={`/${locale}/persons/${person.id}/`}
@@ -195,7 +207,7 @@ function PersonCard({
               <span
                 key={era.id}
                 className="rounded-sm px-2 py-0.5 text-[11px] font-medium tracking-wide uppercase"
-                style={{ background: era.theme.accent }}
+                style={{ background: era.color }}
               >
                 {t(era.name, locale)}
               </span>

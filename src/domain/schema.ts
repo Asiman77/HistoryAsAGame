@@ -268,6 +268,8 @@ export const LifeEvent = z.object({
   primarySource: PrimaryExcerpt.optional(),
   /** Other persons, battles, states, places and rulers this event connects to. */
   related: z.array(EntityRef).optional(),
+  /** Theme variant for this step only, e.g. the Indian campaign (data/themes). */
+  themeId: Slug.optional(),
 });
 export type LifeEvent = z.infer<typeof LifeEvent>;
 
@@ -319,6 +321,8 @@ export const Person = z.object({
   birth: z.object({ date: HistoricalDate, place: Location }),
   death: z.object({ date: HistoricalDate, place: Location }),
   eraIds: z.array(Slug).min(1),
+  /** Overrides the era's theme (data/themes). */
+  themeId: Slug.optional(),
   portrait: ImageAsset.optional(),
   /** Portraits by age, shown on a card that changes as the story goes on. */
   portraits: z.array(AgePortrait).optional(),
@@ -339,9 +343,129 @@ export const Era = z.object({
   startYear: z.number().int(),
   endYear: z.number().int(),
   description: LocalizedText,
-  theme: z.object({ color: HexColor, accent: HexColor }),
+  /** Visual theme (data/themes/<id>.json). Persons, states and wars of the era inherit it. */
+  themeId: Slug,
 });
 export type Era = z.infer<typeof Era>;
+
+// ---------------------------------------------------------------------------
+// Themes: the look and feel of a period, kept in data, never in components
+// ---------------------------------------------------------------------------
+
+/**
+ * Fonts the app loads (next/font needs static calls, so the list lives in code:
+ * src/app/layout.tsx). Every one is checked to carry ə Ə ğ ı İ ş ç ö ü.
+ */
+export const FONT_KEYS = [
+  "noto-serif-display",
+  "noto-serif",
+  "noto-sans",
+  "cormorant-garamond",
+  "alegreya-sc",
+  "spectral-sc",
+  "montserrat",
+] as const;
+export const FontKey = z.enum(FONT_KEYS);
+export type FontKey = z.infer<typeof FontKey>;
+
+export const TEXTURES = ["parchment", "manuscript", "linen", "canvas", "stone", "clean"] as const;
+export const BORDER_ORNAMENTS = ["none", "double-rule", "girih", "islimi", "bronze-rule", "flag-stripe"] as const;
+export const DIVIDER_ORNAMENTS = ["star", "girih-knot", "cloud-band", "dagger", "eight-point-star"] as const;
+export const CORNER_ORNAMENTS = ["none", "rosette", "tile-corner", "carpet-medallion", "rivet", "star-corner"] as const;
+export const AMBIENT_EFFECTS = ["none", "dust", "candle", "embers", "mist"] as const;
+export const MAP_STYLE_VARIANTS = ["manuscript", "miniature", "military", "modern"] as const;
+/** Illustrations drawn in code (SVG), for periods without suitable public-domain art. */
+export const PROCEDURAL_ART = ["karabakh-mountains"] as const;
+
+export const BackgroundArt = z
+  .object({
+    /** Path under public/ without extension; `.avif` and `.webp` (plus `-sm` variants) must exist. */
+    src: z.string().regex(/^\/[a-z0-9/-]+$/).optional(),
+    /** Drawn in code instead of an image file. */
+    procedural: z.enum(PROCEDURAL_ART).optional(),
+    kind: z.enum(["public_domain", "own", "ai_illustration", "placeholder"]),
+    title: LocalizedText,
+    /** Collection and object, e.g. "The Met, 452111". */
+    source: z.string().min(1),
+    sourceUrl: z.url().optional(),
+    license: z.string().min(1),
+    /** CSS object-position of the part that should stay in view, e.g. "50% 35%". */
+    focus: z.string().optional(),
+    /** Heading id in docs/background-prompts.md (AI illustrations and placeholders). */
+    promptId: Slug.optional(),
+  })
+  .refine((a) => a.kind === "placeholder" || !!a.src !== !!a.procedural, {
+    message: "şəkildə ya src, ya da procedural olmalıdır",
+  })
+  .refine((a) => a.kind !== "placeholder" || !!a.promptId, { message: "placeholder üçün promptId lazımdır" });
+export type BackgroundArt = z.infer<typeof BackgroundArt>;
+
+/** How a mood shifts the colours inside a theme (Çaldıran darker, a coronation brighter). */
+export const MoodTone = z.object({
+  /** Colour the surface and backdrop drift toward. */
+  tint: HexColor,
+  /** 0..0.25: share of the tint mixed into the surface; kept small for legibility. */
+  strength: z.number().min(0).max(0.25),
+  /** Brightness of the backdrop art, 0.4..1.3. */
+  brightness: z.number().min(0.4).max(1.3),
+});
+export type MoodTone = z.infer<typeof MoodTone>;
+
+const Palette = z.object({
+  /** Main colour: current step, headings accents, primary marks. */
+  primary: HexColor,
+  /** Ornaments, gold lines, highlights. */
+  accent: HexColor,
+  /** Paper / page background. */
+  surface: HexColor,
+  /** Body text. */
+  text: HexColor,
+  /** Links and interactive text; defaults to a lapis blue. */
+  link: HexColor.optional(),
+});
+
+export const Theme = z.object({
+  id: Slug,
+  name: LocalizedText,
+  palette: Palette,
+  fonts: z.object({ display: FontKey, body: FontKey }),
+  textures: z.object({ background: z.enum(TEXTURES), paper: z.enum(TEXTURES), frame: z.enum(TEXTURES) }),
+  ornaments: z.object({
+    border: z.enum(BORDER_ORNAMENTS),
+    divider: z.enum(DIVIDER_ORNAMENTS),
+    corner: z.enum(CORNER_ORNAMENTS),
+  }),
+  backgroundArt: z.array(BackgroundArt),
+  ambientEffect: z.enum(AMBIENT_EFFECTS),
+  mapStyleVariant: z.enum(MAP_STYLE_VARIANTS),
+  /** Key in MUSIC_THEMES (src/features/audio/manifest.ts). */
+  musicThemeId: Slug,
+  moodTones: z.partialRecord(Mood, MoodTone).optional(),
+});
+export type Theme = z.infer<typeof Theme>;
+
+/**
+ * A variant of another theme (e.g. Əfşar → Hind yürüşü): only the parts that
+ * differ, merged section by section over the parent.
+ */
+export const ThemeVariant = z.object({
+  id: Slug,
+  name: LocalizedText,
+  extends: Slug,
+  palette: Palette.partial().optional(),
+  fonts: Theme.shape.fonts.partial().optional(),
+  textures: Theme.shape.textures.partial().optional(),
+  ornaments: Theme.shape.ornaments.partial().optional(),
+  backgroundArt: z.array(BackgroundArt).optional(),
+  ambientEffect: Theme.shape.ambientEffect.optional(),
+  mapStyleVariant: Theme.shape.mapStyleVariant.optional(),
+  musicThemeId: Slug.optional(),
+  moodTones: Theme.shape.moodTones,
+});
+export type ThemeVariant = z.infer<typeof ThemeVariant>;
+
+export const ThemeFile = z.union([ThemeVariant, Theme]);
+export type ThemeFile = z.infer<typeof ThemeFile>;
 
 export const RELATION_TYPES = [
   "parent",
@@ -618,6 +742,8 @@ export const StateStep = z.object({
   events: z.array(z.object({ date: z.string().min(1), text: LocalizedText })).optional(),
   keyFacts: KeyFacts.optional(),
   related: z.array(EntityRef).optional(),
+  /** Theme variant for this step only, e.g. the Indian campaign (data/themes). */
+  themeId: Slug.optional(),
   sources: z.array(Source).min(1),
   quiz: z.array(QuizQuestion).min(1).max(3).optional(),
 });
@@ -636,6 +762,8 @@ export const State = z.object({
   legacy: LocalizedText,
   image: ImageAsset.optional(),
   eraIds: z.array(Slug).min(1),
+  /** Overrides the era's theme (data/themes). */
+  themeId: Slug.optional(),
   /** Polities whose rulers form the dynasty strip under the timeline, in order. */
   dynasty: z.array(Slug).optional(),
   sources: z.array(Source).min(1),
@@ -684,6 +812,8 @@ export const WarDay = z.object({
   fallenHeroes: z.array(Slug).optional(),
   officialStatement: OfficialStatement.optional(),
   related: z.array(EntityRef).optional(),
+  /** Theme variant for this step only, e.g. the Indian campaign (data/themes). */
+  themeId: Slug.optional(),
   sources: z.array(Source).min(1),
   quiz: z.array(QuizQuestion).min(1).max(3).optional(),
 });
@@ -703,6 +833,8 @@ export const Conflict = z.object({
   /** Date revealed by the intro, e.g. "27 sentyabr 2020". */
   introDate: LocalizedText,
   eraIds: z.array(Slug).min(1),
+  /** Overrides the era's theme (data/themes). */
+  themeId: Slug.optional(),
   sources: z.array(Source).min(1),
 });
 export type Conflict = z.infer<typeof Conflict>;

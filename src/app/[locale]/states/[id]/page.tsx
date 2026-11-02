@@ -35,6 +35,7 @@ export default async function StatePage({ params }: { params: Params }) {
     repo.getGlossary(),
     repo.getRegistry(),
   ]);
+  const themes = await repo.listThemes();
   if (!state || stages.length === 0) notFound();
   const political = await loadPoliticalContext(repo, stages[0]!.date.year, stages.at(-1)!.date.year);
   const data = buildStateSimulation(state, stages, {
@@ -46,6 +47,7 @@ export default async function StatePage({ params }: { params: Params }) {
     glossary,
     registry,
     political,
+    themes,
   });
   return <StateSimulation data={data} locale={locale as Locale} messages={getMessages(locale as Locale)} />;
 }

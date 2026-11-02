@@ -90,3 +90,27 @@ export const MUSIC_CROSSFADE_MS = 1600;
 export function audioSources(base: string, file: string): string[] {
   return [`${base}/audio/${file}.webm`, `${base}/audio/${file}.mp3`];
 }
+
+/**
+ * Music themes chosen by a period theme (data/themes: musicThemeId). `klassik`
+ * is the shared mood → instrument map above (null lets the engine use it);
+ * `zefer-2020` is the original soundtrack of the 44-day war: march for
+ * operations, anthem for liberation, lament for memorial days.
+ */
+export const MUSIC_THEMES: Record<string, Partial<Record<Mood, MoodSound>> | null> = {
+  klassik: null,
+  "zefer-2020": {
+    battle: { music: ["march"], ambience: [] },
+    hardship: { music: ["march"], ambience: [] },
+    death: { music: ["lament"], ambience: [] },
+    defeat: { music: ["lament"], ambience: [] },
+    victory: { music: ["anthem", "triumph"], ambience: ["crowd"] },
+  },
+};
+
+/** Sound for a mood under a music theme; undefined falls back to MOOD_SOUND. */
+export function musicThemeSound(themeId: string | undefined, mood: Mood): MoodSound | undefined {
+  const map = themeId ? MUSIC_THEMES[themeId] : null;
+  if (!map) return undefined;
+  return map[mood] ?? { music: ["anthem"], ambience: [] };
+}

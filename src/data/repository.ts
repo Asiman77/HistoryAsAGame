@@ -1,4 +1,5 @@
 import type { Registry } from "@/domain/registry";
+import type { ThemeMap } from "@/lib/theme";
 import type {
   Era,
   GlossaryEntry,
@@ -35,6 +36,8 @@ export interface PersonFilter {
  */
 export interface HistoryRepository {
   listEras(): Promise<Era[]>;
+  /** Period themes with variants merged over their parents, by id. */
+  listThemes(): Promise<ThemeMap>;
   listPersons(filter?: PersonFilter): Promise<Person[]>;
   getPerson(id: string): Promise<Person | null>;
   /** Events sorted by `order`. */

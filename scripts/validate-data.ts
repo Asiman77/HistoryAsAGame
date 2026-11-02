@@ -31,11 +31,15 @@ import {
   TerritoryRegistryFile,
   TerritorySnapshotSource,
   WorldEventsFile,
+  ThemeFile,
+  MOODS,
   type LifeEvent,
   type Person as PersonT,
 } from "../src/domain/schema";
 import { buildRegistry, checkRef, type RefIssue } from "../src/domain/registry";
 import { compareDates } from "../src/lib/dates";
+import { resolveThemes, themeContrastIssues, type ThemeMap } from "../src/lib/theme";
+import { MUSIC_THEMES } from "../src/features/audio/manifest";
 import {
   checkEra,
   checkEventReferences,
@@ -166,6 +170,11 @@ for (const f of fs.existsSync(snapDir) ? fs.readdirSync(snapDir).filter((f) => f
   }
 }
 
+// Theme references collected while loading; checked in the themes section.
+const themeRefs: { file: string; where: string; id: string }[] = [];
+const refTheme = (file: string, where: string, id: string | undefined) => id && themeRefs.push({ file: rel(file), where, id });
+for (const e of eras) refTheme(path.join(root, "eras", `${e.id}.json`), e.id, e.themeId);
+
 // --- persons ---
 const personIds = new Set<string>();
 const loaded: { person: PersonT; events: LifeEvent[]; file: string }[] = [];
@@ -185,6 +194,8 @@ for (const dir of fs.readdirSync(personsDir, { withFileTypes: true }).filter((d)
   if (!person) continue;
   if (person.id !== dir.name) add(personFile, `qovluq adı id ilə uyğun deyil (${person.id})`);
   personIds.add(person.id);
+  refTheme(personFile, person.id, person.themeId);
+  for (const e of events ?? []) refTheme(eventsFile, e.id, e.themeId);
   for (const p of person.portraits ?? []) {
     const where = `portraits ${p.ageFrom}–${p.ageTo}`;
     if (p.src?.startsWith("/") && !fs.existsSync(path.join(root, "..", "public", p.src))) add(personFile, `${where}: ${p.src} tapılmadı`);
@@ -244,6 +255,8 @@ for (const d of fs.existsSync(statesDir) ? fs.readdirSync(statesDir, { withFileT
     if (x.polityId && !polityIds.has(x.polityId)) add(stFile, `${x.id}: naməlum polity ${x.polityId}`);
     if (x.date.certainty === "disputed" && !x.date.alternatives?.length) add(stFile, `${x.id}: 'disputed' tarix üçün alternatives tələb olunur`);
   }
+  refTheme(sFile, st.id, st.themeId);
+  for (const x of steps) refTheme(stFile, x.id, x.themeId);
   loadedStates.push({ id: st.id, steps, file: rel(stFile) });
 }
 
@@ -289,7 +302,44 @@ for (const d of fs.existsSync(conflictsDir) ? fs.readdirSync(conflictsDir, { wit
     if (!days.some((x) => x.id === b.stepId)) add(path.join(bDir, bf), `naməlum stepId ${b.stepId}`);
     battles.push({ id: b.id, url: `/conflicts/${c.id}/?step=${b.stepId}` });
   }
+  refTheme(path.join(base, "conflict.json"), c.id, c.themeId);
+  for (const x of days) refTheme(dFile, x.id, x.themeId);
   loadedConflicts.push({ id: c.id, days, file: rel(dFile) });
+}
+
+// --- themes: references, inheritance, legibility, art files and credits ---
+const themesDir = path.join(root, "themes");
+const themeFiles = fs.existsSync(themesDir) ? fs.readdirSync(themesDir).filter((f) => f.endsWith(".json")) : [];
+const rawThemes = themeFiles.flatMap((f) => {
+  const t = load(path.join(themesDir, f), ThemeFile);
+  if (t && t.id !== f.replace(/.json$/, "")) add(path.join(themesDir, f), `fayl adı id ilə uyğun deyil (${t.id})`);
+  return t ? [t] : [];
+});
+let themes: ThemeMap = {};
+try {
+  themes = resolveThemes(rawThemes);
+} catch (e) {
+  add(themesDir, (e as Error).message);
+}
+if (!themes.default) add(themesDir, "default.json teması tələb olunur");
+for (const r of themeRefs) if (!themes[r.id]) issues.push({ file: r.file, message: `${r.where}: naməlum tema ${r.id}` });
+const imageCredits = fs.existsSync(path.join(root, "..", "docs", "IMAGE_CREDITS.md")) ? fs.readFileSync(path.join(root, "..", "docs", "IMAGE_CREDITS.md"), "utf8") : "";
+const bgPromptsFile = path.join(root, "..", "docs", "background-prompts.md");
+const bgPromptIds = new Set(
+  fs.existsSync(bgPromptsFile) ? [...fs.readFileSync(bgPromptsFile, "utf8").matchAll(/<a id="([a-z0-9-]+)"><\/a>/g)].map((x) => x[1]!) : [],
+);
+for (const t of Object.values(themes)) {
+  const file = path.join(themesDir, `${t.id}.json`);
+  for (const msg of themeContrastIssues(t, MOODS)) add(file, msg);
+  if (!(t.musicThemeId in MUSIC_THEMES)) add(file, `naməlum musicThemeId ${t.musicThemeId}`);
+  for (const a of t.backgroundArt) {
+    if (a.src) {
+      for (const suffix of [".avif", ".webp", "-sm.avif", "-sm.webp"])
+        if (!fs.existsSync(path.join(root, "..", "public", `${a.src}${suffix}`))) add(file, `fon şəkli tapılmadı: public${a.src}${suffix}`);
+      if (!imageCredits.includes(`public${a.src}`)) add(file, `${a.src}: docs/IMAGE_CREDITS.md-də qeyd yoxdur`);
+    }
+    if (a.promptId && !bgPromptIds.has(a.promptId)) add(file, `docs/background-prompts.md-də '${a.promptId}' yoxdur`);
+  }
 }
 
 // --- cross-links: every ref resolved through the same registry the pages use ---

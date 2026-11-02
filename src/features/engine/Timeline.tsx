@@ -2,14 +2,15 @@
 
 import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import type { Era, Locale } from "@/domain/schema";
+import type { Locale } from "@/domain/schema";
+import { eraForYear, type EraView } from "@/lib/theme";
 import { EventIcon } from "@/components/EventIcon";
 import { t, type Messages } from "@/lib/i18n";
 import { crossings, type EngineStep } from "./types";
 
 interface Props {
   steps: EngineStep[];
-  eras: Era[];
+  eras: EraView[];
   index: number;
   onSelect: (i: number) => void;
   locale: Locale;
@@ -27,7 +28,7 @@ export function Timeline({ steps, eras, index, onSelect, locale, m, compact = fa
     el?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", inline: "center", block: "nearest" });
   }, [index, reduced]);
 
-  const eraFor = (year: number) => eras.find((e) => year >= e.startYear && year <= e.endYear) ?? eras[0];
+  const eraFor = (year: number) => eraForYear(eras, year) ?? eras[0];
   const progress = steps.length > 1 ? index / (steps.length - 1) : 1;
 
   return (
@@ -44,7 +45,7 @@ export function Timeline({ steps, eras, index, onSelect, locale, m, compact = fa
                 <span
                   aria-hidden
                   className="absolute top-[17px] right-1/2 h-[2px] w-full origin-right transition-colors duration-500"
-                  style={{ background: i <= index ? (era?.theme.accent ?? "#8a6a2f") : "rgb(42 28 16 / 0.15)" }}
+                  style={{ background: i <= index ? (era?.color ?? "#8a6a2f") : "rgb(42 28 16 / 0.15)" }}
                 />
               )}
               <button

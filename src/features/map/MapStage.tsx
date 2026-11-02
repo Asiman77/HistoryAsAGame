@@ -11,7 +11,7 @@ import { t, type Messages } from "@/lib/i18n";
 import { crossings, type EngineStep, type MapPlace } from "@/features/engine/types";
 import { BattleLayer } from "./battle";
 import { LandmarkLayer } from "./landmarks";
-import { DEFAULT_ENEMY_COLOR, DEFAULT_OWN_COLOR, ROUTE_COLORS, buildBaseStyle } from "./style";
+import { DEFAULT_ENEMY_COLOR, DEFAULT_OWN_COLOR, ROUTE_COLORS, applyMapVariant, buildBaseStyle, type MapStyleVariant } from "./style";
 import { TerritoryLayers } from "./territories";
 import { boundsOf, cumulativeLengths, easeInOutCubic, sliceAlong } from "./polyline";
 
@@ -42,6 +42,8 @@ interface Props {
   onFollow?: (ref: ResolvedRef) => void;
   onSelectPolity?: (polityId: string) => void;
   extension?: MapExtensionFactory;
+  /** Base-map colours of the current period theme. */
+  styleVariant?: MapStyleVariant;
 }
 
 /** Copied from node_modules by scripts/copy-maplibre-worker.mjs. */
@@ -85,6 +87,7 @@ export function MapStage({
   onFollow,
   onSelectPolity,
   extension,
+  styleVariant = "manuscript",
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MlMap | null>(null);
@@ -127,7 +130,7 @@ export function MapStage({
       const first = steps[0]!.location;
       const created = new maplibregl.Map({
         container: containerRef.current,
-        style: buildBaseStyle({ hillshade: !light }),
+        style: buildBaseStyle({ hillshade: !light, variant: styleVariant }),
         center: [first.lng, first.lat],
         zoom: 3.4,
         minZoom: 2.5,
@@ -293,6 +296,12 @@ export function MapStage({
     // The map is created once per person page; steps/places are static props.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // ---- period theme: base-map colours ----------------------------------------
+  useEffect(() => {
+    const map = mapRef.current;
+    if (ready && map) applyMapVariant(map, styleVariant);
+  }, [ready, styleVariant]);
 
   // ---- light mode can be switched at runtime ----------------------------------
   useEffect(() => {

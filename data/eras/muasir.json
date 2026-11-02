@@ -8,8 +8,5 @@
   "description": {
     "az": "1991-ci ildə dövlət müstəqilliyinin bərpasından sonrakı dövr."
   },
-  "theme": {
-    "color": "#dfe7ea",
-    "accent": "#2f8a84"
-  }
+  "themeId": "muasir-zefer"
 }

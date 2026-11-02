@@ -1,0 +1,27 @@
+{
+  "id": "efshar",
+  "name": { "az": "Əfşar (XVIII əsr)" },
+  "palette": { "primary": "#7a1f1a", "accent": "#8a6a3c", "surface": "#e8ddcb", "text": "#231910", "link": "#284a5e" },
+  "fonts": { "display": "spectral-sc", "body": "noto-sans" },
+  "textures": { "background": "canvas", "paper": "linen", "frame": "canvas" },
+  "ornaments": { "border": "bronze-rule", "divider": "dagger", "corner": "rivet" },
+  "backgroundArt": [
+    {
+      "src": "/backgrounds/afshar-stallion",
+      "kind": "public_domain",
+      "title": { "az": "«At portreti», İran, XVIII əsr" },
+      "source": "The Metropolitan Museum of Art, 14.84 (obyekt 446656)",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/446656",
+      "license": "CC0 1.0 (Met Open Access)",
+      "focus": "50% 50%"
+    }
+  ],
+  "ambientEffect": "embers",
+  "mapStyleVariant": "military",
+  "musicThemeId": "klassik",
+  "moodTones": {
+    "battle": { "tint": "#4e1712", "strength": 0.12, "brightness": 0.55 },
+    "coronation": { "tint": "#d9a94e", "strength": 0.1, "brightness": 1.15 },
+    "decline": { "tint": "#5b4a3a", "strength": 0.12, "brightness": 0.6 }
+  }
+}

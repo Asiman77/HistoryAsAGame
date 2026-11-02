@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import type { Locale, PlannedEntity } from "@/domain/schema";
+import type { Locale, PlannedEntity, Theme } from "@/domain/schema";
+import { ThemeShell } from "@/features/theme/ThemeShell";
 import { Divider, Star } from "@/components/Ornament";
 import { SettingsButton } from "@/features/settings/SettingsPanel";
 import { format, t, type Messages } from "@/lib/i18n";
@@ -24,10 +25,11 @@ interface Props {
   messages: Messages;
   categories: CategorySummary[];
   persons: LandingPerson[];
+  theme: Theme;
 }
 
 /** Home: three sections, each with its own page and cards; all run on the same simulation engine. */
-export function Hub({ locale, messages: m, categories, persons }: Props) {
+export function Hub({ locale, messages: m, categories, persons, theme }: Props) {
   const reduced = useReducedMotion();
   const progress = useProgress();
   const fade = (i: number) => ({
@@ -37,7 +39,8 @@ export function Hub({ locale, messages: m, categories, persons }: Props) {
   });
 
   return (
-    <main className="parchment relative min-h-full overflow-x-hidden">
+    <ThemeShell theme={theme}>
+    <main className="relative min-h-full overflow-x-hidden">
       <BackdropMap />
       <div className="paper-card absolute top-3 right-3 z-20 rounded-lg p-1 sm:top-5 sm:right-5">
         <SettingsButton m={m} />
@@ -101,6 +104,7 @@ export function Hub({ locale, messages: m, categories, persons }: Props) {
         <p className="mt-12 text-center text-sm text-ink-faint">{m.landing.footer}</p>
       </section>
     </main>
+    </ThemeShell>
   );
 }
 

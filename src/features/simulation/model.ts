@@ -17,6 +17,7 @@ import { buildRoute, routeDistanceKm, type LngLat } from "@/lib/geo";
 import { matchPlace, placesForSpan } from "@/lib/places";
 import { pickSnapshotId } from "@/lib/territory";
 import { pickWorldEvents } from "@/lib/worldContext";
+import { eraViews, pickThemeId, pickThemes, type ThemeMap } from "@/lib/theme";
 
 export type { MapPlace } from "@/features/engine/types";
 
@@ -50,6 +51,7 @@ export interface JourneyContext {
   glossary: GlossaryEntry[];
   registry: Registry;
   political: PoliticalContext;
+  themes: ThemeMap;
 }
 
 const ZOOM_BY_TYPE: Partial<Record<EventType, number>> = {
@@ -66,6 +68,9 @@ const round = (n: number) => Math.round(n * 1e4) / 1e4;
 const placeKey = (p: Location) => `${p.lat.toFixed(2)},${p.lng.toFixed(2)}`;
 
 export function buildJourney(person: Person, events: LifeEvent[], allEras: Era[], ctx?: JourneyContext): Journey {
+  const personEras = allEras.filter((e) => person.eraIds.includes(e.id));
+  const themeOf = (year: number, stepThemeId?: string) =>
+    pickThemeId({ stepThemeId, entityThemeId: person.themeId, year, entityEras: personEras, allEras });
   const landmarks = ctx ? placesForSpan(ctx.places, person.birth.date.year, person.death.date.year) : [];
 
   const steps: Step[] = events.map((event) => ({
@@ -84,6 +89,7 @@ export function buildJourney(person: Person, events: LifeEvent[], allEras: Era[]
     placeId: matchPlace(event.location, landmarks)?.id ?? null,
     battle: event.outcome ?? null,
     related: ctx ? (event.related ?? []).map((r) => resolveRef(r, ctx.registry)) : [],
+    themeId: themeOf(event.date.year, event.themeId),
     event,
     age: ageAt(person.birth.date, event.date),
     world: ctx ? pickWorldEvents(event.date.year, ctx.worldEvents) : [],
@@ -115,7 +121,9 @@ export function buildJourney(person: Person, events: LifeEvent[], allEras: Era[]
     subtitle: `${y(person.birth.date)} – ${y(person.death.date)}`,
     ...(person.portrait ? { image: person.portrait } : {}),
     person,
-    eras: allEras.filter((e) => person.eraIds.includes(e.id)),
+    eras: eraViews(personEras, ctx?.themes ?? {}),
+    themeId: themeOf(events.at(-1)?.date.year ?? person.death.date.year),
+    themes: pickThemes(ctx?.themes ?? {}, [...steps.map((s) => s.themeId), themeOf(events.at(-1)?.date.year ?? person.death.date.year)]),
     steps,
     places: [...places.values()],
     stats,

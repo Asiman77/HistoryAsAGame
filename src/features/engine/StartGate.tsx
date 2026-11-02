@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useIsPresent, useReducedMotion } from "motion/react";
 import type { ImageAsset, Locale } from "@/domain/schema";
 import { Divider } from "@/components/Ornament";
 import { getAudioEngine } from "@/features/audio/engine";
@@ -25,6 +25,8 @@ interface GateProps {
   /** Replaces the portrait, e.g. the flag intro of the war section. */
   art?: React.ReactNode;
   dark?: boolean;
+  /** Period art behind the card (data/themes). */
+  backdrop?: React.ReactNode;
   locale: Locale;
   m: Messages;
   resume: GateTarget | null;
@@ -63,18 +65,21 @@ export function GateController({
  * First screen of a simulation. Browsers only allow sound after a user
  * gesture, so the story (and its music) starts with this click.
  */
-export function StartGate({ title, subtitle, image, art, dark = false, locale, m, resume, jump, onStart }: GateProps) {
+export function StartGate({ title, subtitle, image, art, dark = false, backdrop, locale, m, resume, jump, onStart }: GateProps) {
   const reduced = useReducedMotion();
   const s = useSettings();
+  // While fading out after "start", the gate must not catch clicks meant for the story.
+  const present = useIsPresent();
 
   return (
     <motion.div
-      className={`absolute inset-0 z-50 grid place-items-center p-4 ${dark ? "bg-[#05080d]" : "bg-ink/45 backdrop-blur-[2px]"}`}
+      className={`absolute inset-0 z-50 grid place-items-center p-4 ${dark ? "bg-[#05080d]" : "bg-ink/45 backdrop-blur-[2px]"} ${present ? "" : "pointer-events-none"}`}
       initial={reduced ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
     >
+      {backdrop && <div className="absolute inset-0 -z-10 overflow-hidden bg-parchment">{backdrop}</div>}
       <motion.section
         role="dialog"
         aria-modal="true"

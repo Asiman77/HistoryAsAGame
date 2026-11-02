@@ -389,5 +389,9 @@
     "commandersTitle": "Sərkərdələr",
     "commandersNote": "Siyahıya yalnız AZƏRTAC xronikasında adı çəkilən komandanlar daxildir. Vəzifələr 2020-ci il üzrədir.",
     "musicPending": "Bu bölmə üçün planlaşdırılan {n} musiqi əsəri hüquq sahiblərinin icazəsini gözləyir. Hazırda müvəqqəti sintez səslər istifadə olunur."
+  },
+  "theme": {
+    "art": "Fon",
+    "ai": "Rəssam təsəvvürü (AI illüstrasiya)"
   }
 }

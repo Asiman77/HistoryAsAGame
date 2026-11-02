@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import type { Locale, PlannedEntity } from "@/domain/schema";
+import type { Locale, PlannedEntity, Theme } from "@/domain/schema";
+import { ThemeShell } from "@/features/theme/ThemeShell";
+import { ArtCredit } from "@/features/theme/Atmosphere";
 import { Divider } from "@/components/Ornament";
 import { SettingsButton } from "@/features/settings/SettingsPanel";
 import { t, type Messages } from "@/lib/i18n";
@@ -21,13 +23,15 @@ interface Props {
   planned: PlannedEntity[];
   locale: Locale;
   messages: Messages;
+  theme: Theme;
 }
 
 /** List page for conflicts and states: built simulations as links, announced ones as "tezliklə" cards. */
-export function CategoryIndex({ category, items, planned, locale, messages: m }: Props) {
+export function CategoryIndex({ category, items, planned, locale, messages: m, theme }: Props) {
   const copy = m.categories[category];
   return (
-    <main className="parchment relative min-h-full overflow-x-hidden">
+    <ThemeShell theme={theme}>
+    <main className="relative min-h-full overflow-x-hidden">
       <BackdropMap />
       <Link
         href={`/${locale}/`}
@@ -78,6 +82,10 @@ export function CategoryIndex({ category, items, planned, locale, messages: m }:
         </ul>
         {items.length === 0 && planned.length === 0 && <p className="text-center text-ink-faint">{m.categories.empty}</p>}
       </section>
+      <div className="relative pb-8">
+        <ArtCredit theme={theme} locale={locale} label={m.theme} />
+      </div>
     </main>
+    </ThemeShell>
   );
 }

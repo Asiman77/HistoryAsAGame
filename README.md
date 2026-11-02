@@ -231,7 +231,27 @@ Kodda heç nə dəyişmir. Giriş ekranı, səhifə, e2e testlər yeni qovluğu 
 ## Yeni dövr əlavə etmək
 
 `data/eras/<id>.json` faylı yaradın (fayl adı `id` ilə eyni olmalıdır) və şəxsiyyətlərin `eraIds` siyahısına əlavə edin.
-Giriş ekranındakı dövr filtri onu avtomatik göstərir.
+Giriş ekranındakı dövr filtri onu avtomatik göstərir. Dövrün `themeId` sahəsi onun temasını göstərir (aşağıya bax).
+
+## Dövr temaları və atmosfer
+
+Görünüş data ilə idarə olunur, komponentlərdə hardcode olunmur. Hər `Era` bir temaya bağlıdır. Şəxsiyyət, dövlət və müharibə onu miras alır
+(`themeId` ilə override edə bilər), ayrı addım da öz variantını seçə bilər (Nadirin Hind yürüşü: `efshar-hind`).
+Seçim ardıcıllığı: addım → entity → ilin dövrü → `default` (`src/lib/theme.ts`, `pickThemeId`).
+
+- **Rənglər və şriftlər.** `ThemeShell` temanı `<html>` üzərində CSS dəyişənləri kimi yazır (`--theme-primary`, `--theme-surface`...).
+  `globals.css` bütün Tailwind rənglərini (`parchment`, `ink`, `carmine`, `gold`, `lapis`) onlardan törədir. Dəyişənlər `@property` ilə
+  qeydiyyatdan keçib, ona görə bir entity-dən digərinə keçəndə rənglər yumşaq keçidlə dəyişir.
+- **Mood.** Tema daxilində mood fonun parlaqlığını və səthin tonunu azca dəyişir (`moodTones`): Çaldıranda tünd, taclanmada parlaq.
+- **Qatlı fon** (`src/features/theme/Atmosphere.tsx`): bulanıq illüstrasiya (parallax), tekstura, ornament çərçivəsi, ambient effekt
+  (toz, közlər, şam işığı, duman). Simulyasiyada xəritənin üstündə yalnız ambient və nazik çərçivə olur, illüstrasiya start ekranında görünür.
+- **Xəritə** `mapStyleVariant` ilə rəngini dəyişir: `manuscript`, `miniature`, `military`, `modern`.
+- **Musiqi.** `musicThemeId`: `klassik` ümumi mood xəritəsidir, `zefer-2020` müharibənin öz saundtrekidir.
+- **Performans.** Şəkillər AVIF və WebP formatındadır (1400 və 700 px), lazy load olunur. Yüngül rejimdə və `prefers-reduced-motion`
+  zamanı parallax, ambient və blur söndürülür.
+- **Şriftlər** `src/app/layout.tsx`-də yüklənir (preload olunmur). Hər biri ə, Ə, ğ, ı, İ, ş, ç, ö, ü daşıyır: Cinzel, Marcellus və
+  Philosopher ə/Ə olmadığı üçün seçilmədi.
+- **Şəkillər** `docs/IMAGE_CREDITS.md`-dədir (The Met Open Access, CC0). Yeni AI fonları üçün promptlar `docs/background-prompts.md`-dədir.
 
 ## Data sxemi
 
@@ -262,7 +282,12 @@ Mənbə formatı (`data/territories/snapshots/`) geometriya əvəzinə `regions[
 Hər mərhələdə ±12 il daxilində ən yaxın 3 hadisə göstərilir, mümkün qədər fərqli regionlardan.
 
 ### `Era`
-`id`, `name`, `startYear`, `endYear`, `description`, `theme: { color, accent }`.
+`id`, `name`, `startYear`, `endYear`, `description`, `themeId` (`data/themes`). Dövrlər üst-üstə düşəndə (Ağqoyunlu 1503-ə qədər, Səfəvi 1501-dən) ən son başlayan dövr seçilir.
+
+### `Theme` (`data/themes/<id>.json`)
+`palette { primary, accent, surface, text, link? }`, `fonts { display, body }`, `textures`, `ornaments { border, divider, corner }`,
+`backgroundArt[]`, `ambientEffect`, `mapStyleVariant`, `musicThemeId`, `moodTones?`. Variant faylı `extends` ilə yalnız fərqli hissələri yazır
+(məs. `efshar-hind`). Validator kontrastı (bütün mood-larda), şəkil fayllarını, kreditləri və prompt id-lərini yoxlayır.
 
 ### `Person`
 | Sahə | Təsvir |

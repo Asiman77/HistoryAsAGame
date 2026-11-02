@@ -1,0 +1,19 @@
+{
+  "id": "efshar-hind",
+  "name": { "az": "Əfşar: Hind yürüşü" },
+  "extends": "efshar",
+  "palette": { "primary": "#8a2b1d", "accent": "#9a6f17" },
+  "ornaments": { "corner": "carpet-medallion" },
+  "backgroundArt": [
+    {
+      "src": "/backgrounds/mughal-shahbarghan",
+      "kind": "public_domain",
+      "title": { "az": "«Şahbərğan döyüşü», «Padşahnamə»dən, Moğol Hindistanı, XVII əsr" },
+      "source": "The Metropolitan Museum of Art, 1986.283 (obyekt 453276)",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/453276",
+      "license": "CC0 1.0 (Met Open Access)",
+      "focus": "50% 40%"
+    }
+  ],
+  "ambientEffect": "dust"
+}

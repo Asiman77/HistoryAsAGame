@@ -1,0 +1,28 @@
+{
+  "id": "sefevi",
+  "name": { "az": "Səfəvi (XVI əsr)" },
+  "palette": { "primary": "#a3221d", "accent": "#1f7a74", "surface": "#f1e3c6", "text": "#2a150d", "link": "#1d4f7a" },
+  "fonts": { "display": "alegreya-sc", "body": "noto-sans" },
+  "textures": { "background": "manuscript", "paper": "parchment", "frame": "linen" },
+  "ornaments": { "border": "islimi", "divider": "cloud-band", "corner": "carpet-medallion" },
+  "backgroundArt": [
+    {
+      "src": "/backgrounds/safavid-feast-of-sada",
+      "kind": "public_domain",
+      "title": { "az": "«Sədə bayramı», Şah Təhmasibin «Şahnamə»sindən, Təbriz, təxminən 1525" },
+      "source": "The Metropolitan Museum of Art, 1970.301.2 (obyekt 452111)",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/452111",
+      "license": "CC0 1.0 (Met Open Access)",
+      "focus": "50% 45%"
+    }
+  ],
+  "ambientEffect": "candle",
+  "mapStyleVariant": "miniature",
+  "musicThemeId": "klassik",
+  "moodTones": {
+    "battle": { "tint": "#5a1a14", "strength": 0.12, "brightness": 0.55 },
+    "defeat": { "tint": "#4a3634", "strength": 0.14, "brightness": 0.5 },
+    "coronation": { "tint": "#f0c75e", "strength": 0.12, "brightness": 1.25 },
+    "victory": { "tint": "#e8b860", "strength": 0.1, "brightness": 1.15 }
+  }
+}

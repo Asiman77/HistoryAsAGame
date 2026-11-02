@@ -1,3 +1,8 @@
+"use client";
+
+import { DividerGlyph } from "@/features/theme/ornaments";
+import { useTheme } from "@/features/theme/ThemeShell";
+
 /** Eight-pointed star (khatam) used as a decorative divider and mark. */
 export function Star({ className = "", size = 18 }: { className?: string; size?: number }) {
   return (
@@ -11,11 +16,13 @@ export function Star({ className = "", size = 18 }: { className?: string; size?:
   );
 }
 
+/** Gold rule with the period's mark in the middle (data/themes: ornaments.divider). */
 export function Divider({ className = "" }: { className?: string }) {
+  const kind = useTheme()?.theme.ornaments.divider ?? "star";
   return (
     <div className={`flex items-center gap-3 text-gold ${className}`} aria-hidden>
       <span className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/60 to-gold/80" />
-      <Star size={14} />
+      <DividerGlyph kind={kind} size={14} />
       <span className="h-px flex-1 bg-gradient-to-l from-transparent via-gold/60 to-gold/80" />
     </div>
   );

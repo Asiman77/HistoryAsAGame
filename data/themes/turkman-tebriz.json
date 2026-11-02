@@ -1,0 +1,26 @@
+{
+  "id": "turkman-tebriz",
+  "name": { "az": "Ağqoyunlu və Qaraqoyunlu (XV əsr)" },
+  "palette": { "primary": "#1f3f6e", "accent": "#a8812a", "surface": "#efe4c9", "text": "#22180e", "link": "#7a2c1e" },
+  "fonts": { "display": "cormorant-garamond", "body": "noto-sans" },
+  "textures": { "background": "manuscript", "paper": "manuscript", "frame": "parchment" },
+  "ornaments": { "border": "girih", "divider": "girih-knot", "corner": "tile-corner" },
+  "backgroundArt": [
+    {
+      "src": "/backgrounds/turkman-khamsa",
+      "kind": "public_domain",
+      "title": { "az": "Nizami Gəncəvinin «Xəmsə»sindən səhifə, XV əsr" },
+      "source": "The Metropolitan Museum of Art, 13.228.9.1 (obyekt 455024)",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/455024",
+      "license": "CC0 1.0 (Met Open Access)",
+      "focus": "50% 60%"
+    }
+  ],
+  "ambientEffect": "dust",
+  "mapStyleVariant": "miniature",
+  "musicThemeId": "klassik",
+  "moodTones": {
+    "battle": { "tint": "#4a3a5c", "strength": 0.1, "brightness": 0.65 },
+    "coronation": { "tint": "#e8c770", "strength": 0.1, "brightness": 1.2 }
+  }
+}

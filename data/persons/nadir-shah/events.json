@@ -450,6 +450,7 @@
     },
     {
       "id": "nadir-karnal",
+      "themeId": "efshar-hind",
       "personId": "nadir-shah",
       "order": 10,
       "date": {
@@ -515,6 +516,7 @@
     },
     {
       "id": "nadir-delhi",
+      "themeId": "efshar-hind",
       "personId": "nadir-shah",
       "order": 11,
       "date": { "year": 1739, "month": 3, "day": 20, "certainty": "exact", "note": { "az": "Bəzi mənbələrdə 21 mart." } },

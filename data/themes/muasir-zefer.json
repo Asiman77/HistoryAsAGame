@@ -1,0 +1,25 @@
+{
+  "id": "muasir-zefer",
+  "name": { "az": "44 günlük Vətən müharibəsi (2020)" },
+  "palette": { "primary": "#0a5c8a", "accent": "#c8283a", "surface": "#f3f5f7", "text": "#111b26", "link": "#0a5c8a" },
+  "fonts": { "display": "montserrat", "body": "noto-sans" },
+  "textures": { "background": "clean", "paper": "clean", "frame": "stone" },
+  "ornaments": { "border": "flag-stripe", "divider": "eight-point-star", "corner": "star-corner" },
+  "backgroundArt": [
+    {
+      "procedural": "karabakh-mountains",
+      "kind": "own",
+      "title": { "az": "Qarabağ dağlarının siluetləri və Şuşa qayaları (qravür üslubunda)" },
+      "source": "Layihənin öz illüstrasiyası (SVG, kodda çəkilir)",
+      "license": "Layihə lisenziyası",
+      "promptId": "muasir-zefer"
+    }
+  ],
+  "ambientEffect": "mist",
+  "mapStyleVariant": "modern",
+  "musicThemeId": "zefer-2020",
+  "moodTones": {
+    "death": { "tint": "#3a4552", "strength": 0.1, "brightness": 0.6 },
+    "victory": { "tint": "#cfe6f2", "strength": 0.08, "brightness": 1.15 }
+  }
+}

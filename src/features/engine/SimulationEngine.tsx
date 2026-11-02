@@ -16,7 +16,10 @@ import type { Locale, Maneuver, Mood } from "@/domain/schema";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { GlossaryProvider } from "@/components/GlossaryText";
 import { getAudioEngine } from "@/features/audio/engine";
-import type { MoodSound } from "@/features/audio/manifest";
+import { musicThemeSound, type MoodSound } from "@/features/audio/manifest";
+import { ArtCredit, Atmosphere, ThemeArt } from "@/features/theme/Atmosphere";
+import { ThemeShell } from "@/features/theme/ThemeShell";
+import { DEFAULT_THEME_ID } from "@/lib/theme";
 import { MapLegend } from "@/features/map/MapLegend";
 import { MapStage, type MapExtensionFactory, type Phase } from "@/features/map/MapStage";
 import { PlaceCard } from "@/features/map/PlaceCard";
@@ -152,6 +155,13 @@ export function SimulationEngine<S extends EngineStep>({
   const shownStep = final ? steps[last]! : step;
   const mood = moodOverride ?? (final ? finalMood : step.mood);
   const moodStyle = MOOD_STYLES[mood];
+  const theme = data.themes[final ? data.themeId : shownStep.themeId] ?? data.themes[data.themeId] ?? data.themes[DEFAULT_THEME_ID]!;
+  const themeAt = (s: S) => data.themes[s.themeId] ?? theme;
+  // A simulation kind may bring its own soundtrack; otherwise the theme's music theme decides.
+  const soundOf = useCallback(
+    (s: S, isFinal: boolean, md: Mood) => soundFor?.(s, isFinal, md) ?? musicThemeSound((data.themes[s.themeId] ?? data.themes[data.themeId])?.musicThemeId, md),
+    [soundFor, data.themes, data.themeId],
+  );
 
   // ---- where to start: saved progress (the deep link is read in GateController) ----
   const saved = useProgress().persons[data.key];
@@ -179,9 +189,9 @@ export function SimulationEngine<S extends EngineStep>({
       }
       setStarted(true);
       const first = steps[choice.kind === "begin" ? 0 : choice.index]!;
-      void engine.start(settings, first.mood, soundFor?.(first, false, first.mood) ?? null);
+      void engine.start(settings, first.mood, soundOf(first, false, first.mood) ?? null);
     },
-    [data.key, last, steps, engine, settings, soundFor],
+    [data.key, last, steps, engine, settings, soundOf],
   );
 
   // ---- persistence --------------------------------------------------------------
@@ -194,12 +204,12 @@ export function SimulationEngine<S extends EngineStep>({
   useEffect(() => engine.applySettings(settings), [engine, settings]);
   useEffect(() => {
     if (!started) return;
-    const sound = soundFor?.(shownStep, final, mood) ?? null;
+    const sound = soundOf(shownStep, final, mood) ?? null;
     engine.setMood(mood, false, sound);
     const next = steps[index + 1];
-    const nextSound = next && soundFor?.(next, false, next.mood);
+    const nextSound = next && soundOf(next, false, next.mood);
     if (next && (next.mood !== mood || nextSound)) void engine.preload(next.mood, nextSound ?? null);
-  }, [engine, started, mood, index, steps, soundFor, shownStep, final]);
+  }, [engine, started, mood, index, steps, soundOf, shownStep, final]);
   const firstStep = useRef(true);
   useEffect(() => {
     if (!started) return;
@@ -433,6 +443,9 @@ export function SimulationEngine<S extends EngineStep>({
     ...(data.image ? { image: data.image } : {}),
     ...(gate?.art ? { art: gate.art } : {}),
     dark: gate?.dark ?? false,
+    backdrop: gate?.dark ? null : (
+      <ThemeArt theme={themeAt(steps[0]!)} credit={<ArtCredit theme={themeAt(steps[0]!)} locale={locale} label={m.theme} />} />
+    ),
     locale,
     m,
     resume,
@@ -441,6 +454,7 @@ export function SimulationEngine<S extends EngineStep>({
 
   return (
     <MotionConfig reducedMotion={light ? "always" : "user"}>
+      <ThemeShell theme={theme} mood={mood} variant="none">
       <GlossaryProvider entries={data.glossary} locale={locale} label={m.glossary.label}>
         <main
           className={`fixed inset-0 overflow-hidden bg-parchment ${light ? "lite" : ""}`}
@@ -465,6 +479,7 @@ export function SimulationEngine<S extends EngineStep>({
             onFollow={(ref: ResolvedRef) => ref.href && followHref(ref.href)}
             onSelectPolity={setPolityId}
             extension={mapExtension}
+            styleVariant={theme.mapStyleVariant}
           />
 
           {/* Mood colour grading, parchment grain and vignette over the map. */}
@@ -475,6 +490,8 @@ export function SimulationEngine<S extends EngineStep>({
             className="pointer-events-none absolute inset-0 transition-shadow duration-[1500ms]"
             style={{ boxShadow: `inset 0 0 ${desktop ? 160 : 90}px rgb(60 35 10 / ${moodStyle.vignette})` }}
           />
+          {/* Period ambience (dust, embers, mist) and a hairline frame over the map. */}
+          <Atmosphere theme={theme} variant="overlay" />
 
           <Hud
             title={title}
@@ -546,6 +563,7 @@ export function SimulationEngine<S extends EngineStep>({
           </AnimatePresence>
         </main>
       </GlossaryProvider>
+      </ThemeShell>
     </MotionConfig>
   );
 }

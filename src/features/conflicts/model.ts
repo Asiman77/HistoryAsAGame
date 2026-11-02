@@ -17,6 +17,7 @@ import { resolveRef, type Registry } from "@/domain/registry";
 import type { EngineStep, MapPlace, PoliticalContext, SimulationData } from "@/features/engine/types";
 import { placesForSpan } from "@/lib/places";
 import { pickSnapshotId } from "@/lib/territory";
+import { eraViews, pickThemeId, pickThemes, type ThemeMap } from "@/lib/theme";
 
 export interface ConflictStep extends EngineStep {
   day: WarDay;
@@ -50,6 +51,7 @@ const ICON: Record<WarDay["kind"], EventType> = {
 const SHORT_MONTHS = ["yan", "fev", "mar", "apr", "may", "iyn", "iyl", "avq", "sen", "okt", "noy", "dek"];
 
 export interface ConflictContext {
+  themes: ThemeMap;
   eras: Era[];
   places: Place[];
   snapshots: TerritorySnapshotMeta[];
@@ -65,6 +67,9 @@ export interface ConflictContext {
 
 export function buildConflictSimulation(conflict: Conflict, days: WarDay[], ctx: ConflictContext): ConflictSimulationData {
   const byId = new Map(ctx.settlements.map((s) => [s.id, s]));
+  const conflictEras = ctx.eras.filter((e) => conflict.eraIds.includes(e.id));
+  const themeOf = (year: number, stepThemeId?: string) =>
+    pickThemeId({ stepThemeId, entityThemeId: conflict.themeId, year, entityEras: conflictEras, allEras: ctx.eras });
   const liberatedAt: Record<string, number> = {};
   let extra = 0;
   const steps: ConflictStep[] = days.map((day, i) => {
@@ -88,6 +93,7 @@ export function buildConflictSimulation(conflict: Conflict, days: WarDay[], ctx:
       battle: null,
       related: (day.related ?? []).map((r) => resolveRef(r, ctx.registry)),
       focusPolityId: "azerbaijan",
+      themeId: themeOf(day.date.year, day.themeId),
       day,
       liberatedNow: now,
       liberatedTotal: Object.entries(liberatedAt).filter(([id, v]) => v <= i && byId.get(id)?.kind !== "district").length + extra,
@@ -107,7 +113,9 @@ export function buildConflictSimulation(conflict: Conflict, days: WarDay[], ctx:
     conflict,
     steps,
     places,
-    eras: ctx.eras.filter((e) => conflict.eraIds.includes(e.id)),
+    eras: eraViews(conflictEras, ctx.themes),
+    themeId: themeOf(days.at(-1)!.date.year),
+    themes: pickThemes(ctx.themes, [...steps.map((s) => s.themeId), themeOf(days.at(-1)!.date.year)]),
     landmarks: placesForSpan(ctx.places, 2020, 2020),
     snapshots: ctx.snapshots,
     polityColors: ctx.polityColors,
