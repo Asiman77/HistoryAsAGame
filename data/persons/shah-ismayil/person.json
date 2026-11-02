@@ -27,6 +27,12 @@
     "author": "Kəmaləddin Behzada aid edilir (bəzi tədqiqatçılar Məhəmmədiyə aid edir)",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shah_Ismail_I_Safavid,_Behzad.jpg"
   },
+  "portraits": [
+    {"ageFrom": 0, "ageTo": 6, "kind": "ai_illustration", "alt": {"az": "Ərdəbildə uşaq İsmayıl, rəssam təsəvvürü"}, "promptId": "shah-ismayil-child"},
+    {"ageFrom": 7, "ageTo": 13, "kind": "ai_illustration", "alt": {"az": "Lahıcanda gizlənən yeniyetmə İsmayıl, rəssam təsəvvürü"}, "promptId": "shah-ismayil-lahijan"},
+    {"ageFrom": 14, "ageTo": 22, "kind": "ai_illustration", "alt": {"az": "Təbrizdə tac qoyan gənc Şah İsmayıl, rəssam təsəvvürü"}, "promptId": "shah-ismayil-young-shah"},
+    {"ageFrom": 23, "ageTo": 37, "kind": "historical", "src": "/portraits/shah-ismayil.jpg", "alt": {"az": "Şah İsmayılın 16-cı əsrə aid qələm portreti"}, "source": "Wikimedia Commons", "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shah_Ismail_I_Safavid,_Behzad.jpg", "license": "Public domain", "author": "Kəmaləddin Behzada aid edilir (bəzi tədqiqatçılar Məhəmmədiyə aid edir)"}
+  ],
   "epigraph": {
     "text": { "az": "Bir yaşımda atamı itirdim, on dörd yaşımda tac qoydum." },
     "attribution": { "az": "Bədii giriş, sitat deyil" }

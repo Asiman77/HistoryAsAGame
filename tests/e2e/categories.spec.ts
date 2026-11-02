@@ -115,6 +115,19 @@ test("state simulation: Əfşarlar from Muğan to the end, with the dynasty stri
   expect(errors).toEqual([]);
 });
 
+test("portrait card follows the age: AI placeholder in childhood, a period portrait later", async ({ page }) => {
+  await page.goto("/az/persons/shah-ismayil/?step=ismayil-lahijan-education");
+  await startJourney(page, /mərhələsindən başla/);
+  const card = page.getByTestId("portrait-card");
+  await expect(card).toHaveAttribute("data-kind", "ai_illustration");
+  await expect(card).toContainText(/rəssam təsəvvürü \(AI illüstrasiya\)/i);
+  await page.goto("/az/persons/shah-ismayil/?step=ismayil-chaldiran");
+  await startJourney(page, /mərhələsindən başla/);
+  await expect(card).toHaveAttribute("data-kind", "historical");
+  await expect(card.getByRole("img")).toBeVisible();
+  await expect(card).toContainText("Dövrünün əsəri");
+});
+
 test("Nadir Şah's coronation links to the state simulation and back", async ({ page }) => {
   await page.goto("/az/persons/nadir-shah/?step=nadir-mughan");
   await startJourney(page, /mərhələsindən başla/);

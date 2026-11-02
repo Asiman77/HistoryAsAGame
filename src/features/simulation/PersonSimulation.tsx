@@ -5,6 +5,7 @@ import { SimulationEngine } from "@/features/engine/SimulationEngine";
 import { LegacyPanel } from "@/features/legacy/LegacyPanel";
 import { t, type Messages } from "@/lib/i18n";
 import type { Journey } from "./model";
+import { PortraitCard } from "./PortraitCard";
 import { StoryContent } from "./StoryContent";
 
 /** A person's life on the shared engine: steps are life events, the HUD shows year and age. */
@@ -27,7 +28,9 @@ export function PersonSimulation({ journey, locale, messages: m }: { journey: Jo
         ];
       }}
       renderStep={({ step, mode, choices, choose, here, openPlace }) => (
-        <StoryContent
+        <>
+          <PortraitCard portraits={person.portraits} age={step.age.years} name={name} locale={locale} m={m} />
+          <StoryContent
           step={step}
           personName={name}
           mode={mode}
@@ -37,7 +40,8 @@ export function PersonSimulation({ journey, locale, messages: m }: { journey: Jo
           onChoose={choose}
           here={here}
           onPlace={openPlace}
-        />
+          />
+        </>
       )}
       renderFinal={({ choices, teacher, restart, back }) => (
         <LegacyPanel journey={journey} choices={choices} locale={locale} m={m} teacher={teacher} onRestart={restart} onBack={back} />

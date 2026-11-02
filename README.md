@@ -180,6 +180,13 @@ Tətbiq daxilində keçidlə gələndə səs artıq açıq olduğundan start ekr
 - **Musiqi:** `soundtrack.json` icazə statusunu saxlayır; "Vətən yaxşıdır" və "Bayatı-Şiraz" `pending`-dir və build-ə düşmür (bax `docs/AUDIO_CREDITS.md`).
 - **Döyüşlər:** `battles/shusha-2020.json` (Şuşa əməliyyatı) registry-də müharibənin 8 noyabr gününə aparan link kimi qeyd olunur.
 
+## Yaşa görə portretlər
+
+`person.json`-da `portraits: [{ ageFrom, ageTo, kind: historical | artwork | ai_illustration, src?, alt, source?, sourceUrl?, license?, author?, promptId? }]`.
+Simulyasiyada portret kartı hadisənin yaşına uyğun şəkli göstərir və dövr dəyişəndə crossfade ilə keçir. `src` yoxdursa, siluet göstərilir.
+AI illüstrasiyalarının altında həmişə "Rəssam təsəvvürü (AI illüstrasiya)" yazılır. Belə şəkillər yalnız tarixi şəxsiyyətlər üçün qəbul olunur, 1850-dən sonra doğulanlar üçün validator AI şəklini rədd edir.
+Promptlar: `docs/portrait-prompts.md`.
+
 ## Dövlət simulyasiyası
 
 `/az/states/afshar/`: Əfşarlar dövləti 1722-dən 1796-ya qədər 15 mərhələdə. Səfəvi böhranı, Nadirin yüksəlişi, Muğan qurultayı,

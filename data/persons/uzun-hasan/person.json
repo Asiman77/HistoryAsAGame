@@ -47,6 +47,11 @@
     "author": "Naməlum Ağqoyunlu rəssamı (Rusiya Milli Kitabxanası, Dorn 434)",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Uzun_Hasan_on_horse,_1460s%E2%80%931470s,_Aq_Qoyunlu_ruler_Uzun_Hasa_hunting_(detail).jpg"
   },
+  "portraits": [
+    {"ageFrom": 0, "ageTo": 26, "kind": "ai_illustration", "alt": {"az": "Gənc Uzun Həsən, rəssam təsəvvürü"}, "promptId": "uzun-hasan-youth"},
+    {"ageFrom": 27, "ageTo": 43, "kind": "ai_illustration", "alt": {"az": "Ağqoyunlu hökmdarı Uzun Həsən, rəssam təsəvvürü"}, "promptId": "uzun-hasan-ruler"},
+    {"ageFrom": 44, "ageTo": 53, "kind": "historical", "src": "/portraits/uzun-hasan.jpg", "alt": {"az": "Uzun Həsən ovda: 1460–1470-ci illərə aid miniatürün fraqmenti"}, "source": "Wikimedia Commons", "sourceUrl": "https://commons.wikimedia.org/wiki/File:Uzun_Hasan_on_horse,_1460s%E2%80%931470s,_Aq_Qoyunlu_ruler_Uzun_Hasa_hunting_(detail).jpg", "license": "Public domain", "author": "Naməlum Ağqoyunlu rəssamı (Rusiya Milli Kitabxanası, Dorn 434)"}
+  ],
   "epigraph": {
     "text": { "az": "Amiddən Təbrizə, bir tayfa bəyliyindən imperiyaya." },
     "attribution": { "az": "Bədii giriş, sitat deyil" }

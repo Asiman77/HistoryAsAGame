@@ -28,6 +28,19 @@
     "portraitCredit": "Portret: {license}",
     "footer": "Tarixi faktlar mənbələrlə yoxlanılıb, bədii hekayə mətnləri ayrıca işarələnib."
   },
+  "portrait": {
+    "label": "Portret",
+    "ages": "{from}–{to} yaş",
+    "kinds": {
+      "historical": "Dövrünün əsəri",
+      "artwork": "Sonrakı dövr rəssamının əsəri",
+      "ai_illustration": "Rəssam təsəvvürü (AI illüstrasiya)"
+    },
+    "pending": "Portret hazırlanır",
+    "pendingAi": "Bu yaş üçün rəssam təsəvvürü (AI illüstrasiya) hazırlanır",
+    "source": "Mənbə",
+    "license": "Lisenziya"
+  },
   "sim": {
     "back": "Şəxsiyyətlər",
     "year": "İl",

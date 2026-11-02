@@ -52,6 +52,12 @@
     "author": "Naməlum rəssam, İran, təqr. 1740 (Britaniya Kitabxanası)",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Contemporary_portrait_of_Nader_Shah._Artist_unknown,_created_in_ca._1740_in_Iran_(cropped).jpg"
   },
+  "portraits": [
+    {"ageFrom": 0, "ageTo": 17, "kind": "ai_illustration", "alt": {"az": "Xorasanda yeniyetmə Nadir, rəssam təsəvvürü"}, "promptId": "nadir-shah-youth"},
+    {"ageFrom": 18, "ageTo": 37, "kind": "ai_illustration", "alt": {"az": "Gənc sərkərdə Nadir, rəssam təsəvvürü"}, "promptId": "nadir-shah-commander"},
+    {"ageFrom": 38, "ageTo": 50, "kind": "ai_illustration", "alt": {"az": "Təhmasibqulu xan, rəssam təsəvvürü"}, "promptId": "nadir-shah-tahmasp-quli"},
+    {"ageFrom": 51, "ageTo": 59, "kind": "historical", "src": "/portraits/nadir-shah.jpg", "alt": {"az": "Nadir şahın təqribən 1740-cı ilə aid müasir portreti"}, "source": "Wikimedia Commons", "sourceUrl": "https://commons.wikimedia.org/wiki/File:Contemporary_portrait_of_Nader_Shah._Artist_unknown,_created_in_ca._1740_in_Iran_(cropped).jpg", "license": "Public domain", "author": "Naməlum rəssam, İran, təqr. 1740 (Britaniya Kitabxanası)"}
+  ],
   "epigraph": {
     "text": { "az": "Çobanın oğlu idim, Dehlinin xəzinəsini Xorasana daşıdım." },
     "attribution": { "az": "Bədii giriş, sitat deyil" }

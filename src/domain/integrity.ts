@@ -16,6 +16,8 @@ export function checkPerson(person: Person, events: LifeEvent[], eras: Era[], fi
   if (person.portrait && !person.portrait.src.startsWith("http") && !person.portrait.src.startsWith("/"))
     add("portrait.src '/' və ya 'http' ilə başlamalıdır");
 
+  issues.push(...checkPortraits(person, file));
+
   const ids = new Set<string>();
   const orders = new Set<number>();
   for (const e of events) {
@@ -98,5 +100,30 @@ export function checkEventReferences(events: LifeEvent[], cat: Catalogue, file: 
         if (cues[i]!.start < cues[i - 1]!.end) add(`${e.id}: narration cue-ları üst-üstə düşür (${i})`);
     }
   }
+  return issues;
+}
+
+/** Earliest birth year for which AI illustrations are allowed: no AI images of real modern people. */
+export const AI_PORTRAIT_MAX_BIRTH_YEAR = 1850;
+
+export function checkPortraits(person: Person, file: string): Issue[] {
+  const issues: Issue[] = [];
+  const add = (message: string) => issues.push({ file, message: `portraits: ${message}` });
+  const list = person.portraits ?? [];
+  const lifespan = person.death.date.year - person.birth.date.year;
+  const sorted = [...list].sort((a, b) => a.ageFrom - b.ageFrom);
+  sorted.forEach((p, k) => {
+    const where = `${p.ageFrom}–${p.ageTo}`;
+    if (p.ageTo > lifespan + 1) add(`${where}: ömür müddətindən (${lifespan}) uzundur`);
+    const prev = sorted[k - 1];
+    if (prev && p.ageFrom <= prev.ageTo) add(`${where}: ${prev.ageFrom}–${prev.ageTo} ilə üst-üstə düşür`);
+    if (p.src && !p.src.startsWith("/") && !p.src.startsWith("http")) add(`${where}: src '/' və ya 'http' ilə başlamalıdır`);
+    if (p.src && !p.license) add(`${where}: şəkil var, license yoxdur`);
+    if (p.src && !p.source && !p.sourceUrl) add(`${where}: şəkil var, mənbə yoxdur`);
+    if (p.kind === "ai_illustration") {
+      if (person.birth.date.year > AI_PORTRAIT_MAX_BIRTH_YEAR) add(`${where}: müasir real şəxslər üçün AI şəkli olmaz`);
+      if (!p.promptId) add(`${where}: AI illüstrasiyası üçün promptId tələb olunur`);
+    }
+  });
   return issues;
 }

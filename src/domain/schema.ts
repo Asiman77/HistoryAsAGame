@@ -283,6 +283,33 @@ export const ImageAsset = z.object({
 });
 export type ImageAsset = z.infer<typeof ImageAsset>;
 
+export const PortraitKind = z.enum(["historical", "artwork", "ai_illustration"]);
+export type PortraitKind = z.infer<typeof PortraitKind>;
+
+/**
+ * A portrait for an age range of a person's life. `historical` = made in the
+ * person's lifetime, `artwork` = a later artist's work, `ai_illustration` =
+ * an AI-generated imagining (historical persons only, always captioned).
+ * Without `src` the card shows a respectful placeholder until the file exists.
+ */
+export const AgePortrait = z
+  .object({
+    ageFrom: z.number().int().min(0),
+    ageTo: z.number().int().min(0),
+    kind: PortraitKind,
+    src: z.string().min(1).optional(),
+    alt: LocalizedText,
+    caption: LocalizedText.optional(),
+    source: z.string().optional(),
+    sourceUrl: z.url().optional(),
+    license: z.string().optional(),
+    author: z.string().optional(),
+    /** Heading id in docs/portrait-prompts.md (AI illustrations). */
+    promptId: Slug.optional(),
+  })
+  .refine((p) => p.ageFrom <= p.ageTo, { message: "ageFrom ≤ ageTo olmalıdır" });
+export type AgePortrait = z.infer<typeof AgePortrait>;
+
 export const Person = z.object({
   id: Slug,
   name: LocalizedText,
@@ -293,6 +320,8 @@ export const Person = z.object({
   death: z.object({ date: HistoricalDate, place: Location }),
   eraIds: z.array(Slug).min(1),
   portrait: ImageAsset.optional(),
+  /** Portraits by age, shown on a card that changes as the story goes on. */
+  portraits: z.array(AgePortrait).optional(),
   /** Short motto/quote for the landing card. */
   epigraph: z.object({ text: LocalizedText, attribution: LocalizedText }).optional(),
   shortBio: LocalizedText,

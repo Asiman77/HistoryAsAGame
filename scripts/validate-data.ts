@@ -172,6 +172,10 @@ const loaded: { person: PersonT; events: LifeEvent[]; file: string }[] = [];
 const eventIdsByPerson = new Map<string, Set<string>>();
 let eventCount = 0;
 const personsDir = path.join(root, "persons");
+const promptsFile = path.join(root, "..", "docs", "portrait-prompts.md");
+const promptIds = new Set(
+  fs.existsSync(promptsFile) ? [...fs.readFileSync(promptsFile, "utf8").matchAll(/<a id="([a-z0-9-]+)"><\/a>/g)].map((x) => x[1]!) : [],
+);
 for (const dir of fs.readdirSync(personsDir, { withFileTypes: true }).filter((d) => d.isDirectory())) {
   const personFile = path.join(personsDir, dir.name, "person.json");
   const eventsFile = path.join(personsDir, dir.name, "events.json");
@@ -181,6 +185,11 @@ for (const dir of fs.readdirSync(personsDir, { withFileTypes: true }).filter((d)
   if (!person) continue;
   if (person.id !== dir.name) add(personFile, `qovluq adı id ilə uyğun deyil (${person.id})`);
   personIds.add(person.id);
+  for (const p of person.portraits ?? []) {
+    const where = `portraits ${p.ageFrom}–${p.ageTo}`;
+    if (p.src?.startsWith("/") && !fs.existsSync(path.join(root, "..", "public", p.src))) add(personFile, `${where}: ${p.src} tapılmadı`);
+    if (p.promptId && !promptIds.has(p.promptId)) add(personFile, `${where}: docs/portrait-prompts.md-də '${p.promptId}' yoxdur`);
+  }
   if (events) {
     eventCount += events.length;
     eventIdsByPerson.set(person.id, new Set(events.map((e) => e.id)));
