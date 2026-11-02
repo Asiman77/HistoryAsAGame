@@ -1,0 +1,41 @@
+{
+  "id": "ganja-kh",
+  "name": {
+    "az": "Gəncə xanlığı"
+  },
+  "color": "#9a5a6a",
+  "periods": [
+    {
+      "from": 1747,
+      "to": 1804
+    }
+  ],
+  "facts": [
+    {
+      "from": 1747,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. Ziyadoğlu Qacarların idarə etdiyi xanlıq."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Ganja Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Ganja_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

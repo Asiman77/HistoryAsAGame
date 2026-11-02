@@ -1,0 +1,41 @@
+{
+  "id": "karabakh-kh",
+  "name": {
+    "az": "Qarabağ xanlığı"
+  },
+  "color": "#b5654a",
+  "periods": [
+    {
+      "from": 1748,
+      "to": 1822
+    }
+  ],
+  "facts": [
+    {
+      "from": 1748,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. Pənahəli xan Cavanşir tərəfindən yaradıldı; 1750-ci illərdə tikilən Şuşa qalası paytaxt oldu."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Karabakh Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Karabakh_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

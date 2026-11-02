@@ -74,7 +74,7 @@ export function buildTerritories(): TerritorySnapshot[] {
       polities: src.polities.map((p) => {
         const meta = polities.get(p.polityId);
         if (!meta) throw new Error(`${file}: naməlum polity ${p.polityId}`);
-        const parts = p.regions.flatMap((r) => {
+        const parts = p.regions.flatMap((g) => registry.groups?.[g] ?? [g]).flatMap((r) => {
           const c = cellsByRegion.get(r);
           if (!c) throw new Error(`${file}: naməlum region ${r}`);
           return c;

@@ -1,0 +1,64 @@
+{
+  "id": "durrani",
+  "name": {
+    "az": "Dürrani dövləti"
+  },
+  "color": "#6b4e8a",
+  "periods": [
+    {
+      "from": 1747,
+      "to": 1823
+    }
+  ],
+  "facts": [
+    {
+      "from": 1747,
+      "to": 1772,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadirin sərkərdəsi Əhməd şah Dürrani Qəndəharda şah elan olunur, Əfqan tayfalarını birləşdirir; Hindistana yürüşlər (Panipat, 1761)."
+      },
+      "rivals": [
+        "maratha",
+        "mughal"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Puştu, fars"
+      },
+      "sources": [
+        {
+          "title": "Durrani Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Durrani_Empire"
+        }
+      ]
+    },
+    {
+      "from": 1773,
+      "to": 1800,
+      "status": "stable",
+      "statusNote": {
+        "az": "Teymur şah paytaxtı Kabilə köçürür (1776); Pəncabda siqhlarla mübarizə."
+      },
+      "rivals": [
+        "maratha"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Puştu, fars"
+      },
+      "sources": [
+        {
+          "title": "Durrani Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Durrani_Empire"
+        }
+      ]
+    }
+  ]
+}

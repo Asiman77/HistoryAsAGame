@@ -10,6 +10,9 @@ import {
   Polity,
   ReignsFile,
   RulersFile,
+  State,
+  StateStepsFile,
+  type StateStep,
   RelationsFile,
   TerritoryRegistryFile,
   TerritorySnapshotSource,
@@ -188,6 +191,26 @@ export class FileSystemRepository implements HistoryRepository {
     );
   }
 
+  listStates(): Promise<State[]> {
+    return this.memo("states", async () => {
+      if (!(await this.exists("states"))) return [];
+      const dirs = await fs.readdir(path.join(this.root, "states"), { withFileTypes: true });
+      return Promise.all(dirs.filter((d) => d.isDirectory()).map(async (d) => State.parse(await this.readJson("states", d.name, "state.json"))));
+    });
+  }
+
+  async getState(id: string): Promise<State | null> {
+    return (await this.listStates()).find((s) => s.id === id) ?? null;
+  }
+
+  getStateSteps(id: string): Promise<StateStep[]> {
+    return this.memo(`state-steps:${id}`, async () => {
+      if (!(await this.exists("states", id, "steps.json"))) return [];
+      const { steps } = StateStepsFile.parse(await this.readJson("states", id, "steps.json"));
+      return [...steps].sort((a, b) => a.order - b.order);
+    });
+  }
+
   listPlanned() {
     return this.memo("planned", async () =>
       (await this.exists("planned.json")) ? PlannedFile.parse(await this.readJson("planned.json")).entities : [],
@@ -196,8 +219,22 @@ export class FileSystemRepository implements HistoryRepository {
 
   getRegistry(): Promise<Registry> {
     return this.memo("registry", async () => {
-      const [persons, places, planned] = await Promise.all([this.allPersons(), this.listPlaces(), this.listPlanned()]);
-      const simulations = await Promise.all(
+      const [persons, places, planned, states] = await Promise.all([
+        this.allPersons(),
+        this.listPlaces(),
+        this.listPlanned(),
+        this.listStates(),
+      ]);
+      const stateSims = await Promise.all(
+        states.map(async (st) => ({
+          type: "state" as const,
+          id: st.id,
+          title: st.name,
+          ...(st.image ? { image: st.image } : {}),
+          steps: (await this.getStateSteps(st.id)).map((x) => ({ id: x.id, title: x.title, year: x.date.year })),
+        })),
+      );
+      const personSims = await Promise.all(
         persons.map(async (p) => ({
           type: "person" as const,
           id: p.id,
@@ -207,7 +244,7 @@ export class FileSystemRepository implements HistoryRepository {
         })),
       );
       return buildRegistry({
-        simulations,
+        simulations: [...personSims, ...stateSims],
         others: places.map((pl) => ({ type: "place" as const, id: pl.id, title: pl.names.historical })),
         planned,
       });

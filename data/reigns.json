@@ -92,6 +92,20 @@
     {"polityId":"mamluk","rulerId":"khushqadam","start":{"year":1461},"end":{"year":1467},"certainty":"exact"},
     {"polityId":"mamluk","rulerId":"qaitbay","start":{"year":1468},"end":{"year":1496},"certainty":"exact"},
     {"polityId":"mamluk","rulerId":"qansuh-al-ghawri","start":{"year":1501},"end":{"year":1516},"certainty":"exact"},
-    {"polityId":"mamluk","rulerId":"tumanbay-ii","start":{"year":1516},"end":{"year":1517},"certainty":"exact"}
+    {"polityId":"mamluk","rulerId":"tumanbay-ii","start":{"year":1516},"end":{"year":1517},"certainty":"exact"},
+    {"polityId":"zand","rulerId":"karim-khan-zand","start":{"year":1751},"end":{"year":1779},"certainty":"exact"},
+    {"polityId":"zand","rulerId":"lotf-ali-khan","start":{"year":1789},"end":{"year":1794},"certainty":"exact"},
+    {"polityId":"durrani","rulerId":"ahmad-shah-durrani","start":{"year":1747},"end":{"year":1772},"certainty":"exact"},
+    {"polityId":"durrani","rulerId":"timur-shah-durrani","start":{"year":1772},"end":{"year":1793},"certainty":"exact"},
+    {"polityId":"durrani","rulerId":"zaman-shah-durrani","start":{"year":1793},"end":{"year":1801},"certainty":"exact"},
+    {"polityId":"qajar","rulerId":"mohammad-hasan-qajar","start":{"year":1750},"end":{"year":1759},"certainty":"approximate"},
+    {"polityId":"qajar","rulerId":"agha-mohammad-khan","start":{"year":1789},"end":{"year":1797},"certainty":"exact"},
+    {"polityId":"kartli","rulerId":"teimuraz-ii","start":{"year":1744},"end":{"year":1762},"certainty":"exact"},
+    {"polityId":"kakheti","rulerId":"erekle-ii","start":{"year":1744},"end":{"year":1762},"certainty":"exact"},
+    {"polityId":"kartli-kakheti","rulerId":"erekle-ii","start":{"year":1762},"end":{"year":1798},"certainty":"exact"},
+    {"polityId":"karabakh-kh","rulerId":"panah-ali-khan","start":{"year":1748},"end":{"year":1763},"certainty":"approximate"},
+    {"polityId":"karabakh-kh","rulerId":"ibrahim-khalil-khan","start":{"year":1763},"end":{"year":1806},"certainty":"approximate"},
+    {"polityId":"sheki-kh","rulerId":"haji-chalabi","start":{"year":1743},"end":{"year":1755},"certainty":"approximate"},
+    {"polityId":"quba-kh","rulerId":"fatali-khan","start":{"year":1758},"end":{"year":1789},"certainty":"approximate"}
   ]
 }

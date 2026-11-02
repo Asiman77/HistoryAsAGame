@@ -1,0 +1,41 @@
+{
+  "id": "shamakhi-kh",
+  "name": {
+    "az": "Şamaxı xanlığı"
+  },
+  "color": "#a0785a",
+  "periods": [
+    {
+      "from": 1748,
+      "to": 1820
+    }
+  ],
+  "facts": [
+    {
+      "from": 1748,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. Şirvan torpaqlarında, mərkəzi Şamaxı olan xanlıq."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Shirvan Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Shirvan_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

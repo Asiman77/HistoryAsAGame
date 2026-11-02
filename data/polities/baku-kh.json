@@ -1,0 +1,41 @@
+{
+  "id": "baku-kh",
+  "name": {
+    "az": "Bakı xanlığı"
+  },
+  "color": "#6a7fa0",
+  "periods": [
+    {
+      "from": 1747,
+      "to": 1806
+    }
+  ],
+  "facts": [
+    {
+      "from": 1747,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. Abşeron yarımadasında Bakı qalası mərkəzli xanlıq."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Baku Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Baku_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

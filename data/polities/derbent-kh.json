@@ -1,0 +1,41 @@
+{
+  "id": "derbent-kh",
+  "name": {
+    "az": "Dərbənd xanlığı"
+  },
+  "color": "#8a6a4f",
+  "periods": [
+    {
+      "from": 1747,
+      "to": 1806
+    }
+  ],
+  "facts": [
+    {
+      "from": 1747,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. Dərbənd qalası mərkəzli xanlıq; 1765-dən Quba xanlığından asılı."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Derbent Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Derbent_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

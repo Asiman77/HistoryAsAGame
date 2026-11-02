@@ -116,6 +116,18 @@ export class TerritoryLayers {
         },
         beforeLayer,
       );
+      // Focus outline: the state a state simulation is about.
+      map.addLayer(
+        {
+          id: `${src}-focus`,
+          type: "line",
+          source: src,
+          filter: ["==", ["get", "id"], "__none__"],
+          layout: { "line-join": "round" },
+          paint: { "line-color": ["get", "edge"], "line-width": ["interpolate", ["linear"], ["zoom"], 3, 2.5, 8, 5], "line-opacity": 0.95 },
+        },
+        beforeLayer,
+      );
       // Hover outline: a solid ink line around the polity under the pointer.
       map.addLayer(
         {
@@ -132,6 +144,15 @@ export class TerritoryLayers {
   }
 
   private hovered: string | null = null;
+  private focused: string | null = null;
+  private setFocusAfterSwap = false;
+
+  /** Outlines one polity in the visible snapshot (null clears). */
+  setFocus(id: string | null) {
+    this.focused = id;
+    for (const slot of ["a", "b"] as const)
+      this.map.setFilter(`terr-${slot}-focus`, ["==", ["get", "id"], slot === this.active && id ? id : "__none__"]);
+  }
 
   private setHover(id: string | null) {
     if (id === this.hovered) return;
@@ -158,6 +179,7 @@ export class TerritoryLayers {
     });
     this.map.on("mouseout", () => {
       this.setHover(null);
+    this.setFocusAfterSwap = true;
       canvas.style.cursor = "";
       onHover(null);
     });
@@ -196,6 +218,8 @@ export class TerritoryLayers {
     this.fadeOut(this.active);
     this.active = next;
     this.shownId = id;
+    if (this.setFocusAfterSwap) this.setFocus(this.focused);
+    this.setFocusAfterSwap = false;
     this.swapLabels(
       snap.polities.map((p) => ({ name: t(p.name, this.locale), at: p.labelAt, color: darker(p.color), vassal: !!p.vassalOf })),
     );

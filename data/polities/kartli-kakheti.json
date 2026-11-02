@@ -1,0 +1,42 @@
+{
+  "id": "kartli-kakheti",
+  "name": {
+    "az": "Kartli-Kaxeti çarlığı"
+  },
+  "color": "#8f6a4f",
+  "periods": [
+    {
+      "from": 1762,
+      "to": 1801
+    }
+  ],
+  "facts": [
+    {
+      "from": 1762,
+      "to": 1800,
+      "status": "stable",
+      "statusNote": {
+        "az": "II İrakli Kartli və Kaxetini birləşdirir; 1783-də Rusiya ilə Georgiyevsk müqaviləsi; 1795-də Ağa Məhəmməd xan Tiflisi dağıdır."
+      },
+      "rivals": [
+        "qajar"
+      ],
+      "allies": [
+        "russia"
+      ],
+      "religion": {
+        "az": "Pravoslav xristianlıq"
+      },
+      "languages": {
+        "az": "Gürcü"
+      },
+      "sources": [
+        {
+          "title": "Kingdom of Kartli-Kakheti",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Kingdom_of_Kartli-Kakheti"
+        }
+      ]
+    }
+  ]
+}

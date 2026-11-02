@@ -151,3 +151,20 @@ Bizans, Trabzon, Qaraman, Dulqədir, gürcü çarlıqları, Gilan, Xivə, Krım,
 | Doğum illəri | Dəqiq gün çox vaxt məlum olmadığı üçün `approximate` kimi saxlanılıb |
 
 **Ərazi** rəqəmləri tarixi mənbədən götürülmür: xəritədəki təxmini poliqonun sahəsidir və yalnız xəritənin əhatə etdiyi hissəni (16°–82° şərq) nəzərə alır.
+
+## Əfşarlar dövləti (dövlət simulyasiyası)
+
+Mərhələlər `data/states/afshar/steps.json`-dadır, hər birinin mənbəsi var (əsasən Axworthy, *The Sword of Persia*, 2006, və müvafiq ensiklopedik məqalələr).
+
+| Məqam | Qərar |
+|---|---|
+| İsfahanın təslim olma günü | 21–23 oktyabr 1722; ay kimi verilib, `approximate` |
+| Nadirin ölüm tarixi | 20 iyun 1747, `disputed`; alternativlər 19 və 21 iyun |
+| Xanlıqların yaranma illəri | Əksəriyyəti 1747–1748; Şəki 1743 (Hacı Çələbinin üsyanı), Quba daha əvvəldən. Dövlət dövrləri `data/polities/*-kh.json`-da təxminidir |
+| Cənubi Azərbaycan xanlıqlarının sonu | 1790-cı illərdə Qacarlara tabe oldular; dövr 1800 kimi yazılıb (təxmini) |
+| 1750 xəritəsi | Fars, Kirman, Gilan kimi bölgələrdə hakimiyyət tez-tez dəyişirdi, boş saxlanılıb (`disputed`) |
+| 1796 xəritəsi | V. Zubovun yürüşü zamanı Dərbənd, Quba, Bakı və Şamaxının müvəqqəti rus işğalı xəritədə deyil, qeyddə göstərilir |
+| Dehli qırğını | Hekayə səviyyəsində deyil, faktiki xülasədə, qrafik təfərrüatsız: "təqribən 20–30 min dinc sakin" |
+
+Ruler cədvəlinə əlavə olunanlar: Zəndlər (Kərim xan, Lütfəli xan), Dürranilər (Əhməd şah, Teymur şah, Zaman şah), Qacarlar (Məhəmmədhəsən xan,
+Ağa Məhəmməd xan), II Teymuraz, II İrakli, Pənahəli xan, İbrahimxəlil xan, Hacı Çələbi, Fətəli xan. Digər xanlıqların xanları üçün panel "tezliklə" deyir.

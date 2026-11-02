@@ -460,6 +460,8 @@ export const TerritoryRegion = z.object({ id: Slug, seeds: z.array(LngLat).min(1
 export const TerritoryRegistryFile = z.object({
   /** [west, south, east, north] of the area that is drawn. */
   bbox: z.tuple([z.number(), z.number(), z.number(), z.number()]),
+  /** Names for sets of regions, so older snapshots keep working when a region is split (e.g. for khanates). */
+  groups: z.record(z.string(), z.array(Slug)).optional(),
   regions: z.array(TerritoryRegion),
 });
 
@@ -546,3 +548,63 @@ export const WorldEvent = z.object({
 });
 export type WorldEvent = z.infer<typeof WorldEvent>;
 export const WorldEventsFile = z.object({ events: z.array(WorldEvent) });
+
+// ---------------------------------------------------------------------------
+// State simulations
+// ---------------------------------------------------------------------------
+
+/** Key figures of a stage; every value is a short text so ranges and caveats fit. Omit what no source gives. */
+export const KeyFacts = z.object({
+  area: LocalizedText.optional(),
+  population: LocalizedText.optional(),
+  army: LocalizedText.optional(),
+  economy: LocalizedText.optional(),
+  religion: LocalizedText.optional(),
+  languages: LocalizedText.optional(),
+});
+export type KeyFacts = z.infer<typeof KeyFacts>;
+
+/** One stage in the history of a state (data/states/<id>/steps.json). */
+export const StateStep = z.object({
+  id: Slug,
+  order: z.number().int().min(0),
+  date: HistoricalDate,
+  title: LocalizedText,
+  /** Verified facts only. */
+  summary: LocalizedText,
+  mood: Mood,
+  /** Where the camera looks; zoom out to show the whole state. */
+  location: Location,
+  zoom: z.number().min(2.5).max(9).optional(),
+  territorySnapshotId: Slug.optional(),
+  /** Capital in this stage (data/places.json). */
+  capitalId: Slug.optional(),
+  /** Polity whose ruler and borders this stage is about; defaults to the state's polity. */
+  polityId: Slug.optional(),
+  /** Short dated items inside the stage. */
+  events: z.array(z.object({ date: z.string().min(1), text: LocalizedText })).optional(),
+  keyFacts: KeyFacts.optional(),
+  related: z.array(EntityRef).optional(),
+  sources: z.array(Source).min(1),
+  quiz: z.array(QuizQuestion).min(1).max(3).optional(),
+});
+export type StateStep = z.infer<typeof StateStep>;
+export const StateStepsFile = z.object({ steps: z.array(StateStep).min(1) });
+
+export const State = z.object({
+  id: Slug,
+  /** Polity in data/polities this simulation is about. */
+  polityId: Slug,
+  name: LocalizedText,
+  /** e.g. "1736–1796" */
+  years: z.string().min(1),
+  description: LocalizedText,
+  /** Shown on the final screen. */
+  legacy: LocalizedText,
+  image: ImageAsset.optional(),
+  eraIds: z.array(Slug).min(1),
+  /** Polities whose rulers form the dynasty strip under the timeline, in order. */
+  dynasty: z.array(Slug).optional(),
+  sources: z.array(Source).min(1),
+});
+export type State = z.infer<typeof State>;

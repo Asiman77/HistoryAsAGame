@@ -1,0 +1,71 @@
+{
+
+  "id": "y1760",
+  "year": 1760,
+  "title": {
+    "az": "Kərim xan Zənd və Azərbaycan xanlıqları"
+  },
+  "certainty": "approximate",
+  "note": {
+    "az": "Kərim xan Zənd Qərbi və Mərkəzi İranı birləşdirib. Şimali Azərbaycanda xanlıqlar müstəqildir, Fətəli xan Quba xanlığını gücləndirir. Şahrux Məşhəddə Dürranilərin himayəsindədir. Dürrani dövləti ən geniş sərhədlərindədir."
+  },
+  "sources": [
+    {
+      "title": "Zand dynasty",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Zand_dynasty"
+    },
+    {
+      "title": "Karim Khan Zand",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Karim_Khan_Zand"
+    },
+    {
+      "title": "Durrani Empire",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Durrani_Empire"
+    },
+    {
+      "title": "Khanates of the Caucasus",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bosnia","albania","wallachia","bithynia","west-anatolia","teke","ankara","sivas","kastamonu","trebizond","karaman","cilicia","dulkadir","malatya","erzincan","erzurum","kars","van","bitlis","diyarbakir","mardin","urfa","mosul","jazira","kirkuk","baghdad","basra","euphrates-mid","aleppo","damascus","palestine","sinai","egypt-delta","upper-egypt","hejaz","cyprus","samtskhe"],"capitalId":"istanbul"},
+    {"polityId":"afsharid","regions":["khorasan","khorasan-north"],"vassalOf":"durrani","capitalId":"meshed"},
+    {"polityId":"durrani","regions":["kandahar","herat","ghur","ghazni","kabul","peshawar","derajat","sindh","baluchistan","balkh","punjab","kashmir","multan","sistan","kuhistan"],"capitalId":"qendehar"},
+    {"polityId":"zand","regions":["isfahan","fars","lar-hormuz","kerman","yazd","kavir","qum-kashan","ray","qazvin","hamadan","kermanshah","luristan","khuzestan","gilan","mazandaran","astarabad","semnan"]},
+    {"polityId":"karabakh-kh","regions":["karabakh"]},
+    {"polityId":"ganja-kh","regions":["ganja"]},
+    {"polityId":"sheki-kh","regions":["shaki"]},
+    {"polityId":"shamakhi-kh","regions":["shamakhi-r"]},
+    {"polityId":"baku-kh","regions":["absheron"]},
+    {"polityId":"talysh-kh","regions":["talysh"]},
+    {"polityId":"javad-kh","regions":["mughan"]},
+    {"polityId":"erivan-kh","regions":["yerevan"]},
+    {"polityId":"nakhchivan-kh","regions":["nakhchivan"]},
+    {"polityId":"quba-kh","regions":["quba-r"],"capitalId":"quba"},
+    {"polityId":"derbent-kh","regions":["derbent"]},
+    {"polityId":"ardabil-kh","regions":["ardabil"]},
+    {"polityId":"tabriz-kh","regions":["tabriz-r"]},
+    {"polityId":"khoy-kh","regions":["khoy-r"]},
+    {"polityId":"urmia-kh","regions":["urmia-r"]},
+    {"polityId":"maragha-kh","regions":["maragha-r"]},
+    {"polityId":"qaradagh-kh","regions":["qaradagh-r"]},
+    {"polityId":"kartli","regions":["kartli"],"capitalId":"tiflis"},
+    {"polityId":"kakheti","regions":["kakheti"]},
+    {"polityId":"imereti","regions":["imereti"],"vassalOf":"ottoman","capitalId":"kutaisi"},
+    {"polityId":"russia","regions":["lower-volga","don-steppe","terek"]},
+    {"polityId":"crimea","regions":["crimea","kuban-steppe"],"vassalOf":"ottoman"},
+    {"polityId":"mughal","regions":["delhi","agra"],"capitalId":"dehli"},
+    {"polityId":"maratha","regions":["deccan","malwa","bundelkhand","gujarat"]},
+    {"polityId":"bukhara","regions":["transoxiana","badakhshan"],"capitalId":"buxara"},
+    {"polityId":"khiva","regions":["khwarezm"],"capitalId":"xive"}
+  ]
+}

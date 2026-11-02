@@ -4,7 +4,10 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "tests/e2e",
   timeout: 120_000,
+  expect: { timeout: 10_000 },
   fullyParallel: true,
+  // Every test runs a WebGL map; more parallel pages than this starve each other on ordinary machines.
+  workers: process.env.CI ? 2 : 3,
   reporter: [["list"]],
   use: { baseURL: "http://localhost:3210", trace: "retain-on-failure" },
   webServer: {

@@ -250,6 +250,16 @@ body {
 .landmark[data-label="hidden"] .lm-label {
   opacity: 0;
 }
+/* Capital of the state being simulated: a slow gold halo. */
+.landmark[data-focus="true"] .place-icon {
+  border-radius: 9999px;
+  animation: capital-halo 2.6s var(--ease-out-soft) infinite;
+}
+@keyframes capital-halo {
+  0% { box-shadow: 0 0 0 0 rgb(201 166 70 / 0.7); }
+  70% { box-shadow: 0 0 0 14px rgb(201 166 70 / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(201 166 70 / 0); }
+}
 /* Modern name on hover/focus. */
 .landmark .lm-modern {
   position: absolute;

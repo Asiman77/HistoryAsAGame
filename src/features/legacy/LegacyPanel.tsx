@@ -123,7 +123,7 @@ function pickQuestions(all: QuizQuestion[]): QuizQuestion[] {
   return Array.from({ length: MAX_QUESTIONS }, (_, i) => all[Math.floor(i * step)]!);
 }
 
-function Quiz({
+export function Quiz({
   questions: all,
   locale,
   m,

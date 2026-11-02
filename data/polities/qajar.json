@@ -1,0 +1,74 @@
+{
+  "id": "qajar",
+  "name": {
+    "az": "Qacarlar dövləti"
+  },
+  "color": "#2f6a5a",
+  "periods": [
+    {
+      "from": 1750,
+      "to": 1925
+    }
+  ],
+  "facts": [
+    {
+      "from": 1750,
+      "to": 1758,
+      "status": "war",
+      "statusNote": {
+        "az": "Məhəmmədhəsən xan Qacar Astarabad və Mazandarandan hakimiyyət uğrunda Zəndlərlə vuruşur."
+      },
+      "rivals": [
+        "zand"
+      ],
+      "religion": {
+        "az": "Şiə İslam (on iki imam)"
+      },
+      "languages": {
+        "az": "Fars (dövlət), Azərbaycan türkcəsi (saray)"
+      },
+      "sources": [
+        {
+          "title": "Qajar Iran",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Qajar_Iran"
+        },
+        {
+          "title": "Agha Mohammad Khan Qajar",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Agha_Mohammad_Khan_Qajar"
+        }
+      ]
+    },
+    {
+      "from": 1779,
+      "to": 1796,
+      "status": "rise",
+      "statusNote": {
+        "az": "Ağa Məhəmməd xan Qacar İranı yenidən birləşdirir: Tehran paytaxt olur (1786), Tiflis dağıdılır (1795), Məşhəd alınır (1796)."
+      },
+      "rivals": [
+        "zand",
+        "russia"
+      ],
+      "religion": {
+        "az": "Şiə İslam (on iki imam)"
+      },
+      "languages": {
+        "az": "Fars (dövlət), Azərbaycan türkcəsi (saray)"
+      },
+      "sources": [
+        {
+          "title": "Qajar Iran",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Qajar_Iran"
+        },
+        {
+          "title": "Agha Mohammad Khan Qajar",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Agha_Mohammad_Khan_Qajar"
+        }
+      ]
+    }
+  ]
+}

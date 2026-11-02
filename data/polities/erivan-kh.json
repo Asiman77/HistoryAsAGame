@@ -1,0 +1,41 @@
+{
+  "id": "erivan-kh",
+  "name": {
+    "az": "İrəvan xanlığı"
+  },
+  "color": "#7a8a4a",
+  "periods": [
+    {
+      "from": 1747,
+      "to": 1828
+    }
+  ],
+  "facts": [
+    {
+      "from": 1747,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. İrəvan qalası mərkəzli xanlıq."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Erivan Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Erivan_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

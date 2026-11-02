@@ -1,0 +1,41 @@
+{
+  "id": "khoy-kh",
+  "name": {
+    "az": "Xoy xanlığı"
+  },
+  "color": "#6a8aa0",
+  "periods": [
+    {
+      "from": 1747,
+      "to": 1800
+    }
+  ],
+  "facts": [
+    {
+      "from": 1747,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. Xoy mərkəzli xanlıq."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Khoy Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khoy_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

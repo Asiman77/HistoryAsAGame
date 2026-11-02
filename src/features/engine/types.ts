@@ -42,6 +42,10 @@ export interface EngineStep {
   /** Battle scene: sides, commanders, schematic arrows. */
   battle: BattleOutcome | null;
   related: ResolvedRef[];
+  /** Polity outlined on the map (the state a state simulation is about). */
+  focusPolityId?: string;
+  /** Capital to emphasise on the map in this step. */
+  capitalId?: string;
 }
 
 export interface MapPlace {

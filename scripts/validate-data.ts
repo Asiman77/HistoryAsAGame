@@ -15,6 +15,9 @@ import {
   Polity,
   ReignsFile,
   RulersFile,
+  State,
+  StateStepsFile,
+  type StateStep,
   PlannedFile,
   RelationsFile,
   TerritoryRegistryFile,
@@ -114,6 +117,13 @@ for (const r of reigns) {
     add(reignsFile, `${where}: hakimiyyət dövlətin mövcud olduğu illərdən kənardadır`);
 }
 const regionIds = unique(regFile, "region id", registry?.regions.map((r) => r.id) ?? []);
+const groups = registry?.groups ?? {};
+for (const [g, parts] of Object.entries(groups)) {
+  if (regionIds.has(g)) add(regFile, `qrup adı region adı ilə eynidir: ${g}`);
+  for (const p of parts) if (!regionIds.has(p)) add(regFile, `${g} qrupunda naməlum region: ${p}`);
+}
+const expand = (r: string) => groups[r] ?? [r];
+for (const g of Object.keys(groups)) regionIds.add(g);
 if (!fs.existsSync(path.join(root, "territories", "land.json"))) add(regFile, "land.json yoxdur (scripts/prepare-land.ts)");
 const snapshotIds = new Set<string>();
 const snapshotYears = new Set<number>();
@@ -134,8 +144,10 @@ for (const f of fs.existsSync(snapDir) ? fs.readdirSync(snapDir).filter((f) => f
       add(file, `${p.polityId}: naməlum vassalOf ${p.vassalOf}`);
     for (const r of p.regions) {
       if (!regionIds.has(r)) add(file, `${p.polityId}: naməlum region ${r}`);
-      if (used.has(r)) add(file, `region ${r} iki dövlətdədir: ${used.get(r)} və ${p.polityId}`);
-      used.set(r, p.polityId);
+      for (const part of expand(r)) {
+        if (used.has(part)) add(file, `region ${part} iki dövlətdədir: ${used.get(part)} və ${p.polityId}`);
+        used.set(part, p.polityId);
+      }
     }
   }
 }
@@ -186,6 +198,32 @@ for (const w of world) if (w.endYear !== undefined && w.endYear < w.year) add(wo
 for (const r of rulers)
   if (r.personId && !personIds.has(r.personId)) add(rulersFile, `${r.id}: naməlum personId ${r.personId}`);
 
+// --- state simulations ---
+const statesDir = path.join(root, "states");
+const loadedStates: { id: string; steps: StateStep[]; file: string }[] = [];
+for (const d of fs.existsSync(statesDir) ? fs.readdirSync(statesDir, { withFileTypes: true }).filter((x) => x.isDirectory()) : []) {
+  const sFile = path.join(statesDir, d.name, "state.json");
+  const stFile = path.join(statesDir, d.name, "steps.json");
+  const st = load(sFile, State);
+  const steps = fs.existsSync(stFile) ? load(stFile, StateStepsFile)?.steps : undefined;
+  if (!st || !steps) continue;
+  if (st.id !== d.name) add(sFile, `qovluq adı id ilə uyğun deyil (${st.id})`);
+  if (!polityIds.has(st.polityId)) add(sFile, `naməlum polity: ${st.polityId}`);
+  for (const e of st.eraIds) if (!eras.some((x) => x.id === e)) add(sFile, `naməlum era: ${e}`);
+  unique(stFile, "step id", steps.map((x) => x.id));
+  unique(stFile, "order", steps.map((x) => String(x.order)));
+  const sorted = [...steps].sort((a, b) => a.order - b.order);
+  for (let i = 1; i < sorted.length; i++)
+    if (sorted[i]!.date.year < sorted[i - 1]!.date.year) add(stFile, `xronologiya pozulub: ${sorted[i - 1]!.id} → ${sorted[i]!.id}`);
+  for (const x of steps) {
+    if (x.territorySnapshotId && !snapshotIds.has(x.territorySnapshotId)) add(stFile, `${x.id}: naməlum snapshot ${x.territorySnapshotId}`);
+    if (x.capitalId && !placeIds.has(x.capitalId)) add(stFile, `${x.id}: naməlum paytaxt ${x.capitalId}`);
+    if (x.polityId && !polityIds.has(x.polityId)) add(stFile, `${x.id}: naməlum polity ${x.polityId}`);
+    if (x.date.certainty === "disputed" && !x.date.alternatives?.length) add(stFile, `${x.id}: 'disputed' tarix üçün alternatives tələb olunur`);
+  }
+  loadedStates.push({ id: st.id, steps, file: rel(stFile) });
+}
+
 // --- cross-links: every ref resolved through the same registry the pages use ---
 const plannedFile = path.join(root, "planned.json");
 const planned = fs.existsSync(plannedFile) ? (load(plannedFile, PlannedFile)?.entities ?? []) : [];
@@ -199,6 +237,14 @@ const entities = buildRegistry({
   others: places.map((p) => ({ type: "place" as const, id: p.id, title: p.names.historical })),
   planned,
 });
+for (const st of loadedStates)
+  entities[`state:${st.id}`] = {
+    type: "state",
+    id: st.id,
+    title: { az: st.id },
+    url: `/states/${st.id}/`,
+    steps: Object.fromEntries(st.steps.map((x) => [x.id, { title: x.title, year: x.date.year }])),
+  };
 /** Missing or planned targets: grouped per target, since many events may point at the same one. */
 const pending = new Map<string, string[]>();
 let refCount = 0;
@@ -213,6 +259,15 @@ for (const { person, events, file } of loaded)
           const key = `${r.type}:${r.id}`;
           pending.set(key, [...(pending.get(key) ?? []), e.id]);
         }
+      }
+    }
+for (const { steps, file } of loadedStates)
+  for (const x of steps)
+    for (const r of x.related ?? []) {
+      refCount++;
+      for (const i of checkRef(r, entities, x.id) as RefIssue[]) {
+        if (i.level === "error") issues.push({ file, message: i.message });
+        else pending.set(`${r.type}:${r.id}`, [...(pending.get(`${r.type}:${r.id}`) ?? []), x.id]);
       }
     }
 for (const p of planned)
@@ -230,5 +285,5 @@ if (issues.length) {
 }
 console.log(
   `✓ Data etibarlıdır: ${eras.length} dövr, ${personIds.size} şəxsiyyət, ${eventCount} hadisə, ` +
-    `${places.length} məkan, ${polities.length} dövlət, ${rulers.length} hökmdar, ${snapshotIds.size} xəritə snapshot-u, ${world.length} dünya hadisəsi, ${glossary.length} termin, ${refCount} çarpaz keçid.`,
+    `${loadedStates.length} dövlət simulyasiyası, ${places.length} məkan, ${polities.length} dövlət, ${rulers.length} hökmdar, ${snapshotIds.size} xəritə snapshot-u, ${world.length} dünya hadisəsi, ${glossary.length} termin, ${refCount} çarpaz keçid.`,
 );

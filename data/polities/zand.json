@@ -1,0 +1,63 @@
+{
+  "id": "zand",
+  "name": {
+    "az": "Zəndlər dövləti"
+  },
+  "color": "#4f7a9a",
+  "periods": [
+    {
+      "from": 1751,
+      "to": 1794
+    }
+  ],
+  "facts": [
+    {
+      "from": 1750,
+      "to": 1779,
+      "status": "stable",
+      "statusNote": {
+        "az": "Kərim xan Zənd şah titulu almadan, \"vəkil\" kimi Qərbi və Mərkəzi İranı idarə edir; 1765-dən paytaxt Şirazdır."
+      },
+      "rivals": [
+        "qajar"
+      ],
+      "religion": {
+        "az": "Şiə İslam (on iki imam)"
+      },
+      "languages": {
+        "az": "Fars"
+      },
+      "sources": [
+        {
+          "title": "Zand dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Zand_dynasty"
+        }
+      ]
+    },
+    {
+      "from": 1780,
+      "to": 1794,
+      "status": "decline",
+      "statusNote": {
+        "az": "Kərim xanın ölümündən sonra varislik müharibələri; Ağa Məhəmməd xan Qacar Zəndləri devirir."
+      },
+      "rivals": [
+        "qajar"
+      ],
+      "religion": {
+        "az": "Şiə İslam (on iki imam)"
+      },
+      "languages": {
+        "az": "Fars"
+      },
+      "sources": [
+        {
+          "title": "Zand dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Zand_dynasty"
+        }
+      ]
+    }
+  ]
+}

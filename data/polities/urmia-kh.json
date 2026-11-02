@@ -1,0 +1,41 @@
+{
+  "id": "urmia-kh",
+  "name": {
+    "az": "Urmiya xanlığı"
+  },
+  "color": "#8a7aa0",
+  "periods": [
+    {
+      "from": 1747,
+      "to": 1800
+    }
+  ],
+  "facts": [
+    {
+      "from": 1747,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. Urmiya mərkəzli xanlıq; 1750-ci illərdə Azad xan Əfqanın bazası."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Urmia Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Urmia_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

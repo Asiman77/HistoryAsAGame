@@ -1,0 +1,41 @@
+{
+  "id": "quba-kh",
+  "name": {
+    "az": "Quba xanlığı"
+  },
+  "color": "#5f8a6a",
+  "periods": [
+    {
+      "from": 1726,
+      "to": 1806
+    }
+  ],
+  "facts": [
+    {
+      "from": 1726,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. Fətəli xanın dövründə (1758–1789) Dərbənd, Şamaxı və Bakı üzərində nüfuz qurdu."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Quba Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Quba_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

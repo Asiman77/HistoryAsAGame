@@ -10,6 +10,8 @@ import type {
   Reign,
   Relation,
   Ruler,
+  State,
+  StateStep,
   TerritorySnapshotMeta,
   WorldEvent,
 } from "@/domain/schema";
@@ -40,6 +42,10 @@ export interface HistoryRepository {
   /** Snapshot metadata sorted by year. Geometry is fetched by the browser from public/data/territories/<id>.json. */
   listTerritorySnapshots(): Promise<TerritorySnapshotMeta[]>;
   listWorldEvents(): Promise<WorldEvent[]>;
+  listStates(): Promise<State[]>;
+  getState(id: string): Promise<State | null>;
+  /** Stages sorted by `order`. */
+  getStateSteps(id: string): Promise<StateStep[]>;
   /** Entities announced but not built yet (data/planned.json). */
   listPlanned(): Promise<PlannedEntity[]>;
   /** Index of every entity, used to resolve cross-links. */

@@ -43,8 +43,15 @@
       "to": 1796,
       "status": "decline",
       "statusNote": {
-        "az": "Nadirin öldürülməsindən sonra dövlət parçalanır; Əfşarlar yalnız Xorasanı saxlayır."
+        "az": "Nadirin ölümündən sonra dövlət parçalanır. Kor edilmiş Şahrux Məşhəddə hökm sürür, 1750-ci illərdən Dürranilərin himayəsindədir. 1796-da Ağa Məhəmməd xan Qacar Məşhədi alır."
       },
+      "rivals": [
+        "qajar",
+        "zand"
+      ],
+      "allies": [
+        "durrani"
+      ],
       "religion": {
         "az": "İslam; Nadir şiə və sünni barışığına çalışdı (Cəfəri məzhəbi)"
       },

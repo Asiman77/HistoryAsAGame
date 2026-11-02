@@ -1,0 +1,56 @@
+{
+
+  "id": "y1796",
+  "year": 1796,
+  "title": {
+    "az": "Qacarlar və Əfşarların sonu"
+  },
+  "certainty": "approximate",
+  "note": {
+    "az": "Ağa Məhəmməd xan Qacar İranı birləşdirib, 1796-da Məşhədi alaraq Əfşar hakimiyyətinə son qoyur. Cənubi Azərbaycan xanlıqları Qacar dövlətinə tabe olub. Həmin il rus qoşunları (V. Zubovun yürüşü) Dərbənd, Quba, Bakı və Şamaxını müvəqqəti tutur, ilin sonunda geri çəkilir."
+  },
+  "sources": [
+    {
+      "title": "Agha Mohammad Khan Qajar",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Agha_Mohammad_Khan_Qajar"
+    },
+    {
+      "title": "Persian Expedition of 1796",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Persian_Expedition_of_1796"
+    },
+    {
+      "title": "Khanates of the Caucasus",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bosnia","albania","wallachia","bithynia","west-anatolia","teke","ankara","sivas","kastamonu","trebizond","karaman","cilicia","dulkadir","malatya","erzincan","erzurum","kars","van","bitlis","diyarbakir","mardin","urfa","mosul","jazira","kirkuk","baghdad","basra","euphrates-mid","aleppo","damascus","palestine","sinai","egypt-delta","upper-egypt","hejaz","cyprus","samtskhe"],"capitalId":"istanbul"},
+    {"polityId":"qajar","regions":["isfahan","fars","lar-hormuz","kerman","yazd","kavir","qum-kashan","ray","qazvin","hamadan","kermanshah","luristan","khuzestan","gilan","mazandaran","astarabad","semnan","khorasan","khorasan-north","kuhistan","tabriz-r","khoy-r","urmia-r","maragha-r","qaradagh-r","ardabil"],"capitalId":"tehran"},
+    {"polityId":"karabakh-kh","regions":["karabakh"]},
+    {"polityId":"ganja-kh","regions":["ganja"]},
+    {"polityId":"sheki-kh","regions":["shaki"]},
+    {"polityId":"shamakhi-kh","regions":["shamakhi-r"]},
+    {"polityId":"baku-kh","regions":["absheron"]},
+    {"polityId":"talysh-kh","regions":["talysh"]},
+    {"polityId":"javad-kh","regions":["mughan"]},
+    {"polityId":"erivan-kh","regions":["yerevan"],"vassalOf":"qajar"},
+    {"polityId":"nakhchivan-kh","regions":["nakhchivan"],"vassalOf":"qajar"},
+    {"polityId":"quba-kh","regions":["quba-r","derbent"],"capitalId":"quba"},
+    {"polityId":"kartli-kakheti","regions":["kartli","kakheti"],"capitalId":"tiflis"},
+    {"polityId":"imereti","regions":["imereti"],"capitalId":"kutaisi"},
+    {"polityId":"russia","regions":["lower-volga","don-steppe","terek","crimea","kuban-steppe","ukraine-steppe"]},
+    {"polityId":"durrani","regions":["kandahar","herat","ghur","ghazni","kabul","peshawar","derajat","sindh","baluchistan","balkh","kashmir","multan","sistan"],"capitalId":"kabil"},
+    {"polityId":"mughal","regions":["delhi"],"vassalOf":"maratha","capitalId":"dehli"},
+    {"polityId":"maratha","regions":["deccan","malwa","bundelkhand","gujarat","agra"]},
+    {"polityId":"bukhara","regions":["transoxiana"],"name":{"az":"Buxara əmirliyi"},"capitalId":"buxara"},
+    {"polityId":"khiva","regions":["khwarezm"],"capitalId":"xive"}
+  ]
+}

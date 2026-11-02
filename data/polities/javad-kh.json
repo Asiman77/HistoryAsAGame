@@ -1,0 +1,41 @@
+{
+  "id": "javad-kh",
+  "name": {
+    "az": "Cavad xanlığı"
+  },
+  "color": "#7a9a6a",
+  "periods": [
+    {
+      "from": 1747,
+      "to": 1805
+    }
+  ],
+  "facts": [
+    {
+      "from": 1747,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. Kür və Arazın qovuşduğu yerdə kiçik xanlıq."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Javad Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Javad_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

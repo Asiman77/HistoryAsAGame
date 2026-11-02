@@ -1,0 +1,72 @@
+{
+
+  "id": "y1750",
+  "year": 1750,
+  "title": {
+    "az": "Nadirdən sonra: parçalanma"
+  },
+  "certainty": "disputed",
+  "note": {
+    "az": "Nadirin ölümündən üç il sonra onun dövləti parçalanıb. Xorasanda Şahrux, şərqdə Əhməd şah Dürrani, qərbdə Zəndlər və Qacarlar hakimiyyət uğrunda vuruşur. Azərbaycanda müstəqil xanlıqlar yaranıb. Fars, Kirman və Gilan kimi bölgələrdə vəziyyət bu illərdə çox dəyişkən idi və boş saxlanılıb."
+  },
+  "sources": [
+    {
+      "title": "Afsharid dynasty",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Afsharid_dynasty"
+    },
+    {
+      "title": "Khanates of the Caucasus",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+    },
+    {
+      "title": "Durrani Empire",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Durrani_Empire"
+    },
+    {
+      "title": "Zand dynasty",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Zand_dynasty"
+    },
+    {
+      "title": "Natural Earth: Land 1:50m (sahil xətti)",
+      "type": "dataset",
+      "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/"
+    }
+  ],
+  "polities": [
+    {"polityId":"ottoman","regions":["bulgaria","thrace","macedonia","greece","constantinople","serbia","bosnia","albania","wallachia","bithynia","west-anatolia","teke","ankara","sivas","kastamonu","trebizond","karaman","cilicia","dulkadir","malatya","erzincan","erzurum","kars","van","bitlis","diyarbakir","mardin","urfa","mosul","jazira","kirkuk","baghdad","basra","euphrates-mid","aleppo","damascus","palestine","sinai","egypt-delta","upper-egypt","hejaz","cyprus","samtskhe"],"capitalId":"istanbul"},
+    {"polityId":"afsharid","regions":["khorasan","khorasan-north","kuhistan"],"capitalId":"meshed"},
+    {"polityId":"durrani","regions":["kandahar","herat","ghur","ghazni","kabul","peshawar","derajat","sistan"],"capitalId":"qendehar"},
+    {"polityId":"zand","regions":["isfahan","hamadan","kermanshah","luristan","qum-kashan"],"name":{"az":"Zəndlər (Kərim xan)"}},
+    {"polityId":"qajar","regions":["astarabad","mazandaran","semnan"],"name":{"az":"Qacarlar (Məhəmmədhəsən xan)"}},
+    {"polityId":"karabakh-kh","regions":["karabakh"]},
+    {"polityId":"ganja-kh","regions":["ganja"]},
+    {"polityId":"sheki-kh","regions":["shaki"]},
+    {"polityId":"shamakhi-kh","regions":["shamakhi-r"]},
+    {"polityId":"baku-kh","regions":["absheron"]},
+    {"polityId":"talysh-kh","regions":["talysh"]},
+    {"polityId":"javad-kh","regions":["mughan"]},
+    {"polityId":"erivan-kh","regions":["yerevan"]},
+    {"polityId":"nakhchivan-kh","regions":["nakhchivan"]},
+    {"polityId":"quba-kh","regions":["quba-r"]},
+    {"polityId":"derbent-kh","regions":["derbent"]},
+    {"polityId":"ardabil-kh","regions":["ardabil"]},
+    {"polityId":"tabriz-kh","regions":["tabriz-r"]},
+    {"polityId":"khoy-kh","regions":["khoy-r"]},
+    {"polityId":"urmia-kh","regions":["urmia-r"]},
+    {"polityId":"maragha-kh","regions":["maragha-r"]},
+    {"polityId":"qaradagh-kh","regions":["qaradagh-r"]},
+    {"polityId":"kartli","regions":["kartli"],"capitalId":"tiflis"},
+    {"polityId":"kakheti","regions":["kakheti"]},
+    {"polityId":"imereti","regions":["imereti"],"vassalOf":"ottoman","capitalId":"kutaisi"},
+    {"polityId":"russia","regions":["lower-volga","don-steppe","terek"]},
+    {"polityId":"crimea","regions":["crimea","kuban-steppe"],"vassalOf":"ottoman"},
+    {"polityId":"mughal","regions":["kashmir","punjab","multan","sirhind","delhi","agra","rohilkhand"],"capitalId":"dehli"},
+    {"polityId":"maratha","regions":["deccan","malwa","bundelkhand"]},
+    {"polityId":"bukhara","regions":["transoxiana","balkh","badakhshan"],"capitalId":"buxara"},
+    {"polityId":"khiva","regions":["khwarezm"],"capitalId":"xive"}
+  ]
+}

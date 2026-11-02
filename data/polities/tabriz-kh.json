@@ -1,0 +1,41 @@
+{
+  "id": "tabriz-kh",
+  "name": {
+    "az": "Təbriz xanlığı"
+  },
+  "color": "#b08a5a",
+  "periods": [
+    {
+      "from": 1747,
+      "to": 1800
+    }
+  ],
+  "facts": [
+    {
+      "from": 1747,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. Təbriz mərkəzli xanlıq."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Tabriz Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Tabriz_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

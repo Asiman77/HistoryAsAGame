@@ -61,6 +61,7 @@ data/                    bütün kontent, kodda heç bir şəxsiyyət yoxdur
   polities/<id>.json     dövlətlər: ad, rəng, mövcud olduğu illər, dövrlər üzrə vəziyyət (facts), stateId
   rulers.json            hökmdarlar: ad, titul, sülalə, doğum və ölüm, portret, personId
   reigns.json            hakimiyyət cədvəli: { polityId, rulerId, start, end, certainty }
+  states/<id>/           dövlət simulyasiyası: state.json + steps.json (mərhələlər)
 public/audio/            musiqi, mühit və effekt səsləri (.webm + .mp3)
 locales/az.json          UI mətnləri
 public/portraits/        public domain portretlər
@@ -127,7 +128,7 @@ keçidlər ani olur. Real GPU-da (Intel Iris Xe) marşrut animasiyası 60 fps g�
 | `/az/` | Ana səhifə: üç bölmə və kolleksiya |
 | `/az/persons/`, `/az/persons/<id>/` | Tarixi şəxsiyyətlər |
 | `/az/conflicts/` | Döyüşlər və müharibələr ("Şanlı Zəfər tariximiz") |
-| `/az/states/` | Dövlətlər |
+| `/az/states/`, `/az/states/<id>/` | Dövlətlər (ilk olaraq Əfşarlar dövləti) |
 | `/az/person/<id>/` | Köhnə ünvan, `?step=` saxlanmaqla `/persons/<id>/`-ə yönləndirir |
 
 Bütün kateqoriyalar eyni mühərriki işlədir: `src/features/engine/SimulationEngine.tsx`.
@@ -154,6 +155,21 @@ Tətbiq daxilində keçidlə gələndə səs artıq açıq olduğundan start ekr
 **Validasiya.** `npm run validate:data` hər referansı eyni registry ilə yoxlayır:
 - mövcud olmayan obyekt **xəbərdarlıqdır** və hədəfə görə qruplaşdırılaraq göstərilir;
 - mövcud obyektdə olmayan `stepId` və ya adı (`label`) olmayan sınıq referans **xətadır**.
+
+## Dövlət simulyasiyası
+
+`/az/states/afshar/`: Əfşarlar dövləti 1722-dən 1796-ya qədər 15 mərhələdə. Səfəvi böhranı, Nadirin yüksəlişi, Muğan qurultayı,
+yürüşlər, zirvə, parçalanma, Azərbaycan xanlıqlarının yaranması və Əfşarların sonu.
+
+- **`State`**: `{ id, polityId, name, years, description, legacy, image?, eraIds, dynasty?, sources }`. `dynasty` sülalə zolağına düşən dövlətləri sıralayır (Səfəvilər → Əfşarlar).
+- **`StateStep`**: `{ id, order, date, title, summary, mood, location, zoom?, territorySnapshotId?, capitalId?, polityId?, events[], keyFacts?, related[], sources[], quiz? }`.
+  `keyFacts` (ərazi, əhali, ordu, iqtisadiyyat, din, dil) yalnız mənbəsi olanda yazılır, rəqəmlər diapazonla verilir.
+- **Xəritə:** dövlətin sərhədi qalın xətlə vurğulanır, snapshot-lar arasında sərhədlər crossfade ilə dəyişir, mərhələnin paytaxtı qızılı halə ilə göstərilir.
+- **Sülalə zolağı:** timeline-ın altında hökmdarlar real il şkalası üzrə çəkilir və cari il işarələnir. Zolaq `reigns.json`-dan qurulur.
+- **Keçidlər:** Nadir Şahın həyatındakı mərhələlər (Təhmasibin xidməti, Muğan, Karnal, ölüm) dövlət mərhələlərinə, dövlət mərhələləri isə geri Nadirə aparır.
+
+1747-dən sonrakı xəritələr üçün (1750, 1760, 1796) Azərbaycan regionları xanlıqlara bölündü. Köhnə snapshot-ların pozulmaması üçün
+`registry.json`-da `groups` var: məsələn `azerbaijan` = Təbriz + Xoy + Urmiya + Marağa + Qaradağ regionları.
 
 ## Hökmdar paneli
 

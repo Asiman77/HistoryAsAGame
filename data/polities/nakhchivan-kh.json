@@ -1,0 +1,41 @@
+{
+  "id": "nakhchivan-kh",
+  "name": {
+    "az": "Naxçıvan xanlığı"
+  },
+  "color": "#c08a3e",
+  "periods": [
+    {
+      "from": 1747,
+      "to": 1828
+    }
+  ],
+  "facts": [
+    {
+      "from": 1747,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. Kəngərli xanlarının idarə etdiyi xanlıq."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Nakhchivan Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Nakhchivan_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

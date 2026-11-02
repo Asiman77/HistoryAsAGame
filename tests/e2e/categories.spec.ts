@@ -22,12 +22,12 @@ test("home shows the three sections and each opens its own page", async ({ page 
   expect(errors).toEqual([]);
 });
 
-test("planned simulations are listed as coming soon", async ({ page }) => {
+test("planned and built simulations are listed on their section pages", async ({ page }) => {
   await page.goto("/az/conflicts/");
   await expect(page.getByRole("heading", { name: "44 günlük Vətən müharibəsi" })).toBeVisible();
-  await page.goto("/az/states/");
-  await expect(page.getByRole("heading", { name: "Əfşarlar dövləti" })).toBeVisible();
   await expect(page.getByText("Tezliklə").first()).toBeVisible();
+  await page.goto("/az/states/");
+  await expect(page.getByRole("link", { name: /Əfşarlar dövləti/ })).toBeVisible();
 });
 
 test("old person URLs redirect and keep the deep link", async ({ page }) => {
@@ -99,4 +99,30 @@ test("states without data say so instead of staying empty", async ({ page, viewp
   if ((viewport?.width ?? 0) < 1024) await legend.getByRole("button", { name: "Xəritə açarını göstər" }).click();
   await legend.getByRole("button", { name: "Trabzon imperiyası" }).click();
   await expect(page.getByTestId("polity-panel").getByText(/tezliklə əlavə olunacaq/)).toBeVisible();
+});
+
+test("state simulation: Əfşarlar from Muğan to the end, with the dynasty strip", async ({ page }) => {
+  test.slow(); // 15 animated stages
+  const errors = collectErrors(page);
+  await page.goto("/az/states/");
+  await page.getByRole("link", { name: /Əfşarlar dövləti/ }).click();
+  await expect(page).toHaveURL(/\/az\/states\/afshar\/$/);
+  await startJourney(page);
+  await expect(page.getByRole("heading", { level: 2, name: "Səfəvi böhranı: İsfahanın süqutu" })).toBeVisible();
+  await expect(page.getByTestId("dynasty-strip")).toBeVisible();
+  const next = page.getByRole("button", { name: /Növbəti|İrs və nəticə/ }).first();
+  for (let i = 0; i < 15; i++) await next.click();
+  await expect(page.getByRole("heading", { level: 2, name: "Əfşarlar dövləti" })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test("Nadir Şah's coronation links to the state simulation and back", async ({ page }) => {
+  await page.goto("/az/persons/nadir-shah/?step=nadir-mughan");
+  await startJourney(page, /mərhələsindən başla/);
+  await page.locator("article").getByRole("link", { name: /Əfşarlar dövləti/ }).click();
+  await expect(page).toHaveURL(/\/az\/states\/afshar\/\?step=1736-mughan/);
+  await startJourney(page, /mərhələsindən başla/);
+  await expect(page.getByRole("heading", { level: 2, name: "Muğan qurultayı: Əfşarlar dövləti" })).toBeVisible();
+  await page.getByTestId("return-link").click();
+  await expect(page).toHaveURL(/\/az\/persons\/nadir-shah\/\?step=nadir-mughan/);
 });

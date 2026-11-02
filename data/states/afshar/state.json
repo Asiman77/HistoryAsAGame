@@ -1,0 +1,42 @@
+{
+  "id": "afshar",
+  "polityId": "afsharid",
+  "name": {
+    "az": "Əfşarlar dövləti"
+  },
+  "years": "1736–1796",
+  "description": {
+    "az": "Səfəvi böhranından Nadirin yüksəlişinə, Muğan qurultayından Hindistan yürüşünə, parçalanmadan Azərbaycan xanlıqlarının yaranmasına və Əfşarların sonuna qədər."
+  },
+  "legacy": {
+    "az": "Əfşarlar dövləti qüdrətli imperiya kimi cəmi on bir il (1736–1747) yaşadı, amma Nadirin yürüşləri bölgənin siyasi xəritəsini kökündən dəyişdi. Onun ölümündən sonra Azərbaycan xanlıqları, Dürrani (Əfqan) dövləti, Zəndlər və sonda Qacarlar yarandı. Bu dövlətlərin bir neçəsinin qurucuları, məsələn Əhməd şah Dürrani və Pənahəli xan, əvvəllər Nadirin xidmətində olmuşdu."
+  },
+  "image": {
+    "src": "/portraits/nadir-shah.jpg",
+    "alt": {
+      "az": "Nadir Şahın müasir portreti, təqr. 1740"
+    },
+    "license": "Public domain",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Contemporary_portrait_of_Nader_Shah._Artist_unknown,_created_in_ca._1740_in_Iran_(cropped).jpg"
+  },
+  "eraIds": [
+    "efshar"
+  ],
+  "dynasty": [
+    "safavid",
+    "afsharid"
+  ],
+  "sources": [
+    {
+      "title": "Afsharid dynasty",
+      "type": "encyclopedia",
+      "url": "https://en.wikipedia.org/wiki/Afsharid_dynasty"
+    },
+    {
+      "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+      "author": "Michael Axworthy",
+      "type": "book",
+      "note": "I.B. Tauris, 2006"
+    }
+  ]
+}

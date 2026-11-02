@@ -1,0 +1,41 @@
+{
+  "id": "sheki-kh",
+  "name": {
+    "az": "Şəki xanlığı"
+  },
+  "color": "#7f6aa0",
+  "periods": [
+    {
+      "from": 1743,
+      "to": 1819
+    }
+  ],
+  "facts": [
+    {
+      "from": 1743,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. Hacı Çələbinin 1743-cü il üsyanı ilə yarandı; Nadirin qoşunlarına qarşı müqavimət göstərdi."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Shaki Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Shaki_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

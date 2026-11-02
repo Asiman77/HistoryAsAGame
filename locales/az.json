@@ -321,5 +321,18 @@
       "crisis": "Böhran",
       "decline": "Tənəzzül"
     }
+  },
+  "states": {
+    "dynasty": "Hökmdarlar",
+    "toLegacy": "İrs və nəticə",
+    "others": "Başqa dövlət seç",
+    "facts": {
+      "area": "Ərazi",
+      "population": "Əhali",
+      "army": "Ordu",
+      "economy": "İqtisadiyyat",
+      "religion": "Din",
+      "languages": "Dil"
+    }
   }
 }

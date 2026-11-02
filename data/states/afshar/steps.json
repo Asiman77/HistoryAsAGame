@@ -1,0 +1,1176 @@
+{
+  "steps": [
+    {
+      "id": "1722-isfahan",
+      "date": {
+        "year": 1722,
+        "month": 10,
+        "certainty": "approximate",
+        "note": {
+          "az": "İsfahanın təslim olma günü mənbələrdə 21–23 oktyabr kimi verilir."
+        }
+      },
+      "title": {
+        "az": "Səfəvi böhranı: İsfahanın süqutu"
+      },
+      "summary": {
+        "az": "1722-ci ilin martında Gülnabad döyüşündə Mahmud Hotakinin əfqan qoşunu Səfəvi ordusunu məğlub etdi. Uzun mühasirədən sonra İsfahan oktyabrda təslim oldu, Sultan Hüseyn taxtı Mahmuda verdi. Böhrandan istifadə edən Rusiya Xəzər sahillərini, Osmanlılar isə Cənubi Qafqazı və Qərbi İranı tutdu. Səfəvi şahzadəsi II Təhmasib şimala qaçıb özünü şah elan etdi."
+      },
+      "mood": "hardship",
+      "location": {
+        "name": {
+          "az": "İsfahan"
+        },
+        "lat": 32.6546,
+        "lng": 51.668
+      },
+      "zoom": 4.6,
+      "territorySnapshotId": "y1726",
+      "capitalId": "isfahan",
+      "polityId": "safavid",
+      "events": [
+        {
+          "date": "1722, mart",
+          "text": {
+            "az": "Gülnabad döyüşü: Səfəvi ordusu məğlub olur."
+          }
+        },
+        {
+          "date": "1722, oktyabr",
+          "text": {
+            "az": "İsfahan təslim olur, Sultan Hüseyn taxtdan əl çəkir."
+          }
+        },
+        {
+          "date": "1722–1723",
+          "text": {
+            "az": "I Pyotrun Xəzər yürüşü: Dərbənd və Bakı Rusiyaya keçir."
+          }
+        },
+        {
+          "date": "1723–1725",
+          "text": {
+            "az": "Osmanlılar Gəncəni, İrəvanı, Həmədanı və Təbrizi tutur."
+          }
+        }
+      ],
+      "related": [
+        {
+          "type": "state",
+          "id": "safavid",
+          "label": {
+            "az": "Səfəvi dövləti"
+          }
+        },
+        {
+          "type": "state",
+          "id": "hotaki",
+          "label": {
+            "az": "Hotakilər"
+          }
+        },
+        {
+          "type": "person",
+          "id": "nadir-shah",
+          "stepId": "nadir-abivard",
+          "note": {
+            "az": "Bu illərdə gənc Nadir Xorasanda, Əbivərddə öz dəstəsini qurur."
+          }
+        }
+      ],
+      "sources": [
+        {
+          "title": "Battle of Gulnabad",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Gulnabad"
+        },
+        {
+          "title": "Siege of Isfahan",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Siege_of_Isfahan"
+        },
+        {
+          "title": "Russo-Persian War (1722–1723)",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Russo-Persian_War_(1722–1723)"
+        },
+        {
+          "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+          "author": "Michael Axworthy",
+          "type": "book",
+          "note": "I.B. Tauris, 2006"
+        }
+      ],
+      "quiz": [
+        {
+          "question": {
+            "az": "1722-ci ildə İsfahanı kim tutdu?"
+          },
+          "options": [
+            {
+              "az": "Mahmud Hotaki"
+            },
+            {
+              "az": "Nadir"
+            },
+            {
+              "az": "I Pyotr"
+            },
+            {
+              "az": "Kərim xan Zənd"
+            }
+          ],
+          "correctIndex": 0,
+          "explanation": {
+            "az": "Əfqan Hotakilərin başçısı Mahmud 1722-də İsfahanı aldı."
+          }
+        }
+      ],
+      "order": 0
+    },
+    {
+      "id": "1726-nadir-rise",
+      "date": {
+        "year": 1726,
+        "certainty": "approximate"
+      },
+      "title": {
+        "az": "Nadirin yüksəlişi"
+      },
+      "summary": {
+        "az": "Xorasanda dayaq axtaran II Təhmasibə 1726-cı ildə Nadir qoşuldu. Həmin ilin sonunda Nadir Məşhədi aldı və ordunun komandanı oldu, \"Təhmasibqulu xan\" adını aldı. O, ordunu nizam-intizamlı tüfəngçi piyada və süvari üzərində yenidən qurdu."
+      },
+      "mood": "rise",
+      "location": {
+        "name": {
+          "az": "Məşhəd"
+        },
+        "lat": 36.2972,
+        "lng": 59.6067
+      },
+      "zoom": 5,
+      "territorySnapshotId": "y1726",
+      "capitalId": "meshed",
+      "polityId": "safavid",
+      "related": [
+        {
+          "type": "person",
+          "id": "nadir-shah",
+          "stepId": "nadir-tahmasp",
+          "note": {
+            "az": "Nadirin həyatında bu mərhələ: II Təhmasibin xidmətinə girir."
+          }
+        }
+      ],
+      "sources": [
+        {
+          "title": "Nader Shah",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Nader_Shah"
+        },
+        {
+          "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+          "author": "Michael Axworthy",
+          "type": "book",
+          "note": "I.B. Tauris, 2006"
+        }
+      ],
+      "order": 1
+    },
+    {
+      "id": "1729-liberation",
+      "date": {
+        "year": 1729,
+        "month": 11,
+        "certainty": "approximate"
+      },
+      "title": {
+        "az": "Əfqanların qovulması"
+      },
+      "summary": {
+        "az": "1729-cu ildə Nadir əvvəlcə Herat yaxınlığında Əbdali əfqanlarını, sonra Damğan yaxınlığında Mehmandustda və İsfahan yaxınlığında Mürçəxurda Əşrəf Hotakini məğlub etdi. İsfahan azad edildi və II Təhmasib paytaxta qayıtdı. Əşrəf cənuba qaçdı və 1730-da öldürüldü."
+      },
+      "mood": "victory",
+      "location": {
+        "name": {
+          "az": "İsfahan"
+        },
+        "lat": 32.6546,
+        "lng": 51.668
+      },
+      "zoom": 4.6,
+      "territorySnapshotId": "y1732",
+      "capitalId": "isfahan",
+      "polityId": "safavid",
+      "events": [
+        {
+          "date": "1729, may",
+          "text": {
+            "az": "Herat yaxınlığında Əbdalilər üzərində qələbə."
+          }
+        },
+        {
+          "date": "1729, sentyabr–oktyabr",
+          "text": {
+            "az": "Mehmandust döyüşü."
+          }
+        },
+        {
+          "date": "1729, noyabr",
+          "text": {
+            "az": "Mürçəxur döyüşü, İsfahanın azad edilməsi."
+          }
+        }
+      ],
+      "related": [
+        {
+          "type": "person",
+          "id": "nadir-shah",
+          "stepId": "nadir-murchekhort"
+        },
+        {
+          "type": "battle",
+          "id": "mehmandust-1729",
+          "label": {
+            "az": "Mehmandust döyüşü (1729)"
+          }
+        },
+        {
+          "type": "battle",
+          "id": "murchekhort-1729",
+          "label": {
+            "az": "Mürçəxur döyüşü (1729)"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "title": "Battle of Damghan (1729)",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Damghan_(1729)"
+        },
+        {
+          "title": "Battle of Murche-Khort",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Murche-Khort"
+        },
+        {
+          "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+          "author": "Michael Axworthy",
+          "type": "book",
+          "note": "I.B. Tauris, 2006"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "id": "1735-caucasus",
+      "date": {
+        "year": 1735,
+        "month": 6,
+        "day": 19,
+        "certainty": "exact"
+      },
+      "title": {
+        "az": "Qafqazın geri qaytarılması"
+      },
+      "summary": {
+        "az": "1732-də Rəşt müqaviləsi ilə Rusiya Gilan və Mazandaranı qaytardı. Həmin il Nadir II Təhmasibi taxtdan salıb onun körpə oğlunu III Abbas adı ilə şah elan etdi. 19 iyun 1735-də Bağavərddə (Yegevard) Köprülüzadə Abdulla paşanın ordusunu məğlub etdi; Gəncə, Tiflis və İrəvan geri alındı. Həmin il Gəncə müqaviləsi ilə Rusiya Bakı və Dərbəndi də qaytardı."
+      },
+      "mood": "victory",
+      "location": {
+        "name": {
+          "az": "Gəncə"
+        },
+        "lat": 40.6828,
+        "lng": 46.3606
+      },
+      "zoom": 5.4,
+      "territorySnapshotId": "y1736",
+      "capitalId": "isfahan",
+      "polityId": "safavid",
+      "events": [
+        {
+          "date": "1732",
+          "text": {
+            "az": "Rəşt müqaviləsi; III Abbas şah elan olunur."
+          }
+        },
+        {
+          "date": "1735, mart",
+          "text": {
+            "az": "Gəncə müqaviləsi: Bakı və Dərbənd qaytarılır."
+          }
+        },
+        {
+          "date": "19 iyun 1735",
+          "text": {
+            "az": "Bağavərd döyüşü."
+          }
+        }
+      ],
+      "related": [
+        {
+          "type": "person",
+          "id": "nadir-shah",
+          "stepId": "nadir-baghavard"
+        },
+        {
+          "type": "battle",
+          "id": "yeghevard-1735",
+          "label": {
+            "az": "Bağavərd döyüşü (1735)"
+          }
+        },
+        {
+          "type": "state",
+          "id": "ottoman",
+          "label": {
+            "az": "Osmanlı dövləti"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "title": "Treaty of Resht",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Treaty_of_Resht"
+        },
+        {
+          "title": "Treaty of Ganja (1735)",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Treaty_of_Ganja_(1735)"
+        },
+        {
+          "title": "Battle of Yeghevard",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Yeghevard"
+        },
+        {
+          "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+          "author": "Michael Axworthy",
+          "type": "book",
+          "note": "I.B. Tauris, 2006"
+        }
+      ],
+      "order": 3
+    },
+    {
+      "id": "1736-mughan",
+      "date": {
+        "year": 1736,
+        "month": 3,
+        "day": 8,
+        "certainty": "exact"
+      },
+      "title": {
+        "az": "Muğan qurultayı: Əfşarlar dövləti"
+      },
+      "summary": {
+        "az": "1736-cı ilin əvvəlində Nadir Kür və Arazın qovuşduğu Muğan düzündə əyanların, tayfa başçılarının və din xadimlərinin qurultayını topladı. Qurultay onu şah seçdi, 8 martda tac qoydu. Uşaq şah III Abbas taxtdan salındı, Səfəvi sülaləsinin hakimiyyəti faktiki olaraq bitdi. Nadir şiə ayinlərinin bəzilərindən imtinanı və Cəfəri məzhəbinin tanınmasını şərt qoydu. Paytaxt kimi Məşhəd seçildi."
+      },
+      "mood": "coronation",
+      "location": {
+        "name": {
+          "az": "Muğan düzü"
+        },
+        "lat": 40,
+        "lng": 48.47,
+        "modernName": {
+          "az": "Kür–Araz qovşağı (Azərbaycan)"
+        }
+      },
+      "zoom": 5.4,
+      "territorySnapshotId": "y1736",
+      "capitalId": "meshed",
+      "keyFacts": {
+        "religion": {
+          "az": "İslam; Nadir şiə və sünni barışığına çalışdı"
+        },
+        "languages": {
+          "az": "Fars (dövlət), türk (ordu və saray)"
+        }
+      },
+      "related": [
+        {
+          "type": "person",
+          "id": "nadir-shah",
+          "stepId": "nadir-mughan",
+          "note": {
+            "az": "Nadirin həyatında bu an: tacqoyma."
+          }
+        },
+        {
+          "type": "person",
+          "id": "shah-ismayil",
+          "stepId": "ismayil-coronation",
+          "note": {
+            "az": "Burada 1501-də Şah İsmayılın başlatdığı Səfəvi hakimiyyəti faktiki olaraq bitir."
+          }
+        },
+        {
+          "type": "state",
+          "id": "safavid",
+          "label": {
+            "az": "Səfəvi dövləti"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "title": "Nader Shah",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Nader_Shah"
+        },
+        {
+          "title": "Afsharid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Afsharid_dynasty"
+        },
+        {
+          "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+          "author": "Michael Axworthy",
+          "type": "book",
+          "note": "I.B. Tauris, 2006"
+        }
+      ],
+      "quiz": [
+        {
+          "question": {
+            "az": "Nadir harada şah seçildi?"
+          },
+          "options": [
+            {
+              "az": "Muğan düzündə"
+            },
+            {
+              "az": "İsfahanda"
+            },
+            {
+              "az": "Məşhəddə"
+            },
+            {
+              "az": "Təbrizdə"
+            }
+          ],
+          "correctIndex": 0,
+          "explanation": {
+            "az": "1736-da Muğan düzündə toplanan qurultay Nadiri şah seçdi."
+          }
+        }
+      ],
+      "order": 4
+    },
+    {
+      "id": "1738-kandahar",
+      "date": {
+        "year": 1738,
+        "month": 3,
+        "certainty": "approximate"
+      },
+      "title": {
+        "az": "Qəndəhar: Hotakilərin sonu"
+      },
+      "summary": {
+        "az": "1737–1738-ci illərdə Nadir Hotakilərin son mərkəzi Qəndəharı mühasirəyə aldı və yaxınlıqda Nadirabad şəhərini saldı. Qala 1738-in martında alındı, Hüseyn Hotaki Mazandarana sürgün edildi. Əfqan tayfaları, xüsusilə Əbdalilər, Nadirin ordusuna qoşuldu."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Qəndəhar"
+        },
+        "lat": 31.6133,
+        "lng": 65.71
+      },
+      "zoom": 5,
+      "territorySnapshotId": "y1736",
+      "capitalId": "meshed",
+      "related": [
+        {
+          "type": "person",
+          "id": "nadir-shah",
+          "stepId": "nadir-kandahar"
+        },
+        {
+          "type": "battle",
+          "id": "kandahar-1738",
+          "label": {
+            "az": "Qəndəhar mühasirəsi (1737–1738)"
+          }
+        },
+        {
+          "type": "state",
+          "id": "hotaki",
+          "label": {
+            "az": "Hotakilər"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "title": "Siege of Kandahar (1738)",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Siege_of_Kandahar_(1738)"
+        },
+        {
+          "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+          "author": "Michael Axworthy",
+          "type": "book",
+          "note": "I.B. Tauris, 2006"
+        }
+      ],
+      "order": 5
+    },
+    {
+      "id": "1739-india",
+      "date": {
+        "year": 1739,
+        "month": 2,
+        "day": 24,
+        "certainty": "exact"
+      },
+      "title": {
+        "az": "Hindistan yürüşü"
+      },
+      "summary": {
+        "az": "Kabil və Lahor üzərindən Hindistana daxil olan Nadir 24 fevral 1739-da Karnalda Böyük Moğol padşahı Məhəmməd şahın ordusunu məğlub etdi. Martda Dehliyə daxil oldu; şəhərdə İran əsgərlərinin öldürülməsindən sonra verilən qırğın əmri ilə bir gündə təqribən 20–30 min dinc sakin həlak oldu. Moğol xəzinəsi, o cümlədən Tovuz taxtı və Kuhinur almazı götürüldü. Müqavilə ilə İnd çayından qərbdəki torpaqlar Nadirə keçdi, Məhəmməd şah isə taxtında saxlandı."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Dehli (Şahcahanabad)"
+        },
+        "lat": 28.6562,
+        "lng": 77.241
+      },
+      "zoom": 4.4,
+      "territorySnapshotId": "y1739",
+      "capitalId": "meshed",
+      "keyFacts": {
+        "army": {
+          "az": "Karnalda təqribən 55 000 döyüşçü (mənbələr fərqli rəqəmlər verir)"
+        },
+        "religion": {
+          "az": "İslam; Nadir şiə və sünni barışığına çalışdı"
+        },
+        "languages": {
+          "az": "Fars (dövlət), türk (ordu və saray)"
+        }
+      },
+      "related": [
+        {
+          "type": "person",
+          "id": "nadir-shah",
+          "stepId": "nadir-karnal"
+        },
+        {
+          "type": "battle",
+          "id": "karnal-1739",
+          "label": {
+            "az": "Karnal döyüşü (1739)"
+          }
+        },
+        {
+          "type": "state",
+          "id": "mughal",
+          "label": {
+            "az": "Böyük Moğol imperiyası"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "title": "Nader Shah's invasion of India",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Nader_Shah's_invasion_of_India"
+        },
+        {
+          "title": "Battle of Karnal",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Karnal"
+        },
+        {
+          "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+          "author": "Michael Axworthy",
+          "type": "book",
+          "note": "I.B. Tauris, 2006"
+        }
+      ],
+      "quiz": [
+        {
+          "question": {
+            "az": "1739-cu il müqaviləsi ilə hansı torpaqlar Nadirə keçdi?"
+          },
+          "options": [
+            {
+              "az": "İnd çayından qərbdəki torpaqlar"
+            },
+            {
+              "az": "Bütün Hindistan"
+            },
+            {
+              "az": "Benqal"
+            },
+            {
+              "az": "Dekkan"
+            }
+          ],
+          "correctIndex": 0,
+          "explanation": {
+            "az": "Məhəmməd şah taxtında saxlandı, İnddən qərbdəki əyalətlər isə Əfşarlar dövlətinə verildi."
+          }
+        }
+      ],
+      "order": 6
+    },
+    {
+      "id": "1740-turkestan",
+      "date": {
+        "year": 1740,
+        "certainty": "approximate"
+      },
+      "title": {
+        "az": "Turan yürüşü: ən geniş sərhədlər"
+      },
+      "summary": {
+        "az": "1740-cı ildə Nadir Orta Asiyaya yürüş etdi. Buxara xanı Əbülfeyz xan ona tabe oldu, Amudərya sərhəd kimi təyin edildi. Xivə xanı İlbars məğlub edilib edam olundu, Xarəzm tutuldu. Bu, Əfşarlar dövlətinin ən geniş sərhədləri idi."
+      },
+      "mood": "victory",
+      "location": {
+        "name": {
+          "az": "Buxara"
+        },
+        "lat": 39.7747,
+        "lng": 64.4286
+      },
+      "zoom": 4.2,
+      "territorySnapshotId": "y1739",
+      "capitalId": "meshed",
+      "related": [
+        {
+          "type": "person",
+          "id": "nadir-shah",
+          "stepId": "nadir-bukhara"
+        },
+        {
+          "type": "battle",
+          "id": "khiva-1740",
+          "label": {
+            "az": "Xivə yürüşü (1740)"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "title": "Nader Shah",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Nader_Shah"
+        },
+        {
+          "title": "Khanate of Bukhara",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanate_of_Bukhara"
+        },
+        {
+          "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+          "author": "Michael Axworthy",
+          "type": "book",
+          "note": "I.B. Tauris, 2006"
+        }
+      ],
+      "order": 7
+    },
+    {
+      "id": "1741-dagestan",
+      "date": {
+        "year": 1741,
+        "certainty": "approximate"
+      },
+      "title": {
+        "az": "Dağıstan yürüşü və böhranın başlanğıcı"
+      },
+      "summary": {
+        "az": "1741-ci ilin mayında Mazandaran meşələrində Nadirə sui-qəsd edildi. Sonra o, Dağıstana yürüş etdi, amma dağ icmalarının müqaviməti, qış və təchizat çətinlikləri ordunu geri çəkilməyə məcbur etdi. Sui-qəsddə oğlu Rzaqulunu şübhəli bilən Nadir 1742-də onu kor etdirdi. Müharibələrin xərci üçün vergilər artırıldı."
+      },
+      "mood": "decline",
+      "location": {
+        "name": {
+          "az": "Dağıstan dağları"
+        },
+        "lat": 42.25,
+        "lng": 46.97
+      },
+      "zoom": 5.6,
+      "territorySnapshotId": "y1739",
+      "capitalId": "meshed",
+      "related": [
+        {
+          "type": "person",
+          "id": "nadir-shah",
+          "stepId": "nadir-dagestan"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Nader Shah's Dagestan campaign",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Nader_Shah's_Dagestan_campaign"
+        },
+        {
+          "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+          "author": "Michael Axworthy",
+          "type": "book",
+          "note": "I.B. Tauris, 2006"
+        }
+      ],
+      "order": 8
+    },
+    {
+      "id": "1743-ottoman-war",
+      "date": {
+        "year": 1743,
+        "certainty": "approximate"
+      },
+      "title": {
+        "az": "Son Osmanlı müharibəsi və Kərdən sülhü"
+      },
+      "summary": {
+        "az": "1743-cü ilin sonunda Nadir Nəcəfdə sünni və şiə alimlərinin məclisini topladı. Həmin il Osmanlılarla yeni müharibə başladı: Qarsın mühasirəsi (1744) uğursuz oldu, 1745-də Bağavərd yaxınlığında Yeğən Məhəmməd paşanın ordusu məğlub edildi. 4 sentyabr 1746-da Kərdən sülhü ilə müharibə başa çatdı. Eyni illərdə ölkənin müxtəlif yerlərində ağır vergilərə qarşı üsyanlar yatırıldı."
+      },
+      "mood": "battle",
+      "location": {
+        "name": {
+          "az": "Qars yaxınlığı"
+        },
+        "lat": 40.3,
+        "lng": 44.62
+      },
+      "zoom": 5.4,
+      "territorySnapshotId": "y1739",
+      "capitalId": "meshed",
+      "events": [
+        {
+          "date": "1743, dekabr",
+          "text": {
+            "az": "Nəcəf məclisi."
+          }
+        },
+        {
+          "date": "1744",
+          "text": {
+            "az": "Qarsın uğursuz mühasirəsi."
+          }
+        },
+        {
+          "date": "1745, avqust",
+          "text": {
+            "az": "Bağavərd yaxınlığında qələbə."
+          }
+        },
+        {
+          "date": "4 sentyabr 1746",
+          "text": {
+            "az": "Kərdən sülhü."
+          }
+        }
+      ],
+      "related": [
+        {
+          "type": "person",
+          "id": "nadir-shah",
+          "stepId": "nadir-kars"
+        },
+        {
+          "type": "battle",
+          "id": "kars-1745",
+          "label": {
+            "az": "Qars döyüşü (1745)"
+          }
+        },
+        {
+          "type": "state",
+          "id": "ottoman",
+          "label": {
+            "az": "Osmanlı dövləti"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "title": "Ottoman–Persian War (1743–1746)",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Ottoman–Persian_War_(1743–1746)"
+        },
+        {
+          "title": "Treaty of Kerden",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Treaty_of_Kerden"
+        },
+        {
+          "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+          "author": "Michael Axworthy",
+          "type": "book",
+          "note": "I.B. Tauris, 2006"
+        }
+      ],
+      "order": 9
+    },
+    {
+      "id": "1747-assassination",
+      "date": {
+        "year": 1747,
+        "month": 6,
+        "day": 20,
+        "certainty": "disputed",
+        "alternatives": [
+          {
+            "year": 1747,
+            "month": 6,
+            "day": 19,
+            "note": {
+              "az": "Bəzi mənbələrdə 19 iyun"
+            }
+          },
+          {
+            "year": 1747,
+            "month": 6,
+            "day": 21,
+            "note": {
+              "az": "Bəzi mənbələrdə 21 iyun"
+            }
+          }
+        ]
+      },
+      "title": {
+        "az": "Nadirin öldürülməsi"
+      },
+      "summary": {
+        "az": "Ağır vergilər, qəddar cəzalar və artan şübhəçilik narazılığı gücləndirdi. 1747-ci ilin iyununda Xorasanda, Quçan yaxınlığındakı Fəthabad düşərgəsində öz mühafizə zabitləri Nadiri öldürdü. Qardaşı oğlu Əliqulu xan Adil şah adı ilə taxta çıxdı. Nadirin sərkərdəsi Əhməd xan Əbdali Qəndəhara gedib orada şah elan olundu."
+      },
+      "mood": "death",
+      "location": {
+        "name": {
+          "az": "Fəthabad (Quçan yaxınlığı)"
+        },
+        "lat": 37.12,
+        "lng": 58.62
+      },
+      "zoom": 5.4,
+      "territorySnapshotId": "y1739",
+      "capitalId": "meshed",
+      "related": [
+        {
+          "type": "person",
+          "id": "nadir-shah",
+          "stepId": "nadir-death"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Nader Shah",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Nader_Shah"
+        },
+        {
+          "title": "Afsharid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Afsharid_dynasty"
+        },
+        {
+          "title": "The Sword of Persia: Nader Shah, from Tribal Warrior to Conquering Tyrant",
+          "author": "Michael Axworthy",
+          "type": "book",
+          "note": "I.B. Tauris, 2006"
+        }
+      ],
+      "order": 10
+    },
+    {
+      "id": "1748-fragmentation",
+      "date": {
+        "year": 1748,
+        "certainty": "approximate"
+      },
+      "title": {
+        "az": "Parçalanma"
+      },
+      "summary": {
+        "az": "Adil şah (1747–1748) və İbrahim şah (1748) qısa müddət hökm sürdü. 1748-də Məşhəddə Nadirin nəvəsi Şahrux şah elan edildi; 1750-də kor edildi, sonra yenidən taxta qaytarıldı. Şərqdə Əhməd şah Dürrani Əfqan dövlətini qurdu, qərbdə isə hakimiyyət uğrunda Zəndlər, Qacarlar və Azad xan Əfqan vuruşdu."
+      },
+      "mood": "decline",
+      "location": {
+        "name": {
+          "az": "Məşhəd"
+        },
+        "lat": 36.2972,
+        "lng": 59.6067
+      },
+      "zoom": 4.3,
+      "territorySnapshotId": "y1750",
+      "capitalId": "meshed",
+      "related": [
+        {
+          "type": "state",
+          "id": "durrani",
+          "label": {
+            "az": "Dürrani dövləti"
+          }
+        },
+        {
+          "type": "state",
+          "id": "zand",
+          "label": {
+            "az": "Zəndlər dövləti"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "title": "Afsharid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Afsharid_dynasty"
+        },
+        {
+          "title": "Shahrokh Shah",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Shahrokh_Shah"
+        },
+        {
+          "title": "Durrani Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Durrani_Empire"
+        }
+      ],
+      "order": 11
+    },
+    {
+      "id": "1748-khanates",
+      "date": {
+        "year": 1748,
+        "certainty": "approximate"
+      },
+      "title": {
+        "az": "Azərbaycan xanlıqlarının yaranması"
+      },
+      "summary": {
+        "az": "Nadirin ölümündən sonra Azərbaycanda və Cənubi Qafqazda müstəqil xanlıqlar yarandı: Qarabağ, Şəki, Quba, Şamaxı, Bakı, Gəncə, İrəvan, Naxçıvan, Talış, Dərbənd, Cavad, Ərdəbil, Təbriz, Xoy, Urmiya, Marağa, Qaradağ və başqaları. Şəki xanlığı Hacı Çələbinin 1743-cü il üsyanı ilə daha əvvəl yaranmışdı. Pənahəli xan Cavanşir Qarabağ xanlığını qurdu və 1750-ci illərdə Şuşa qalasını tikdirdi. Fətəli xanın dövründə (1758–1789) Quba xanlığı Dərbənd və Şamaxı üzərində nüfuz qazandı."
+      },
+      "mood": "rise",
+      "location": {
+        "name": {
+          "az": "Şuşa"
+        },
+        "lat": 39.7579,
+        "lng": 46.7517
+      },
+      "zoom": 6.2,
+      "territorySnapshotId": "y1760",
+      "polityId": "karabakh-kh",
+      "related": [
+        {
+          "type": "state",
+          "id": "karabakh-kh",
+          "label": {
+            "az": "Qarabağ xanlığı"
+          }
+        },
+        {
+          "type": "state",
+          "id": "sheki-kh",
+          "label": {
+            "az": "Şəki xanlığı"
+          }
+        },
+        {
+          "type": "state",
+          "id": "quba-kh",
+          "label": {
+            "az": "Quba xanlığı"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        },
+        {
+          "title": "Karabakh Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Karabakh_Khanate"
+        },
+        {
+          "title": "Shaki Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Shaki_Khanate"
+        },
+        {
+          "title": "Quba Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Quba_Khanate"
+        }
+      ],
+      "quiz": [
+        {
+          "question": {
+            "az": "Hansı xanlığın paytaxtı Şuşa idi?"
+          },
+          "options": [
+            {
+              "az": "Qarabağ xanlığı"
+            },
+            {
+              "az": "Şəki xanlığı"
+            },
+            {
+              "az": "Quba xanlığı"
+            },
+            {
+              "az": "Gəncə xanlığı"
+            }
+          ],
+          "correctIndex": 0,
+          "explanation": {
+            "az": "Şuşa qalasını 1750-ci illərdə Qarabağ xanı Pənahəli xan tikdirdi."
+          }
+        }
+      ],
+      "order": 12
+    },
+    {
+      "id": "1760-zand",
+      "date": {
+        "year": 1760,
+        "certainty": "approximate"
+      },
+      "title": {
+        "az": "Zəndlər dövrü, Xorasanda Şahrux"
+      },
+      "summary": {
+        "az": "Kərim xan Zənd 1750-ci illərdə rəqiblərini məğlub edərək Qərbi və Mərkəzi İranı birləşdirdi; şah titulu almadan \"vəkil\" kimi hökm sürdü, 1765-dən paytaxtı Şiraz oldu. Şahrux Məşhəddə yalnız Xorasanı idarə edirdi və Əhməd şah Dürraninin himayəsində idi."
+      },
+      "mood": "decline",
+      "location": {
+        "name": {
+          "az": "Məşhəd"
+        },
+        "lat": 36.2972,
+        "lng": 59.6067
+      },
+      "zoom": 4.2,
+      "territorySnapshotId": "y1760",
+      "capitalId": "meshed",
+      "related": [
+        {
+          "type": "state",
+          "id": "zand",
+          "label": {
+            "az": "Zəndlər dövləti"
+          }
+        },
+        {
+          "type": "state",
+          "id": "durrani",
+          "label": {
+            "az": "Dürrani dövləti"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "title": "Zand dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Zand_dynasty"
+        },
+        {
+          "title": "Karim Khan Zand",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Karim_Khan_Zand"
+        },
+        {
+          "title": "Shahrokh Shah",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Shahrokh_Shah"
+        }
+      ],
+      "order": 13
+    },
+    {
+      "id": "1796-end",
+      "date": {
+        "year": 1796,
+        "certainty": "approximate"
+      },
+      "title": {
+        "az": "Əfşarların sonu"
+      },
+      "summary": {
+        "az": "Ağa Məhəmməd xan Qacar Zəndləri devirib (1794) İranı yenidən birləşdirdi, 1795-də Tiflisi dağıtdı və 1796-da şah tacı qoydu. Həmin il Məşhədi tutdu. Şahrux xəzinənin yeri barədə işgəncə ilə sorğu-sual edildi və tezliklə öldü. Bununla Əfşarların hakimiyyəti başa çatdı."
+      },
+      "mood": "death",
+      "location": {
+        "name": {
+          "az": "Məşhəd"
+        },
+        "lat": 36.2972,
+        "lng": 59.6067
+      },
+      "zoom": 4.3,
+      "territorySnapshotId": "y1796",
+      "capitalId": "meshed",
+      "related": [
+        {
+          "type": "state",
+          "id": "qajar",
+          "label": {
+            "az": "Qacarlar dövləti"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "title": "Agha Mohammad Khan Qajar",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Agha_Mohammad_Khan_Qajar"
+        },
+        {
+          "title": "Shahrokh Shah",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Shahrokh_Shah"
+        },
+        {
+          "title": "Afsharid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Afsharid_dynasty"
+        }
+      ],
+      "quiz": [
+        {
+          "question": {
+            "az": "Əfşarların hakimiyyətinə kim son qoydu?"
+          },
+          "options": [
+            {
+              "az": "Ağa Məhəmməd xan Qacar"
+            },
+            {
+              "az": "Kərim xan Zənd"
+            },
+            {
+              "az": "Əhməd şah Dürrani"
+            },
+            {
+              "az": "II Yekaterina"
+            }
+          ],
+          "correctIndex": 0,
+          "explanation": {
+            "az": "1796-da Ağa Məhəmməd xan Qacar Məşhədi aldı."
+          }
+        }
+      ],
+      "order": 14
+    }
+  ]
+}

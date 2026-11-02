@@ -1,0 +1,41 @@
+{
+  "id": "talysh-kh",
+  "name": {
+    "az": "Talış xanlığı"
+  },
+  "color": "#4f8a8a",
+  "periods": [
+    {
+      "from": 1747,
+      "to": 1828
+    }
+  ],
+  "facts": [
+    {
+      "from": 1747,
+      "to": 1800,
+      "status": "rise",
+      "statusNote": {
+        "az": "Nadir Şahın ölümündən sonra yaranan Azərbaycan xanlıqlarından biri. Lənkəran mərkəzli xanlıq."
+      },
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi, fars (dəftərxana)"
+      },
+      "sources": [
+        {
+          "title": "Talysh Khanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Talysh_Khanate"
+        },
+        {
+          "title": "Khanates of the Caucasus",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanates_of_the_Caucasus"
+        }
+      ]
+    }
+  ]
+}

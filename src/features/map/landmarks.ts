@@ -47,7 +47,7 @@ export class LandmarkLayer {
   }
 
   /** Year decides names, visibility and which cities are capitals right now. */
-  update(year: number, capitals: Set<string>, coveredByJourney: Set<string>) {
+  update(year: number, capitals: Set<string>, coveredByJourney: Set<string>, focusId: string | null = null) {
     this.year = year;
     this.capitals = capitals;
     this.covered = coveredByJourney;
@@ -64,6 +64,7 @@ export class LandmarkLayer {
         if (mod) mod.textContent = `${this.m.sim.modernName}: ${modern}`;
       }
       el.setAttribute("aria-label", modern ? `${name} (${this.m.sim.modernName}: ${modern})` : name);
+      el.dataset.focus = String(place.id === focusId);
     }
     this.applyVisibility();
   }
@@ -71,7 +72,7 @@ export class LandmarkLayer {
   private applyVisibility() {
     const z = this.map.getZoom();
     for (const { place, el } of this.entries) {
-      const capital = this.capitals.has(place.id);
+      const capital = this.capitals.has(place.id) || el.dataset.focus === "true";
       const visible =
         isPlaceVisibleIn(place, this.year) && (capital || z >= MIN_ZOOM[place.importance]) && !this.covered.has(place.id);
       el.dataset.visible = String(visible);

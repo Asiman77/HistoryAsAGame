@@ -317,11 +317,13 @@ export function MapStage({
     momentsRef.current = [];
 
     // Political map for the year, landmarks and their capitals from the same snapshot.
+    territories.setFocus(shownStep.focusPolityId ?? null);
     void territories.show(shownStep.snapshotId).then(() => alive() && declutterRef.current());
     const nextSnap = steps[index + 1]?.snapshotId;
     if (nextSnap && nextSnap !== shownStep.snapshotId) territories.prefetch(nextSnap);
     const meta = snapshots.find((s) => s.id === shownStep.snapshotId);
     const capitals = new Set(meta?.polities.flatMap((p) => (p.capitalId ? [p.capitalId] : [])) ?? []);
+    if (shownStep.capitalId) capitals.add(shownStep.capitalId);
 
     const camera = (run: () => void, maxMs: number) =>
       new Promise<void>((resolve) => {
@@ -352,7 +354,7 @@ export function MapStage({
         entry.priority = state === "current" ? Infinity : phase === "legacy" ? place.steps.length : (seen.at(-1) ?? -1);
         if (state !== "future" && place.placeId) covered.add(place.placeId);
       }
-      landmarksRef.current?.update(shownStep.year, capitals, covered);
+      landmarksRef.current?.update(shownStep.year, capitals, covered, shownStep.capitalId ?? null);
       declutterRef.current();
     };
 

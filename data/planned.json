@@ -3,16 +3,13 @@
     {
       "type": "conflict",
       "id": "karabakh-war-2020",
-      "title": { "az": "44 günlük Vətən müharibəsi" },
-      "description": { "az": "27 sentyabr – 10 noyabr 2020. Şanlı Zəfər tariximiz: gün-gün azad olunan torpaqlar, sərkərdələr və şəhid qəhrəmanlar." },
+      "title": {
+        "az": "44 günlük Vətən müharibəsi"
+      },
+      "description": {
+        "az": "27 sentyabr – 10 noyabr 2020. Şanlı Zəfər tariximiz: gün-gün azad olunan torpaqlar, sərkərdələr və şəhid qəhrəmanlar."
+      },
       "years": "2020"
-    },
-    {
-      "type": "state",
-      "id": "afshar",
-      "title": { "az": "Əfşarlar dövləti" },
-      "description": { "az": "Səfəvi böhranından Muğan qurultayına, Hindistan yürüşündən parçalanmaya və Azərbaycan xanlıqlarının yaranmasına qədər." },
-      "years": "1736–1796"
     }
   ]
 }

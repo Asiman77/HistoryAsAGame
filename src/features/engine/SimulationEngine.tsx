@@ -72,6 +72,8 @@ interface Props<S extends EngineStep> {
   stepSfx?: (step: S) => "drum" | "whoosh";
   /** Category list this simulation belongs to, for the HUD back link. */
   indexLink: { href: string; label: string };
+  /** Extra strip under the timeline, e.g. the dynasty of a state. */
+  belowTimeline?: (step: S, final: boolean) => React.ReactNode;
 }
 
 const noop = () => () => {};
@@ -95,6 +97,7 @@ export function SimulationEngine<S extends EngineStep>({
   modes = true,
   stepSfx = (s) => (s.battle ? "drum" : "whoosh"),
   indexLink,
+  belowTimeline,
 }: Props<S>) {
   const { steps, places, eras } = data;
   const [started, setStarted] = useState(false);
@@ -483,6 +486,7 @@ export function SimulationEngine<S extends EngineStep>({
               </aside>
               <div className="paper-card absolute bottom-5 left-5 z-10 rounded-lg py-3" style={{ right: panelW + 40 }}>
                 <Timeline steps={steps} eras={eras} index={final ? last : index} onSelect={go} locale={locale} m={m} />
+                {belowTimeline?.(shownStep, final)}
                 <p className="mt-1 flex justify-between gap-4 px-6 text-[11px] text-ink-faint">
                   <span>{teacher ? "" : m.sim.keyboardHint}</span>
                   <span>{m.map.attribution}</span>
@@ -497,6 +501,7 @@ export function SimulationEngine<S extends EngineStep>({
               <BottomSheet sheetH={sheetH} collapsedY={collapsedY} onSwipe={(d) => (d > 0 ? next() : prev())} scrollRef={scrollRef}>
                 <div className="px-1">
                   <Timeline steps={steps} eras={eras} index={final ? last : index} onSelect={go} locale={locale} m={m} compact />
+                  {belowTimeline?.(shownStep, final)}
                 </div>
                 <div className="flex items-center justify-between gap-2 border-b border-ink/10 px-4 pt-2 pb-3">
                   {modes ? <ModeToggle mode={mode} setMode={setMode} m={m} /> : <span />}
