@@ -27,6 +27,10 @@ export const MUSIC_LAYERS = {
   journey: { file: "music-journey", seconds: 26, gain: 0.7 },
   qanun: { file: "music-qanun", seconds: 26, gain: 0.7 },
   triumph: { file: "music-triumph", seconds: 28, gain: 0.75 },
+  // 44-day war soundtrack (original): operation days, liberation days, memorial days.
+  march: { file: "music-march", seconds: 18, gain: 0.7 },
+  anthem: { file: "music-anthem", seconds: 30, gain: 0.75 },
+  lament: { file: "music-lament", seconds: 35, gain: 0.85 },
 } as const satisfies Record<string, Layer>;
 export type MusicLayer = keyof typeof MUSIC_LAYERS;
 

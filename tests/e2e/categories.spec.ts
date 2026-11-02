@@ -139,6 +139,23 @@ test("Nadir Şah's coronation links to the state simulation and back", async ({ 
   await expect(page).toHaveURL(/\/az\/persons\/nadir-shah\/\?step=nadir-mughan/);
 });
 
+test("war section plays its own music: march, anthem on Şuşa, lament on memorial days", async ({ page }) => {
+  const heard = new Set<string>();
+  page.on("request", (r) => {
+    const m = /music-(march|anthem|lament|triumph).(webm|mp3)/.exec(r.url());
+    if (m) heard.add(m[1]!);
+  });
+  await page.goto("/az/conflicts/karabakh-war-2020/");
+  await startJourney(page);
+  await expect.poll(() => heard.has("march")).toBe(true);
+  await page.goto("/az/conflicts/karabakh-war-2020/?step=2020-11-08");
+  await startJourney(page, /mərhələsindən başla/);
+  await expect.poll(() => heard.has("anthem") && heard.has("triumph")).toBe(true);
+  await page.goto("/az/conflicts/karabakh-war-2020/?step=2020-10-11-ganja");
+  await startJourney(page, /mərhələsindən başla/);
+  await expect.poll(() => heard.has("lament")).toBe(true);
+});
+
 test("war section: flag intro, day counter, liberated settlements, Şuşa and the memorial", async ({ page }) => {
   test.slow();
   const errors = collectErrors(page);

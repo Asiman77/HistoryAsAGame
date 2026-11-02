@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, useReducedMotion } from "motion/react";
-import type { Hero, Locale, Settlement } from "@/domain/schema";
+import type { Hero, Locale, Mood, Settlement } from "@/domain/schema";
 import { EventIcon } from "@/components/EventIcon";
 import { getAudioEngine } from "@/features/audio/engine";
+import type { MoodSound } from "@/features/audio/manifest";
 import { RelatedLinks } from "@/features/engine/RelatedLinks";
 import { SimulationEngine } from "@/features/engine/SimulationEngine";
 import { Quiz } from "@/features/legacy/LegacyPanel";
@@ -18,6 +19,19 @@ import { FLAG, liberationLayer } from "./liberation";
 import type { ConflictSimulationData, ConflictStep } from "./model";
 
 type Overlay = "heroes" | "commanders" | null;
+
+/**
+ * The war's own soundtrack (original music, docs/AUDIO_CREDITS.md): a march on
+ * operation days, the anthem on liberation days, anthem with the triumph layer
+ * for Şuşa, and the quiet lament on memorial days and in the heroes memorial.
+ */
+function warSound(step: ConflictStep, final: boolean, mood: Mood): MoodSound {
+  if (mood === "death") return { music: ["lament"], ambience: [] };
+  if (final) return { music: ["anthem"], ambience: [] };
+  if (step.id === "2020-11-08") return { music: ["anthem", "triumph"], ambience: ["crowd"] };
+  if (step.day.kind === "operation" || mood === "battle") return { music: ["march"], ambience: [] };
+  return { music: ["anthem"], ambience: [] };
+}
 
 /** "Şanlı Zəfər tariximiz": a war day by day on the shared engine. */
 export function ConflictSimulation({ data, locale, messages: m }: { data: ConflictSimulationData; locale: Locale; messages: Messages }) {
@@ -42,6 +56,7 @@ export function ConflictSimulation({ data, locale, messages: m }: { data: Confli
         finalMood="peace"
         // Memorial overlay softens the soundtrack to the lament.
         moodOverride={overlay === "heroes" ? "death" : null}
+        soundFor={warSound}
         gate={{ art: <WarIntro date={t(conflict.introDate, locale)} heading={t(conflict.heading, locale)} />, dark: true }}
         mapExtension={extension}
         stepSfx={(s) => (s.day.kind === "memorial" ? null : s.id === "2020-11-08" ? "victory" : s.day.kind === "operation" || s.mood === "battle" ? "drum" : "whoosh")}

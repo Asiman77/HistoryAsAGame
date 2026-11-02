@@ -335,6 +335,127 @@ function layerTriumph(sec: number, r: () => number): Buf {
   return out;
 }
 
+// ------------------------------------------------- war soundtrack (original, CC0)
+// Melodies below are composed for this project; none quotes an existing song or anthem.
+const MAJOR = [0, 2, 4, 5, 7, 9, 11];
+const rast = (deg: number, oct = 0) => {
+  const o = Math.floor(deg / 7) + oct;
+  return D3 * Math.pow(2, (MAJOR[((deg % 7) + 7) % 7]! + 12 * o) / 12);
+};
+const BRASS_SHORT: Voice = { harmonics: [1, 0.75, 0.6, 0.48, 0.36, 0.27, 0.2, 0.14], vibratoHz: 5, vibratoDepth: 0.002, attack: 0.03, release: 0.09, breath: 0.012, lowpass: 3000, formant: [1150, 1.1] };
+const BRASS_LONG: Voice = { ...BRASS_SHORT, vibratoDepth: 0.003, attack: 0.25, release: 0.5, lowpass: 2600 };
+const CHOIR: Voice = { harmonics: [1, 0.32, 0.16, 0.08, 0.04], vibratoHz: 5.2, vibratoDepth: 0.004, attack: 0.7, release: 0.9, breath: 0.02, lowpass: 1700, formant: [700, 1] };
+
+function snare(r: () => number): Buf {
+  const out = buf(0.25);
+  let ph = 0;
+  for (let i = 0; i < out.length; i++) {
+    ph += (TAU * 190) / SR;
+    out[i] = 0.5 * Math.sin(ph) * Math.exp(-i / SR / 0.04);
+  }
+  const rattle = bandpass(noise(0.25, r), 3000, 0.7);
+  for (let i = 0; i < rattle.length; i++) rattle[i]! *= Math.exp(-i / SR / 0.07);
+  mix(out, rattle, 0, 1.6);
+  return out;
+}
+
+type RNote = [degree: number, beats: number, octave?: number];
+function rastLine(notes: RNote[], bpm: number, play: (f: number, sec: number, prev?: number) => Buf, dst: Buf, start: number, gain: number) {
+  const beat = 60 / bpm;
+  let t = start;
+  let prev: number | undefined;
+  for (const [deg, beats, oct = 0] of notes) {
+    if (deg > -20) {
+      const fq = rast(deg, oct);
+      mix(dst, play(fq, beats * beat * 0.95, prev), t, gain);
+      prev = fq;
+    }
+    t += beats * beat;
+  }
+}
+
+/** Operation days: a determined march in Şur, nağara and snare under a brass theme. */
+function layerMarch(sec: number, r: () => number): Buf {
+  const out = buf(sec);
+  const bpm = 112;
+  const beat = 60 / bpm;
+  const start = 0.5;
+  const nag = drum("nagara", r), sn = snare(r);
+  for (let bar = 0; bar < 8; bar++) {
+    const t0 = start + bar * 4 * beat;
+    mix(out, nag, t0, 0.8);
+    mix(out, nag, t0 + 2 * beat, 0.65);
+    mix(out, sn, t0 + beat, 0.45);
+    mix(out, sn, t0 + 3 * beat, 0.45);
+    mix(out, sn, t0 + 3.5 * beat, 0.25);
+    if (bar % 2 === 1) for (let k = 0; k < 4; k++) mix(out, sn, t0 + 3 * beat + k * beat * 0.25, 0.15 + k * 0.05);
+  }
+  const theme: Note[] = [
+    [0, 0.75], [0, 0.25], [2, 1], [4, 1.5], [REST, 0.5],
+    [5, 0.75], [4, 0.25], [3, 1], [2, 2],
+    [3, 0.75], [3, 0.25], [4, 1], [5, 1.5], [REST, 0.5],
+    [7, 0.75], [5, 0.25], [4, 1], [3, 2],
+    [0, 0.75], [0, 0.25], [2, 1], [4, 1.5], [REST, 0.5],
+    [5, 0.75], [4, 0.25], [5, 1], [7, 2],
+    [6, 0.75], [5, 0.25], [4, 1], [3, 1], [2, 1],
+    [1, 1], [2, 1], [0, 2],
+  ];
+  const br = (fq: number, s2: number, p?: number) => sustained(BRASS_SHORT, fq * 2, s2, r, p && p * 2);
+  melody(theme, bpm, br, sec, start, 0.3, out);
+  const roots = [0, 3, 3, 4, 0, 3, 4, 0];
+  const bass: Note[] = roots.flatMap((d) => [[d, 1, -1], [d + 4, 1, -1], [d, 1, -1], [d + 4, 1, -1]] as Note[]);
+  const low = (fq: number, s2: number) => sustained(BRASS_SHORT, fq, s2 * 0.7, r);
+  melody(bass, bpm, low, sec, start, 0.18, out);
+  return out;
+}
+
+/** Liberation days: a broad hymn in Rast, choir pads, brass melody and timpani. */
+function layerAnthem(sec: number, r: () => number): Buf {
+  const out = buf(sec);
+  const bpm = 66;
+  const beat = 60 / bpm;
+  const start = 0.5;
+  const tune: RNote[] = [
+    [0, 1], [2, 1], [4, 2],
+    [5, 1], [4, 1], [2, 2],
+    [3, 1], [4, 1], [5, 1.5], [4, 0.5],
+    [2, 3], [REST, 1],
+    [4, 1], [5, 1], [7, 2],
+    [6, 1], [5, 1], [4, 2],
+    [5, 1], [3, 1], [2, 1], [1, 1],
+    [0, 4],
+  ];
+  const br = (fq: number, s2: number, p?: number) => sustained(BRASS_LONG, fq * 2, s2, r, p && p * 2);
+  rastLine(tune, bpm, br, out, start, 0.26);
+  // One chord per bar: I vi IV I V vi IV I
+  const chords = [[0, 2, 4], [5, 7, 9], [3, 5, 7], [0, 2, 4], [4, 6, 8], [5, 7, 9], [3, 5, 7], [0, 2, 4]];
+  chords.forEach((c, bar) => {
+    const t0 = start + bar * 4 * beat;
+    for (const d of c) mix(out, sustained(CHOIR, rast(d, 0), 4 * beat + 0.4, r), t0, 0.16);
+    mix(out, sustained(CHOIR, rast(c[0]!, -1), 4 * beat + 0.4, r), t0, 0.2);
+    mix(out, drum("nagara", r), t0, 0.55);
+    if (bar % 2 === 1) for (let k = 0; k < 8; k++) mix(out, drum("nagara", r), t0 + 3 * beat + k * beat * 0.125, 0.08 + k * 0.03);
+  });
+  return out;
+}
+
+/** Memorial days: a quiet lament, balaban over sparse tar. No drums. */
+function layerLament(sec: number, r: () => number): Buf {
+  const out = buf(sec);
+  const bpm = 52;
+  const beat = 60 / bpm;
+  const start = 0.5;
+  const N: Note[] = [
+    [4, 2, -1], [5, 1, -1], [4, 1, -1], [3, 3, -1], [REST, 1],
+    [2, 1.5, -1], [3, 0.5, -1], [2, 1, -1], [1, 1, -1], [0, 4, -1], [REST, 1],
+    [3, 2, -1], [4, 1, -1], [3, 1, -1], [2, 2, -1], [1, 1, -1], [2, 1, -1], [0, 4, -1],
+  ];
+  const bal = (fq: number, s2: number, p?: number) => sustained(BALABAN, fq, s2, r, p);
+  melody(N, bpm, bal, sec, start, 0.6, out);
+  for (let t = start, k = 0; t < sec - 2; t += 2 * beat, k++) mix(out, pluck(hz(k % 2 ? 4 : 0), 2.5, r, { decay: 0.995, bright: 0.45 }), t, 0.16);
+  return out;
+}
+
 // ---------------------------------------------------------------- ambience
 function windAmb(sec: number, r: () => number): Buf {
   const lfo = (i: number) => 450 + 300 * Math.sin((TAU * 0.07 * i) / SR) + 150 * Math.sin((TAU * 0.19 * i) / SR + 1);
@@ -546,7 +667,12 @@ const MUSIC_BUILDERS: Record<string, (sec: number, r: () => number) => Buf> = {
   journey: layerJourney,
   qanun: layerQanun,
   triumph: layerTriumph,
+  march: layerMarch,
+  anthem: layerAnthem,
+  lament: layerLament,
 };
+/** Fixed seeds for layers added later, so the older clips keep theirs. */
+const FIXED_SEED: Record<string, number> = { march: 101, anthem: 102, lament: 103 };
 const AMBIENCE_BUILDERS: Record<string, (sec: number, r: () => number) => Buf> = {
   wind: windAmb,
   crowd: crowdAmb,
@@ -563,7 +689,8 @@ async function main() {
   for (const [id, layer] of Object.entries(MUSIC_LAYERS)) {
     const build = MUSIC_BUILDERS[id];
     if (!build) throw new Error(`no builder for music layer ${id}`);
-    clips.push({ name: layer.file, data: normalize(loopable(build(layer.seconds, rng(seed++)))), kbps: 56 });
+    const r = FIXED_SEED[id] !== undefined ? rng(FIXED_SEED[id]) : rng(seed++);
+    clips.push({ name: layer.file, data: normalize(loopable(build(layer.seconds, r))), kbps: 56 });
   }
   for (const [id, layer] of Object.entries(AMBIENCE_LAYERS)) {
     const build = AMBIENCE_BUILDERS[id];

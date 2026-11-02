@@ -16,6 +16,7 @@ import type { Locale, Maneuver, Mood } from "@/domain/schema";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { GlossaryProvider } from "@/components/GlossaryText";
 import { getAudioEngine } from "@/features/audio/engine";
+import type { MoodSound } from "@/features/audio/manifest";
 import { MapLegend } from "@/features/map/MapLegend";
 import { MapStage, type MapExtensionFactory, type Phase } from "@/features/map/MapStage";
 import { PlaceCard } from "@/features/map/PlaceCard";
@@ -74,6 +75,11 @@ interface Props<S extends EngineStep> {
   gate?: { art?: React.ReactNode; dark?: boolean };
   /** Extra map layers owned by the simulation kind. */
   mapExtension?: MapExtensionFactory;
+  /**
+   * Own soundtrack of a simulation kind (e.g. the war's march, anthem and lament).
+   * Undefined falls back to the shared mood → music map.
+   */
+  soundFor?: (step: S, final: boolean, mood: Mood) => MoodSound | undefined;
   /** Background mood for the final panel and modal overlays. */
   moodOverride?: Mood | null;
   /** Category list this simulation belongs to, for the HUD back link. */
@@ -107,6 +113,7 @@ export function SimulationEngine<S extends EngineStep>({
   gate,
   mapExtension,
   moodOverride = null,
+  soundFor,
 }: Props<S>) {
   const { steps, places, eras } = data;
   const [started, setStarted] = useState(false);
@@ -171,9 +178,10 @@ export function SimulationEngine<S extends EngineStep>({
         setPhase("journey");
       }
       setStarted(true);
-      void engine.start(settings, choice.kind === "begin" ? steps[0]!.mood : steps[choice.index]!.mood);
+      const first = steps[choice.kind === "begin" ? 0 : choice.index]!;
+      void engine.start(settings, first.mood, soundFor?.(first, false, first.mood) ?? null);
     },
-    [data.key, last, steps, engine, settings],
+    [data.key, last, steps, engine, settings, soundFor],
   );
 
   // ---- persistence --------------------------------------------------------------
@@ -186,10 +194,12 @@ export function SimulationEngine<S extends EngineStep>({
   useEffect(() => engine.applySettings(settings), [engine, settings]);
   useEffect(() => {
     if (!started) return;
-    engine.setMood(mood);
-    const upcoming = steps[index + 1]?.mood;
-    if (upcoming && upcoming !== mood) void engine.preload(upcoming);
-  }, [engine, started, mood, index, steps]);
+    const sound = soundFor?.(shownStep, final, mood) ?? null;
+    engine.setMood(mood, false, sound);
+    const next = steps[index + 1];
+    const nextSound = next && soundFor?.(next, false, next.mood);
+    if (next && (next.mood !== mood || nextSound)) void engine.preload(next.mood, nextSound ?? null);
+  }, [engine, started, mood, index, steps, soundFor, shownStep, final]);
   const firstStep = useRef(true);
   useEffect(() => {
     if (!started) return;

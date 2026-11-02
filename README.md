@@ -177,7 +177,8 @@ Tətbiq daxilində keçidlə gələndə səs artıq açıq olduğundan start ekr
   Rəsmi mənbələr ölüm tarixlərini vermədiyi üçün qəhrəmanlar günlərə bağlanmır, ayrıca xatirə bölməsində göstərilir.
   Foto yoxdur: `photo` sahəsi yalnız rəsmi, icazəli şəkil üçündür, müasir real şəxslər üçün AI şəkli yaradılmır. Hazırda hörmətli siluet göstərilir.
 - **Sərkərdələr:** yalnız AZƏRTAC xronikasında adı çəkilən komandanlar, 2020-ci il vəzifələri ilə.
-- **Musiqi:** `soundtrack.json` icazə statusunu saxlayır; "Vətən yaxşıdır" və "Bayatı-Şiraz" `pending`-dir və build-ə düşmür (bax `docs/AUDIO_CREDITS.md`).
+- **Musiqi:** bölmənin öz orijinal musiqisi var: əməliyyat günlərində marş, azadetmə günlərində himn, Şuşada himn + "triumph", xatirə günlərində ağı
+  (`SimulationEngine`-in `soundFor` propu). `soundtrack.json` icazə statusunu saxlayır; "Vətən yaxşıdır" və "Bayatı-Şiraz" `pending`-dir və build-ə düşmür (bax `docs/AUDIO_CREDITS.md`).
 - **Döyüşlər:** `battles/shusha-2020.json` (Şuşa əməliyyatı) registry-də müharibənin 8 noyabr gününə aparan link kimi qeyd olunur.
 
 ## Yaşa görə portretlər

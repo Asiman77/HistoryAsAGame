@@ -14,6 +14,7 @@ import {
   type AmbienceLayer,
   type Channel,
   type Layer,
+  type MoodSound,
   type MusicLayer,
   type SfxName,
 } from "./manifest";
@@ -109,6 +110,8 @@ export class AudioEngine {
   private sprite: HowlType | null = null;
   private voice: HowlType | null = null;
   private mood: Mood | null = null;
+  /** Soundtrack chosen by the simulation for this mood; null = the shared MOOD_SOUND map. */
+  private sound: MoodSound | null = null;
   private started = false;
   private settings: Settings | null = null;
 
@@ -122,7 +125,7 @@ export class AudioEngine {
   }
 
   /** Must be called from a user gesture (browser autoplay rules). */
-  async start(settings: Settings, mood: Mood) {
+  async start(settings: Settings, mood: Mood, sound: MoodSound | null = null) {
     const lib = await this.load();
     this.started = true;
     this.settings = settings;
@@ -133,7 +136,7 @@ export class AudioEngine {
       format: ["webm", "mp3"],
       sprite: AUDIO_SPRITE.sprite as unknown as Record<string, [number, number]>,
     });
-    this.setMood(mood, true);
+    this.setMood(mood, true, sound);
   }
 
   applySettings(settings: Settings) {
@@ -144,17 +147,18 @@ export class AudioEngine {
     this.voice?.volume(channelLevel(settings, "voice"));
   }
 
-  setMood(mood: Mood, immediate = false) {
+  setMood(mood: Mood, immediate = false, sound: MoodSound | null = null) {
     this.mood = mood;
+    this.sound = sound;
     if (!this.started) return;
     this.mix(mood, immediate ? 900 : MUSIC_CROSSFADE_MS);
   }
 
   /** Warms up the files of an upcoming mood so the crossfade starts on time. */
-  async preload(mood: Mood) {
+  async preload(mood: Mood, sound: MoodSound | null = null) {
     if (!this.started) return;
     const lib = await this.load();
-    const want = MOOD_SOUND[mood];
+    const want = sound ?? MOOD_SOUND[mood];
     for (const id of want.music) this.layer(lib, "music", id).preload();
     if (!this.settings || !isLightMode(this.settings)) for (const id of want.ambience) this.layer(lib, "ambience", id).preload();
   }
@@ -187,6 +191,7 @@ export class AudioEngine {
     for (const l of [...this.music.values(), ...this.ambience.values()]) l.stop();
     this.voice?.stop();
     this.mood = null;
+    this.sound = null;
   }
 
   private layer(lib: HowlerModule, kind: "music", id: MusicLayer): LoopLayer;
@@ -206,7 +211,7 @@ export class AudioEngine {
     const lib = this.lib;
     const s = this.settings;
     if (!lib || !s) return;
-    const want = MOOD_SOUND[mood];
+    const want = this.sound ?? MOOD_SOUND[mood];
     const light = isLightMode(s);
     const level = (c: Channel) => channelLevel(s, c);
     const musicOn = new Set<MusicLayer>(["base", ...want.music]);

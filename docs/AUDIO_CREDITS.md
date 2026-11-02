@@ -23,6 +23,9 @@ Bunlar real alət səsi deyil, sintez təqlididir. Dərsdə istifadədən əvvə
 | `music-journey` | music | yol | daf ritmi + tar ostinatosu + kamança | sintez | CC0 1.0 |
 | `music-qanun` | music | doğuluş, diplomatiya, mədəniyyət | qanun arpeciosu | sintez | CC0 1.0 |
 | `music-triumph` | music | qələbə (Şuşa, Zəfər) | Rast məqamında mis alətləri təqlid edən akkordlar, timpan (nağara) diyirləmələri, zurna melodiyası | sintez | CC0 1.0 |
+| `music-march` | music | müharibə: əməliyyat günləri | qətiyyətli marş: Şur məqamında mis alətləri mövzusu, nağara və baraban, bas ostinato | sintez, orijinal melodiya | CC0 1.0 |
+| `music-anthem` | music | müharibə: azadetmə günləri, final | Rast məqamında geniş himn: mis alətləri melodiyası, xor akkordları (I–vi–IV–I–V–vi–IV–I), timpan | sintez, orijinal melodiya | CC0 1.0 |
+| `music-lament` | music | müharibə: xatirə günləri, qəhrəmanlar bölməsi | sakit ağı: balaban, seyrək tar, nağarasız | sintez, orijinal melodiya | CC0 1.0 |
 | `amb-wind` | ambience | sürgün, ölüm, çətinlik | külək | sintez | CC0 1.0 |
 | `amb-crowd` | ambience | döyüş düşərgəsi, taxta çıxma | izdiham uğultusu | sintez | CC0 1.0 |
 | `amb-hooves` | ambience | yol, döyüş | at ayaq səsləri + külək | sintez | CC0 1.0 |
@@ -57,6 +60,17 @@ səsləndirənin razılığı və lisenziya bu sənədə əlavə olunmalıdır. 
 |---|---|---|
 | "Vətən yaxşıdır" | Xudayar Yusifzadə | `pending`: müəllif hüququ ilə qorunur, icazə alınmayıb |
 | "Bayatı-Şiraz" | seçilməlidir | `pending`: muğam ənənəvidir, amma konkret səs yazısı qorunur |
+
+İcazə gələnə qədər bölmə layihə üçün bəstələnmiş orijinal musiqini çalır (`ConflictSimulation.tsx`, `warSound`):
+
+| Gün | Musiqi |
+|---|---|
+| Əməliyyat günləri | `march` |
+| Azadetmə günləri, 10 noyabr bəyanatı, epiloq, final | `anthem` |
+| Şuşa, 8 noyabr | `anthem` + `triumph` |
+| Xatirə günləri (Tərtər, Gəncə, Bərdə), qəhrəmanlar bölməsi | `lament` |
+
+Bu melodiyalar heç bir mövcud mahnıdan və ya himndən götürülməyib. Mahnılar üçün icazə gəldikdə `soundtrack.json`-da status `granted` olur və orijinal musiqinin yerinə və ya onunla yanaşı çalınır.
 
 Fayllar yüklənməyib, mahnı sözləri heç yerdə yazılmayıb. Prod build-ə yalnız `permissionStatus: "granted"` olan və `file` sahəsi göstərilən treklər düşür
 (validasiya `pending` trekə fayl əlavə edilməsinə icazə vermir). İcazə alınana qədər bölmədə yuxarıdakı CC0 sintez qatları səslənir.
