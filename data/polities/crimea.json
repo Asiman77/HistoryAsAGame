@@ -1,0 +1,13 @@
+{
+  "id": "crimea",
+  "name": {
+    "az": "Krım xanlığı"
+  },
+  "color": "#7a8a5a",
+  "periods": [
+    {
+      "from": 1441,
+      "to": 1783
+    }
+  ]
+}

@@ -11,10 +11,11 @@ interface Props {
   locale: Locale;
   m: Messages;
   defaultOpen: boolean;
+  onSelectPolity?: (polityId: string) => void;
 }
 
 /** Which political map is shown, its polities, and that the borders are approximate. */
-export function MapLegend({ snapshot, battle, locale, m, defaultOpen }: Props) {
+export function MapLegend({ snapshot, battle, locale, m, defaultOpen, onSelectPolity }: Props) {
   const [open, setOpen] = useState(defaultOpen);
   const [help, setHelp] = useState(false);
   if (!snapshot) return null;
@@ -57,6 +58,7 @@ export function MapLegend({ snapshot, battle, locale, m, defaultOpen }: Props) {
               </button>
               {help && <p className="mb-2 leading-snug text-ink-soft">{m.map.approxBordersHelp}</p>}
               {snapshot.note && <p className="mb-2 leading-snug text-ink-soft">{t(snapshot.note, locale)}</p>}
+              <p className="mb-1 text-[10px] text-ink-faint">{m.polity.legendHint}</p>
               <ul className="space-y-1">
                 {snapshot.polities.map((p) => (
                   <li key={`${p.id}-${t(p.name, locale)}`} className="flex items-center gap-2">
@@ -65,10 +67,14 @@ export function MapLegend({ snapshot, battle, locale, m, defaultOpen }: Props) {
                       className="size-3 shrink-0 rounded-sm border border-ink/30"
                       style={{ background: p.color, opacity: p.vassalOf ? 0.55 : 0.85 }}
                     />
-                    <span className="text-ink">
+                    <button
+                      type="button"
+                      onClick={() => onSelectPolity?.(p.id)}
+                      className="text-left text-ink underline-offset-2 hover:underline"
+                    >
                       {t(p.name, locale)}
                       {p.vassalOf && <span className="text-ink-faint"> ({m.map.vassal})</span>}
-                    </span>
+                    </button>
                   </li>
                 ))}
               </ul>

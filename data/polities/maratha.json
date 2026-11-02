@@ -1,0 +1,13 @@
+{
+  "id": "maratha",
+  "name": {
+    "az": "Maratha dövləti"
+  },
+  "color": "#c06a3a",
+  "periods": [
+    {
+      "from": 1674,
+      "to": 1818
+    }
+  ]
+}

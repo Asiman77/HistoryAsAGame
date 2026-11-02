@@ -7,7 +7,7 @@ hakimiyyət qalalar, şəhərlər, yollar və tayfaların sədaqəti üzərində
 
 | Fayl | Nə saxlayır |
 |---|---|
-| `registry.json` | `bbox`, dövlətlər (`polities`: id, ad, rəng, bütün snapshot-larda eyni) və regionlar (`regions`: Voronoi "toxum" nöqtələri) |
+| `registry.json` | `bbox` və regionlar (`regions`: Voronoi "toxum" nöqtələri). Dövlətlərin ad və rəngləri `data/polities/`-dadır |
 | `snapshots/<id>.json` | Bir il üçün: hansı dövlət hansı regionlara sahibdir, paytaxt (`capitalId` → `data/places.json`), vassallıq (`vassalOf`), mənbələr |
 | `land.json` | Sahil maskası: Natural Earth 1:50m land + lakes (public domain), bbox-a kəsilib və sadələşdirilib |
 
@@ -35,5 +35,5 @@ Ona görə sadələşdirilmiş poliqonlar layihə daxilində hazırlanıb. Sahil
 ## Yeni snapshot əlavə etmək
 
 1. `snapshots/y<il>.json` yaradın (fayl adı `id` ilə eyni olmalıdır). Region id-ləri `registry.json`-dakı regionlardır, bir region yalnız bir dövlətdə ola bilər.
-2. Lazım olan yeni dövləti `registry.json`-a əlavə edin. Region kifayət qədər dəqiq deyilsə, yeni region və ya əlavə toxum nöqtəsi əlavə edin.
+2. Lazım olan yeni dövləti `data/polities/<id>.json` kimi əlavə edin. Region kifayət qədər dəqiq deyilsə, yeni region və ya əlavə toxum nöqtəsi əlavə edin.
 3. `npm run validate:data && npm run build:territories`.

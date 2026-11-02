@@ -1,0 +1,13 @@
+{
+  "id": "byzantine",
+  "name": {
+    "az": "Bizans"
+  },
+  "color": "#8c6d9e",
+  "periods": [
+    {
+      "from": 395,
+      "to": 1453
+    }
+  ]
+}

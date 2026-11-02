@@ -1,0 +1,167 @@
+{
+  "id": "safavid",
+  "name": {
+    "az": "Səfəvi dövləti"
+  },
+  "color": "#a8382f",
+  "periods": [
+    {
+      "from": 1501,
+      "to": 1736
+    }
+  ],
+  "facts": [
+    {
+      "from": 1501,
+      "to": 1513,
+      "status": "rise",
+      "statusNote": {
+        "az": "I İsmayıl Azərbaycanı, İranı və İraqı birləşdirir; on iki imam şiəliyi dövlət məzhəbi olur."
+      },
+      "rivals": [
+        "agqoyunlu",
+        "shaybanid",
+        "ottoman"
+      ],
+      "religion": {
+        "az": "Şiə İslam (on iki imam)"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi (saray və ordu), fars (dəftərxana və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Safavid Iran",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Safavid_Iran"
+        },
+        {
+          "title": "Safavid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Safavid_dynasty"
+        }
+      ]
+    },
+    {
+      "from": 1514,
+      "to": 1524,
+      "status": "crisis",
+      "statusNote": {
+        "az": "Çaldıran məğlubiyyətindən sonra Şərqi Anadolu itirilir, dövlət daxildən möhkəmlənir."
+      },
+      "rivals": [
+        "ottoman",
+        "shaybanid"
+      ],
+      "religion": {
+        "az": "Şiə İslam (on iki imam)"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi (saray və ordu), fars (dəftərxana və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Safavid Iran",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Safavid_Iran"
+        },
+        {
+          "title": "Safavid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Safavid_dynasty"
+        }
+      ]
+    },
+    {
+      "from": 1525,
+      "to": 1576,
+      "status": "stable",
+      "statusNote": {
+        "az": "I Təhmasib dövründə Osmanlı və özbəklərlə uzun müharibələr; Amasya sülhü (1555)."
+      },
+      "rivals": [
+        "ottoman",
+        "shaybanid"
+      ],
+      "religion": {
+        "az": "Şiə İslam (on iki imam)"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi (saray və ordu), fars (dəftərxana və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Safavid Iran",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Safavid_Iran"
+        },
+        {
+          "title": "Safavid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Safavid_dynasty"
+        }
+      ]
+    },
+    {
+      "from": 1666,
+      "to": 1721,
+      "status": "decline",
+      "statusNote": {
+        "az": "Süleyman və Sultan Hüseyn dövründə ordu və idarəçilik zəifləyir."
+      },
+      "rivals": [
+        "hotaki",
+        "ottoman"
+      ],
+      "religion": {
+        "az": "Şiə İslam (on iki imam)"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi (saray və ordu), fars (dəftərxana və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Safavid Iran",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Safavid_Iran"
+        },
+        {
+          "title": "Safavid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Safavid_dynasty"
+        }
+      ]
+    },
+    {
+      "from": 1722,
+      "to": 1736,
+      "status": "crisis",
+      "statusNote": {
+        "az": "1722-də əfqanlar İsfahanı tutur; Osmanlı və Rusiya ölkəni bölür. II Təhmasib və III Abbas faktiki olaraq Nadirdən asılıdır."
+      },
+      "rivals": [
+        "hotaki",
+        "ottoman",
+        "russia"
+      ],
+      "religion": {
+        "az": "Şiə İslam (on iki imam)"
+      },
+      "languages": {
+        "az": "Azərbaycan türkcəsi (saray və ordu), fars (dəftərxana və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Safavid Iran",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Safavid_Iran"
+        },
+        {
+          "title": "Safavid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Safavid_dynasty"
+        }
+      ]
+    }
+  ]
+}

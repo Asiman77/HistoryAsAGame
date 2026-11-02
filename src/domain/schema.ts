@@ -391,20 +391,75 @@ export const PlacesFile = z.object({ places: z.array(Place) });
 // Territories
 // ---------------------------------------------------------------------------
 
-/** A state or dynasty; colours stay the same across snapshots. */
+export const POLITY_STATUSES = ["rise", "peak", "stable", "war", "crisis", "decline"] as const;
+
+/** What the ruler panel says about a polity for a span of years. */
+export const PolityFacts = z.object({
+  from: z.number().int(),
+  to: z.number().int(),
+  status: z.enum(POLITY_STATUSES),
+  /** One or two sentences on the situation in these years. */
+  statusNote: LocalizedText,
+  religion: LocalizedText.optional(),
+  /** Official, chancery and court languages. */
+  languages: LocalizedText.optional(),
+  /** Polity ids (data/polities). */
+  rivals: z.array(Slug).optional(),
+  allies: z.array(Slug).optional(),
+  sources: z.array(Source).min(1),
+});
+export type PolityFacts = z.infer<typeof PolityFacts>;
+
+/** A state or dynasty (data/polities/<id>.json); colours stay the same across snapshots. */
 export const Polity = z.object({
   id: Slug,
   name: LocalizedText,
   color: HexColor,
+  /** Historical flag or emblem, only with a clear source and licence. */
+  emblem: ImageAsset.optional(),
+  /** Years the polity existed (used to say "no data" vs "did not exist"). */
+  periods: z.array(z.object({ from: z.number().int(), to: z.number().int() })).min(1),
+  facts: z.array(PolityFacts).optional(),
+  /** The state simulation for this polity, when one exists or is planned (data/planned.json). */
+  stateId: Slug.optional(),
 });
 export type Polity = z.infer<typeof Polity>;
+
+const YearMonth = z.object({ year: z.number().int(), month: z.number().int().min(1).max(12).optional() });
+
+export const Ruler = z.object({
+  id: Slug,
+  name: LocalizedText,
+  titles: z.array(LocalizedText).min(1),
+  dynasty: LocalizedText.optional(),
+  born: YearMonth.extend({ certainty: Certainty }).optional(),
+  died: YearMonth.extend({ certainty: Certainty }).optional(),
+  portraits: z.array(ImageAsset).optional(),
+  /** Person simulation of this ruler, if any. */
+  personId: Slug.optional(),
+  related: z.array(EntityRef).optional(),
+  sources: z.array(Source).min(1),
+});
+export type Ruler = z.infer<typeof Ruler>;
+export const RulersFile = z.object({ rulers: z.array(Ruler) });
+
+/** Who ruled which polity when. The ruler panel is computed from this table, never written per event. */
+export const Reign = z.object({
+  polityId: Slug,
+  rulerId: Slug,
+  start: YearMonth,
+  end: YearMonth,
+  certainty: Certainty,
+  note: LocalizedText.optional(),
+});
+export type Reign = z.infer<typeof Reign>;
+export const ReignsFile = z.object({ reigns: z.array(Reign) });
 
 /** Building blocks for hand-made borders: each region is the Voronoi area around its seed points. */
 export const TerritoryRegion = z.object({ id: Slug, seeds: z.array(LngLat).min(1) });
 export const TerritoryRegistryFile = z.object({
   /** [west, south, east, north] of the area that is drawn. */
   bbox: z.tuple([z.number(), z.number(), z.number(), z.number()]),
-  polities: z.array(Polity),
   regions: z.array(TerritoryRegion),
 });
 
@@ -454,6 +509,8 @@ export const TerritorySnapshot = z.object({
       capitalId: Slug.optional(),
       vassalOf: Slug.optional(),
       labelAt: LngLat,
+      /** Area of the drawn (approximate) polygon. */
+      areaKm2: z.number().optional(),
     }),
   ),
   sources: z.array(Source),

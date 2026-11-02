@@ -1,0 +1,13 @@
+{
+  "id": "trebizond",
+  "name": {
+    "az": "Trabzon imperiyası"
+  },
+  "color": "#a0617e",
+  "periods": [
+    {
+      "from": 1204,
+      "to": 1461
+    }
+  ]
+}

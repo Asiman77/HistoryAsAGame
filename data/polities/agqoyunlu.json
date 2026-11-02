@@ -1,0 +1,169 @@
+{
+  "id": "agqoyunlu",
+  "name": {
+    "az": "Ağqoyunlu"
+  },
+  "color": "#c9a646",
+  "periods": [
+    {
+      "from": 1378,
+      "to": 1508
+    }
+  ],
+  "stateId": "agqoyunlu",
+  "facts": [
+    {
+      "from": 1378,
+      "to": 1434,
+      "status": "rise",
+      "statusNote": {
+        "az": "Bayandur tayfasının başçılıq etdiyi konfederasiya Diyarbəkir ətrafında güclənir."
+      },
+      "rivals": [
+        "qaraqoyunlu"
+      ],
+      "allies": [
+        "timurid"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Türk (oğuz), fars (dəftərxana və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Aq Qoyunlu",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Aq_Qoyunlu"
+        }
+      ]
+    },
+    {
+      "from": 1435,
+      "to": 1451,
+      "status": "crisis",
+      "statusNote": {
+        "az": "Qara Osmanın ölümündən sonra varislik çəkişmələri."
+      },
+      "rivals": [
+        "qaraqoyunlu"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Türk (oğuz), fars (dəftərxana və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Aq Qoyunlu",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Aq_Qoyunlu"
+        }
+      ]
+    },
+    {
+      "from": 1452,
+      "to": 1468,
+      "status": "rise",
+      "statusNote": {
+        "az": "Uzun Həsən hakimiyyəti birləşdirir və 1467-də Qaraqoyunlu hökmdarı Cahanşahı məğlub edir."
+      },
+      "rivals": [
+        "qaraqoyunlu",
+        "timurid",
+        "ottoman"
+      ],
+      "allies": [
+        "trebizond"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Türk (oğuz), fars (dəftərxana və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Aq Qoyunlu",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Aq_Qoyunlu"
+        }
+      ]
+    },
+    {
+      "from": 1469,
+      "to": 1478,
+      "status": "peak",
+      "statusNote": {
+        "az": "Paytaxt Təbrizdir; dövlət Şərqi Anadoludan Fars körfəzinə qədər uzanır. Otluqbeli məğlubiyyəti (1473) qərbə genişlənməni dayandırır."
+      },
+      "rivals": [
+        "ottoman",
+        "timurid"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Türk (oğuz), fars (dəftərxana və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Aq Qoyunlu",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Aq_Qoyunlu"
+        }
+      ]
+    },
+    {
+      "from": 1479,
+      "to": 1490,
+      "status": "stable",
+      "statusNote": {
+        "az": "Sultan Yaqub dövründə nisbi sabitlik; Səfəvi təriqətinə qarşı mübarizə."
+      },
+      "rivals": [
+        "shirvan"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Türk (oğuz), fars (dəftərxana və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Aq Qoyunlu",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Aq_Qoyunlu"
+        }
+      ]
+    },
+    {
+      "from": 1491,
+      "to": 1508,
+      "status": "decline",
+      "statusNote": {
+        "az": "Varislik müharibələri dövləti parçalayır; Səfəvilər qarşısında süqut (son qalıq Bağdad 1508-də)."
+      },
+      "rivals": [
+        "safavid"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Türk (oğuz), fars (dəftərxana və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Aq Qoyunlu",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Aq_Qoyunlu"
+        }
+      ]
+    }
+  ]
+}

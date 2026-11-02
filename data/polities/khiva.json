@@ -1,0 +1,13 @@
+{
+  "id": "khiva",
+  "name": {
+    "az": "Xivə xanlığı"
+  },
+  "color": "#5a9a8a",
+  "periods": [
+    {
+      "from": 1511,
+      "to": 1920
+    }
+  ]
+}

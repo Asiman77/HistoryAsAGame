@@ -1,0 +1,63 @@
+{
+  "id": "afsharid",
+  "name": {
+    "az": "Əfşarlar dövləti"
+  },
+  "color": "#9b2c2c",
+  "periods": [
+    {
+      "from": 1736,
+      "to": 1796
+    }
+  ],
+  "stateId": "afshar",
+  "facts": [
+    {
+      "from": 1736,
+      "to": 1747,
+      "status": "peak",
+      "statusNote": {
+        "az": "Nadir Şah: Qəndəhar, Hindistan, Orta Asiya və Dağıstan yürüşləri; ağır vergilər narazılıq yaradır."
+      },
+      "rivals": [
+        "ottoman",
+        "mughal",
+        "hotaki"
+      ],
+      "religion": {
+        "az": "İslam; Nadir şiə və sünni barışığına çalışdı (Cəfəri məzhəbi)"
+      },
+      "languages": {
+        "az": "Fars (dövlət), türk (ordu və saray)"
+      },
+      "sources": [
+        {
+          "title": "Afsharid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Afsharid_dynasty"
+        }
+      ]
+    },
+    {
+      "from": 1748,
+      "to": 1796,
+      "status": "decline",
+      "statusNote": {
+        "az": "Nadirin öldürülməsindən sonra dövlət parçalanır; Əfşarlar yalnız Xorasanı saxlayır."
+      },
+      "religion": {
+        "az": "İslam; Nadir şiə və sünni barışığına çalışdı (Cəfəri məzhəbi)"
+      },
+      "languages": {
+        "az": "Fars (dövlət), türk (ordu və saray)"
+      },
+      "sources": [
+        {
+          "title": "Afsharid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Afsharid_dynasty"
+        }
+      ]
+    }
+  ]
+}

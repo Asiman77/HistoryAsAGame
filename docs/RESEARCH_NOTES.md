@@ -133,3 +133,21 @@ Xətainin şeirlərindən parçalar hələ əlavə edilməyib: orijinal mətn pu
 
 `data/world-events.json`-dakı 45 hadisə ümumi qəbul olunmuş tarixlərlə verilib, hər birinin ensiklopedik mənbəyi var.
 Tarixi mübahisəli olanlar (məs. Qutenberq İncili: təqr. 1455) ən çox işlənən il ilə göstərilir.
+
+## Hökmdarlar və hakimiyyət cədvəli
+
+`data/rulers.json` və `data/reigns.json` dövlətlərin hökmdar siyahılarına əsaslanır (hər hökmdarın `sources` sahəsində). Birinci dalğada
+Osmanlı, Səfəvi, Ağqoyunlu, Qaraqoyunlu, Teymurilər, Böyük Moğollar, Əfşarlar, Şirvanşahlar, Rusiya, Hotakilər, Buxara, Dehli sultanlığı, Şeybanilər və Məmlüklər var.
+Bizans, Trabzon, Qaraman, Dulqədir, gürcü çarlıqları, Gilan, Xivə, Krım, Marathalar və Əbdalilər üçün panel hələ "tezliklə" deyir.
+
+| Məqam | Qərar |
+|---|---|
+| Uzun Həsənin hakimiyyətinin başlanğıcı | 1452 (Amidin tutulması), `disputed`; bəzi siyahılar 1453 və ya 1457 (yeganə hökmdar) verir |
+| Ağqoyunlu 1497–1508 | Əlvənd (təq. 1498–1504) və Murad (təq. 1499–1508) eyni vaxtda, dövlətin müxtəlif hissələrində |
+| Teymurilər 1451–1457 | Əbu Səid (Səmərqənd) və Əbülqasım Babur (Herat) eyni vaxtda; panel hər ikisini göstərir |
+| Qaraqoyunlu: Cahanşahın başlanğıcı | 1436 / 1438, `approximate` |
+| I Xəlilullahın ölüm ili | 1465 kimi verilir, bəzi mənbələrdə 1462; `approximate` |
+| Böyük Moğollar, 1719 | Rəfi üd-Dərəcat və II Şah Cahanın bir neçə aylıq hakimiyyəti cədvəldə yoxdur, 1719 Məhəmməd şaha aiddir |
+| Doğum illəri | Dəqiq gün çox vaxt məlum olmadığı üçün `approximate` kimi saxlanılıb |
+
+**Ərazi** rəqəmləri tarixi mənbədən götürülmür: xəritədəki təxmini poliqonun sahəsidir və yalnız xəritənin əhatə etdiyi hissəni (16°–82° şərq) nəzərə alır.

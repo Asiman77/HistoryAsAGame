@@ -1,0 +1,284 @@
+{
+  "id": "ottoman",
+  "name": {
+    "az": "Osmanlı dövləti"
+  },
+  "color": "#5f7f4f",
+  "periods": [
+    {
+      "from": 1299,
+      "to": 1922
+    }
+  ],
+  "facts": [
+    {
+      "from": 1421,
+      "to": 1450,
+      "status": "rise",
+      "statusNote": {
+        "az": "II Murad Balkanlarda və Anadoluda Osmanlı hakimiyyətini möhkəmləndirir."
+      },
+      "rivals": [
+        "karaman",
+        "byzantine"
+      ],
+      "religion": {
+        "az": "Sünni İslam (Hənəfi)"
+      },
+      "languages": {
+        "az": "Osmanlı türkcəsi (dövlət və saray), ərəb (din və hüquq), fars (ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "List of sultans of the Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_sultans_of_the_Ottoman_Empire"
+        },
+        {
+          "title": "Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Ottoman_Empire"
+        }
+      ]
+    },
+    {
+      "from": 1451,
+      "to": 1481,
+      "status": "rise",
+      "statusNote": {
+        "az": "II Mehmed: Konstantinopolun fəthi (1453), Trabzonun tutulması (1461), Otluqbelidə Ağqoyunlu üzərində qələbə (1473)."
+      },
+      "rivals": [
+        "agqoyunlu",
+        "karaman",
+        "trebizond"
+      ],
+      "religion": {
+        "az": "Sünni İslam (Hənəfi)"
+      },
+      "languages": {
+        "az": "Osmanlı türkcəsi (dövlət və saray), ərəb (din və hüquq), fars (ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "List of sultans of the Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_sultans_of_the_Ottoman_Empire"
+        },
+        {
+          "title": "Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Ottoman_Empire"
+        }
+      ]
+    },
+    {
+      "from": 1482,
+      "to": 1511,
+      "status": "stable",
+      "statusNote": {
+        "az": "II Bayezid dövründə nisbi sabitlik, Məmlüklərlə müharibə (1485–1491)."
+      },
+      "rivals": [
+        "mamluk",
+        "safavid"
+      ],
+      "religion": {
+        "az": "Sünni İslam (Hənəfi)"
+      },
+      "languages": {
+        "az": "Osmanlı türkcəsi (dövlət və saray), ərəb (din və hüquq), fars (ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "List of sultans of the Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_sultans_of_the_Ottoman_Empire"
+        },
+        {
+          "title": "Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Ottoman_Empire"
+        }
+      ]
+    },
+    {
+      "from": 1512,
+      "to": 1520,
+      "status": "war",
+      "statusNote": {
+        "az": "I Səlim: Çaldıranda Səfəvilər üzərində qələbə (1514), Məmlük sultanlığının süqutu (1516–1517)."
+      },
+      "rivals": [
+        "safavid",
+        "mamluk"
+      ],
+      "religion": {
+        "az": "Sünni İslam (Hənəfi)"
+      },
+      "languages": {
+        "az": "Osmanlı türkcəsi (dövlət və saray), ərəb (din və hüquq), fars (ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "List of sultans of the Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_sultans_of_the_Ottoman_Empire"
+        },
+        {
+          "title": "Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Ottoman_Empire"
+        }
+      ]
+    },
+    {
+      "from": 1521,
+      "to": 1566,
+      "status": "peak",
+      "statusNote": {
+        "az": "I Süleyman (Qanuni) dövrü: dövlətin ən qüdrətli çağı."
+      },
+      "rivals": [
+        "safavid"
+      ],
+      "religion": {
+        "az": "Sünni İslam (Hənəfi)"
+      },
+      "languages": {
+        "az": "Osmanlı türkcəsi (dövlət və saray), ərəb (din və hüquq), fars (ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "List of sultans of the Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_sultans_of_the_Ottoman_Empire"
+        },
+        {
+          "title": "Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Ottoman_Empire"
+        }
+      ]
+    },
+    {
+      "from": 1683,
+      "to": 1717,
+      "status": "decline",
+      "statusNote": {
+        "az": "Vyana mühasirəsindən sonrakı müharibələr; Karlovits sülhü (1699) ilə ilk böyük torpaq itkiləri."
+      },
+      "rivals": [
+        "russia"
+      ],
+      "religion": {
+        "az": "Sünni İslam (Hənəfi)"
+      },
+      "languages": {
+        "az": "Osmanlı türkcəsi (dövlət və saray), ərəb (din və hüquq), fars (ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "List of sultans of the Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_sultans_of_the_Ottoman_Empire"
+        },
+        {
+          "title": "Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Ottoman_Empire"
+        }
+      ]
+    },
+    {
+      "from": 1718,
+      "to": 1729,
+      "status": "stable",
+      "statusNote": {
+        "az": "\"Lalə dövrü\"; Səfəvi böhranı zamanı Qərbi İran və Cənubi Qafqaz tutulur (1723–1727)."
+      },
+      "rivals": [
+        "hotaki",
+        "safavid",
+        "russia"
+      ],
+      "religion": {
+        "az": "Sünni İslam (Hənəfi)"
+      },
+      "languages": {
+        "az": "Osmanlı türkcəsi (dövlət və saray), ərəb (din və hüquq), fars (ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "List of sultans of the Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_sultans_of_the_Ottoman_Empire"
+        },
+        {
+          "title": "Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Ottoman_Empire"
+        }
+      ]
+    },
+    {
+      "from": 1730,
+      "to": 1746,
+      "status": "war",
+      "statusNote": {
+        "az": "Nadirlə müharibələr: Cənubi Qafqaz itirilir (1735), Qarsda məğlubiyyət (1745), Kərdən sülhü (1746)."
+      },
+      "rivals": [
+        "afsharid",
+        "russia"
+      ],
+      "religion": {
+        "az": "Sünni İslam (Hənəfi)"
+      },
+      "languages": {
+        "az": "Osmanlı türkcəsi (dövlət və saray), ərəb (din və hüquq), fars (ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "List of sultans of the Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_sultans_of_the_Ottoman_Empire"
+        },
+        {
+          "title": "Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Ottoman_Empire"
+        }
+      ]
+    },
+    {
+      "from": 1747,
+      "to": 1796,
+      "status": "decline",
+      "statusNote": {
+        "az": "Rusiya ilə ağır müharibələr; Krım xanlığının itirilməsi (1783)."
+      },
+      "rivals": [
+        "russia"
+      ],
+      "religion": {
+        "az": "Sünni İslam (Hənəfi)"
+      },
+      "languages": {
+        "az": "Osmanlı türkcəsi (dövlət və saray), ərəb (din və hüquq), fars (ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "List of sultans of the Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_sultans_of_the_Ottoman_Empire"
+        },
+        {
+          "title": "Ottoman Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Ottoman_Empire"
+        }
+      ]
+    }
+  ]
+}

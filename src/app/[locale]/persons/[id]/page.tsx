@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getRepository } from "@/data";
+import { loadPoliticalContext } from "@/data/political";
 import type { Locale } from "@/domain/schema";
 import { buildJourney } from "@/features/simulation/model";
 import { PersonSimulation } from "@/features/simulation/PersonSimulation";
@@ -37,6 +38,7 @@ export default async function PersonPage({ params }: { params: Params }) {
     repo.getRegistry(),
   ]);
   if (!person || events.length === 0) notFound();
+  const political = await loadPoliticalContext(repo, person.birth.date.year, person.death.date.year);
 
   const journey = buildJourney(person, events, eras, {
     places,
@@ -45,6 +47,7 @@ export default async function PersonPage({ params }: { params: Params }) {
     worldEvents,
     glossary,
     registry,
+    political,
   });
 
   return <PersonSimulation journey={journey} locale={locale as Locale} messages={getMessages(locale as Locale)} />;

@@ -1,0 +1,13 @@
+{
+  "id": "imereti",
+  "name": {
+    "az": "İmereti çarlığı"
+  },
+  "color": "#7f5f48",
+  "periods": [
+    {
+      "from": 1490,
+      "to": 1810
+    }
+  ]
+}

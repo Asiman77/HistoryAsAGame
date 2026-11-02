@@ -1,0 +1,13 @@
+{
+  "id": "kakheti",
+  "name": {
+    "az": "Kaxeti çarlığı"
+  },
+  "color": "#a07a58",
+  "periods": [
+    {
+      "from": 1465,
+      "to": 1762
+    }
+  ]
+}

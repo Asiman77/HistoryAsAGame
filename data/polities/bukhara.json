@@ -1,0 +1,44 @@
+{
+  "id": "bukhara",
+  "name": {
+    "az": "Buxara xanlığı"
+  },
+  "color": "#3a7f6f",
+  "periods": [
+    {
+      "from": 1500,
+      "to": 1785
+    }
+  ],
+  "facts": [
+    {
+      "from": 1700,
+      "to": 1747,
+      "status": "decline",
+      "statusNote": {
+        "az": "Aştərxanilər zəifləyir; 1740-da Əbülfeyz xan Nadirə tabe olur."
+      },
+      "rivals": [
+        "khiva"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Fars (tacik), özbək türkcəsi"
+      },
+      "sources": [
+        {
+          "title": "Khanate of Bukhara",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Khanate_of_Bukhara"
+        },
+        {
+          "title": "Janid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Janid_dynasty"
+        }
+      ]
+    }
+  ]
+}

@@ -7,7 +7,9 @@ import type {
   Place,
   PlannedEntity,
   Polity,
+  Reign,
   Relation,
+  Ruler,
   TerritorySnapshotMeta,
   WorldEvent,
 } from "@/domain/schema";
@@ -32,6 +34,9 @@ export interface HistoryRepository {
   getGlossary(): Promise<GlossaryEntry[]>;
   listPlaces(): Promise<Place[]>;
   listPolities(): Promise<Polity[]>;
+  listRulers(): Promise<Ruler[]>;
+  /** Who ruled which polity when; the ruler panel is computed from this table. */
+  listReigns(): Promise<Reign[]>;
   /** Snapshot metadata sorted by year. Geometry is fetched by the browser from public/data/territories/<id>.json. */
   listTerritorySnapshots(): Promise<TerritorySnapshotMeta[]>;
   listWorldEvents(): Promise<WorldEvent[]>;

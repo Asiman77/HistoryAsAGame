@@ -1,0 +1,13 @@
+{
+  "id": "gilan",
+  "name": {
+    "az": "Gilan (Kar-Kiya)"
+  },
+  "color": "#6a8a5a",
+  "periods": [
+    {
+      "from": 1370,
+      "to": 1592
+    }
+  ]
+}

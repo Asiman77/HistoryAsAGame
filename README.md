@@ -57,7 +57,10 @@ data/                    bütün kontent, kodda heç bir şəxsiyyət yoxdur
   glossary.json          qlossari: termin, izah, şəkilçiləri nəzərə alan söz kökləri
   places.json            şəhər, qala, ziyarətgah, liman, döyüş meydanı kataloqu
   world-events.json      "Bu zaman dünyada" hadisələri
-  territories/           siyasi xəritə: registry.json, snapshots/, land.json (bax territories/README.md)
+  territories/           siyasi xəritə: registry.json (regionlar), snapshots/, land.json (bax territories/README.md)
+  polities/<id>.json     dövlətlər: ad, rəng, mövcud olduğu illər, dövrlər üzrə vəziyyət (facts), stateId
+  rulers.json            hökmdarlar: ad, titul, sülalə, doğum və ölüm, portret, personId
+  reigns.json            hakimiyyət cədvəli: { polityId, rulerId, start, end, certainty }
 public/audio/            musiqi, mühit və effekt səsləri (.webm + .mp3)
 locales/az.json          UI mətnləri
 public/portraits/        public domain portretlər
@@ -151,6 +154,21 @@ Tətbiq daxilində keçidlə gələndə səs artıq açıq olduğundan start ekr
 **Validasiya.** `npm run validate:data` hər referansı eyni registry ilə yoxlayır:
 - mövcud olmayan obyekt **xəbərdarlıqdır** və hədəfə görə qruplaşdırılaraq göstərilir;
 - mövcud obyektdə olmayan `stepId` və ya adı (`label`) olmayan sınıq referans **xətadır**.
+
+## Hökmdar paneli
+
+Xəritədə dövlətin üzərinə gələndə sərhədi vurğulanır və adı görünür. Klikləyəndə (və ya xəritə açarında dövlətin adına basanda) panel açılır.
+Panel həmişə **cari mərhələnin ilini** təsvir edir:
+
+- **Hökmdar** `reigns.json`-dan ilə görə avtomatik tapılır, hadisələrə əl ilə yazılmır. Hakimiyyət bölünübsə (məs. 1501-də Əlvənd və Murad), hər iki hökmdar göstərilir. Hökmdarın şəxsiyyət simulyasiyası varsa, "Hekayəsinə keç" linki görünür.
+- **Paytaxt** xəritə snapshot-undan, **ərazi** isə xəritədəki təxmini poliqondan hesablanır və "xəritəyə görə təxmini" kimi yazılır.
+- **Vəziyyət, din, dil, rəqiblər və müttəfiqlər** `polities/<id>.json`-un `facts` dövrlərindən gəlir.
+- **Hekayə ilə əlaqə:** döyüşdə tərəfdirsə ("Bu mərhələdə rəqib tərəfdir"), hadisənin `related` qeydi və ya cari şəxsiyyət bu dövlətin hökmdarıdırsa ("Bu dövlətin hökmdarı sənsən").
+- **"Bu dövlətin simulyasiyasına keç"** düyməsi `stateId` olan dövlətlər üçün görünür, simulyasiya hələ yoxdursa passivdir.
+- Data olmayan dövlət üçün "Məlumat tezliklə əlavə olunacaq" yazılır.
+
+Səhifəyə yalnız simulyasiyanın illərinə (±10 il) aid dövlətlər, hökmdarlar və hakimiyyət dövrləri düşür (`src/data/political.ts`).
+Validasiya hakimiyyət dövrünün dövlətin mövcud olduğu illərə uyğun gəldiyini, `personId`-ni və rəqib/müttəfiq id-lərini yoxlayır.
 
 ## Yeni şəxsiyyət əlavə etmək
 

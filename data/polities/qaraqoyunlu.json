@@ -1,0 +1,115 @@
+{
+  "id": "qaraqoyunlu",
+  "name": {
+    "az": "Qaraqoyunlu"
+  },
+  "color": "#4d5566",
+  "periods": [
+    {
+      "from": 1374,
+      "to": 1468
+    }
+  ],
+  "stateId": "qaraqoyunlu",
+  "facts": [
+    {
+      "from": 1406,
+      "to": 1419,
+      "status": "rise",
+      "statusNote": {
+        "az": "Qara Yusif Azərbaycan və İraqda Qaraqoyunlu hakimiyyətini bərpa edir."
+      },
+      "rivals": [
+        "timurid",
+        "agqoyunlu"
+      ],
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Türk (oğuz), fars"
+      },
+      "sources": [
+        {
+          "title": "Qara Qoyunlu",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Qara_Qoyunlu"
+        }
+      ]
+    },
+    {
+      "from": 1420,
+      "to": 1437,
+      "status": "war",
+      "statusNote": {
+        "az": "Qara İsgəndər Teymuri Şahruxun yürüşləri ilə mübarizə aparır."
+      },
+      "rivals": [
+        "timurid",
+        "agqoyunlu"
+      ],
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Türk (oğuz), fars"
+      },
+      "sources": [
+        {
+          "title": "Qara Qoyunlu",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Qara_Qoyunlu"
+        }
+      ]
+    },
+    {
+      "from": 1438,
+      "to": 1466,
+      "status": "peak",
+      "statusNote": {
+        "az": "Cahanşah dövləti İraqi-Əcəm, Fars və Kirmana qədər genişləndirir."
+      },
+      "rivals": [
+        "agqoyunlu",
+        "timurid"
+      ],
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Türk (oğuz), fars"
+      },
+      "sources": [
+        {
+          "title": "Qara Qoyunlu",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Qara_Qoyunlu"
+        }
+      ]
+    },
+    {
+      "from": 1467,
+      "to": 1468,
+      "status": "decline",
+      "statusNote": {
+        "az": "Cahanşahın Uzun Həsənə məğlub olub öldürülməsindən sonra dövlət dağılır."
+      },
+      "rivals": [
+        "agqoyunlu"
+      ],
+      "religion": {
+        "az": "İslam"
+      },
+      "languages": {
+        "az": "Türk (oğuz), fars"
+      },
+      "sources": [
+        {
+          "title": "Qara Qoyunlu",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Qara_Qoyunlu"
+        }
+      ]
+    }
+  ]
+}

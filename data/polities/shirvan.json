@@ -1,0 +1,60 @@
+{
+  "id": "shirvan",
+  "name": {
+    "az": "Şirvanşahlar"
+  },
+  "color": "#7d5a96",
+  "periods": [
+    {
+      "from": 861,
+      "to": 1538
+    }
+  ],
+  "facts": [
+    {
+      "from": 1417,
+      "to": 1499,
+      "status": "stable",
+      "statusNote": {
+        "az": "Şirvanşahlar Qaraqoyunlu və Ağqoyunlu arasında manevr edir; Bakı və Şamaxıda geniş tikinti."
+      },
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Fars (dəftərxana), türk"
+      },
+      "sources": [
+        {
+          "title": "Shirvanshah",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Shirvanshah"
+        }
+      ]
+    },
+    {
+      "from": 1500,
+      "to": 1538,
+      "status": "decline",
+      "statusNote": {
+        "az": "Cabanı məğlubiyyətindən sonra Səfəvilərdən asılı; 1538-də Səfəvi dövlətinə birləşdirilir."
+      },
+      "rivals": [
+        "safavid"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Fars (dəftərxana), türk"
+      },
+      "sources": [
+        {
+          "title": "Shirvanshah",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Shirvanshah"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "abdali",
+  "name": {
+    "az": "Əbdali əfqanları"
+  },
+  "color": "#86689a",
+  "periods": [
+    {
+      "from": 1717,
+      "to": 1732
+    }
+  ]
+}

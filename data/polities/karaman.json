@@ -1,0 +1,13 @@
+{
+  "id": "karaman",
+  "name": {
+    "az": "Qaraman bəyliyi"
+  },
+  "color": "#a48a5a",
+  "periods": [
+    {
+      "from": 1250,
+      "to": 1487
+    }
+  ]
+}

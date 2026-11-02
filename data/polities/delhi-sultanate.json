@@ -1,0 +1,70 @@
+{
+  "id": "delhi-sultanate",
+  "name": {
+    "az": "Dehli sultanlığı"
+  },
+  "color": "#9a8a4a",
+  "periods": [
+    {
+      "from": 1206,
+      "to": 1526
+    }
+  ],
+  "facts": [
+    {
+      "from": 1414,
+      "to": 1450,
+      "status": "decline",
+      "statusNote": {
+        "az": "Seyidlər dövründə sultanlıq Dehli ətrafına qədər kiçilir."
+      },
+      "religion": {
+        "az": "Sünni İslam (hökmdarlar)"
+      },
+      "languages": {
+        "az": "Fars"
+      },
+      "sources": [
+        {
+          "title": "Sayyid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Sayyid_dynasty"
+        },
+        {
+          "title": "Lodi dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Lodi_dynasty"
+        }
+      ]
+    },
+    {
+      "from": 1451,
+      "to": 1526,
+      "status": "stable",
+      "statusNote": {
+        "az": "Lodilər sultanlığı bərpa edir; 1526-da Panipatda Babura uduzur."
+      },
+      "rivals": [
+        "timurid"
+      ],
+      "religion": {
+        "az": "Sünni İslam (hökmdarlar)"
+      },
+      "languages": {
+        "az": "Fars"
+      },
+      "sources": [
+        {
+          "title": "Sayyid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Sayyid_dynasty"
+        },
+        {
+          "title": "Lodi dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Lodi_dynasty"
+        }
+      ]
+    }
+  ]
+}

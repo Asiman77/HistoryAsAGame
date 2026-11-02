@@ -19,6 +19,7 @@ import { getAudioEngine } from "@/features/audio/engine";
 import { MapLegend } from "@/features/map/MapLegend";
 import { MapStage, type Phase } from "@/features/map/MapStage";
 import { PlaceCard } from "@/features/map/PlaceCard";
+import { PolityPanel } from "@/features/map/PolityPanel";
 import { DEFAULT_ENEMY_COLOR, DEFAULT_OWN_COLOR } from "@/features/map/style";
 import { SettingsButton } from "@/features/settings/SettingsPanel";
 import { useStoredMode, type Mode } from "@/features/simulation/useStoredMode";
@@ -102,7 +103,17 @@ export function SimulationEngine<S extends EngineStep>({
   const [dir, setDir] = useState(1);
   const [mode, setMode] = useStoredMode();
   const [choices, setChoices] = useState<Record<string, number>>({});
-  const [placeId, setPlaceId] = useState<string | null>(null);
+  const [placeId, setPlaceIdRaw] = useState<string | null>(null);
+  const [polityId, setPolityIdRaw] = useState<string | null>(null);
+  // One card at a time: a place or a state.
+  const setPlaceId = useCallback((id: string | null) => {
+    setPolityIdRaw(null);
+    setPlaceIdRaw(id);
+  }, []);
+  const setPolityId = useCallback((id: string | null) => {
+    setPlaceIdRaw(null);
+    setPolityIdRaw(id);
+  }, []);
   const settings = useSettings();
   const weak = useWeakDevice();
   const light = settings.lightMode ?? weak;
@@ -204,7 +215,7 @@ export function SimulationEngine<S extends EngineStep>({
       setDir(target > index ? 1 : -1);
       setIndex(target);
     },
-    [index, last, phase],
+    [index, last, phase, setPlaceId],
   );
   const next = useCallback(() => (phase === "legacy" ? undefined : go(index + 1)), [go, index, phase]);
   const prev = useCallback(() => (phase === "legacy" ? go(last) : go(index - 1)), [go, index, last, phase]);
@@ -244,6 +255,10 @@ export function SimulationEngine<S extends EngineStep>({
     () => peekReturn(pathOf(pathname))?.label ?? "",
     () => "",
   );
+  const followHref = (href: string) => {
+    pushReturn({ href: here.href, label: here.label, target: pathOf(href) });
+    router.push(`/${locale}${href}`);
+  };
   const goBackToSource = () => {
     const entry = popReturn();
     if (entry) router.push(`/${locale}${entry.href}`);
@@ -361,8 +376,30 @@ export function SimulationEngine<S extends EngineStep>({
           onGoto={(i) => go(i)}
           onClose={() => setPlaceId(null)}
         />
+      ) : polityId ? (
+        <PolityPanel
+          polityId={polityId}
+          year={shownStep.year}
+          step={final ? null : step}
+          snapshot={snapshot}
+          political={data.political}
+          landmarks={data.landmarks}
+          currentPersonHref={data.path.startsWith("/persons/") ? data.path : null}
+          locale={locale}
+          m={m}
+          onFollow={followHref}
+          onClose={() => setPolityId(null)}
+        />
       ) : (
-        <MapLegend key={desktop ? "d" : "m"} snapshot={snapshot} battle={battleLegend} locale={locale} m={m} defaultOpen={desktop && !teacher} />
+        <MapLegend
+          key={desktop ? "d" : "m"}
+          snapshot={snapshot}
+          battle={battleLegend}
+          locale={locale}
+          m={m}
+          defaultOpen={desktop && !teacher}
+          onSelectPolity={setPolityId}
+        />
       )}
     </div>
   );
@@ -400,11 +437,8 @@ export function SimulationEngine<S extends EngineStep>({
             messages={m}
             onSelectPlace={setPlaceId}
             onBattleArrow={onBattleArrow}
-            onFollow={(ref: ResolvedRef) => {
-              if (!ref.href) return;
-              pushReturn({ href: here.href, label: here.label, target: pathOf(ref.href) });
-              router.push(`/${locale}${ref.href}`);
-            }}
+            onFollow={(ref: ResolvedRef) => ref.href && followHref(ref.href)}
+            onSelectPolity={setPolityId}
           />
 
           {/* Mood colour grading, parchment grain and vignette over the map. */}

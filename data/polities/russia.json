@@ -1,0 +1,87 @@
+{
+  "id": "russia",
+  "name": {
+    "az": "Rusiya"
+  },
+  "color": "#5c6b7a",
+  "periods": [
+    {
+      "from": 1547,
+      "to": 1917
+    }
+  ],
+  "facts": [
+    {
+      "from": 1682,
+      "to": 1725,
+      "status": "rise",
+      "statusNote": {
+        "az": "I Pyotr: islahatlar, Böyük Şimal müharibəsi, Xəzər yürüşü (1722–1723)."
+      },
+      "rivals": [
+        "ottoman"
+      ],
+      "religion": {
+        "az": "Pravoslav xristianlıq"
+      },
+      "languages": {
+        "az": "Rus"
+      },
+      "sources": [
+        {
+          "title": "List of Russian monarchs",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_Russian_monarchs"
+        }
+      ]
+    },
+    {
+      "from": 1726,
+      "to": 1761,
+      "status": "stable",
+      "statusNote": {
+        "az": "Saray çevrilişləri dövrü; Xəzər sahili torpaqları İrana qaytarılır (1732, 1735)."
+      },
+      "rivals": [
+        "ottoman"
+      ],
+      "religion": {
+        "az": "Pravoslav xristianlıq"
+      },
+      "languages": {
+        "az": "Rus"
+      },
+      "sources": [
+        {
+          "title": "List of Russian monarchs",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_Russian_monarchs"
+        }
+      ]
+    },
+    {
+      "from": 1762,
+      "to": 1796,
+      "status": "rise",
+      "statusNote": {
+        "az": "II Yekaterina: Qara dəniz sahili və Krım ilhaq olunur (1783)."
+      },
+      "rivals": [
+        "ottoman"
+      ],
+      "religion": {
+        "az": "Pravoslav xristianlıq"
+      },
+      "languages": {
+        "az": "Rus"
+      },
+      "sources": [
+        {
+          "title": "List of Russian monarchs",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_Russian_monarchs"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "id": "shaybanid",
+  "name": {
+    "az": "Şeybani özbəkləri"
+  },
+  "color": "#2f8a86",
+  "periods": [
+    {
+      "from": 1500,
+      "to": 1599
+    }
+  ],
+  "facts": [
+    {
+      "from": 1500,
+      "to": 1510,
+      "status": "rise",
+      "statusNote": {
+        "az": "Məhəmməd Şeybani xan Mavərənnəhri (1500) və Heratı (1507) tutur."
+      },
+      "rivals": [
+        "timurid",
+        "safavid"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Çağatay türkcəsi, fars"
+      },
+      "sources": [
+        {
+          "title": "Shaybanids",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Shaybanids"
+        }
+      ]
+    },
+    {
+      "from": 1511,
+      "to": 1599,
+      "status": "stable",
+      "statusNote": {
+        "az": "Mərv məğlubiyyətindən sonra özbəklər Mavərənnəhrdə möhkəmlənir."
+      },
+      "rivals": [
+        "safavid"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Çağatay türkcəsi, fars"
+      },
+      "sources": [
+        {
+          "title": "Shaybanids",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Shaybanids"
+        }
+      ]
+    }
+  ]
+}

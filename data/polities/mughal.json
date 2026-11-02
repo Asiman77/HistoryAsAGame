@@ -1,0 +1,104 @@
+{
+  "id": "mughal",
+  "name": {
+    "az": "Böyük Moğol imperiyası"
+  },
+  "color": "#8a7a2a",
+  "periods": [
+    {
+      "from": 1526,
+      "to": 1857
+    }
+  ],
+  "stateId": "mughal",
+  "facts": [
+    {
+      "from": 1658,
+      "to": 1707,
+      "status": "peak",
+      "statusNote": {
+        "az": "Övrəngzib dövründə imperiya ən geniş ərazisinə çatır, amma uzun Dekkan müharibələri onu yorur."
+      },
+      "rivals": [
+        "maratha"
+      ],
+      "religion": {
+        "az": "Sünni İslam (hökmdar sülaləsi); əhalinin əksəriyyəti hindu"
+      },
+      "languages": {
+        "az": "Fars (dövlət və saray)"
+      },
+      "sources": [
+        {
+          "title": "List of Mughal emperors",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_Mughal_emperors"
+        },
+        {
+          "title": "Mughal Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Mughal_Empire"
+        }
+      ]
+    },
+    {
+      "from": 1708,
+      "to": 1738,
+      "status": "decline",
+      "statusNote": {
+        "az": "Mərkəzi hakimiyyət zəifləyir, əyalətlər faktiki müstəqil olur, Marathalar güclənir."
+      },
+      "rivals": [
+        "maratha"
+      ],
+      "religion": {
+        "az": "Sünni İslam (hökmdar sülaləsi); əhalinin əksəriyyəti hindu"
+      },
+      "languages": {
+        "az": "Fars (dövlət və saray)"
+      },
+      "sources": [
+        {
+          "title": "List of Mughal emperors",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_Mughal_emperors"
+        },
+        {
+          "title": "Mughal Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Mughal_Empire"
+        }
+      ]
+    },
+    {
+      "from": 1739,
+      "to": 1760,
+      "status": "crisis",
+      "statusNote": {
+        "az": "Nadir Şahın yürüşü (1739) xəzinəni boşaldır, İnddən qərbdəki torpaqlar itirilir."
+      },
+      "rivals": [
+        "afsharid",
+        "maratha"
+      ],
+      "religion": {
+        "az": "Sünni İslam (hökmdar sülaləsi); əhalinin əksəriyyəti hindu"
+      },
+      "languages": {
+        "az": "Fars (dövlət və saray)"
+      },
+      "sources": [
+        {
+          "title": "List of Mughal emperors",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_Mughal_emperors"
+        },
+        {
+          "title": "Mughal Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Mughal_Empire"
+        }
+      ]
+    }
+  ]
+}

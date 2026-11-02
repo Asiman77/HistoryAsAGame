@@ -1,7 +1,8 @@
 /**
  * Builds the political map snapshots served to the browser.
  *
- *   data/territories/registry.json      polities (name, colour) + regions (Voronoi seeds)
+ *   data/polities/<id>.json             polities (name, colour)
+ *   data/territories/registry.json      regions (Voronoi seeds) and bbox
  *   data/territories/snapshots/*.json   which regions each polity holds in a given year
  *   data/territories/land.json          coastline mask (Natural Earth, public domain)
  *        ↓
@@ -27,6 +28,7 @@ import {
 } from "@turf/turf";
 import type { Feature, MultiPolygon, Polygon, Position } from "geojson";
 import {
+  Polity,
   TerritoryRegistryFile,
   TerritorySnapshot,
   TerritorySnapshotSource,
@@ -39,7 +41,14 @@ const outDir = path.join(process.cwd(), "public", "data", "territories");
 export function buildTerritories(): TerritorySnapshot[] {
   const registry = TerritoryRegistryFile.parse(JSON.parse(fs.readFileSync(path.join(dataDir, "registry.json"), "utf8")));
   const land = JSON.parse(fs.readFileSync(path.join(dataDir, "land.json"), "utf8")) as Poly;
-  const polities = new Map(registry.polities.map((p) => [p.id, p]));
+  const polityDir = path.join(process.cwd(), "data", "polities");
+  const polities = new Map(
+    fs
+      .readdirSync(polityDir)
+      .filter((f) => f.endsWith(".json"))
+      .map((f) => Polity.parse(JSON.parse(fs.readFileSync(path.join(polityDir, f), "utf8"))))
+      .map((p) => [p.id, p]),
+  );
 
   // One Voronoi diagram over every seed, so neighbouring regions share edges exactly.
   const seeds = registry.regions.flatMap((r) => r.seeds.map((s) => point(s, { region: r.id })));
@@ -82,6 +91,8 @@ export function buildTerritories(): TerritorySnapshot[] {
           ...(p.capitalId ? { capitalId: p.capitalId } : {}),
           ...(p.vassalOf ? { vassalOf: p.vassalOf } : {}),
           labelAt: p.labelAt ?? labelPoint(geometry),
+          // Area of our approximate polygon, rounded to 10 000 km²: shown as "təxmini".
+          areaKm2: Math.round(area(onLand) / 1e10) * 1e4,
         };
       }),
     };

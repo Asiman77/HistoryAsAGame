@@ -34,6 +34,7 @@ interface Props {
   onSelectPlace: (placeId: string) => void;
   onBattleArrow?: (m: Maneuver, artillery: boolean) => void;
   onFollow?: (ref: ResolvedRef) => void;
+  onSelectPolity?: (polityId: string) => void;
 }
 
 /** Copied from node_modules by scripts/copy-maplibre-worker.mjs. */
@@ -75,6 +76,7 @@ export function MapStage({
   onSelectPlace,
   onBattleArrow,
   onFollow,
+  onSelectPolity,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MlMap | null>(null);
@@ -90,15 +92,16 @@ export function MapStage({
   const rafRef = useRef<number | null>(null);
   const prevRef = useRef<{ index: number; phase: Phase } | null>(null);
   const paddingRef = useRef(padding);
-  const callbacks = useRef({ onSelectPlace, onBattleArrow, onFollow });
+  const callbacks = useRef({ onSelectPlace, onBattleArrow, onFollow, onSelectPolity });
+  const tipRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
   const [status, setStatus] = useState<"loading" | "ok" | "error">("loading");
   const instant = reducedMotion || light;
 
   useLayoutEffect(() => {
     paddingRef.current = padding;
-    callbacks.current = { onSelectPlace, onBattleArrow, onFollow };
-  }, [padding, onSelectPlace, onBattleArrow, onFollow]);
+    callbacks.current = { onSelectPlace, onBattleArrow, onFollow, onSelectPolity };
+  }, [padding, onSelectPlace, onBattleArrow, onFollow, onSelectPolity]);
 
   // ---- one-time map setup -------------------------------------------------
   useEffect(() => {
@@ -160,6 +163,18 @@ export function MapStage({
           paint: { "line-color": ROUTE_COLORS.active, "line-width": 3.2 },
         });
         territoriesRef.current = new TerritoryLayers(map, maplibregl, locale, "trail");
+        territoriesRef.current.enableInteraction(
+          (h) => {
+            const tip = tipRef.current;
+            if (!tip) return;
+            tip.style.display = h ? "block" : "none";
+            if (h) {
+              tip.textContent = h.name;
+              tip.style.transform = `translate(${h.x + 14}px, ${h.y + 12}px)`;
+            }
+          },
+          (id) => callbacks.current.onSelectPolity?.(id),
+        );
         battleRef.current = new BattleLayer(map, maplibregl, locale);
         landmarksRef.current = new LandmarkLayer(map, maplibregl, landmarks, locale, m, (id) =>
           callbacks.current.onSelectPlace(id),
@@ -477,6 +492,11 @@ export function MapStage({
   return (
     <div className="absolute inset-0">
       <div ref={containerRef} className="h-full w-full" aria-label={m.map.region} role="region" />
+      <div
+        ref={tipRef}
+        aria-hidden
+        className="pointer-events-none absolute top-0 left-0 z-[5] hidden rounded bg-ink/85 px-2 py-0.5 font-display text-sm text-parchment-light shadow"
+      />
       {status !== "ok" && (
         <div className="pointer-events-none absolute inset-0 grid place-items-center">
           <p className="paper-card rounded px-4 py-2 text-sm text-ink-soft" role="status">

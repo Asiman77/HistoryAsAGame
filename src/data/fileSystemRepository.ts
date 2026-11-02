@@ -7,6 +7,9 @@ import {
   Person,
   PlacesFile,
   PlannedFile,
+  Polity,
+  ReignsFile,
+  RulersFile,
   RelationsFile,
   TerritoryRegistryFile,
   TerritorySnapshotSource,
@@ -125,14 +128,29 @@ export class FileSystemRepository implements HistoryRepository {
     );
   }
 
-  async listPolities() {
-    return (await this.registry()).polities;
+  listPolities(): Promise<Polity[]> {
+    return this.memo("polities", async () => {
+      const files = await this.jsonFiles("polities");
+      return Promise.all(files.map(async (f) => Polity.parse(await this.readJson("polities", f))));
+    });
+  }
+
+  listRulers() {
+    return this.memo("rulers", async () =>
+      (await this.exists("rulers.json")) ? RulersFile.parse(await this.readJson("rulers.json")).rulers : [],
+    );
+  }
+
+  listReigns() {
+    return this.memo("reigns", async () =>
+      (await this.exists("reigns.json")) ? ReignsFile.parse(await this.readJson("reigns.json")).reigns : [],
+    );
   }
 
   listTerritorySnapshots(): Promise<TerritorySnapshotMeta[]> {
     return this.memo("territory-snapshots", async () => {
       if (!(await this.exists("territories", "snapshots"))) return [];
-      const { polities } = await this.registry();
+      const polities = await this.listPolities();
       const byId = new Map(polities.map((p) => [p.id, p]));
       const files = await this.jsonFiles(path.join("territories", "snapshots"));
       const metas = await Promise.all(

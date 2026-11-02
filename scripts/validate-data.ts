@@ -12,6 +12,9 @@ import {
   GlossaryFile,
   Person,
   PlacesFile,
+  Polity,
+  ReignsFile,
+  RulersFile,
   PlannedFile,
   RelationsFile,
   TerritoryRegistryFile,
@@ -79,7 +82,37 @@ for (const p of places) for (const r of p.periods) if (r.from > r.to) add(places
 // --- territories ---
 const regFile = path.join(root, "territories", "registry.json");
 const registry = load(regFile, TerritoryRegistryFile);
-const polityIds = unique(regFile, "polity id", registry?.polities.map((p) => p.id) ?? []);
+// --- polities, rulers, reigns ---
+const polityDir = path.join(root, "polities");
+const polities = fs
+  .readdirSync(polityDir)
+  .filter((f) => f.endsWith(".json"))
+  .flatMap((f) => {
+    const file = path.join(polityDir, f);
+    const p = load(file, Polity);
+    if (p && `${p.id}.json` !== f) add(file, `fayl adı id ilə uyğun deyil (${p.id})`);
+    return p ? [{ p, file }] : [];
+  });
+const polityIds = new Set(polities.map(({ p }) => p.id));
+for (const { p, file } of polities)
+  for (const fct of p.facts ?? []) {
+    if (fct.from > fct.to) add(file, `facts ${fct.from}–${fct.to}: from > to`);
+    for (const id of [...(fct.rivals ?? []), ...(fct.allies ?? [])]) if (!polityIds.has(id)) add(file, `naməlum polity: ${id}`);
+  }
+const rulersFile = path.join(root, "rulers.json");
+const rulers = fs.existsSync(rulersFile) ? (load(rulersFile, RulersFile)?.rulers ?? []) : [];
+const rulerIds = unique(rulersFile, "ruler id", rulers.map((r) => r.id));
+const reignsFile = path.join(root, "reigns.json");
+const reigns = fs.existsSync(reignsFile) ? (load(reignsFile, ReignsFile)?.reigns ?? []) : [];
+for (const r of reigns) {
+  const where = `${r.polityId}/${r.rulerId}`;
+  if (!polityIds.has(r.polityId)) add(reignsFile, `${where}: naməlum polity`);
+  if (!rulerIds.has(r.rulerId)) add(reignsFile, `${where}: naməlum hökmdar`);
+  if (r.start.year > r.end.year) add(reignsFile, `${where}: start > end`);
+  const pol = polities.find(({ p }) => p.id === r.polityId)?.p;
+  if (pol && !pol.periods.some((pd) => r.start.year >= pd.from - 1 && r.end.year <= pd.to + 1))
+    add(reignsFile, `${where}: hakimiyyət dövlətin mövcud olduğu illərdən kənardadır`);
+}
 const regionIds = unique(regFile, "region id", registry?.regions.map((r) => r.id) ?? []);
 if (!fs.existsSync(path.join(root, "territories", "land.json"))) add(regFile, "land.json yoxdur (scripts/prepare-land.ts)");
 const snapshotIds = new Set<string>();
@@ -150,6 +183,9 @@ const world = fs.existsSync(worldFile) ? (load(worldFile, WorldEventsFile)?.even
 unique(worldFile, "world event id", world.map((w) => w.id));
 for (const w of world) if (w.endYear !== undefined && w.endYear < w.year) add(worldFile, `${w.id}: endYear < year`);
 
+for (const r of rulers)
+  if (r.personId && !personIds.has(r.personId)) add(rulersFile, `${r.id}: naməlum personId ${r.personId}`);
+
 // --- cross-links: every ref resolved through the same registry the pages use ---
 const plannedFile = path.join(root, "planned.json");
 const planned = fs.existsSync(plannedFile) ? (load(plannedFile, PlannedFile)?.entities ?? []) : [];
@@ -194,5 +230,5 @@ if (issues.length) {
 }
 console.log(
   `✓ Data etibarlıdır: ${eras.length} dövr, ${personIds.size} şəxsiyyət, ${eventCount} hadisə, ` +
-    `${places.length} məkan, ${snapshotIds.size} xəritə snapshot-u, ${world.length} dünya hadisəsi, ${glossary.length} termin, ${refCount} çarpaz keçid.`,
+    `${places.length} məkan, ${polities.length} dövlət, ${rulers.length} hökmdar, ${snapshotIds.size} xəritə snapshot-u, ${world.length} dünya hadisəsi, ${glossary.length} termin, ${refCount} çarpaz keçid.`,
 );

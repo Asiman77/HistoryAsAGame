@@ -1,0 +1,13 @@
+{
+  "id": "dulkadir",
+  "name": {
+    "az": "Dulqədir bəyliyi"
+  },
+  "color": "#9a7f62",
+  "periods": [
+    {
+      "from": 1337,
+      "to": 1522
+    }
+  ]
+}

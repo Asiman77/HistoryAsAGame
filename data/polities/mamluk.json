@@ -1,0 +1,73 @@
+{
+  "id": "mamluk",
+  "name": {
+    "az": "Məmlük sultanlığı"
+  },
+  "color": "#c08a3e",
+  "periods": [
+    {
+      "from": 1250,
+      "to": 1517
+    }
+  ],
+  "facts": [
+    {
+      "from": 1438,
+      "to": 1500,
+      "status": "stable",
+      "statusNote": {
+        "az": "Qahirədən idarə olunan sultanlıq Misir, Suriya və Hicazın sahibidir."
+      },
+      "rivals": [
+        "ottoman"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Ərəb (dövlət), qıpçaq türkcəsi (hərbi elita)"
+      },
+      "sources": [
+        {
+          "title": "List of sultans of the Mamluk Sultanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_sultans_of_the_Mamluk_Sultanate"
+        },
+        {
+          "title": "Mamluk Sultanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Mamluk_Sultanate"
+        }
+      ]
+    },
+    {
+      "from": 1501,
+      "to": 1517,
+      "status": "decline",
+      "statusNote": {
+        "az": "Portuqaliyalıların Hind okeanına çıxışı ticarəti zəiflədir; 1516–1517-də Osmanlılar dövlətə son qoyur."
+      },
+      "rivals": [
+        "ottoman"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Ərəb (dövlət), qıpçaq türkcəsi (hərbi elita)"
+      },
+      "sources": [
+        {
+          "title": "List of sultans of the Mamluk Sultanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/List_of_sultans_of_the_Mamluk_Sultanate"
+        },
+        {
+          "title": "Mamluk Sultanate",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Mamluk_Sultanate"
+        }
+      ]
+    }
+  ]
+}

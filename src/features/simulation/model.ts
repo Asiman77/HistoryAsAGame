@@ -11,7 +11,7 @@ import type {
   WorldEvent,
 } from "@/domain/schema";
 import { resolveRef, type Registry } from "@/domain/registry";
-import type { EngineStep, MapPlace, SimulationData } from "@/features/engine/types";
+import type { EngineStep, MapPlace, PoliticalContext, SimulationData } from "@/features/engine/types";
 import { ageAt, type Age } from "@/lib/dates";
 import { buildRoute, routeDistanceKm, type LngLat } from "@/lib/geo";
 import { matchPlace, placesForSpan } from "@/lib/places";
@@ -49,6 +49,7 @@ export interface JourneyContext {
   worldEvents: WorldEvent[];
   glossary: GlossaryEntry[];
   registry: Registry;
+  political: PoliticalContext;
 }
 
 const ZOOM_BY_TYPE: Partial<Record<EventType, number>> = {
@@ -123,5 +124,6 @@ export function buildJourney(person: Person, events: LifeEvent[], allEras: Era[]
     snapshots: ctx?.snapshots ?? [],
     polityColors: ctx?.polityColors ?? {},
     glossary: ctx?.glossary ?? [],
+    political: ctx?.political ?? { polities: [], rulers: [], reigns: [] },
   };
 }

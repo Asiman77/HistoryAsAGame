@@ -8,6 +8,9 @@ import type {
   Location,
   Mood,
   Place,
+  PolityFacts,
+  Reign,
+  Source,
   TerritorySnapshotMeta,
 } from "@/domain/schema";
 import type { ResolvedRef } from "@/domain/registry";
@@ -67,6 +70,37 @@ export interface SimulationData<S extends EngineStep = EngineStep> {
   snapshots: TerritorySnapshotMeta[];
   polityColors: Record<string, string>;
   glossary: GlossaryEntry[];
+  political: PoliticalContext;
+}
+
+/** What the ruler panel needs, resolved at build time. */
+export interface PolityView {
+  id: string;
+  name: LocalizedText;
+  color: string;
+  periods: { from: number; to: number }[];
+  facts: PolityFacts[];
+  /** State simulation for this polity: live link, "tezliklə", or none. */
+  state: ResolvedRef | null;
+}
+
+export interface RulerView {
+  id: string;
+  name: LocalizedText;
+  titles: LocalizedText[];
+  dynasty?: LocalizedText;
+  born?: number;
+  died?: number;
+  image?: ImageAsset;
+  /** Person simulation of this ruler. */
+  personHref: string | null;
+  sources: Source[];
+}
+
+export interface PoliticalContext {
+  polities: PolityView[];
+  rulers: RulerView[];
+  reigns: Reign[];
 }
 
 export interface Counter {

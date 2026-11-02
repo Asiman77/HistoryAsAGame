@@ -41,12 +41,12 @@ function darker(hex: string): string {
   return `rgb(${d((n >> 16) & 255)} ${d((n >> 8) & 255)} ${d(n & 255)})`;
 }
 
-function toFeatures(s: TerritorySnapshot): GeoJSON.FeatureCollection {
+function toFeatures(s: TerritorySnapshot, locale: Locale): GeoJSON.FeatureCollection {
   return {
     type: "FeatureCollection",
     features: s.polities.map((p) => ({
       type: "Feature",
-      properties: { id: p.id, fill: p.vassalOf ? pale(p.color, 0.35) : p.color, edge: p.color },
+      properties: { id: p.id, name: t(p.name, locale), fill: p.vassalOf ? pale(p.color, 0.35) : p.color, edge: p.color },
       geometry: p.geometry as GeoJSON.Geometry,
     })),
   };
@@ -116,7 +116,55 @@ export class TerritoryLayers {
         },
         beforeLayer,
       );
+      // Hover outline: a solid ink line around the polity under the pointer.
+      map.addLayer(
+        {
+          id: `${src}-hover`,
+          type: "line",
+          source: src,
+          filter: ["==", ["get", "id"], "__none__"],
+          layout: { "line-join": "round" },
+          paint: { "line-color": "#2a1c10", "line-width": 2.2, "line-opacity": 0.75 },
+        },
+        beforeLayer,
+      );
     }
+  }
+
+  private hovered: string | null = null;
+
+  private setHover(id: string | null) {
+    if (id === this.hovered) return;
+    this.hovered = id;
+    for (const slot of ["a", "b"] as const)
+      this.map.setFilter(`terr-${slot}-hover`, ["==", ["get", "id"], slot === this.active && id ? id : "__none__"]);
+  }
+
+  /** Polity under a screen point in the visible snapshot. */
+  private polityAt(point: { x: number; y: number }): { id: string; name: string } | null {
+    if (!this.shownId) return null;
+    const f = this.map.queryRenderedFeatures([point.x, point.y], { layers: [`terr-${this.active}-fill`] })[0];
+    return f ? { id: String(f.properties.id), name: String(f.properties.name) } : null;
+  }
+
+  /** Hover shows the name and outlines the polity; click opens the ruler panel. */
+  enableInteraction(onHover: (h: { name: string; x: number; y: number } | null) => void, onClick: (id: string) => void) {
+    const canvas = this.map.getCanvas();
+    this.map.on("mousemove", (e) => {
+      const hit = this.polityAt(e.point);
+      this.setHover(hit?.id ?? null);
+      canvas.style.cursor = hit ? "pointer" : "";
+      onHover(hit ? { name: hit.name, x: e.point.x, y: e.point.y } : null);
+    });
+    this.map.on("mouseout", () => {
+      this.setHover(null);
+      canvas.style.cursor = "";
+      onHover(null);
+    });
+    this.map.on("click", (e) => {
+      const hit = this.polityAt(e.point);
+      if (hit) onClick(hit.id);
+    });
   }
 
   setInstant(instant: boolean) {
@@ -142,7 +190,8 @@ export class TerritoryLayers {
     const snap = await loadSnapshot(id);
     if (seq !== this.seq) return null;
     const next: Slot = this.active === "a" ? "b" : "a";
-    (this.map.getSource(`terr-${next}`) as GeoJSONSource).setData(toFeatures(snap));
+    (this.map.getSource(`terr-${next}`) as GeoJSONSource).setData(toFeatures(snap, this.locale));
+    this.setHover(null);
     this.fadeIn(next);
     this.fadeOut(this.active);
     this.active = next;

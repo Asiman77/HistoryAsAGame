@@ -1,0 +1,89 @@
+{
+  "id": "hotaki",
+  "name": {
+    "az": "Hotakilər"
+  },
+  "color": "#6b4e8a",
+  "periods": [
+    {
+      "from": 1709,
+      "to": 1738
+    }
+  ],
+  "facts": [
+    {
+      "from": 1709,
+      "to": 1721,
+      "status": "rise",
+      "statusNote": {
+        "az": "Mirveys Qəndəharda Səfəvilərə qarşı üsyan edir."
+      },
+      "rivals": [
+        "safavid"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Puştu, fars"
+      },
+      "sources": [
+        {
+          "title": "Hotak dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Hotak_dynasty"
+        }
+      ]
+    },
+    {
+      "from": 1722,
+      "to": 1729,
+      "status": "war",
+      "statusNote": {
+        "az": "İsfahan və İranın mərkəzi Hotakilərin əlində; Nadirə qarşı məğlubiyyətlər."
+      },
+      "rivals": [
+        "safavid",
+        "ottoman"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Puştu, fars"
+      },
+      "sources": [
+        {
+          "title": "Hotak dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Hotak_dynasty"
+        }
+      ]
+    },
+    {
+      "from": 1730,
+      "to": 1738,
+      "status": "decline",
+      "statusNote": {
+        "az": "Yalnız Qəndəhar qalır; 1738-də Nadir şəhəri alır."
+      },
+      "rivals": [
+        "afsharid",
+        "safavid"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Puştu, fars"
+      },
+      "sources": [
+        {
+          "title": "Hotak dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Hotak_dynasty"
+        }
+      ]
+    }
+  ]
+}

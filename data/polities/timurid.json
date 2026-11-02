@@ -1,0 +1,135 @@
+{
+  "id": "timurid",
+  "name": {
+    "az": "Teymurilər"
+  },
+  "color": "#4f7aa6",
+  "periods": [
+    {
+      "from": 1370,
+      "to": 1526
+    }
+  ],
+  "facts": [
+    {
+      "from": 1405,
+      "to": 1447,
+      "status": "stable",
+      "statusNote": {
+        "az": "Şahrux dövləti Heratdan idarə edir; elm və incəsənət çiçəklənir."
+      },
+      "rivals": [
+        "qaraqoyunlu"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Fars (dövlət), çağatay türkcəsi (saray və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Timurid Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Timurid_Empire"
+        },
+        {
+          "title": "Timurid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Timurid_dynasty"
+        }
+      ]
+    },
+    {
+      "from": 1448,
+      "to": 1468,
+      "status": "crisis",
+      "statusNote": {
+        "az": "Şahruxdan sonra varislik müharibələri; Əbu Səid dövləti yenidən birləşdirməyə çalışır."
+      },
+      "rivals": [
+        "qaraqoyunlu",
+        "agqoyunlu"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Fars (dövlət), çağatay türkcəsi (saray və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Timurid Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Timurid_Empire"
+        },
+        {
+          "title": "Timurid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Timurid_dynasty"
+        }
+      ]
+    },
+    {
+      "from": 1469,
+      "to": 1506,
+      "status": "stable",
+      "statusNote": {
+        "az": "Hüseyn Bayqara Heratda; Nəvai və Behzadın dövrü."
+      },
+      "rivals": [
+        "shaybanid"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Fars (dövlət), çağatay türkcəsi (saray və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Timurid Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Timurid_Empire"
+        },
+        {
+          "title": "Timurid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Timurid_dynasty"
+        }
+      ]
+    },
+    {
+      "from": 1507,
+      "to": 1526,
+      "status": "crisis",
+      "statusNote": {
+        "az": "Herat özbəklərə keçir; Babur Kabildən hakimiyyət qurur, 1526-da Hindistana keçir."
+      },
+      "rivals": [
+        "shaybanid"
+      ],
+      "allies": [
+        "safavid"
+      ],
+      "religion": {
+        "az": "Sünni İslam"
+      },
+      "languages": {
+        "az": "Fars (dövlət), çağatay türkcəsi (saray və ədəbiyyat)"
+      },
+      "sources": [
+        {
+          "title": "Timurid Empire",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Timurid_Empire"
+        },
+        {
+          "title": "Timurid dynasty",
+          "type": "encyclopedia",
+          "url": "https://en.wikipedia.org/wiki/Timurid_dynasty"
+        }
+      ]
+    }
+  ]
+}

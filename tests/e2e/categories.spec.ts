@@ -58,3 +58,45 @@ test("refs to missing entities are passive; person links return to where you wer
   await startJourney(page, /mərhələsindən başla/);
   await expect(page.getByRole("heading", { level: 2, name: "Ərdəbildə doğuluş" })).toBeVisible();
 });
+
+test("ruler panel: clicking a state in the legend shows who rules it that year", async ({ page, viewport }) => {
+  await page.goto("/az/persons/shah-ismayil/?step=ismayil-chaldiran");
+  await startJourney(page, /mərhələsindən başla/);
+  const legend = page.getByTestId("map-legend");
+  if ((viewport?.width ?? 0) < 1024) await legend.getByRole("button", { name: "Xəritə açarını göstər" }).click();
+  await legend.getByRole("button", { name: "Osmanlı dövləti" }).click();
+  const panel = page.getByTestId("polity-panel");
+  await expect(panel.getByText("I Səlim", { exact: true })).toBeVisible();
+  await expect(panel.getByText("Bu mərhələdə rəqib tərəfdir: Osmanlı ordusu.")).toBeVisible();
+  await expect(panel.getByText("İstanbul")).toBeVisible();
+  await panel.getByRole("button", { name: "Bağla" }).click();
+
+  // Same state, other year: the ruler comes from the reign table, not from the event.
+  if ((viewport?.width ?? 0) < 1024) await legend.getByRole("button", { name: "Xəritə açarını göstər" }).click();
+  await page.getByRole("navigation", { name: "Həyat xətti" }).getByRole("button").first().click();
+  await legend.getByRole("button", { name: "Osmanlı dövləti" }).click();
+  await expect(panel.getByText("II Bayezid", { exact: true })).toBeVisible();
+});
+
+test("ruler panel opens from a click on the map", async ({ page, viewport }) => {
+  test.skip((viewport?.width ?? 0) < 1024, "the map is covered by the bottom sheet below 1024px");
+  await page.goto("/az/persons/shah-ismayil/?step=ismayil-coronation");
+  await startJourney(page, /mərhələsindən başla/);
+  const panel = page.getByTestId("polity-panel");
+  // The camera settles on Tabriz, inside the Safavid state.
+  await expect(async () => {
+    const box = (await page.locator(".maplibregl-canvas").boundingBox())!;
+    await page.mouse.click(box.x + box.width * 0.42, box.y + box.height * 0.58);
+    await expect(panel).toBeVisible({ timeout: 1000 });
+  }).toPass({ timeout: 20_000 });
+  await expect(panel.getByText("Bu dövlətin hökmdarı sənsən.")).toBeVisible();
+});
+
+test("states without data say so instead of staying empty", async ({ page, viewport }) => {
+  await page.goto("/az/persons/uzun-hasan/?step=uzun-hasan-sara-khatun");
+  await startJourney(page, /mərhələsindən başla/);
+  const legend = page.getByTestId("map-legend");
+  if ((viewport?.width ?? 0) < 1024) await legend.getByRole("button", { name: "Xəritə açarını göstər" }).click();
+  await legend.getByRole("button", { name: "Trabzon imperiyası" }).click();
+  await expect(page.getByTestId("polity-panel").getByText(/tezliklə əlavə olunacaq/)).toBeVisible();
+});
