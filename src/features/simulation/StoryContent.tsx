@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import type {
@@ -15,14 +14,15 @@ import type {
 } from "@/domain/schema";
 import { EventIcon } from "@/components/EventIcon";
 import { GlossaryText } from "@/components/GlossaryText";
-import { withBasePath } from "@/lib/basePath";
 import { formatDate } from "@/lib/dates";
 import { format, t, type Messages } from "@/lib/i18n";
 import { yearDelta } from "@/lib/worldContext";
-import type { Step, StepMoment } from "./model";
+import { RelatedLinks } from "@/features/engine/RelatedLinks";
+import type { Step } from "./model";
 import { Narration } from "./Narration";
+import type { Mode } from "./useStoredMode";
 
-export type Mode = "story" | "learn";
+export type { Mode } from "./useStoredMode";
 
 interface Props {
   step: Step;
@@ -32,10 +32,12 @@ interface Props {
   m: Messages;
   chosen: number | undefined;
   onChoose: (option: number) => void;
+  here: { href: string; label: string };
+  onPlace: (placeId: string) => void;
 }
 
 /** Body of the story panel for a single step. */
-export function StoryContent({ step, personName, mode, locale, m, chosen, onChoose }: Props) {
+export function StoryContent({ step, personName, mode, locale, m, chosen, onChoose, here, onPlace }: Props) {
   const { event } = step;
   const tr = (x: Parameters<typeof t>[0]) => t(x, locale);
 
@@ -118,9 +120,7 @@ export function StoryContent({ step, personName, mode, locale, m, chosen, onChoo
 
       {event.primarySource && <PrimarySourceCard excerpt={event.primarySource} locale={locale} m={m} />}
 
-      {step.moments.map((mo, i) => (
-        <MomentCard key={i} moment={mo} locale={locale} m={m} />
-      ))}
+      <RelatedLinks refs={step.related} locale={locale} m={m} here={here} onPlace={onPlace} />
 
       {event.choice && <ChoiceCard choice={event.choice} locale={locale} m={m} chosen={chosen} onChoose={onChoose} />}
 
@@ -273,35 +273,6 @@ function BattleCard({
         </div>
       </div>
       {!!outcome.maneuvers?.length && <p className="mt-3 text-[11px] text-ink-faint italic">{m.map.battleSchematic}</p>}
-    </section>
-  );
-}
-
-function MomentCard({ moment, locale, m }: { moment: StepMoment; locale: Locale; m: Messages }) {
-  return (
-    <section className="flex items-start gap-3 rounded-md border border-gold/50 bg-gold/10 p-3">
-      {moment.person.portrait && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={withBasePath(moment.person.portrait.src)}
-          alt=""
-          className="size-12 shrink-0 rounded-full border-2 border-gold object-cover object-top"
-        />
-      )}
-      <div className="min-w-0">
-        <p className="text-[11px] font-semibold tracking-wider text-[#7a5a17] uppercase">{m.relations.title}</p>
-        <p className="mt-0.5 text-sm leading-snug text-ink">{t(moment.note, locale)}</p>
-        <Link
-          href={`/${locale}/person/${moment.person.id}/?step=${moment.targetEventId}`}
-          className="mt-1.5 inline-block text-sm font-medium text-lapis underline decoration-lapis/30 underline-offset-2 hover:decoration-lapis"
-        >
-          {format(m.relations.goto, {
-            name: t(moment.person.name, locale),
-            title: t(moment.targetTitle, locale),
-            year: moment.targetYear,
-          })}
-        </Link>
-      </div>
     </section>
   );
 }

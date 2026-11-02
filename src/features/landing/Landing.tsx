@@ -22,9 +22,13 @@ interface Props {
   persons: LandingPerson[];
   eras: Era[];
   messages: Messages;
+  /** Page heading: the persons category page reuses this layout. */
+  heading: { kicker: string; title: string; lead: string };
+  /** Link back to the category hub. */
+  backHref?: string;
 }
 
-export function Landing({ locale, persons, eras, messages: m }: Props) {
+export function Landing({ locale, persons, eras, messages: m, heading, backHref }: Props) {
   const [eraId, setEraId] = useState<string | null>(null);
   const reduced = useReducedMotion();
   const visible = useMemo(
@@ -40,6 +44,14 @@ export function Landing({ locale, persons, eras, messages: m }: Props) {
       <div className="paper-card absolute top-3 right-3 z-20 rounded-lg p-1 sm:top-5 sm:right-5">
         <SettingsButton m={m} />
       </div>
+      {backHref && (
+        <Link
+          href={backHref}
+          className="paper-card absolute top-3 left-3 z-20 rounded-full px-3 py-1.5 text-sm text-ink-soft hover:text-ink sm:top-5 sm:left-5"
+        >
+          ← {m.categories.home}
+        </Link>
+      )}
 
       <section className="relative mx-auto max-w-6xl px-4 pt-14 pb-10 sm:px-8 sm:pt-20">
         <motion.p
@@ -48,7 +60,7 @@ export function Landing({ locale, persons, eras, messages: m }: Props) {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="flex items-center justify-center gap-2 text-center text-xs font-medium tracking-[0.25em] text-ink-faint uppercase"
         >
-          <Star size={12} className="text-gold" /> {m.landing.kicker} <Star size={12} className="text-gold" />
+          <Star size={12} className="text-gold" /> {heading.kicker} <Star size={12} className="text-gold" />
         </motion.p>
         <motion.h1
           initial={reduced ? false : { opacity: 0, y: 16, letterSpacing: "0.12em" }}
@@ -56,7 +68,7 @@ export function Landing({ locale, persons, eras, messages: m }: Props) {
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
           className="mt-4 text-center font-display text-5xl font-semibold text-ink sm:text-7xl"
         >
-          {m.landing.title}
+          {heading.title}
         </motion.h1>
         <motion.div
           initial={reduced ? false : { opacity: 0, scaleX: 0.4 }}
@@ -71,7 +83,7 @@ export function Landing({ locale, persons, eras, messages: m }: Props) {
           transition={{ duration: 1, delay: 0.6 }}
           className="text-balance mx-auto mt-6 max-w-2xl text-center font-serif text-lg leading-relaxed text-ink-soft italic sm:text-xl"
         >
-          {m.landing.lead}
+          {heading.lead}
         </motion.p>
       </section>
 
@@ -161,7 +173,7 @@ function PersonCard({
   const accent = eras.at(-1)?.theme.accent ?? "#8a6a2f";
   return (
     <Link
-      href={`/${locale}/person/${person.id}/`}
+      href={`/${locale}/persons/${person.id}/`}
       className="group paper-card miniature-frame relative flex h-full flex-col overflow-hidden rounded-md transition-transform duration-500 ease-out-soft hover:-translate-y-1.5 focus-visible:-translate-y-1.5"
     >
       <div className="relative aspect-[4/5] overflow-hidden bg-parchment-dark">
@@ -229,7 +241,7 @@ function PersonCard({
 }
 
 /** Faint old-map linework behind the hero: graticule and compass rose. */
-function BackdropMap() {
+export function BackdropMap() {
   return (
     <svg
       aria-hidden
@@ -260,7 +272,7 @@ function BackdropMap() {
 }
 
 /** Earned "tarixi kart"s and quiz badges. Soft gamification: nothing to lose, no streaks. */
-function CollectionStrip({
+export function CollectionStrip({
   persons,
   progress,
   locale,

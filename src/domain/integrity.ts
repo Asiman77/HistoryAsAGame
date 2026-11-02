@@ -100,20 +100,3 @@ export function checkEventReferences(events: LifeEvent[], cat: Catalogue, file: 
   }
   return issues;
 }
-
-/** Relation moments must point at existing events of the right person. */
-export function checkRelationMoments(relations: Relation[], eventIds: Map<string, Set<string>>, file: string): Issue[] {
-  const issues: Issue[] = [];
-  for (const r of relations) {
-    for (const m of r.moments ?? []) {
-      if (m.personId !== r.from && m.personId !== r.to)
-        issues.push({ file, message: `moment.personId ${m.personId} əlaqədə iştirak etmir` });
-      if (!eventIds.get(m.personId)?.has(m.eventId))
-        issues.push({ file, message: `moment: ${m.personId} üçün naməlum hadisə ${m.eventId}` });
-      const other = m.personId === r.from ? r.to : r.from;
-      if (m.targetEventId && !eventIds.get(other)?.has(m.targetEventId))
-        issues.push({ file, message: `moment: ${other} üçün naməlum targetEventId ${m.targetEventId}` });
-    }
-  }
-  return issues;
-}

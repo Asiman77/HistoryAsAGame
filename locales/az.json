@@ -1,7 +1,22 @@
 {
   "appName": "Tarixin İçində",
-  "months": ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avqust", "sentyabr", "oktyabr", "noyabr", "dekabr"],
-  "date": { "approxPrefix": "təq. " },
+  "months": [
+    "yanvar",
+    "fevral",
+    "mart",
+    "aprel",
+    "may",
+    "iyun",
+    "iyul",
+    "avqust",
+    "sentyabr",
+    "oktyabr",
+    "noyabr",
+    "dekabr"
+  ],
+  "date": {
+    "approxPrefix": "təq. "
+  },
   "landing": {
     "kicker": "Azərbaycan tarixinin interaktiv səyahəti",
     "title": "Tarixin İçində",
@@ -238,5 +253,43 @@
     "badge": "Sınaq nişanı",
     "progress": "{n} / {total} mərhələ",
     "continue": "Davam et"
+  },
+  "categories": {
+    "title": "Bölmələr",
+    "lead": "Tarixi bir şəxsiyyətin, bir müharibənin və ya bir dövlətin içinə gir. Hamısı eyni xəritədə, mərhələ-mərhələ, səs və rənglə yaşanır.",
+    "home": "Ana səhifə",
+    "soon": "Tezliklə",
+    "open": "{n} simulyasiyaya bax",
+    "preview": "Bölməyə bax",
+    "empty": "Bu bölmədə hələ simulyasiya yoxdur.",
+    "persons": {
+      "kicker": "Həyatlar",
+      "title": "Tarixi şəxsiyyətlər",
+      "lead": "Bir hökmdarın, sərkərdənin və ya şairin həyatını doğumdan ölümə qədər yaşa."
+    },
+    "conflicts": {
+      "kicker": "Şanlı Zəfər tariximiz",
+      "title": "Döyüşlər və müharibələr",
+      "lead": "Müharibələri gün-gün, döyüşləri addım-addım izlə: azad olunan torpaqlar, sərkərdələr və qəhrəmanlar."
+    },
+    "states": {
+      "kicker": "İmperiyalar və xanlıqlar",
+      "title": "Dövlətlər",
+      "lead": "Bir dövlətin yaranmasını, yüksəlişini və süqutunu xəritədə sərhədlərin dəyişməsi ilə gör."
+    }
+  },
+  "related": {
+    "title": "Əlaqəli",
+    "soon": "tezliklə",
+    "soonHelp": "Bu bölmə hələ hazırlanır. Əlavə olunanda keçid avtomatik açılacaq.",
+    "back": "Geri qayıt",
+    "types": {
+      "person": "Şəxsiyyət",
+      "conflict": "Müharibə",
+      "battle": "Döyüş",
+      "state": "Dövlət",
+      "place": "Məkan",
+      "ruler": "Hökmdar"
+    }
   }
 }

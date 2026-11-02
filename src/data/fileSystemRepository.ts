@@ -6,6 +6,7 @@ import {
   GlossaryFile,
   Person,
   PlacesFile,
+  PlannedFile,
   RelationsFile,
   TerritoryRegistryFile,
   TerritorySnapshotSource,
@@ -14,6 +15,7 @@ import {
   type Relation,
   type TerritorySnapshotMeta,
 } from "@/domain/schema";
+import { buildRegistry, type Registry } from "@/domain/registry";
 import type { HistoryRepository, PersonFilter } from "./repository";
 
 /**
@@ -166,5 +168,31 @@ export class FileSystemRepository implements HistoryRepository {
         ? WorldEventsFile.parse(await this.readJson("world-events.json")).events
         : [],
     );
+  }
+
+  listPlanned() {
+    return this.memo("planned", async () =>
+      (await this.exists("planned.json")) ? PlannedFile.parse(await this.readJson("planned.json")).entities : [],
+    );
+  }
+
+  getRegistry(): Promise<Registry> {
+    return this.memo("registry", async () => {
+      const [persons, places, planned] = await Promise.all([this.allPersons(), this.listPlaces(), this.listPlanned()]);
+      const simulations = await Promise.all(
+        persons.map(async (p) => ({
+          type: "person" as const,
+          id: p.id,
+          title: p.shortName ?? p.name,
+          ...(p.portrait ? { image: p.portrait } : {}),
+          steps: (await this.getEvents(p.id)).map((e) => ({ id: e.id, title: e.title, year: e.date.year })),
+        })),
+      );
+      return buildRegistry({
+        simulations,
+        others: places.map((pl) => ({ type: "place" as const, id: pl.id, title: pl.names.historical })),
+        planned,
+      });
+    });
   }
 }

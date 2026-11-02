@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useSyncExternalStore } from "react";
-import type { Mode } from "./StoryContent";
+export type Mode = "story" | "learn";
 
 const KEY = "tarix:mode";
 const EVENT = "tarix:mode-change";

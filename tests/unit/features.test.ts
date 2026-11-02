@@ -148,8 +148,8 @@ describe("mood system", () => {
     for (const f of files)
       for (const ext of ["webm", "mp3"]) expect(fs.existsSync(path.join("public", "audio", `${f}.${ext}`)), `${f}.${ext}`).toBe(true);
   });
-  it("lists every audio file in AUDIO_CREDITS.md", () => {
-    const credits = fs.readFileSync("AUDIO_CREDITS.md", "utf8");
+  it("lists every audio file in docs/AUDIO_CREDITS.md", () => {
+    const credits = fs.readFileSync("docs/AUDIO_CREDITS.md", "utf8");
     for (const f of fs.readdirSync(path.join("public", "audio"))) expect(credits, f).toContain(f.replace(/\.(webm|mp3)$/, ""));
   });
 });

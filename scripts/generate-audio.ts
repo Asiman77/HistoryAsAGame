@@ -6,7 +6,7 @@
  * Everything here is generated from code (no samples), so the output is our own
  * work, released under CC0. It imitates tar, kamança, balaban, zurna, nağara,
  * qanun and daf in the Şur mode, and is meant to be replaced by real CC0
- * recordings later (see AUDIO_CREDITS.md). MP3 is encoded with lamejs, WebM/Opus
+ * recordings later (see docs/AUDIO_CREDITS.md). MP3 is encoded with lamejs, WebM/Opus
  * by Chromium's MediaRecorder through Playwright (both are dev dependencies).
  */
 import fs from "node:fs";

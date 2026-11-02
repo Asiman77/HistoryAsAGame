@@ -96,6 +96,9 @@
           "az": "Həsən Amidi qansız ələ keçirdi və sonrakı illərdə hərbi qələbələrlə tək hökmdar oldu. Tayfa bəylərinin bir çoxu daha fəal və cəsur lideri dəstəklədi."
         }
       },
+      "related": [
+        { "type": "state", "id": "agqoyunlu", "label": { "az": "Ağqoyunlu dövləti" } }
+      ],
       "sources": [
         { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" },
         { "title": "Uzun Ḥasan", "type": "encyclopedia", "url": "https://www.britannica.com/biography/Uzun-Hasan" }
@@ -140,6 +143,9 @@
         "opponent": { "az": "Cahangir və Qaraqoyunlu müttəfiqləri" },
         "context": { "az": "Ağqoyunlu daxilindəki hakimiyyət mübarizəsi Həsənin xeyrinə bitdi." }
       },
+      "related": [
+        { "type": "battle", "id": "tigris-1457", "label": { "az": "Dəclə döyüşü (1457)" } }
+      ],
       "sources": [
         { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" }
       ]
@@ -186,6 +192,9 @@
           "az": "Həsən şərti qəbul etdi. Despina xatun xristian olaraq qaldı. Bu nikah sonralar Venesiya ilə diplomatik əlaqələrdə də rol oynadı, çünki Despinanın qohumları Venesiya aristokratiyasında idi."
         }
       },
+      "related": [
+        { "type": "person", "id": "shah-ismayil", "stepId": "ismayil-birth", "note": { "az": "Bu nikahdan doğulan qız, Həlimə (Aləmşah) bəyim, Şah İsmayılın anası olacaq." } }
+      ],
       "sources": [
         { "title": "Despina Khatun", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Despina_Khatun" },
         { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" }
@@ -285,6 +294,10 @@
         "opponent": { "az": "Qaraqoyunlu hökmdarı Cahanşah" },
         "context": { "az": "Rəqib türkman dövlətinin başçısı öldü. Azərbaycan və İran Ağqoyunlulara açıldı." }
       },
+      "related": [
+        { "type": "battle", "id": "chapakchur-1467", "label": { "az": "Cahanşah üzərində qələbə (1467)" } },
+        { "type": "state", "id": "qaraqoyunlu", "label": { "az": "Qaraqoyunlu dövləti" } }
+      ],
       "sources": [
         { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" },
         { "title": "The Aqquyunlu: Clan, Confederation, Empire", "author": "John E. Woods", "type": "book" }
@@ -363,6 +376,9 @@
           "az": "Həsən qış şəraitindən istifadə edərək Teymuri ordusunu təchizatsız qoydu. Ordu dağılmağa başlayanda Əbu Səid geri çəkilərkən ələ keçdi."
         }
       },
+      "related": [
+        { "type": "battle", "id": "qarabagh-1469", "label": { "az": "Qarabağ döyüşü (1469)" } }
+      ],
       "sources": [
         { "title": "Battle of Qarabagh", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Qarabagh" },
         { "title": "EBÛ SAİD MİRZA HAN", "type": "encyclopedia", "url": "https://islamansiklopedisi.org.tr/ebu-said-mirza-han", "note": "TDV İslâm Ansiklopedisi" }
@@ -485,6 +501,9 @@
         "forces": { "own": { "az": "təqr. 10 000 (mənbələr ziddiyyətlidir)" }, "enemy": { "az": "məlum deyil" } },
         "context": { "az": "Saxta geri çəkilmə ilə qazanılan qələbə Osmanlı ön dəstələrini dağıtdı, amma sultanın əsas ordusu toxunulmaz qaldı." }
       },
+      "related": [
+        { "type": "battle", "id": "euphrates-1473", "label": { "az": "Fərat sahili döyüşü (1473)" } }
+      ],
       "sources": [
         { "title": "Battle of Malatya", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Malatya" },
         { "title": "Hass Murad Pasha", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Hass_Murad_Pasha" }
@@ -537,6 +556,10 @@
         "forces": { "own": { "az": "mənbələr ziddiyyətlidir (70 000-dən çox)" }, "enemy": { "az": "70 000–100 000" } },
         "context": { "az": "Ağqoyunluların Anadoluda genişlənməsinə son qoyuldu. Venesiya ilə ittifaq planları da əhəmiyyətini itirdi." }
       },
+      "related": [
+        { "type": "battle", "id": "otlukbeli-1473", "label": { "az": "Otluqbeli döyüşü (1473)" } },
+        { "type": "state", "id": "ottoman", "label": { "az": "Osmanlı dövləti" } }
+      ],
       "sources": [
         { "title": "Battle of Otlukbeli", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Otlukbeli" },
         { "title": "OTLUKBELİ SAVAŞI", "type": "encyclopedia", "url": "https://kureansiklopedi.com/tr/detay/otlukbeli-savasi" }
@@ -635,6 +658,9 @@
       "narrative": {
         "az": "Qış soyuğu çadırın içinə qədər işləyir. Ömrüm boyu Amiddən Təbrizə, Dəclədən Xəzərə qədər at çapdım. İndi isə bircə addım atmağa gücüm çatmır. Qızım Həlimənin uşaqları olacaq. Kim bilir, bəlkə onlardan biri bu taxtı yenidən ayağa qaldıracaq."
       },
+      "related": [
+        { "type": "person", "id": "shah-ismayil", "stepId": "ismayil-birth", "note": { "az": "Doqquz il sonra nəvəsi İsmayıl Ərdəbildə doğulacaq." } }
+      ],
       "sources": [
         { "title": "Uzun Hasan", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Uzun_Hasan" },
         { "title": "Uzun Ḥasan", "type": "encyclopedia", "url": "https://www.britannica.com/biography/Uzun-Hasan" }

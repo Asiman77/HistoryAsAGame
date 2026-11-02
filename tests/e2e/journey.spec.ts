@@ -7,10 +7,10 @@ const stageHeading = (page: import("@playwright/test").Page, name: string) =>
 
 test("landing lists every person in data/ and links to their journey", async ({ page }) => {
   const errors = collectErrors(page);
-  await page.goto("/az/");
+  await page.goto("/az/persons/");
   for (const p of persons) await expect(page.getByRole("heading", { name: p.name })).toBeVisible();
   await page.getByRole("link", { name: new RegExp(persons[0]!.name) }).click();
-  await expect(page).toHaveURL(new RegExp(`/az/person/${persons[0]!.id}/`));
+  await expect(page).toHaveURL(new RegExp(`/az/persons/${persons[0]!.id}/`));
   expect(errors).toEqual([]);
 });
 
@@ -20,7 +20,7 @@ for (const person of persons) {
     const desktopLayout = (viewport?.width ?? 0) >= 1024;
     const errors = collectErrors(page);
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto(`/az/person/${person.id}/`);
+    await page.goto(`/az/persons/${person.id}/`);
     await startJourney(page);
     const next = page.getByRole("button", { name: /Növbəti|İrs və nəticə/ }).first();
 
@@ -44,7 +44,7 @@ test("keyboard arrows and timeline navigate between stages", async ({ page, isMo
   test.skip(isMobile, "keyboard navigation is a desktop feature");
   const p = persons[0]!;
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto(`/az/person/${p.id}/`);
+  await page.goto(`/az/persons/${p.id}/`);
     await startJourney(page);
   await page.keyboard.press("ArrowRight");
   await expect(stageHeading(page, p.titles[1]!)).toBeVisible();
@@ -57,7 +57,7 @@ test("keyboard arrows and timeline navigate between stages", async ({ page, isMo
 test("choice moment reveals the historical decision", async ({ page }) => {
   const p = persons.find((x) => x.hasChoice)!;
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto(`/az/person/${p.id}/`);
+  await page.goto(`/az/persons/${p.id}/`);
     await startJourney(page);
   await page.getByRole("navigation", { name: "Həyat xətti" }).getByRole("button").nth(p.firstChoice).click();
   await expect(stageHeading(page, p.titles[p.firstChoice]!)).toBeVisible();
@@ -68,7 +68,7 @@ test("choice moment reveals the historical decision", async ({ page }) => {
 });
 
 test("learning mode shows facts and sources", async ({ page }) => {
-  await page.goto(`/az/person/${persons[0]!.id}/`);
+  await page.goto(`/az/persons/${persons[0]!.id}/`);
     await startJourney(page);
   await page.getByRole("radio", { name: "Öyrənmə" }).first().click();
   await expect(page.getByText("Yoxlanılmış faktlar")).toBeVisible();
@@ -78,7 +78,7 @@ test("learning mode shows facts and sources", async ({ page }) => {
 test("legacy quiz can be completed", async ({ page }) => {
   const p = persons.find((x) => x.hasQuiz)!;
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto(`/az/person/${p.id}/`);
+  await page.goto(`/az/persons/${p.id}/`);
     await startJourney(page);
   await page.getByRole("navigation", { name: "Həyat xətti" }).getByRole("button").last().click();
   await page.getByRole("button", { name: "İrs və nəticə →" }).click();
@@ -97,7 +97,7 @@ test("legacy quiz can be completed", async ({ page }) => {
 });
 
 test("no horizontal page scroll", async ({ page }) => {
-  for (const url of ["/az/", `/az/person/${persons[0]!.id}/`]) {
+  for (const url of ["/az/", "/az/persons/", "/az/conflicts/", "/az/states/", `/az/persons/${persons[0]!.id}/`]) {
     await page.goto(url);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(overflow, url).toBeLessThanOrEqual(0);

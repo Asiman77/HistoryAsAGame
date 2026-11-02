@@ -5,14 +5,14 @@ import { motion, useReducedMotion } from "motion/react";
 import type { Locale, Place } from "@/domain/schema";
 import { t, type Messages } from "@/lib/i18n";
 import { placeNameIn } from "@/lib/places";
-import type { Step } from "@/features/simulation/model";
+import type { EngineStep } from "@/features/engine/types";
 import { placeIconSvg } from "./icons";
 
 interface Props {
   place: Place;
   year: number;
   capital: boolean;
-  steps: Step[];
+  steps: EngineStep[];
   locale: Locale;
   m: Messages;
   onGoto: (index: number) => void;
@@ -70,14 +70,14 @@ export function PlaceCard({ place, year, capital, steps, locale, m, onGoto, onCl
       {here.length ? (
         <ul className="mt-1.5 space-y-1">
           {here.map(({ s, i }) => (
-            <li key={s.event.id}>
+            <li key={s.id}>
               <button
                 type="button"
                 onClick={() => onGoto(i)}
                 className="w-full rounded px-2 py-1 text-left text-sm text-lapis hover:bg-lapis/5"
-                aria-label={`${m.map.placeGoto}: ${t(s.event.title, locale)}`}
+                aria-label={`${m.map.placeGoto}: ${t(s.title, locale)}`}
               >
-                <span className="tabular-nums text-ink-faint">{s.event.date.year}</span> · {t(s.event.title, locale)}
+                <span className="tabular-nums text-ink-faint">{s.timelineLabel}</span> · {t(s.title, locale)}
               </button>
             </li>
           ))}

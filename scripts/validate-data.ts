@@ -12,17 +12,19 @@ import {
   GlossaryFile,
   Person,
   PlacesFile,
+  PlannedFile,
   RelationsFile,
   TerritoryRegistryFile,
   TerritorySnapshotSource,
   WorldEventsFile,
   type LifeEvent,
+  type Person as PersonT,
 } from "../src/domain/schema";
+import { buildRegistry, checkRef, type RefIssue } from "../src/domain/registry";
 import {
   checkEra,
   checkEventReferences,
   checkPerson,
-  checkRelationMoments,
   checkRelations,
   type Issue,
 } from "../src/domain/integrity";
@@ -107,6 +109,7 @@ for (const f of fs.existsSync(snapDir) ? fs.readdirSync(snapDir).filter((f) => f
 
 // --- persons ---
 const personIds = new Set<string>();
+const loaded: { person: PersonT; events: LifeEvent[]; file: string }[] = [];
 const eventIdsByPerson = new Map<string, Set<string>>();
 let eventCount = 0;
 const personsDir = path.join(root, "persons");
@@ -122,6 +125,7 @@ for (const dir of fs.readdirSync(personsDir, { withFileTypes: true }).filter((d)
   if (events) {
     eventCount += events.length;
     eventIdsByPerson.set(person.id, new Set(events.map((e) => e.id)));
+    loaded.push({ person, events, file: rel(eventsFile) });
     issues.push(...checkPerson(person, events, eras, rel(eventsFile)));
     issues.push(...checkEventReferences(events, { placeIds, polityIds, snapshotIds }, rel(eventsFile)));
     if (events.length < 10) console.warn(`⚠  ${person.id}: yalnız ${events.length} hadisə (hədəf 10–15)`);
@@ -134,7 +138,6 @@ if (fs.existsSync(relationsFile)) {
   const data = load(relationsFile, RelationsFile);
   if (data) {
     issues.push(...checkRelations(data.relations, personIds, rel(relationsFile)));
-    issues.push(...checkRelationMoments(data.relations, eventIdsByPerson, rel(relationsFile)));
   }
 }
 const glossaryFile = path.join(root, "glossary.json");
@@ -147,6 +150,43 @@ const world = fs.existsSync(worldFile) ? (load(worldFile, WorldEventsFile)?.even
 unique(worldFile, "world event id", world.map((w) => w.id));
 for (const w of world) if (w.endYear !== undefined && w.endYear < w.year) add(worldFile, `${w.id}: endYear < year`);
 
+// --- cross-links: every ref resolved through the same registry the pages use ---
+const plannedFile = path.join(root, "planned.json");
+const planned = fs.existsSync(plannedFile) ? (load(plannedFile, PlannedFile)?.entities ?? []) : [];
+const entities = buildRegistry({
+  simulations: loaded.map(({ person, events }) => ({
+    type: "person" as const,
+    id: person.id,
+    title: person.name,
+    steps: events.map((e) => ({ id: e.id, title: e.title, year: e.date.year })),
+  })),
+  others: places.map((p) => ({ type: "place" as const, id: p.id, title: p.names.historical })),
+  planned,
+});
+/** Missing or planned targets: grouped per target, since many events may point at the same one. */
+const pending = new Map<string, string[]>();
+let refCount = 0;
+for (const { person, events, file } of loaded)
+  for (const e of events)
+    for (const r of e.related ?? []) {
+      refCount++;
+      if (r.type === "person" && r.id === person.id) issues.push({ file, message: `${e.id}: şəxsiyyət özünə istinad edir` });
+      for (const i of checkRef(r, entities, e.id) as RefIssue[]) {
+        if (i.level === "error") issues.push({ file, message: i.message });
+        else {
+          const key = `${r.type}:${r.id}`;
+          pending.set(key, [...(pending.get(key) ?? []), e.id]);
+        }
+      }
+    }
+for (const p of planned)
+  if (loaded.some(({ person }) => p.type === "person" && p.id === person.id))
+    console.warn(`⚠  data/planned.json: ${p.type}:${p.id} artıq mövcuddur, planned-dən silin`);
+if (pending.size) {
+  console.warn(`⚠  ${pending.size} obyekt hələ mövcud deyil, onlara keçidlər passiv ("tezliklə") göstəriləcək:`);
+  for (const [k, from] of [...pending].sort()) console.warn(`   ${k}  ←  ${from.join(", ")}`);
+}
+
 if (issues.length) {
   console.error(`✗ ${issues.length} problem tapıldı:\n`);
   for (const i of issues) console.error(`  ${i.file}\n    ${i.message}`);
@@ -154,5 +194,5 @@ if (issues.length) {
 }
 console.log(
   `✓ Data etibarlıdır: ${eras.length} dövr, ${personIds.size} şəxsiyyət, ${eventCount} hadisə, ` +
-    `${places.length} məkan, ${snapshotIds.size} xəritə snapshot-u, ${world.length} dünya hadisəsi, ${glossary.length} termin.`,
+    `${places.length} məkan, ${snapshotIds.size} xəritə snapshot-u, ${world.length} dünya hadisəsi, ${glossary.length} termin, ${refCount} çarpaz keçid.`,
 );

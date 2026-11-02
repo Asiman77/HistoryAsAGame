@@ -3,11 +3,12 @@
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { GeoJSONSource, Map as MlMap, Marker, PaddingOptions } from "maplibre-gl";
-import type { EventType, Locale, Maneuver, Place, TerritorySnapshotMeta } from "@/domain/schema";
+import type { Locale, Maneuver, Place, TerritorySnapshotMeta } from "@/domain/schema";
+import type { ResolvedRef } from "@/domain/registry";
 import type { LngLat } from "@/lib/geo";
 import { withBasePath } from "@/lib/basePath";
 import { t, type Messages } from "@/lib/i18n";
-import type { MapPlace, Step } from "@/features/simulation/model";
+import { crossings, type EngineStep, type MapPlace } from "@/features/engine/types";
 import { BattleLayer } from "./battle";
 import { LandmarkLayer } from "./landmarks";
 import { DEFAULT_ENEMY_COLOR, DEFAULT_OWN_COLOR, ROUTE_COLORS, buildBaseStyle } from "./style";
@@ -17,7 +18,7 @@ import { boundsOf, cumulativeLengths, easeInOutCubic, sliceAlong } from "./polyl
 export type Phase = "journey" | "legacy";
 
 interface Props {
-  steps: Step[];
+  steps: EngineStep[];
   places: MapPlace[];
   landmarks: Place[];
   snapshots: TerritorySnapshotMeta[];
@@ -32,17 +33,9 @@ interface Props {
   messages: Messages;
   onSelectPlace: (placeId: string) => void;
   onBattleArrow?: (m: Maneuver, artillery: boolean) => void;
+  onFollow?: (ref: ResolvedRef) => void;
 }
 
-const ZOOM_BY_TYPE: Partial<Record<EventType, number>> = {
-  battle: 6.6,
-  birth: 6.2,
-  death: 6.2,
-  childhood: 6.4,
-  education: 6.4,
-  coronation: 6.2,
-};
-const DEFAULT_ZOOM = 5.8;
 /** Copied from node_modules by scripts/copy-maplibre-worker.mjs. */
 const WORKER_URL = withBasePath("/vendor/maplibre-gl-worker.mjs");
 
@@ -81,6 +74,7 @@ export function MapStage({
   messages: m,
   onSelectPlace,
   onBattleArrow,
+  onFollow,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MlMap | null>(null);
@@ -96,15 +90,15 @@ export function MapStage({
   const rafRef = useRef<number | null>(null);
   const prevRef = useRef<{ index: number; phase: Phase } | null>(null);
   const paddingRef = useRef(padding);
-  const callbacks = useRef({ onSelectPlace, onBattleArrow });
+  const callbacks = useRef({ onSelectPlace, onBattleArrow, onFollow });
   const [ready, setReady] = useState(false);
   const [status, setStatus] = useState<"loading" | "ok" | "error">("loading");
   const instant = reducedMotion || light;
 
   useLayoutEffect(() => {
     paddingRef.current = padding;
-    callbacks.current = { onSelectPlace, onBattleArrow };
-  }, [padding, onSelectPlace, onBattleArrow]);
+    callbacks.current = { onSelectPlace, onBattleArrow, onFollow };
+  }, [padding, onSelectPlace, onBattleArrow, onFollow]);
 
   // ---- one-time map setup -------------------------------------------------
   useEffect(() => {
@@ -118,7 +112,7 @@ export function MapStage({
       maplibregl.setWorkerUrl(WORKER_URL);
       if (disposed || !containerRef.current) return;
       libRef.current = maplibregl;
-      const first = steps[0]!.event.location;
+      const first = steps[0]!.location;
       const created = new maplibregl.Map({
         container: containerRef.current,
         style: buildBaseStyle({ hillshade: !light }),
@@ -302,7 +296,7 @@ export function MapStage({
     const battle = battleRef.current!;
     const step = steps[index]!;
     const shownStep = phase === "legacy" ? steps.at(-1)! : step;
-    const loc: LngLat = [step.event.location.lng, step.event.location.lat];
+    const loc: LngLat = [step.location.lng, step.location.lat];
     battle.clear();
     for (const mk of momentsRef.current) mk.remove();
     momentsRef.current = [];
@@ -338,12 +332,12 @@ export function MapStage({
         else if (place.steps.includes(index)) state = revealCurrent || place.firstStep < index ? "current" : "future";
         else state = place.firstStep < index ? "past" : "future";
         el.dataset.state = state;
-        el.dataset.battle = String(phase === "journey" && state === "current" && step.event.type === "battle");
+        el.dataset.battle = String(phase === "journey" && state === "current" && !!step.battle);
         const seen = place.steps.filter((i) => i <= index);
         entry.priority = state === "current" ? Infinity : phase === "legacy" ? place.steps.length : (seen.at(-1) ?? -1);
         if (state !== "future" && place.placeId) covered.add(place.placeId);
       }
-      landmarksRef.current?.update(shownStep.event.date.year, capitals, covered);
+      landmarksRef.current?.update(shownStep.year, capitals, covered);
       declutterRef.current();
     };
 
@@ -376,7 +370,7 @@ export function MapStage({
 
     /** Battle: close in on the field and draw the schematic movements. */
     const playBattle = async () => {
-      const outcome = step.event.outcome;
+      const outcome = step.battle;
       if (!outcome?.maneuvers?.length || !alive()) return;
       const pts = [loc, ...outcome.maneuvers.flatMap((mv) => mv.path as LngLat[])];
       await camera(
@@ -395,15 +389,21 @@ export function MapStage({
 
     /** Medallions linking to another person's story at this moment. */
     const showMoments = () => {
-      step.moments.forEach((mo, i) => {
+      crossings(step).forEach((ref, i) => {
         const host = document.createElement("div");
         const a = document.createElement("a");
         host.appendChild(a);
         a.className = "moment-medallion";
-        a.href = withBasePath(`/${locale}/person/${mo.person.id}/?step=${mo.targetEventId}`);
-        a.setAttribute("aria-label", `${t(mo.person.name, locale)}: ${t(mo.targetTitle, locale)}`);
-        a.innerHTML = `${mo.person.portrait ? `<img alt="" src="${withBasePath(mo.person.portrait.src)}"/>` : ""}<span></span>`;
-        a.querySelector("span")!.textContent = t(mo.person.name, locale);
+        a.href = withBasePath(`/${locale}${ref.href}`);
+        a.setAttribute("aria-label", `${t(ref.title, locale)}${ref.stepTitle ? `: ${t(ref.stepTitle, locale)}` : ""}`);
+        a.innerHTML = `${ref.image ? `<img alt="" src="${withBasePath(ref.image.src)}"/>` : ""}<span></span>`;
+        a.querySelector("span")!.textContent = t(ref.title, locale);
+        a.addEventListener("click", (e) => {
+          // In-app navigation keeps the audio unlocked and records the way back.
+          if (e.metaKey || e.ctrlKey || e.shiftKey || !callbacks.current.onFollow) return;
+          e.preventDefault();
+          callbacks.current.onFollow(ref);
+        });
         momentsRef.current.push(
           new lib.Marker({ element: host, anchor: "left", offset: [26 + i * 4, -34 - i * 52] }).setLngLat(loc).addTo(map),
         );
@@ -429,7 +429,7 @@ export function MapStage({
 
     const firstRun = prev === null;
     const forwardOne = !firstRun && prev.phase === "journey" && index === prev.index + 1;
-    const zoom = ZOOM_BY_TYPE[step.event.type] ?? DEFAULT_ZOOM;
+    const zoom = step.zoom;
 
     (async () => {
       if (firstRun && !instant) {

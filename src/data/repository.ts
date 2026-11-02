@@ -1,9 +1,11 @@
+import type { Registry } from "@/domain/registry";
 import type {
   Era,
   GlossaryEntry,
   LifeEvent,
   Person,
   Place,
+  PlannedEntity,
   Polity,
   Relation,
   TerritorySnapshotMeta,
@@ -33,4 +35,8 @@ export interface HistoryRepository {
   /** Snapshot metadata sorted by year. Geometry is fetched by the browser from public/data/territories/<id>.json. */
   listTerritorySnapshots(): Promise<TerritorySnapshotMeta[]>;
   listWorldEvents(): Promise<WorldEvent[]>;
+  /** Entities announced but not built yet (data/planned.json). */
+  listPlanned(): Promise<PlannedEntity[]>;
+  /** Index of every entity, used to resolve cross-links. */
+  getRegistry(): Promise<Registry>;
 }

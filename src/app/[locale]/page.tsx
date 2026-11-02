@@ -1,26 +1,23 @@
 import type { Metadata } from "next";
 import { getRepository } from "@/data";
 import type { Locale } from "@/domain/schema";
-import { Landing, type LandingPerson } from "@/features/landing/Landing";
-import { getMessages } from "@/lib/i18n";
+import { Hub, type CategorySummary } from "@/features/landing/Hub";
+import type { LandingPerson } from "@/features/landing/Landing";
+import { getMessages, t } from "@/lib/i18n";
 
 export const metadata: Metadata = { title: { absolute: "Tarixin İçində" } };
 
-export default async function LandingPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const locale = (await params).locale as Locale;
   const repo = getRepository();
-  const [persons, eras] = await Promise.all([repo.listPersons(), repo.listEras()]);
+  const [persons, planned] = await Promise.all([repo.listPersons(), repo.listPlanned()]);
   const cards: LandingPerson[] = await Promise.all(
     persons.map(async (person) => ({ person, eventCount: (await repo.getEvents(person.id)).length })),
   );
-  const m = getMessages(locale);
-
-  return (
-    <Landing
-      locale={locale}
-      persons={cards}
-      eras={eras}
-      messages={m}
-    />
-  );
+  const categories: CategorySummary[] = [
+    { id: "persons", available: persons.map((p) => t(p.shortName ?? p.name, locale)), planned: [] },
+    { id: "conflicts", available: [], planned: planned.filter((p) => p.type === "conflict") },
+    { id: "states", available: [], planned: planned.filter((p) => p.type === "state") },
+  ];
+  return <Hub locale={locale} messages={getMessages(locale)} categories={categories} persons={cards} />;
 }

@@ -9,7 +9,7 @@ import { loadPersons, startJourney } from "./helpers";
 test("route animation frame pacing", async ({ page }, info) => {
   test.skip(info.project.name !== "desktop", "measured once");
   const p = loadPersons()[0]!;
-  await page.goto(`/az/person/${p.id}/`);
+  await page.goto(`/az/persons/${p.id}/`);
   await startJourney(page);
   await page.waitForTimeout(4500);
   // Stand on the stage just before the first movement, then step forward onto it.

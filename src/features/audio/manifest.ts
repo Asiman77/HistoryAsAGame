@@ -2,7 +2,7 @@ import type { Mood } from "@/domain/schema";
 
 /**
  * What plays when. Files live in public/audio/<file>.webm and .mp3; see
- * AUDIO_CREDITS.md for their origin and licence. To swap a placeholder for a
+ * docs/AUDIO_CREDITS.md for their origin and licence. To swap a placeholder for a
  * real recording, replace both files and keep the name.
  */
 

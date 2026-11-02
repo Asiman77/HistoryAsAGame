@@ -20,6 +20,44 @@ export type LocalizedText = z.infer<typeof LocalizedText>;
 const Slug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "kebab-case id gözlənilir");
 const HexColor = z.string().regex(/^#[0-9a-fA-F]{6}$/);
 
+// ---------------------------------------------------------------------------
+// Cross-entity references
+// ---------------------------------------------------------------------------
+
+export const ENTITY_TYPES = ["person", "conflict", "battle", "state", "place", "ruler"] as const;
+export type EntityType = (typeof ENTITY_TYPES)[number];
+
+/**
+ * Pointer to any entity, optionally to one step of its simulation. A ref to an
+ * entity that does not exist yet stays in the data and shows as "tezliklə";
+ * it becomes a live link as soon as the entity is added.
+ */
+export const EntityRef = z.object({
+  type: z.enum(ENTITY_TYPES),
+  id: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/),
+  /** Step inside the target simulation (event id, war day id, state step id). */
+  stepId: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/).optional(),
+  /** Why the two are connected, shown on the chip or card. */
+  note: z.lazy(() => LocalizedText).optional(),
+  /** Display name when the target is not in the registry yet. */
+  label: z.lazy(() => LocalizedText).optional(),
+});
+export type EntityRef = z.infer<typeof EntityRef>;
+
+/** Entities announced before their data exists: passive chips and "tezliklə" cards use these names. */
+export const PlannedFile = z.object({
+  entities: z.array(
+    z.object({
+      type: z.enum(ENTITY_TYPES),
+      id: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/),
+      title: z.lazy(() => LocalizedText),
+      description: z.lazy(() => LocalizedText).optional(),
+      years: z.string().optional(),
+    }),
+  ),
+});
+export type PlannedEntity = z.infer<typeof PlannedFile>["entities"][number];
+
 export const Certainty = z.enum(["exact", "approximate", "disputed"]);
 export type Certainty = z.infer<typeof Certainty>;
 
@@ -228,6 +266,8 @@ export const LifeEvent = z.object({
   quiz: z.array(QuizQuestion).min(1).max(3).optional(),
   narrationAudio: NarrationAudio.optional(),
   primarySource: PrimaryExcerpt.optional(),
+  /** Other persons, battles, states, places and rulers this event connects to. */
+  related: z.array(EntityRef).optional(),
 });
 export type LifeEvent = z.infer<typeof LifeEvent>;
 
@@ -285,24 +325,15 @@ export const RELATION_TYPES = [
   "contemporary",
 ] as const;
 
-/** An event in one person's life where the other person's story is directly involved. */
-export const RelationMoment = z.object({
-  personId: Slug,
-  eventId: Slug,
-  /** Shown on that event, e.g. "Bu nikahdan doğulan qız Şah İsmayılın anası olacaq". */
-  note: LocalizedText,
-  /** Event in the other person's story to link to. Defaults to their first event. */
-  targetEventId: Slug.optional(),
-});
-export type RelationMoment = z.infer<typeof RelationMoment>;
-
-/** Directed relation: `from` is <type> of `to` (e.g. Uzun Həsən is grandparent of İsmayıl). */
+/**
+ * Directed relation: `from` is <type> of `to` (e.g. Uzun Həsən is grandparent of İsmayıl).
+ * The moments where two stories cross live on the steps themselves, as `related` refs.
+ */
 export const Relation = z.object({
   from: Slug,
   to: Slug,
   type: z.enum(RELATION_TYPES),
   note: LocalizedText.optional(),
-  moments: z.array(RelationMoment).optional(),
   sources: z.array(Source).optional(),
 });
 export type Relation = z.infer<typeof Relation>;

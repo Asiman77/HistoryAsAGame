@@ -96,7 +96,7 @@ export function LegacyPanel({ journey, choices, locale, m, teacher, onRestart, o
         <button type="button" onClick={onRestart} className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-parchment-light hover:bg-ink-soft">
           {m.legacy.restart}
         </button>
-        <Link href={`/${locale}/`} className="rounded-full border border-ink/30 px-4 py-2 text-sm font-medium text-ink hover:border-ink">
+        <Link href={`/${locale}/persons/`} className="rounded-full border border-ink/30 px-4 py-2 text-sm font-medium text-ink hover:border-ink">
           {m.legacy.others}
         </Link>
         <button type="button" onClick={onBack} className="px-2 py-2 text-sm text-ink-soft underline underline-offset-2">

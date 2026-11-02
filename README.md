@@ -28,7 +28,7 @@ npm run dev          # http://localhost:3000
 | `npm start` | `out/` qovluğunu lokal serve edir (port 3000) |
 | `npm run validate:data` | Bütün `data/` fayllarını sxem və bütövlük qaydaları ilə yoxlayır |
 | `npm run build:territories` | Siyasi xəritə snapshot-larını `public/data/territories/`-a yığır (`dev` və `build`-dan əvvəl avtomatik işləyir) |
-| `npm run generate:audio` | Placeholder musiqi və səsləri yenidən sintez edir (`public/audio/`, bax `AUDIO_CREDITS.md`) |
+| `npm run generate:audio` | Placeholder musiqi və səsləri yenidən sintez edir (`public/audio/`, bax `docs/AUDIO_CREDITS.md`) |
 | `npm test` | Unit testlər (Vitest) |
 | `npm run test:e2e` | Playwright: hər şəxsiyyət başdan sona; desktop, planşet və mobil. Əvvəlcə `npm run build` lazımdır. İlk dəfə `npx playwright install chromium` |
 | `npm run lint`, `npm run typecheck` | ESLint və TypeScript |
@@ -52,7 +52,8 @@ Sayt kökdə deyilsə, build zamanı `NEXT_PUBLIC_BASE_PATH=/alt-yol` verilməli
 data/                    bütün kontent, kodda heç bir şəxsiyyət yoxdur
   eras/<id>.json         dövrlər
   persons/<id>/          person.json + events.json
-  relations.json         şəxsiyyətlər arası əlaqələr və kəsişmə anları (moments)
+  relations.json         şəxsiyyətlər arası əlaqələr (qohumluq, varislik)
+  planned.json           elan olunmuş, hələ qurulmamış simulyasiyalar ("tezliklə" kartları və passiv keçidlər)
   glossary.json          qlossari: termin, izah, şəkilçiləri nəzərə alan söz kökləri
   places.json            şəhər, qala, ziyarətgah, liman, döyüş meydanı kataloqu
   world-events.json      "Bu zaman dünyada" hadisələri
@@ -104,7 +105,7 @@ Məkana klikləyəndə şəhər kartı açılır: qısa tarix və bu şəxsiyyə
 `src/features/audio/manifest.ts` isə musiqi və mühit qatlarını təyin edir. Ümumi fon burdonu həmişə səslənir, mood qatları 1,6 saniyəlik crossfade ilə dəyişir.
 Səs yalnız "Hekayəyə başla" klikindən sonra başlayır (brauzer autoplay qaydası). Səviyyə default olaraq ortadır,
 bir kliklə tam söndürülür, seçim `localStorage`-da qalır. Audio fayllar lazım olanda yüklənir, növbəti mərhələnin mood-u əvvəlcədən yüklənir.
-**Hazırkı səslər sintez olunmuş placeholder-lərdir** və real CC0 yazılarla əvəz edilməlidir (`AUDIO_CREDITS.md`).
+**Hazırkı səslər sintez olunmuş placeholder-lərdir** və real CC0 yazılarla əvəz edilməlidir (`docs/AUDIO_CREDITS.md`).
 
 **Yüngül rejim.** Zəif kompüterlər üçün relyef kölgəsi, marşrut və sərhəd animasiyaları, rəng qatının blend effekti və mühit səsləri söndürülür,
 xəritə 1x piksel sıxlığında çəkilir. Cihaz zəif görünəndə (≤2 nüvə və ya ≤2 GB yaddaş) avtomatik açılır, ayarlardan dəyişdirilə bilər.
@@ -116,13 +117,48 @@ Yekun sınaqda sinif birlikdə variant seçir, müəllim "Cavabı göstər" düy
 üzərində hərəkət edən bayraq markeri olur. Hər yeni addım əvvəlki animasiyanı ləğv edir. `prefers-reduced-motion` aktiv olanda
 keçidlər ani olur. Real GPU-da (Intel Iris Xe) marşrut animasiyası 60 fps göstərib, p95 kadr vaxtı 16.7 ms.
 
+## Kateqoriyalar və simulyasiya mühərriki
+
+| Route | Səhifə |
+|---|---|
+| `/az/` | Ana səhifə: üç bölmə və kolleksiya |
+| `/az/persons/`, `/az/persons/<id>/` | Tarixi şəxsiyyətlər |
+| `/az/conflicts/` | Döyüşlər və müharibələr ("Şanlı Zəfər tariximiz") |
+| `/az/states/` | Dövlətlər |
+| `/az/person/<id>/` | Köhnə ünvan, `?step=` saxlanmaqla `/persons/<id>/`-ə yönləndirir |
+
+Bütün kateqoriyalar eyni mühərriki işlədir: `src/features/engine/SimulationEngine.tsx`.
+Mühərrik xəritəni, timeline-ı, mood və səsi, start ekranını, proqresi, dərin linkləri və geri qayıdışı idarə edir.
+Step-in nə olduğunu (həyat hadisəsi, müharibə günü, dövlət mərhələsi) kateqoriya adapteri təyin edir:
+HUD sayğacları (`counters`), step paneli (`renderStep`) və final paneli (`renderFinal`).
+Hər step `EngineStep` sahələrinə malikdir (`src/features/engine/types.ts`): `id`, `year`, `title`, `mood`, `location`, `zoom`,
+`route`, `snapshotId`, `battle`, `related`. Şəxsiyyətlər üçün adapter `src/features/simulation/PersonSimulation.tsx`-dir.
+
+### Çarpaz keçidlər (`EntityRef`)
+
+`{ type: person | conflict | battle | state | place | ruler, id, stepId?, note?, label? }`. Hadisələrin `related[]` sahəsində saxlanır.
+
+- `src/domain/registry.ts` build zamanı bütün obyektlərin indeksini qurur: şəxsiyyətlər (mərhələləri ilə), məkanlar və `planned.json`.
+- **Obyekt mövcuddursa**, keçid aktiv chip və ya kart olur (`/az/persons/<id>/?step=<stepId>`).
+- **Mövcud deyilsə və ya yalnız planlaşdırılıbsa**, chip passiv "tezliklə" kimi göstərilir. Referans datada qalır və obyekt əlavə olunanda keçid avtomatik açılır.
+- `note` olan referans "Tarixi kəsişmə" kartı kimi, `note`-suz referans chip kimi göstərilir. Başqa şəxsiyyətə keçid xəritədə portret medalyonu və timeline-da qızılı nöqtə verir.
+- Şəxsiyyətin döyüş hadisəsi `{ type: "battle", id: "chaldiran-1514" }` kimi döyüşə istinad edir. Döyüş əlavə olunanda keçid aktivləşəcək.
+
+**Geri qayıdış.** Keçiddən əvvəl cari səhifə və mərhələ `sessionStorage`-da stack-ə yazılır (`src/features/engine/navStack.ts`).
+Hədəf simulyasiyada "← Şah İsmayıl Xətai · Çaldıran döyüşü (1514)" düyməsi görünür və əvvəlki mərhələyə qaytarır.
+Tətbiq daxilində keçidlə gələndə səs artıq açıq olduğundan start ekranı buraxılır və hekayə birbaşa həmin mərhələdə açılır.
+
+**Validasiya.** `npm run validate:data` hər referansı eyni registry ilə yoxlayır:
+- mövcud olmayan obyekt **xəbərdarlıqdır** və hədəfə görə qruplaşdırılaraq göstərilir;
+- mövcud obyektdə olmayan `stepId` və ya adı (`label`) olmayan sınıq referans **xətadır**.
+
 ## Yeni şəxsiyyət əlavə etmək
 
 1. `data/persons/<id>/` qovluğunu yaradın. `<id>` kebab-case olmalı və `person.json`-dakı `id` ilə eyni olmalıdır.
 2. `person.json` yazın (aşağıdakı sxemə baxın). Portret varsa, `public/portraits/`-a qoyun və lisenziyanı göstərin.
 3. `events.json` yazın: `{ "events": [ ... ] }`. İlk hadisə `birth`, sonuncu `death` olmalıdır.
 4. `npm run validate:data` işə salın.
-5. Mənbələri və mübahisəli məqamları `RESEARCH_NOTES.md`-yə əlavə edin.
+5. Mənbələri və mübahisəli məqamları `docs/RESEARCH_NOTES.md`-yə əlavə edin.
 
 Kodda heç nə dəyişmir. Giriş ekranı, səhifə, e2e testlər yeni qovluğu avtomatik götürür.
 
@@ -182,6 +218,7 @@ Hər mərhələdə ±12 il daxilində ən yaxın 3 hadisə göstərilir, mümkü
 | `territorySnapshotId?` | Xəritə snapshot-u. Yoxdursa, ilə görə seçilir |
 | `narrationAudio?` | Nağılçı səsi üçün yer: `{ src, cues: [{ start, end, text }], license, voice? }`. Subtitrlər səslə sinxron göstərilir. Hələ heç bir hadisədə yoxdur |
 | `primarySource?` | İlkin mənbədən parça: `{ original?, text, attribution, license, translator?, note?, source }` |
+| `related?` | `EntityRef[]`: əlaqəli şəxsiyyətlər, döyüşlər, dövlətlər, məkanlar, hökmdarlar |
 | `location`, `fromLocation?`, `route?` | `fromLocation` varsa, xəritədə marşrut çəkilir. `route` ara nöqtələrdir: `[[lng, lat], ...]` |
 | `title` | |
 | `factualSummary` | **Yalnız yoxlanılmış faktlar** (Öyrənmə rejimi) |
@@ -194,9 +231,8 @@ Hər mərhələdə ±12 il daxilində ən yaxın 3 hadisə göstərilir, mümkü
 `ageAtEvent` data-da saxlanmır, doğum tarixindən avtomatik hesablanır. Tarixlərdən biri təxmini olanda yaş `~` ilə göstərilir.
 
 ### `Relation` (`data/relations.json`)
-`{ from, to, type, note?, moments?, sources? }`, burada `from`, `to`-nun `type`-ıdır (məs. `uzun-hasan` → `shah-ismayil`: `grandparent`).
-`moments: [{ personId, eventId, note, targetEventId? }]` kəsişmə anlarıdır: həmin mərhələdə timeline-da qızılı nöqtə,
-xəritədə portret medalyonu və digər hekayəyə link (`/az/person/<id>/?step=<eventId>`) göstərilir.
+`{ from, to, type, note?, sources? }`, burada `from`, `to`-nun `type`-ıdır (məs. `uzun-hasan` → `shah-ismayil`: `grandparent`).
+Kəsişmə anları hadisələrin `related[]` sahəsindədir, bax "Çarpaz keçidlər".
 
 ### `GlossaryEntry` (`data/glossary.json`)
 `{ id, term, definition, forms[], sources? }`. `forms` kiçik hərflə söz kökləridir: "qızılbaş" kökü "Qızılbaşların" sözünü də tapır,
@@ -228,14 +264,14 @@ Brauzer yaddaşı əlçatan deyilsə (gizli rejim, bloklanmış sayt datası), t
 
 ## Lisenziyalar və mənbələr
 
-Portretlər public domain-dir (`RESEARCH_NOTES.md`-də hər birinin mənbəyi göstərilib). Xəritə: © OpenFreeMap, © OpenMapTiles,
+Portretlər public domain-dir (`docs/RESEARCH_NOTES.md`-də hər birinin mənbəyi göstərilib). Xəritə: © OpenFreeMap, © OpenMapTiles,
 © OpenStreetMap contributors, Natural Earth. Relyef kölgəsi: [Terrain Tiles](https://registry.opendata.aws/terrain-tiles/) (Mapzen, AWS Open Data).
-Tarixi mənbələr və mübahisəli məqamlar `RESEARCH_NOTES.md`-dədir.
+Tarixi mənbələr və mübahisəli məqamlar `docs/RESEARCH_NOTES.md`-dədir.
 
 | Data | Mənbə | Lisenziya |
 |---|---|---|
 | Sahil xətti (`data/territories/land.json`) | Natural Earth 1:50m land + lakes | Public domain |
 | Siyasi sərhədlər | Layihə daxilində hazırlanıb (`data/territories/`) | Layihənin öz datası |
 | historical-basemaps | Yoxlanılıb, **istifadə olunmayıb**: GPL-3.0, lazımi dövlətlər yoxdur (bax `data/territories/README.md`) | GPL-3.0 |
-| Musiqi və səslər | Koddan sintez olunmuş placeholder-lər (`AUDIO_CREDITS.md`) | CC0 1.0 |
+| Musiqi və səslər | Koddan sintez olunmuş placeholder-lər (`docs/AUDIO_CREDITS.md`) | CC0 1.0 |
 | Kontarininin sitatı | R. Kerr, *A General History and Collection of Voyages and Travels*, 1811 | Public domain |

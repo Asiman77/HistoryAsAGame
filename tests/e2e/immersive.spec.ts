@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { collectErrors, startJourney } from "./helpers";
 
-const ISMAYIL = "/az/person/shah-ismayil/";
+const ISMAYIL = "/az/persons/shah-ismayil/";
 const timeline = (page: import("@playwright/test").Page) => page.getByRole("navigation", { name: "Həyat xətti" }).getByRole("button");
 const stage = (page: import("@playwright/test").Page, name: string) => page.getByRole("heading", { level: 2, name, exact: true });
 
@@ -69,8 +69,8 @@ test("meanwhile in the world and the link to another person's story", async ({ p
   await page.goto(ISMAYIL);
   await startJourney(page);
   await expect(page.getByText(/Bu zaman dünyada · 1487/)).toBeVisible();
-  await page.getByRole("link", { name: /Uzun Həsən: Trabzon şahzadəsi ilə nikah/ }).click();
-  await expect(page).toHaveURL(/\/az\/person\/uzun-hasan\/\?step=uzun-hasan-despina/);
+  await page.locator("article").getByRole("link", { name: /Uzun Həsən: Trabzon şahzadəsi ilə nikah/ }).click();
+  await expect(page).toHaveURL(/\/az\/persons\/uzun-hasan\/\?step=uzun-hasan-despina/);
   await startJourney(page, /mərhələsindən başla/);
   await expect(stage(page, "Trabzon şahzadəsi ilə nikah")).toBeVisible();
 });

@@ -1,10 +1,5 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { getRepository } from "@/data";
-import type { Locale } from "@/domain/schema";
-import { buildJourney } from "@/features/simulation/model";
-import { SimulationView } from "@/features/simulation/SimulationView";
-import { getMessages, t } from "@/lib/i18n";
+import { RootRedirect } from "@/components/RootRedirect";
 
 type Params = Promise<{ locale: string; id: string }>;
 
@@ -15,48 +10,8 @@ export async function generateStaticParams() {
   return persons.map((p) => ({ id: p.id }));
 }
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+/** Old URL (/az/person/<id>/) kept for shared links; ?step= is carried over. */
+export default async function OldPersonPage({ params }: { params: Params }) {
   const { locale, id } = await params;
-  const person = await getRepository().getPerson(id);
-  if (!person) return {};
-  return { title: t(person.name, locale as Locale), description: t(person.shortBio, locale as Locale) };
-}
-
-export default async function PersonPage({ params }: { params: Params }) {
-  const { locale, id } = await params;
-  const repo = getRepository();
-  const [person, events, eras, places, snapshots, polities, worldEvents, glossary, relations] = await Promise.all([
-    repo.getPerson(id),
-    repo.getEvents(id),
-    repo.listEras(),
-    repo.listPlaces(),
-    repo.listTerritorySnapshots(),
-    repo.listPolities(),
-    repo.listWorldEvents(),
-    repo.getGlossary(),
-    repo.getRelations(id),
-  ]);
-  if (!person || events.length === 0) notFound();
-
-  const otherIds = [...new Set(relations.flatMap((r) => [r.from, r.to]).filter((x) => x !== id))];
-  const others = (
-    await Promise.all(
-      otherIds.map(async (oid) => {
-        const [p, ev] = await Promise.all([repo.getPerson(oid), repo.getEvents(oid)]);
-        return p ? { person: p, events: ev } : null;
-      }),
-    )
-  ).filter((x) => x !== null);
-
-  const journey = buildJourney(person, events, eras, {
-    places,
-    snapshots,
-    polityColors: Object.fromEntries(polities.map((p) => [p.id, p.color])),
-    worldEvents,
-    glossary,
-    relations,
-    others,
-  });
-
-  return <SimulationView journey={journey} locale={locale as Locale} messages={getMessages(locale as Locale)} />;
+  return <RootRedirect to={`/${locale}/persons/${id}/`} keepQuery />;
 }

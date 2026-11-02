@@ -1,35 +1,68 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
-import type { Locale, Person } from "@/domain/schema";
+import type { ImageAsset, Locale } from "@/domain/schema";
 import { Divider } from "@/components/Ornament";
+import { getAudioEngine } from "@/features/audio/engine";
 import { SpeakerIcon } from "@/features/settings/SettingsPanel";
 import { withBasePath } from "@/lib/basePath";
-import { formatDate } from "@/lib/dates";
 import { format, t, type Messages } from "@/lib/i18n";
 import { updateSettings, useSettings } from "@/lib/settings";
 
 export type StartChoice = { kind: "begin" } | { kind: "resume"; index: number } | { kind: "jump"; index: number };
 
-interface Props {
-  person: Person;
+export interface GateTarget {
+  index: number;
+  title: string;
+}
+
+interface GateProps {
+  title: string;
+  subtitle: string;
+  image?: ImageAsset;
   locale: Locale;
   m: Messages;
-  /** Saved position, if the viewer has been here before. */
-  resume: { index: number; title: string } | null;
-  /** Stage requested by a link from another person's story. */
-  jump: { index: number; title: string } | null;
+  resume: GateTarget | null;
+  jump: GateTarget | null;
   onStart: (choice: StartChoice) => void;
 }
 
 /**
- * First screen of a journey. Browsers only allow sound after a user gesture,
- * so the story (and its music) starts with this click.
+ * Reads ?step= (a deep link from another simulation). Lives in its own
+ * Suspense boundary so the rest of the page is still prerendered. When the
+ * viewer arrives by an in-app link the audio is already unlocked, so the gate
+ * is skipped and the story opens at the linked step.
  */
-export function StartGate({ person, locale, m, resume, jump, onStart }: Props) {
+export function GateController({
+  stepIds,
+  stepTitle,
+  ...props
+}: Omit<GateProps, "jump"> & { stepIds: string[]; stepTitle: (i: number) => string }) {
+  const params = useSearchParams();
+  const stepParam = params.get("step");
+  const jumpIndex = stepParam ? stepIds.indexOf(stepParam) : -1;
+  const jump = jumpIndex >= 0 ? { index: jumpIndex, title: stepTitle(jumpIndex) } : null;
+  const auto = useRef(false);
+  const { onStart } = props;
+
+  useEffect(() => {
+    if (auto.current || jumpIndex < 0 || !getAudioEngine().isStarted) return;
+    auto.current = true;
+    onStart({ kind: "jump", index: jumpIndex });
+  }, [jumpIndex, onStart]);
+
+  return <StartGate {...props} jump={jump} />;
+}
+
+/**
+ * First screen of a simulation. Browsers only allow sound after a user
+ * gesture, so the story (and its music) starts with this click.
+ */
+export function StartGate({ title, subtitle, image, locale, m, resume, jump, onStart }: GateProps) {
   const reduced = useReducedMotion();
   const s = useSettings();
-  const year = (d: Person["birth"]["date"]) => formatDate({ ...d, month: undefined, day: undefined }, m);
 
   return (
     <motion.div
@@ -48,18 +81,18 @@ export function StartGate({ person, locale, m, resume, jump, onStart }: Props) {
         animate={{ y: 0, scale: 1 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        {person.portrait && (
+        {image && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={withBasePath(person.portrait.src)}
-            alt={t(person.portrait.alt, locale)}
+            src={withBasePath(image.src)}
+            alt={t(image.alt, locale)}
             className="size-28 rounded-full border-4 border-gold/70 object-cover object-top shadow-lg [filter:sepia(0.35)]"
           />
         )}
         <h1 id="start-title" className="mt-4 font-display text-3xl font-semibold text-ink">
-          {t(person.name, locale)}
+          {title}
         </h1>
-        <p className="text-sm text-ink-soft">{format(m.start.years, { from: year(person.birth.date), to: year(person.death.date) })}</p>
+        <p className="text-sm text-ink-soft">{subtitle}</p>
         <Divider className="my-4 w-48" />
         <div className="flex w-full flex-col gap-2">
           {jump ? (

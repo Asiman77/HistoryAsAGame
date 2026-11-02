@@ -163,6 +163,10 @@
           "az": "Nadir Fətəli xanın xəyanətini ifşa etdi. Təhmasib onu edam etdirdi və Nadir ordunun yeganə başçısına çevrildi. Bu addım Nadirin siyasi istedadını göstərir: o, hər zaman Səfəvi legitimliyindən öz yüksəlişi üçün istifadə edirdi."
         }
       },
+      "related": [
+        { "type": "person", "id": "shah-ismayil", "stepId": "ismayil-coronation", "note": { "az": "Nadirin xidmət etdiyi II Təhmasib Şah İsmayılın qurduğu Səfəvi sülaləsindəndir." } },
+        { "type": "state", "id": "afshar", "stepId": "1726-nadir-rise", "label": { "az": "Əfşarlar dövləti" }, "note": { "az": "Nadirin yüksəlişi Əfşarlar dövlətinin yaranma yoludur." } }
+      ],
       "sources": [
         { "title": "Nader Shah", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah" },
         { "title": "The Sword of Persia", "author": "Michael Axworthy", "type": "book", "note": "I.B. Tauris, 2006, 3-cü fəsil" }
@@ -208,6 +212,9 @@
         "forces": { "own": { "az": "16 000–25 000" }, "enemy": { "az": "25 000–50 000" } },
         "context": { "az": "Nadirin intizamlı tüfəngçi piyadası Əfqan süvarisini məğlub etdi. Bu, Hotaki hakimiyyətinin sonunun başlanğıcı oldu." }
       },
+      "related": [
+        { "type": "battle", "id": "mehmandust-1729", "label": { "az": "Mehmandust döyüşü (1729)" } }
+      ],
       "sources": [
         { "title": "Battle of Damghan (1729)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Damghan_(1729)" }
       ]
@@ -247,6 +254,9 @@
         "opponent": { "az": "Hotaki hökmdarı Əşrəf" },
         "context": { "az": "Əfqanların İran üzərində hakimiyyəti sona çatdı, Səfəvi sülaləsi formal olaraq bərpa olundu." }
       },
+      "related": [
+        { "type": "battle", "id": "murchekhort-1729", "label": { "az": "Mürçəxur döyüşü (1729)" } }
+      ],
       "sources": [
         { "title": "Nader Shah", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah" },
         { "title": "Battle of Damghan (1729)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Damghan_(1729)" }
@@ -295,6 +305,10 @@
         "forces": { "own": { "az": "təqr. 15 000 (ön dəstə)" }, "enemy": { "az": "təqr. 80 000" } },
         "context": { "az": "Döyüş 1730–1735-ci illər müharibəsinə faktiki son qoydu. Gəncə, Tiflis və İrəvan geri alındı." }
       },
+      "related": [
+        { "type": "battle", "id": "yeghevard-1735", "label": { "az": "Bağavərd döyüşü (1735)" } },
+        { "type": "state", "id": "ottoman", "label": { "az": "Osmanlı dövləti" } }
+      ],
       "sources": [
         { "title": "Battle of Yeghevard", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Yeghevard" }
       ],
@@ -362,6 +376,10 @@
           "az": "Nadir taxtı xalqın istəyi ilə qəbul edən kimi görünmək istəyirdi. Şərtlərindən biri məzhəb barışığı idi: bu, Osmanlılarla sülh üçün də vacib idi. Qurultay iştirakçılarının real seçimi isə demək olar ki, yox idi."
         }
       },
+      "related": [
+        { "type": "person", "id": "shah-ismayil", "stepId": "ismayil-coronation", "note": { "az": "Burada 1501-də Şah İsmayılın Təbrizdə başlatdığı Səfəvi hakimiyyəti faktiki olaraq bitir." } },
+        { "type": "state", "id": "afshar", "stepId": "1736-mughan", "label": { "az": "Əfşarlar dövləti" }, "note": { "az": "Muğan qurultayı Əfşarlar dövlətinin başlanğıcıdır." } }
+      ],
       "sources": [
         { "title": "Nader Shah", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah" },
         { "title": "Afsharid Iran", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Afsharid_Iran" },
@@ -422,6 +440,9 @@
         "opponent": { "az": "Hotaki hökmdarı Hüseyn" },
         "context": { "az": "Hotaki hakimiyyətinə son qoyuldu. Əfqan tayfaları, xüsusilə Əbdalilər, Nadirin ordusuna qoşuldu." }
       },
+      "related": [
+        { "type": "battle", "id": "kandahar-1738", "label": { "az": "Qəndəhar mühasirəsi (1737–1738)" } }
+      ],
       "sources": [
         { "title": "Siege of Kandahar", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Siege_of_Kandahar" },
         { "title": "Hotak dynasty", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Hotak_dynasty" }
@@ -470,6 +491,11 @@
         "forces": { "own": { "az": "təqr. 55 000 döyüşçü" }, "enemy": { "az": "təqr. 75 000 döyüşçü (düşərgədə 300 minə qədər insan)" } },
         "context": { "az": "Dünyanın ən zəngin dövlətlərindən biri olan Moğol imperiyasının zəifliyini bütün dünyaya göstərən döyüş." }
       },
+      "related": [
+        { "type": "battle", "id": "karnal-1739", "label": { "az": "Karnal döyüşü (1739)" } },
+        { "type": "state", "id": "mughal", "label": { "az": "Böyük Moğol imperiyası" } },
+        { "type": "state", "id": "afshar", "stepId": "1739-india", "label": { "az": "Əfşarlar dövləti" } }
+      ],
       "sources": [
         { "title": "Battle of Karnal", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Karnal" },
         { "title": "The Sword of Persia", "author": "Michael Axworthy", "type": "book", "note": "I.B. Tauris, 2006, 8-ci fəsil" }
@@ -595,6 +621,9 @@
         "forces": { "enemy": { "az": "təqr. 30 000 özbək və türkmən süvarisi" } },
         "context": { "az": "Xarəzm müvəqqəti olaraq Nadirin hakimiyyətinə keçdi. Bu, Nadirin şimal-şərqdəki hakimiyyətinin ən uzaq nöqtəsi oldu." }
       },
+      "related": [
+        { "type": "battle", "id": "khiva-1740", "label": { "az": "Xivə yürüşü (1740)" } }
+      ],
       "sources": [
         { "title": "Battle of Pitnak", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Pitnak" },
         { "title": "Nader Shah's Central Asian campaign", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah%27s_Central_Asian_campaign" },
@@ -700,6 +729,10 @@
         "forces": { "own": { "az": "təqr. 60 000" }, "enemy": { "az": "mənbələrdə 80 000–160 000" } },
         "context": { "az": "Osmanlı ordusu dağıldı. Müharibə 4 sentyabr 1746-da Kərdən sülhü ilə başa çatdı." }
       },
+      "related": [
+        { "type": "battle", "id": "kars-1745", "label": { "az": "Qars döyüşü (1745)" } },
+        { "type": "state", "id": "ottoman", "label": { "az": "Osmanlı dövləti" } }
+      ],
       "sources": [
         { "title": "Battle of Kars (1745)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Kars_(1745)" },
         { "title": "Treaty of Kerden", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Treaty_of_Kerden" }
@@ -742,6 +775,9 @@
       "narrative": {
         "az": "Gecə Fəthabad düşərgəsi sakitdir, amma mən yata bilmirəm. Ətrafımdakı hər üzdə xəyanət görürəm. Çadırın pərdəsi yavaşca qalxır. Mənim adımla döyüşə girən adamlar indi qılınclarını mənə çəkir. Çoban oğlunun yolu burada bitir. Dövlətim isə mən olmadan bir il də yaşamayacaq."
       },
+      "related": [
+        { "type": "state", "id": "afshar", "stepId": "1747-assassination", "label": { "az": "Əfşarlar dövləti" }, "note": { "az": "Nadirin ölümündən sonra dövlət parçalandı." } }
+      ],
       "sources": [
         { "title": "Nader Shah", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Nader_Shah" },
         { "title": "Nādir Shāh", "type": "encyclopedia", "url": "https://www.britannica.com/biography/Nadir-Shah" },

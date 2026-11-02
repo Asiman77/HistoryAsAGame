@@ -15,6 +15,9 @@
       "narrative": {
         "az": "Gözlərimi Ərdəbildə açıram. Şeyx Səfinin türbəsindən zikr səsləri gəlir. Atamın müridləri başlarına on iki dilimli qırmızı papaq qoyurlar. Anam deyir ki, damarlarımda həm şeyxlərin, həm də Ağqoyunlu xanlarının qanı axır."
       },
+      "related": [
+        { "type": "person", "id": "uzun-hasan", "stepId": "uzun-hasan-despina", "note": { "az": "Ana babası Uzun Həsən 1478-ci ildə vəfat etmişdi. Onun həyatını da yaşaya bilərsən." } }
+      ],
       "sources": [
         { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I" },
         { "title": "Ismāʿīl I", "type": "encyclopedia", "url": "https://www.britannica.com/biography/Ismail-I-shah-of-Iran" }
@@ -295,6 +298,9 @@
         "forces": { "own": { "az": "təqr. 7000" }, "enemy": { "az": "dəqiq məlum deyil" } },
         "context": { "az": "Səfəvilərin ilk böyük qələbəsi. Şirvan sərvəti və Bakının tutulması gənc hərəkata maddi baza verdi." }
       },
+      "related": [
+        { "type": "battle", "id": "cabani-1500", "label": { "az": "Cabanı döyüşü (1500)" } }
+      ],
       "sources": [
         { "title": "Campaigns of Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Campaigns_of_Ismail_I" },
         { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I" }
@@ -342,6 +348,9 @@
         "forces": { "own": { "az": "təqr. 7000" }, "enemy": { "az": "təqr. 4 dəfə çox (dəqiq rəqəm məlum deyil)" } },
         "context": { "az": "Bu qələbə Ağqoyunlu dövlətinin əsas qüvvəsini qırdı və Təbrizin döyüşsüz tutulmasına yol açdı." }
       },
+      "related": [
+        { "type": "battle", "id": "sharur-1501", "label": { "az": "Şərur döyüşü (1501)" } }
+      ],
       "sources": [
         { "title": "Battle of Sharur", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Sharur" }
       ],
@@ -379,6 +388,11 @@
       "narrative": {
         "az": "Təbrizin Cümə məscidi ağzına qədər doludur. Qılıncımı belimdə hiss edirəm, tac başımda ağırdır. On dörd yaşım var və babam Uzun Həsənin şəhərində mənim adıma xütbə oxunur."
       },
+      "related": [
+        { "type": "person", "id": "uzun-hasan", "stepId": "uzun-hasan-tabriz", "note": { "az": "Təbriz 1469-cu ildən Uzun Həsənin paytaxtı olmuşdu. İndi orada onun nəvəsi taxta çıxır." } },
+        { "type": "person", "id": "nadir-shah", "stepId": "nadir-mughan", "note": { "az": "Bu sülalə 235 il sonra, 1736-da Muğan qurultayında Nadir Şah taxta çıxanda hakimiyyəti itirəcək." } },
+        { "type": "state", "id": "safavid", "label": { "az": "Səfəvi dövləti" } }
+      ],
       "sources": [
         { "title": "Ismail I", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Ismail_I", "note": "Ghereghlou (2017), Qasım bəy Heyatiyə istinadla" },
         { "title": "Battle of Sharur", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Sharur" }
@@ -432,6 +446,9 @@
         "forces": { "own": { "az": "təqr. 12 000" }, "enemy": { "az": "70 000+ (salnamə rəqəmi)" } },
         "context": { "az": "Ağqoyunlu dövlətinin son böyük ordusu dağıldı. Fars və İraqi-Əcəm Səfəvi nəzarətinə keçdi." }
       },
+      "related": [
+        { "type": "battle", "id": "hamadan-1503", "label": { "az": "Həmədan döyüşü (1503)" } }
+      ],
       "sources": [
         { "title": "Battle of Hamadan (1503)", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Hamadan_(1503)" }
       ]
@@ -500,6 +517,9 @@
         "forces": { "own": { "az": "təqr. 17 000" }, "enemy": { "az": "sayca üstün idi (dəqiq rəqəm məlum deyil)" } },
         "context": { "az": "Saxta geri çəkilmə ilə qazanılan bu qələbə Xorasanı Səfəvilərə qatdı və özbək təhlükəsini müvəqqəti dayandırdı." }
       },
+      "related": [
+        { "type": "battle", "id": "merv-1510", "label": { "az": "Mərv döyüşü (1510)" } }
+      ],
       "sources": [
         { "title": "Battle of Marv", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Marv" }
       ]
@@ -575,6 +595,10 @@
           "az": "Salnamələrə görə İsmayıl Osmanlı mövqelərinə hazırlanmamış ikən hücumu namussuzluq saydı. Bu rəvayət sonradan yazılıb və dəqiqliyi mübahisəlidir. Amma nəticə dəqiqdir: odlu silahla möhkəmləndirilmiş mövqe süvari hücumlarını qırdı."
         }
       },
+      "related": [
+        { "type": "battle", "id": "chaldiran-1514", "label": { "az": "Çaldıran döyüşü (1514)" } },
+        { "type": "state", "id": "ottoman", "label": { "az": "Osmanlı dövləti" } }
+      ],
       "sources": [
         { "title": "Battle of Chaldiran", "type": "encyclopedia", "url": "https://en.wikipedia.org/wiki/Battle_of_Chaldiran" },
         { "title": "Iran under the Safavids", "author": "Roger Savory", "type": "book", "note": "Cambridge University Press, 1980" }
