@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/ReignsFile.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "reigns": {
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/Reign.schema.json"
+      }
+    }
+  },
+  "required": [
+    "reigns"
+  ]
+}

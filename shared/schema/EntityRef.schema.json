@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/EntityRef.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "person",
+        "conflict",
+        "battle",
+        "state",
+        "place",
+        "ruler"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "stepId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "note": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "label": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    }
+  },
+  "required": [
+    "type",
+    "id"
+  ]
+}

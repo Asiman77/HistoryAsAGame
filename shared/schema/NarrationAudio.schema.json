@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/NarrationAudio.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "src": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cues": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "end": {
+            "type": "number",
+            "minimum": 0
+          },
+          "text": {
+            "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+          }
+        },
+        "required": [
+          "start",
+          "end",
+          "text"
+        ]
+      }
+    },
+    "license": {
+      "type": "string",
+      "minLength": 1
+    },
+    "voice": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "src",
+    "cues",
+    "license"
+  ]
+}

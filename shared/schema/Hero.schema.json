@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/Hero.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "rank": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "posthumous": {
+      "type": "boolean"
+    },
+    "birthPlace": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "awards": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+      }
+    },
+    "description": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "photo": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1
+        },
+        "permissionNote": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "url",
+        "source",
+        "license",
+        "permissionNote"
+      ]
+    },
+    "sources": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/Source.schema.json"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "rank",
+    "posthumous",
+    "awards",
+    "sources"
+  ]
+}

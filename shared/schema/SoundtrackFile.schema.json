@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/SoundtrackFile.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "tracks": {
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/Track.schema.json"
+      }
+    }
+  },
+  "required": [
+    "tracks"
+  ]
+}

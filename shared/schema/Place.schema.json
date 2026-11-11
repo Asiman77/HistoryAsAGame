@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/Place.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "names": {
+      "type": "object",
+      "properties": {
+        "historical": {
+          "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+        },
+        "modern": {
+          "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+        }
+      },
+      "required": [
+        "historical"
+      ]
+    },
+    "lat": {
+      "type": "number",
+      "minimum": -90,
+      "maximum": 90
+    },
+    "lng": {
+      "type": "number",
+      "minimum": -180,
+      "maximum": 180
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "capital",
+        "city",
+        "fortress",
+        "shrine",
+        "battlefield",
+        "port"
+      ]
+    },
+    "importance": {
+      "anyOf": [
+        {
+          "type": "number",
+          "const": 1
+        },
+        {
+          "type": "number",
+          "const": 2
+        },
+        {
+          "type": "number",
+          "const": 3
+        }
+      ]
+    },
+    "periods": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "to": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "name": {
+            "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ]
+      }
+    },
+    "description": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/Source.schema.json"
+      }
+    },
+    "upcoming": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "title": {
+            "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+          },
+          "ref": {
+            "$ref": "https://tarixin-icinde.az/schema/v1/EntityRef.schema.json"
+          },
+          "sources": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "https://tarixin-icinde.az/schema/v1/Source.schema.json"
+            }
+          }
+        },
+        "required": [
+          "year",
+          "title",
+          "sources"
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "names",
+    "lat",
+    "lng",
+    "type",
+    "importance",
+    "periods",
+    "description"
+  ]
+}

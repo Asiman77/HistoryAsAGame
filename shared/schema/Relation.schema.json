@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/Relation.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "from": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "to": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "parent",
+        "grandparent",
+        "spouse",
+        "sibling",
+        "ally",
+        "rival",
+        "successor",
+        "contemporary"
+      ]
+    },
+    "note": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/Source.schema.json"
+      }
+    }
+  },
+  "required": [
+    "from",
+    "to",
+    "type"
+  ]
+}

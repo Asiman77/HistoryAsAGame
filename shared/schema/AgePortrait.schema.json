@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/AgePortrait.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "ageFrom": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "ageTo": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "historical",
+        "artwork",
+        "ai_illustration"
+      ]
+    },
+    "src": {
+      "type": "string",
+      "minLength": 1
+    },
+    "alt": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "caption": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "source": {
+      "type": "string"
+    },
+    "sourceUrl": {
+      "type": "string",
+      "format": "iri"
+    },
+    "license": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "promptId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    }
+  },
+  "required": [
+    "ageFrom",
+    "ageTo",
+    "kind",
+    "alt"
+  ]
+}

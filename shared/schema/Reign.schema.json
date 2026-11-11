@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/Reign.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "polityId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "rulerId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "start": {
+      "type": "object",
+      "properties": {
+        "year": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "month": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        }
+      },
+      "required": [
+        "year"
+      ]
+    },
+    "end": {
+      "type": "object",
+      "properties": {
+        "year": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "month": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        }
+      },
+      "required": [
+        "year"
+      ]
+    },
+    "certainty": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/Certainty.schema.json"
+    },
+    "note": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    }
+  },
+  "required": [
+    "polityId",
+    "rulerId",
+    "start",
+    "end",
+    "certainty"
+  ]
+}

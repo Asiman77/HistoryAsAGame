@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/BattleOutcome.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "result": {
+      "type": "string",
+      "enum": [
+        "victory",
+        "defeat",
+        "inconclusive"
+      ]
+    },
+    "ownSide": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "enemySide": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "opponent": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "commanders": {
+      "type": "object",
+      "properties": {
+        "own": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+          }
+        },
+        "enemy": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+          }
+        }
+      },
+      "required": [
+        "own",
+        "enemy"
+      ]
+    },
+    "forces": {
+      "type": "object",
+      "properties": {
+        "own": {
+          "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+        },
+        "enemy": {
+          "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+        }
+      }
+    },
+    "forcesSource": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/Source.schema.json"
+    },
+    "context": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "ownPolityId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "enemyPolityId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "artillery": {
+      "type": "boolean"
+    },
+    "maneuvers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "side": {
+            "type": "string",
+            "enum": [
+              "own",
+              "enemy"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "advance",
+              "attack",
+              "flank",
+              "retreat"
+            ]
+          },
+          "path": {
+            "minItems": 2,
+            "type": "array",
+            "items": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180
+                },
+                {
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "label": {
+            "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+          }
+        },
+        "required": [
+          "side",
+          "kind",
+          "path"
+        ]
+      }
+    }
+  },
+  "required": [
+    "result",
+    "ownSide",
+    "enemySide",
+    "opponent",
+    "commanders",
+    "context"
+  ]
+}

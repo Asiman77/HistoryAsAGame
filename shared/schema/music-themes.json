@@ -1,0 +1,7 @@
+{
+  "$comment": "Valid Theme.musicThemeId values. Generated from src/features/audio/manifest.ts.",
+  "musicThemes": [
+    "klassik",
+    "zefer-2020"
+  ]
+}

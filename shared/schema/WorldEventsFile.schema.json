@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/WorldEventsFile.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/WorldEvent.schema.json"
+      }
+    }
+  },
+  "required": [
+    "events"
+  ]
+}

@@ -1,0 +1,261 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/ThemeVariant.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "extends": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "palette": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "accent": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "surface": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "text": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "link": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        }
+      }
+    },
+    "fonts": {
+      "type": "object",
+      "properties": {
+        "display": {
+          "type": "string",
+          "enum": [
+            "noto-serif-display",
+            "noto-serif",
+            "noto-sans",
+            "cormorant-garamond",
+            "alegreya-sc",
+            "spectral-sc",
+            "montserrat"
+          ]
+        },
+        "body": {
+          "type": "string",
+          "enum": [
+            "noto-serif-display",
+            "noto-serif",
+            "noto-sans",
+            "cormorant-garamond",
+            "alegreya-sc",
+            "spectral-sc",
+            "montserrat"
+          ]
+        }
+      }
+    },
+    "textures": {
+      "type": "object",
+      "properties": {
+        "background": {
+          "type": "string",
+          "enum": [
+            "parchment",
+            "manuscript",
+            "linen",
+            "canvas",
+            "stone",
+            "clean"
+          ]
+        },
+        "paper": {
+          "type": "string",
+          "enum": [
+            "parchment",
+            "manuscript",
+            "linen",
+            "canvas",
+            "stone",
+            "clean"
+          ]
+        },
+        "frame": {
+          "type": "string",
+          "enum": [
+            "parchment",
+            "manuscript",
+            "linen",
+            "canvas",
+            "stone",
+            "clean"
+          ]
+        }
+      }
+    },
+    "ornaments": {
+      "type": "object",
+      "properties": {
+        "border": {
+          "type": "string",
+          "enum": [
+            "none",
+            "double-rule",
+            "girih",
+            "islimi",
+            "bronze-rule",
+            "flag-stripe"
+          ]
+        },
+        "divider": {
+          "type": "string",
+          "enum": [
+            "star",
+            "girih-knot",
+            "cloud-band",
+            "dagger",
+            "eight-point-star"
+          ]
+        },
+        "corner": {
+          "type": "string",
+          "enum": [
+            "none",
+            "rosette",
+            "tile-corner",
+            "carpet-medallion",
+            "rivet",
+            "star-corner"
+          ]
+        }
+      }
+    },
+    "backgroundArt": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "src": {
+            "type": "string",
+            "pattern": "^\\/[a-z0-9/-]+$"
+          },
+          "procedural": {
+            "type": "string",
+            "enum": [
+              "karabakh-mountains"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "public_domain",
+              "own",
+              "ai_illustration",
+              "placeholder"
+            ]
+          },
+          "title": {
+            "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "iri"
+          },
+          "license": {
+            "type": "string",
+            "minLength": 1
+          },
+          "focus": {
+            "type": "string"
+          },
+          "promptId": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          }
+        },
+        "required": [
+          "kind",
+          "title",
+          "source",
+          "license"
+        ]
+      }
+    },
+    "ambientEffect": {
+      "type": "string",
+      "enum": [
+        "none",
+        "dust",
+        "candle",
+        "embers",
+        "mist"
+      ]
+    },
+    "mapStyleVariant": {
+      "type": "string",
+      "enum": [
+        "manuscript",
+        "miniature",
+        "military",
+        "modern"
+      ]
+    },
+    "musicThemeId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "moodTones": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/Mood.schema.json"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "tint": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          },
+          "strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 0.25
+          },
+          "brightness": {
+            "type": "number",
+            "minimum": 0.4,
+            "maximum": 1.3
+          }
+        },
+        "required": [
+          "tint",
+          "strength",
+          "brightness"
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "extends"
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "$comment": "Which schema every file under data/ follows. Generated from src/domain/dataFiles.ts.",
+  "schemaVersion": 1,
+  "base": "https://tarixin-icinde.az/schema/v1/",
+  "files": [
+    {
+      "pattern": "persons/*/person.json",
+      "schema": "Person"
+    },
+    {
+      "pattern": "persons/*/events.json",
+      "schema": "EventsFile"
+    },
+    {
+      "pattern": "relations.json",
+      "schema": "RelationsFile"
+    },
+    {
+      "pattern": "eras/*.json",
+      "schema": "Era"
+    },
+    {
+      "pattern": "themes/*.json",
+      "schema": "ThemeFile"
+    },
+    {
+      "pattern": "places.json",
+      "schema": "PlacesFile"
+    },
+    {
+      "pattern": "polities/*.json",
+      "schema": "Polity"
+    },
+    {
+      "pattern": "rulers.json",
+      "schema": "RulersFile"
+    },
+    {
+      "pattern": "reigns.json",
+      "schema": "ReignsFile"
+    },
+    {
+      "pattern": "territories/registry.json",
+      "schema": "TerritoryRegistryFile"
+    },
+    {
+      "pattern": "territories/snapshots/*.json",
+      "schema": "TerritorySnapshotSource"
+    },
+    {
+      "pattern": "territories/countries.json",
+      "schema": "CountriesFile"
+    },
+    {
+      "pattern": "territories/land.json",
+      "schema": "LandFile"
+    },
+    {
+      "pattern": "states/*/state.json",
+      "schema": "State"
+    },
+    {
+      "pattern": "states/*/steps.json",
+      "schema": "StateStepsFile"
+    },
+    {
+      "pattern": "conflicts/*/conflict.json",
+      "schema": "Conflict"
+    },
+    {
+      "pattern": "conflicts/*/days.json",
+      "schema": "WarDaysFile"
+    },
+    {
+      "pattern": "conflicts/*/settlements.json",
+      "schema": "SettlementsFile"
+    },
+    {
+      "pattern": "conflicts/*/commanders.json",
+      "schema": "CommandersFile"
+    },
+    {
+      "pattern": "conflicts/*/heroes.json",
+      "schema": "HeroesFile"
+    },
+    {
+      "pattern": "conflicts/*/soundtrack.json",
+      "schema": "SoundtrackFile"
+    },
+    {
+      "pattern": "conflicts/*/battles/*.json",
+      "schema": "Battle"
+    },
+    {
+      "pattern": "glossary.json",
+      "schema": "GlossaryFile"
+    },
+    {
+      "pattern": "commemorations.json",
+      "schema": "CommemorationsFile"
+    },
+    {
+      "pattern": "world-events.json",
+      "schema": "WorldEventsFile"
+    },
+    {
+      "pattern": "planned.json",
+      "schema": "PlannedFile"
+    }
+  ]
+}

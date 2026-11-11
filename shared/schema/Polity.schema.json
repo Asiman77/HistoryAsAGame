@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/Polity.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "color": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "emblem": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/ImageAsset.schema.json"
+    },
+    "periods": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "to": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ]
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "to": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "rise",
+              "peak",
+              "stable",
+              "war",
+              "crisis",
+              "decline"
+            ]
+          },
+          "statusNote": {
+            "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+          },
+          "religion": {
+            "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+          },
+          "languages": {
+            "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+          },
+          "rivals": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            }
+          },
+          "allies": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            }
+          },
+          "sources": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "https://tarixin-icinde.az/schema/v1/Source.schema.json"
+            }
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "status",
+          "statusNote",
+          "sources"
+        ]
+      }
+    },
+    "stateId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "color",
+    "periods"
+  ]
+}

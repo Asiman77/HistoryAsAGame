@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/Person.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "shortName": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "titles": {
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+      }
+    },
+    "birth": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "$ref": "https://tarixin-icinde.az/schema/v1/HistoricalDate.schema.json"
+        },
+        "place": {
+          "$ref": "https://tarixin-icinde.az/schema/v1/Location.schema.json"
+        }
+      },
+      "required": [
+        "date",
+        "place"
+      ]
+    },
+    "death": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "$ref": "https://tarixin-icinde.az/schema/v1/HistoricalDate.schema.json"
+        },
+        "place": {
+          "$ref": "https://tarixin-icinde.az/schema/v1/Location.schema.json"
+        }
+      },
+      "required": [
+        "date",
+        "place"
+      ]
+    },
+    "eraIds": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+      }
+    },
+    "themeId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "portrait": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/ImageAsset.schema.json"
+    },
+    "portraits": {
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/AgePortrait.schema.json"
+      }
+    },
+    "epigraph": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+        },
+        "attribution": {
+          "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+        }
+      },
+      "required": [
+        "text",
+        "attribution"
+      ]
+    },
+    "shortBio": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "legacy": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+      }
+    },
+    "featuredOrder": {
+      "type": "integer",
+      "minimum": -9007199254740991,
+      "maximum": 9007199254740991
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "titles",
+    "birth",
+    "death",
+    "eraIds",
+    "shortBio",
+    "legacy",
+    "tags"
+  ]
+}

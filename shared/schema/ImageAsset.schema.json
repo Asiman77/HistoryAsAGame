@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/ImageAsset.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "src": {
+      "type": "string",
+      "minLength": 1
+    },
+    "alt": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "license": {
+      "type": "string",
+      "minLength": 1
+    },
+    "author": {
+      "type": "string"
+    },
+    "sourceUrl": {
+      "type": "string",
+      "format": "iri"
+    }
+  },
+  "required": [
+    "src",
+    "alt",
+    "license"
+  ]
+}

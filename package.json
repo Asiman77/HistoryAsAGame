@@ -10,6 +10,8 @@
     "build": "npm run validate:data && next build && node scripts/flatten-segments.mjs",
     "start": "serve out -l 3000",
     "validate:data": "tsx scripts/validate-data.ts",
+    "schema:export": "tsx scripts/export-json-schema.ts",
+    "schema:check": "tsx scripts/export-json-schema.ts --check",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",

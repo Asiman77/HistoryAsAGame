@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/Ruler.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "titles": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+      }
+    },
+    "dynasty": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "born": {
+      "type": "object",
+      "properties": {
+        "year": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "month": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "certainty": {
+          "$ref": "https://tarixin-icinde.az/schema/v1/Certainty.schema.json"
+        }
+      },
+      "required": [
+        "year",
+        "certainty"
+      ]
+    },
+    "died": {
+      "type": "object",
+      "properties": {
+        "year": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "month": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "certainty": {
+          "$ref": "https://tarixin-icinde.az/schema/v1/Certainty.schema.json"
+        }
+      },
+      "required": [
+        "year",
+        "certainty"
+      ]
+    },
+    "portraits": {
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/ImageAsset.schema.json"
+      }
+    },
+    "personId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "related": {
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/EntityRef.schema.json"
+      }
+    },
+    "sources": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/Source.schema.json"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "titles",
+    "sources"
+  ]
+}
