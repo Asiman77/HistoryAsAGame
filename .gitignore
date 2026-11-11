@@ -11,3 +11,9 @@ test-results/
 .idea/shelf/
 public/vendor/
 public/data/
+
+# backend
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+.env
+docker/.env
