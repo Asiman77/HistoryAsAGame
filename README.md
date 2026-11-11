@@ -46,6 +46,34 @@ Sayt kökdə deyilsə, build zamanı `NEXT_PUBLIC_BASE_PATH=/alt-yol` verilməli
 > (yolda `\` işarəsinin nöqtəyə çevrilmədiyi üçün). Bu halda brauzer konsolunda `__next.*.txt` üçün 404 görünür və keçidlər
 > adi səhifə yüklənməsi ilə işləyir. Linux-da (GitHub Actions) build edəndə bu problem yoxdur.
 
+## Backend (işlənir)
+
+`backend/` qovluğunda Spring Boot 4.1 (Java 25) modular monoliti var: məzmunun redaksiyası, ictimai API, PostGIS sorğuları.
+Sayt hələ də `data/`-dan statik build olunur və backend-siz işləyir. Plan: [`docs/BACKEND_SPEC.md`](docs/BACKEND_SPEC.md),
+qərarlar: [`docs/adr/`](docs/adr/README.md), struktur: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+
+**Bütün sistemi Docker ilə qaldırmaq** (yalnız Docker lazımdır):
+
+```bash
+cp docker/.env.example docker/.env        # POSTGRES_PASSWORD, S3_ACCESS_KEY, S3_SECRET_KEY doldurun
+docker compose -f docker/docker-compose.yml up --build --wait
+curl http://localhost:8080/actuator/health  # {"status":"UP",...}
+```
+
+Servislər: `db` (PostgreSQL 18 + PostGIS 3.7, `127.0.0.1:${DB_PORT}`), `s3` (SeaweedFS, S3 API `127.0.0.1:8333`;
+`media` və `public-content` bucket-lərini `s3-init` yaradır), `backend` (`127.0.0.1:${BACKEND_PORT}`).
+5432 portu məşğuldursa, `docker/.env`-də `DB_PORT`-u dəyişin. Dayandırmaq: `docker compose -f docker/docker-compose.yml down`
+(`-v` əlavə etsəniz, data da silinir).
+
+**Backend-i lokalda build və test etmək** (JDK 25 və işləyən Docker lazımdır; testlər PostGIS-i Testcontainers ilə qaldırır):
+
+```bash
+cd backend
+./mvnw verify          # Windows: mvnw.cmd verify
+```
+
+`verify` həm də modul diaqramlarını `docs/modules/`-a yenidən yazır; dəyişibsə, commit edin (CI bunu yoxlayır).
+
 ## Arxitektura
 
 ```

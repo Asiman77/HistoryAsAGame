@@ -7,7 +7,7 @@ Spesifikasiya lokalda MinIO nəzərdə tutur. 2025-10-23-dən MinIO icma versiya
 
 ## Qərar
 - Kod yalnız **S3 API**-yə bağlıdır (AWS SDK v2, `S3Client` + `S3Presigner`, `forcePathStyle=true`, endpoint konfiqurasiyadan). Prod-da istənilən S3 (AWS S3, Cloudflare R2, Hetzner, DigitalOcean Spaces) istifadə oluna bilər.
-- Lokal və test mühiti: **SeaweedFS** (`chrislusf/seaweedfs`, Apache-2.0, 2015-dən aktiv, S3 + presigned URL dəstəyi). Tag sabitlənir (`4.49`).
+- Lokal və test mühiti: **SeaweedFS** (`chrislusf/seaweedfs`, Apache-2.0, 2015-dən aktiv, S3 + presigned URL dəstəyi). Tag sabitlənir (`4.50`, 2026-10-25). Docker Hub yalnız son tag-ları saxlayır — yeniləmədə mövcudluğu yoxla.
 - Bucket-lər (`media`, `public-content`) init konteyneri ilə yaradılır.
 - Spesifikasiyada "MinIO" deyilən hər yer "S3-uyğun anbar" kimi oxunur.
 

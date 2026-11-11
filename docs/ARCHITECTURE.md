@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 0 (plan).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 1 (skelet).
 
 ## 1. Ümumi görünüş
 
@@ -127,4 +127,22 @@ Konvensiyalar:
 | # | Mərhələ | Vəziyyət |
 |---|---|---|
 | 0 | Plan | ✅ |
-| 1 | Skelet | işlənir |
+| 1 | Skelet | ✅ |
+| 2 | Paylaşılan sxem | növbəti |
+
+## 6. İş mühiti (mərhələ 1)
+
+| Hissə | Versiya | Qeyd |
+|---|---|---|
+| Java | 25 (Temurin) | LTS |
+| Spring Boot | 4.1.2 | Web MVC, virtual thread-lər aktiv |
+| Spring Modulith | 2.1.2 | JDBC event registry (`event_publication` + `_archive`, completion mode `archive`), `verify()` + `Documenter` → [`docs/modules/`](modules/) |
+| PostgreSQL / PostGIS | 18 / 3.7 | `postgis/postgis:18-3.7`; Testcontainers eyni image-i istifadə edir |
+| S3 | SeaweedFS 4.50 | ADR-0008 |
+| Flyway | Boot BOM | `V001__extensions`, `V002__event_publication` |
+
+- Konfiqurasiya: `application.yml` (ümumi), `application-local.yml`, `application-prod.yml` (yalnız `health` ictimai). Datasource yalnız mühit dəyişənlərindən (`SPRING_DATASOURCE_*`).
+- Loglar: `local`/`prod`-da ECS JSON; hər sorğuda `requestId` (MDC + `X-Request-Id` cavab başlığı, `shared.web.RequestIdFilter`).
+- Modul sərhədləri `package-info.java`-dakı `allowedDependencies` ilə məcbur edilir; hər modulun `api` paketi `@NamedInterface("api")`-dir.
+- Modulith observability modul bean-larını CGLIB proxy-yə bükür: `final` metodlu baza siniflərindən (məs. `GenericFilterBean`) törəyən bean-lar işləmir — birbaşa interfeys (`jakarta.servlet.Filter`) istifadə edin.
+- CI: [`.github/workflows/backend.yml`](../.github/workflows/backend.yml) — `./mvnw verify`, modul sənədlərinin aktual olması, compose faylının validasiyası, image build.
