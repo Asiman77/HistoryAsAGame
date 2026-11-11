@@ -27,6 +27,7 @@ npm run dev          # http://localhost:3000
 | `npm run build` | Əvvəlcə datanı validasiya edir, sonra `out/`-a statik export edir |
 | `npm start` | `out/` qovluğunu lokal serve edir (port 3000) |
 | `npm run validate:data` | Bütün `data/` fayllarını sxem və bütövlük qaydaları ilə yoxlayır |
+| `npm run schema:export` | Zod modelindən `shared/schema/` (JSON Schema, backend ilə paylaşılır) yaradır. `src/domain/schema.ts` dəyişəndən sonra işlədin; `npm test` uyğunsuzluğu tutur |
 | `npm run build:territories` | Siyasi xəritə snapshot-larını `public/data/territories/`-a yığır (`dev` və `build`-dan əvvəl avtomatik işləyir) |
 | `npm run generate:audio` | Placeholder musiqi və səsləri yenidən sintez edir (`public/audio/`, bax `docs/AUDIO_CREDITS.md`) |
 | `npm test` | Unit testlər (Vitest) |

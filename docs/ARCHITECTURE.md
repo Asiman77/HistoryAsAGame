@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 1 (skelet).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 2 (paylaşılan sxem).
 
 ## 1. Ümumi görünüş
 
@@ -128,7 +128,8 @@ Konvensiyalar:
 |---|---|---|
 | 0 | Plan | ✅ |
 | 1 | Skelet | ✅ |
-| 2 | Paylaşılan sxem | növbəti |
+| 2 | Paylaşılan sxem | ✅ |
+| 3 | Ümumi tiplər + proyeksiya cədvəlləri | növbəti |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -146,3 +147,17 @@ Konvensiyalar:
 - Modul sərhədləri `package-info.java`-dakı `allowedDependencies` ilə məcbur edilir; hər modulun `api` paketi `@NamedInterface("api")`-dir.
 - Modulith observability modul bean-larını CGLIB proxy-yə bükür: `final` metodlu baza siniflərindən (məs. `GenericFilterBean`) törəyən bean-lar işləmir — birbaşa interfeys (`jakarta.servlet.Filter`) istifadə edin.
 - CI: [`.github/workflows/backend.yml`](../.github/workflows/backend.yml) — `./mvnw verify`, modul sənədlərinin aktual olması, compose faylının validasiyası, image build.
+
+## 7. Paylaşılan sxem (mərhələ 2)
+
+```
+src/domain/schema.ts (Zod) ─┐
+src/domain/dataFiles.ts ────┴─► npm run schema:export ─► shared/schema/*.json ─┬─► backend classpath:schema/ (ContentSchemas)
+  (fayl manifesti)                                                              └─► frontend: npm test (drift testi)
+```
+
+- 59 sxem (`<Ad>.schema.json`, draft 2020-12, paylaşılan bloklar `$ref` ilə) + `files.json` (data faylı → sxem) + `music-themes.json`. Ətraflı: [`shared/schema/README.md`](../shared/schema/README.md).
+- Backend: `shared.schema.ContentSchemas` (networknt `json-schema-validator` 3.0.8, Jackson 3). `$id` prefiksi classpath-a bağlanır, şəbəkə istifadə olunmur; `format` yoxlanılır; xəta yolları JSON Pointer-dir (`review_comment.field_path` ilə eyni format).
+- Docker build `shared/schema`-nı əlavə build context (`shared-schema`) kimi alır.
+- Yoxlamalar: frontend `tests/unit/sharedSchema.test.ts` (sxem Zod ilə eynidir, hər data faylı tam bir sxemə düşür); backend `ContentSchemasTests` (hər `data/` faylı JSON Schema-dan keçir + mənfi hallar).
+- `.refine()` qaydaları JSON Schema-ya keçmir; siyahısı `shared/schema/README.md`-dədir, backend-də mərhələ 5-də qayda kimi yazılacaq.
