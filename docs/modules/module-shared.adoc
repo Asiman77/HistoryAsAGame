@@ -4,5 +4,6 @@
 |`az.tarix.platform.shared`
 |Spring components
 |* `a.t.p.s.schema.ContentSchemas`
+* `a.t.p.s.time.ClockConfiguration`
 * `a.t.p.s.web.RequestIdFilter`
 |===

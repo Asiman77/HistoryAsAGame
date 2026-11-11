@@ -2,4 +2,6 @@
 |===
 |Base package
 |`az.tarix.platform.identity`
+|Spring components
+|* `a.t.p.i.api.CurrentUserProvider` (via `a.t.p.i.internal.service.SecurityCurrentUserProvider`)
 |===

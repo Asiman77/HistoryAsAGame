@@ -21,6 +21,7 @@
         <!-- Versions checked on Maven Central, 2026-11-11 (latest GA). See docs/adr/0002. -->
         <spring-modulith.version>2.1.2</spring-modulith.version>
         <json-schema-validator.version>3.0.8</json-schema-validator.version>
+        <bouncycastle.version>1.86</bouncycastle.version>
         <!-- shared/schema is copied onto the classpath under schema/ (single source, ADR-0005). -->
         <shared.schema.dir>${project.basedir}/../shared/schema</shared.schema.dir>
         <!-- Docker image used by Testcontainers and docker/docker-compose.yml. -->
@@ -91,6 +92,22 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Security: JWT access tokens (HS256, verified by the resource server), Argon2 password hashes. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-oauth2-resource-server</artifactId>
+        </dependency>
+        <dependency>
+            <!-- Argon2PasswordEncoder needs BouncyCastle; not managed by the Boot BOM. -->
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>${bouncycastle.version}</version>
+        </dependency>
+
         <!-- Content schema validation against shared/schema (ADR-0005); 3.x is built on Jackson 3 like Boot 4. -->
         <dependency>
             <groupId>com.networknt</groupId>
@@ -117,6 +134,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
