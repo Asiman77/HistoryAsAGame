@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 2 (paylaşılan sxem).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 3 (ümumi tiplər + proyeksiya cədvəlləri).
 
 ## 1. Ümumi görünüş
 
@@ -46,8 +46,8 @@ Konvensiyalar:
 - `HD(x)` = `HistoricalDate` sütunları: `x_year int`, `x_month smallint`, `x_day smallint`, `x_precision varchar(8)`, `x_certainty varchar(16)`, `x_sort_key bigint`, `x_alternatives jsonb`, `x_note jsonb`.
 - `LT` = `LocalizedText` JSONB (`{"az": ..., "en": ..., "ru": ...}`, `az` məcburi, `CHECK (x ? 'az')`).
 - Proyeksiya cədvəllərinin hamısında `document_id uuid NOT NULL` + `INDEX (document_id)`.
-- Modullar arası FK yoxdur (slug ilə bağlanır); modul daxilində FK var.
-- Bütün PK-lar `uuid` (UUIDv7, tətbiqdə yaradılır), analytics istisna.
+- FK yalnız **eyni sənədin** sətirləri arasındadır (`reign → polity`, `step_claim → simulation_step`). Başqa sənədə (hətta eyni modulda) slug ilə istinad olunur: dərc sənədin sətirlərini silib yenidən yazır, sənədlər arası FK isə ya silinməni bloklayar, ya da cascade ilə başqa sənədin datasını silərdi. İstisna: `media_asset` (sənədə bağlı deyil).
+- Bütün PK-lar `uuid DEFAULT uuidv7()` (PostgreSQL 18), analytics istisna. `*_sort_key` sütunları `GENERATED ALWAYS … STORED`-dir.
 
 ### editorial
 | Cədvəl | Sütunlar | İndekslər / məhdudiyyətlər |
@@ -69,7 +69,7 @@ Konvensiyalar:
 | `polity_period` | `id`, `polity_id → polity`, `from_year`, `to_year` | `INDEX (polity_id, from_year, to_year)` |
 | `polity_fact` | `id`, `polity_id → polity`, `from_year`, `to_year`, `status`, `status_note LT`, `religion LT`, `languages LT`, `rivals text[]`, `allies text[]`, `sources jsonb` | `INDEX (polity_id, from_year, to_year)` |
 | `ruler` | `id`, `slug`, `name LT`, `titles jsonb`, `dynasty LT`, `HD(birth)`, `HD(death)`, `person_slug`, `related jsonb`, `sources jsonb` | `UNIQUE (slug)`, trigram `az_fold(name->>'az')` |
-| `reign` | `id`, `polity_id → polity`, `ruler_id → ruler`, `start_year`, `start_month`, `end_year`, `end_month`, `certainty`, `note LT` | `INDEX (polity_id, start_year, end_year)` — üst-üstə düşmə icazəlidir |
+| `reign` | `id`, `polity_id → polity`, `ruler_slug`, `start_year`, `start_month`, `end_year`, `end_month`, `certainty`, `note LT` | `INDEX (polity_id, start_year, end_year)` — üst-üstə düşmə icazəlidir |
 
 ### geo
 | Cədvəl | Sütunlar | İndekslər |
@@ -129,7 +129,8 @@ Konvensiyalar:
 | 0 | Plan | ✅ |
 | 1 | Skelet | ✅ |
 | 2 | Paylaşılan sxem | ✅ |
-| 3 | Ümumi tiplər + proyeksiya cədvəlləri | növbəti |
+| 3 | Ümumi tiplər + proyeksiya cədvəlləri | ✅ |
+| 4 | Identity (minimal) | növbəti |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -161,3 +162,27 @@ src/domain/dataFiles.ts ────┴─► npm run schema:export ─► share
 - Docker build `shared/schema`-nı əlavə build context (`shared-schema`) kimi alır.
 - Yoxlamalar: frontend `tests/unit/sharedSchema.test.ts` (sxem Zod ilə eynidir, hər data faylı tam bir sxemə düşür); backend `ContentSchemasTests` (hər `data/` faylı JSON Schema-dan keçir + mənfi hallar).
 - `.refine()` qaydaları JSON Schema-ya keçmir; siyahısı `shared/schema/README.md`-dədir, backend-də mərhələ 5-də qayda kimi yazılacaq.
+
+## 8. Ümumi tiplər və proyeksiya sxemi (mərhələ 3)
+
+**Migrasiyalar** (`backend/src/main/resources/db/migration`):
+
+| Fayl | Məzmun |
+|---|---|
+| `V003__shared_functions` | `az_fold`, `is_slug`, `is_localized_text`, `is_calendar_day`, `is_historical_date`, `historical_sort_key` |
+| `V004__chronology` | `era`, `polity`, `polity_period`, `polity_fact`, `ruler`, `reign` |
+| `V005__geo` | `place`, `place_period`, `place_upcoming`, `territory_snapshot`, `polity_territory` |
+| `V006__catalog` | `person`, `conflict`, `settlement`, `commander`, `battle`, `state_profile`, `hero`, `simulation_step`, `step_claim`, `source`, `step_source`, `claim_source`, `entity_relation`, `glossary_entry`, `commemoration`, `world_event`, `planned_entity` |
+| `V007__theming` | `theme` |
+| `V008__media` | `media_asset`, `portrait`, `soundtrack_track` |
+
+- Bazanın özü də qaydaları yoxlayır: slug, `LocalizedText` (`az` məcburi, boş sətir yoxdur), tarixin tutarlılığı (precision ↔ hissələr, real gün), `death ≥ birth`, poliqonun etibarlılığı (`ST_IsValid`), enum dəyərləri. Bu, redaksiya validasiyasından sonra ikinci müdafiə xəttidir.
+- `is_historical_date` heç vaxt `NULL` qaytarmır (CHECK `NULL`-u keçmiş sayır). Java `HistoricalDate` ilə eyni təqvim qaydası: proleptik Qriqorian, astronomik il nömrələnməsi (0 = e.ə. 1). Test −800…2400 aralığında hər 29 fevralı hər iki tərəfdə müqayisə edir.
+- **`az_fold` spesifikasiyadan fərqlidir:** §7.2-dəki hədəf sətir `ç`-ni `g`-yə çevirirdi ("Çaldıran" → "galdiran"); düzgün xəritələmə `'eeiiiissccggoouu'`-dur. `translate` `lower`-dən əvvəl işlədiyi üçün nəticə lokaldan asılı deyil.
+- Axtarış: `az_fold(:q) <% az_fold(name->>'az')` (`pg_trgm` word similarity) + GIN trigram indeksləri. "seh ismayil" → "Şah İsmayıl Xətai".
+- Spesifikasiyaya əlavələr: `simulation_step.age_approximate` (frontend-in "təq." işarəsi üçün), `*_alternatives`/`*_note` (tarix variantları), `source.content_hash`, `media_asset.version` (optimistic locking).
+- JPA entity-ləri: ADR-0003-ə görə proyeksiya cədvəlləri `JdbcClient` ilə yazılır/oxunur, entity-si yoxdur. JPA entity-ləri yazma modelləri ilə birlikdə gəlir: identity (mərhələ 4), editorial (5), `media_asset` (11).
+
+**Java ümumi tipləri** (`shared.domain`): `HistoricalDate` (+ `Age`, `ageAt` frontend-in `ageAt`-i ilə eyni nümunələrlə test olunub), `LocalizedText`, `EntityRef` (`type:slug[:stepKey]`), `Slugs`, enum-lar (`DataEnum`: bazada `AI_ILLUSTRATION`, sənəddə `ai_illustration`). `shared.jdbc.HistoricalDateColumns` sütun qrupunu `JdbcClient` parametrlərinə çevirir və geri oxuyur.
+
+**Slug təklifi** (`Slugs.suggest`): `ə→e ı/İ→i ş→sh ç→ch ğ→gh ö→o ü→u`, `x` dəyişmir. "Şah İsmayıl" → `shah-ismayil` (datadakı slug; spesifikasiyadakı `shah-ismail` nümunəsi mövcud datayla uyğun gəlmir). Yalnız yeni sənəd üçün təklifdir; mövcud slug-lar dəyişmir.
