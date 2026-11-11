@@ -1,0 +1,43 @@
+== PlatformApplication
+plantuml::components.puml[,,format=svg]
+
+== Analytics
+plantuml::module-analytics.puml[,,format=svg]
+include::module-analytics.adoc[]
+
+== Catalog
+plantuml::module-catalog.puml[,,format=svg]
+include::module-catalog.adoc[]
+
+== Chronology
+plantuml::module-chronology.puml[,,format=svg]
+include::module-chronology.adoc[]
+
+== Editorial
+plantuml::module-editorial.puml[,,format=svg]
+include::module-editorial.adoc[]
+
+== Geo
+plantuml::module-geo.puml[,,format=svg]
+include::module-geo.adoc[]
+
+== Identity
+plantuml::module-identity.puml[,,format=svg]
+include::module-identity.adoc[]
+
+== Media
+plantuml::module-media.puml[,,format=svg]
+include::module-media.adoc[]
+
+== Publishing
+plantuml::module-publishing.puml[,,format=svg]
+include::module-publishing.adoc[]
+
+== Shared
+plantuml::module-shared.puml[,,format=svg]
+include::module-shared.adoc[]
+
+== Theming
+plantuml::module-theming.puml[,,format=svg]
+include::module-theming.adoc[]
+

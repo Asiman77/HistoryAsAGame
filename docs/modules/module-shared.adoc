@@ -1,0 +1,7 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`az.tarix.platform.shared`
+|Spring components
+|* `a.t.p.s.web.RequestIdFilter`
+|===

@@ -1,0 +1,10 @@
+# docker compose / local development
+management:
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  structured:
+    format:
+      console: ecs

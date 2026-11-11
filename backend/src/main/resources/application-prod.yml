@@ -1,0 +1,14 @@
+# Production: only the health endpoint is public; JSON logs.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+logging:
+  structured:
+    format:
+      console: ecs
