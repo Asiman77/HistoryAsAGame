@@ -3,5 +3,6 @@
 |Base package
 |`az.tarix.platform.shared`
 |Spring components
-|* `a.t.p.s.web.RequestIdFilter`
+|* `a.t.p.s.schema.ContentSchemas`
+* `a.t.p.s.web.RequestIdFilter`
 |===

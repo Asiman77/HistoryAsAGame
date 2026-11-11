@@ -20,6 +20,9 @@
         <java.version>25</java.version>
         <!-- Versions checked on Maven Central, 2026-11-11 (latest GA). See docs/adr/0002. -->
         <spring-modulith.version>2.1.2</spring-modulith.version>
+        <json-schema-validator.version>3.0.8</json-schema-validator.version>
+        <!-- shared/schema is copied onto the classpath under schema/ (single source, ADR-0005). -->
+        <shared.schema.dir>${project.basedir}/../shared/schema</shared.schema.dir>
         <!-- Docker image used by Testcontainers and docker/docker-compose.yml. -->
         <postgis.image>postgis/postgis:18-3.7</postgis.image>
     </properties>
@@ -88,6 +91,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Content schema validation against shared/schema (ADR-0005); 3.x is built on Jackson 3 like Boot 4. -->
+        <dependency>
+            <groupId>com.networknt</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>${json-schema-validator.version}</version>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -145,6 +155,18 @@
 
     <build>
         <finalName>platform</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${shared.schema.dir}</directory>
+                <targetPath>schema</targetPath>
+                <includes>
+                    <include>*.json</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

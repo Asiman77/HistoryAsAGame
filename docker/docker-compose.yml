@@ -52,6 +52,8 @@ services:
   backend:
     build:
       context: ../backend
+      additional_contexts:
+        shared-schema: ../shared/schema
     environment:
       SPRING_PROFILES_ACTIVE: local
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}

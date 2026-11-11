@@ -1,10 +1,15 @@
 # syntax=docker/dockerfile:1
+# Build: docker build --build-context shared-schema=shared/schema backend
+# (docker/docker-compose.yml passes the extra context automatically.)
+
 # --- build ---------------------------------------------------------------
 FROM eclipse-temurin:25-jdk-noble AS build
-WORKDIR /src
+WORKDIR /src/backend
 COPY .mvn .mvn
 COPY mvnw pom.xml ./
 RUN --mount=type=cache,target=/root/.m2 ./mvnw -B -q dependency:go-offline
+# pom.xml reads the content schema from ../shared/schema (docs/adr/0005).
+COPY --from=shared-schema . /src/shared/schema
 COPY src src
 RUN --mount=type=cache,target=/root/.m2 ./mvnw -B -q package -DskipTests \
  && java -Djarmode=tools -jar target/platform.jar extract --layers --launcher --destination /extracted
