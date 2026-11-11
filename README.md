@@ -56,7 +56,7 @@ qərarlar: [`docs/adr/`](docs/adr/README.md), struktur: [`docs/ARCHITECTURE.md`]
 **Bütün sistemi Docker ilə qaldırmaq** (yalnız Docker lazımdır):
 
 ```bash
-cp docker/.env.example docker/.env        # POSTGRES_PASSWORD, S3_ACCESS_KEY, S3_SECRET_KEY doldurun
+cp docker/.env.example docker/.env        # parolları, JWT_SECRET (openssl rand -base64 48) və ADMIN_* doldurun
 docker compose -f docker/docker-compose.yml up --build --wait
 curl http://localhost:8080/actuator/health  # {"status":"UP",...}
 ```
@@ -72,6 +72,8 @@ Servislər: `db` (PostgreSQL 18 + PostGIS 3.7, `127.0.0.1:${DB_PORT}`), `s3` (Se
 cd backend
 ./mvnw verify          # Windows: mvnw.cmd verify
 ```
+
+Giriş: `POST /api/v1/auth/login` (`{"email", "password"}`) access və refresh token qaytarır; access token `Authorization: Bearer …` başlığında göndərilir. İlk ADMIN hesabı `ADMIN_EMAIL`/`ADMIN_PASSWORD`-dən yaradılır.
 
 `verify` həm də modul diaqramlarını `docs/modules/`-a yenidən yazır; dəyişibsə, commit edin (CI bunu yoxlayır).
 

@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 3 (ümumi tiplər + proyeksiya cədvəlləri).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 4 (identity).
 
 ## 1. Ümumi görünüş
 
@@ -130,7 +130,8 @@ Konvensiyalar:
 | 1 | Skelet | ✅ |
 | 2 | Paylaşılan sxem | ✅ |
 | 3 | Ümumi tiplər + proyeksiya cədvəlləri | ✅ |
-| 4 | Identity (minimal) | növbəti |
+| 4 | Identity (minimal) | ✅ |
+| 5 | Redaksiya | növbəti |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -186,3 +187,15 @@ src/domain/dataFiles.ts ────┴─► npm run schema:export ─► share
 **Java ümumi tipləri** (`shared.domain`): `HistoricalDate` (+ `Age`, `ageAt` frontend-in `ageAt`-i ilə eyni nümunələrlə test olunub), `LocalizedText`, `EntityRef` (`type:slug[:stepKey]`), `Slugs`, enum-lar (`DataEnum`: bazada `AI_ILLUSTRATION`, sənəddə `ai_illustration`). `shared.jdbc.HistoricalDateColumns` sütun qrupunu `JdbcClient` parametrlərinə çevirir və geri oxuyur.
 
 **Slug təklifi** (`Slugs.suggest`): `ə→e ı/İ→i ş→sh ç→ch ğ→gh ö→o ü→u`, `x` dəyişmir. "Şah İsmayıl" → `shah-ismayil` (datadakı slug; spesifikasiyadakı `shah-ismail` nümunəsi mövcud datayla uyğun gəlmir). Yalnız yeni sənəd üçün təklifdir; mövcud slug-lar dəyişmir.
+
+## 9. Identity (mərhələ 4)
+
+- **Cədvəllər** (`V009__identity`): `app_user` (e-poçt kiçik hərflə, unikal; `password_hash` NULL = login edə bilməz), `user_role`, `refresh_token` (+ `family_id`). `class_group` TEACHER funksiyaları ilə (mərhələ 10) gəlir.
+- **Şifrələr:** Argon2id, OWASP minimumu (m = 19 MiB, t = 2, p = 1). Parametrlər hash-in içindədir; artırılarsa köhnə hash-lər növbəti login-də yenilənir. Siyasət: 12–128 simvol, e-poçt adını ehtiva etməsin (NIST 800-63B: tərkib qaydaları yox, uzunluq).
+- **Access token:** JWT HS256, 15 dəq., `iss`, `sub` (istifadəçi id), `roles`, `jti`. Açar `JWT_SECRET`-dən (Base64, ≥ 256 bit; yoxdursa tətbiq başlamır). Yoxlama: imza, `iss`, `exp` (30 san. tolerantlıq), `sub` məcburi.
+- **Refresh token:** qeyri-şəffaf 256 bit təsadüfi sətir, bazada yalnız SHA-256. Hər refresh köhnəni ləğv edib yenisini verir (rotasiya). Artıq istifadə olunmuş token yenidən gələrsə, həmin login-in **bütün ailəsi** ləğv olunur (oğurlanmış token-in həm oğruda, həm sahibində işləməsi dayanır); istifadəçinin digər sessiyalarına toxunulmur. Eyni token ilə paralel refresh sətir kilidi (`SELECT … FOR UPDATE`) ilə bloklanır.
+- **Endpoint-lər** (`/api/v1/auth`): `POST /login`, `POST /refresh`, `POST /logout` (həmişə 204), `GET /me`. Token cavabları `Cache-Control: no-store`. Uğursuz login-in bütün səbəbləri (naməlum e-poçt, səhv şifrə, deaktiv hesab) eyni 401 cavabını verir; naməlum e-poçt üçün də Argon2 yoxlaması işləyir (vaxta görə hesab mövcudluğunu təxmin etmək olmasın).
+- **Giriş qaydaları:** `GET /api/v1/**` açıq; `/api/v1/{auth,editorial,admin,analytics}/**` və bütün digər metodlar token tələb edir; `/actuator/health`, `/actuator/info` açıq, digər actuator endpoint-ləri ADMIN. 401/403 Problem Details (`…/problems/unauthorized`, `…/problems/forbidden`) + `WWW-Authenticate: Bearer`. Rol qaydaları modullarda `@PreAuthorize` ilə.
+- **Admin bootstrap:** `ADMIN_EMAIL` + `ADMIN_PASSWORD` verilibsə və hesab yoxdursa, ADMIN yaradılır. Mövcud hesab heç vaxt dəyişdirilmir; zəif şifrə startup-ı dayandırır. Kodda heç bir default şifrə yoxdur. Loglara e-poçt, şifrə və token yazılmır.
+- **Digər modullar üçün API:** `identity.api.CurrentUserProvider` → `CurrentUser(id, roles)`, `Role`.
+- Login rate limiting (Bucket4j) mərhələ 10-dadır.
