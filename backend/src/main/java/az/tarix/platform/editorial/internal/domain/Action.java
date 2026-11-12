@@ -4,14 +4,17 @@ import java.util.Locale;
 
 /**
  * What can happen to a document. The first five are requested through
- * {@code POST /documents/{id}/transitions}; CREATE and EDIT are logged by the document service.
+ * {@code POST /documents/{id}/transitions}; CREATE and EDIT are logged by the document service,
+ * IMPORT by the data importer.
  */
 public enum Action {
     SUBMIT, APPROVE, REQUEST_CHANGES, PUBLISH, ARCHIVE,
     /** First revision. */
     CREATE,
     /** A new revision (edit or revert) that sent a reviewed or published document back to DRAFT. */
-    EDIT;
+    EDIT,
+    /** Published by the data importer without review (ADR-0013); the actor is the admin who ran the import. */
+    IMPORT;
 
     /** The spelling used in the API: {@code request_changes}. */
     public String apiName() {

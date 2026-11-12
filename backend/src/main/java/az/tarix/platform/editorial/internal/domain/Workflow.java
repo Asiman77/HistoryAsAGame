@@ -82,6 +82,34 @@ public final class Workflow {
                 revision.changeNote(), now);
     }
 
+    // --- data import (ADR-0013) ---------------------------------------------------------------
+
+    /**
+     * Makes an imported revision current. The importer is a system account without roles, so
+     * the permission checks of {@link #revise} do not apply; the caller (an ADMIN-only
+     * endpoint) is recorded as the actor. Same status rules as {@link #revise}.
+     */
+    public static StatusTransition importRevision(EditorialDocument doc, EditorialRevision revision, String title,
+                                                  UUID actorId, Instant now) {
+        if (doc.status() == ARCHIVED) throw new WorkflowViolationException("archived", "Arxivlənmiş sənəd dəyişdirilə bilməz.");
+        boolean first = doc.currentRevisionId() == null;
+        DocumentStatus from = doc.status();
+        doc.revisionAdded(revision, title, now);
+        if (first) return new StatusTransition(doc.id(), revision.id(), Action.CREATE, null, DRAFT, actorId, revision.changeNote(), now);
+        if (from == DRAFT) return null;
+        doc.moveTo(DRAFT, now);
+        return new StatusTransition(doc.id(), revision.id(), Action.EDIT, from, DRAFT, actorId, revision.changeNote(), now);
+    }
+
+    /** Publishes the current revision of an imported document without review; logged as {@code import}. */
+    public static StatusTransition importPublish(EditorialDocument doc, UUID actorId, Instant now) {
+        if (doc.status() == ARCHIVED) throw new WorkflowViolationException("archived", "Arxivlənmiş sənəd dərc oluna bilməz.");
+        DocumentStatus from = doc.status();
+        doc.markPublished(doc.currentRevisionId(), now);
+        return new StatusTransition(doc.id(), doc.currentRevisionId(), Action.IMPORT, from, PUBLISHED, actorId,
+                "data/ idxalı (rəysiz)", now);
+    }
+
     // --- transitions -------------------------------------------------------------------------
 
     /**
@@ -125,7 +153,7 @@ public final class Workflow {
                 requireRole(actor, "Arxivləmə yalnız admin üçündür.", Role.ADMIN);
                 yield ARCHIVED;
             }
-            case CREATE, EDIT -> throw new IllegalArgumentException(action + " is not a workflow action");
+            case CREATE, EDIT, IMPORT -> throw new IllegalArgumentException(action + " is not a workflow action");
         };
         if (to == PUBLISHED) doc.markPublished(doc.currentRevisionId(), now);
         else doc.moveTo(to, now);
