@@ -1,7 +1,7 @@
 package az.tarix.platform.editorial.internal.web;
 
 import az.tarix.platform.editorial.api.DocumentStatus;
-import az.tarix.platform.editorial.api.DocumentType;
+import az.tarix.platform.shared.content.DocumentType;
 import az.tarix.platform.editorial.internal.content.ContentJson;
 import az.tarix.platform.editorial.internal.domain.EditorialDocument;
 import az.tarix.platform.editorial.internal.domain.EditorialRevision;

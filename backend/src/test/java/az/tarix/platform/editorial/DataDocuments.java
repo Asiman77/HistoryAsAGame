@@ -1,6 +1,6 @@
 package az.tarix.platform.editorial;
 
-import az.tarix.platform.editorial.api.DocumentType;
+import az.tarix.platform.shared.content.DocumentType;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;

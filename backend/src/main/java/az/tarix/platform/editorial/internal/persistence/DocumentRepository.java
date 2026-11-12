@@ -1,6 +1,6 @@
 package az.tarix.platform.editorial.internal.persistence;
 
-import az.tarix.platform.editorial.api.DocumentType;
+import az.tarix.platform.shared.content.DocumentType;
 import az.tarix.platform.editorial.internal.domain.EditorialDocument;
 import java.util.Optional;
 import java.util.UUID;

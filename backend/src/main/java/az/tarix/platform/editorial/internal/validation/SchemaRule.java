@@ -1,6 +1,6 @@
 package az.tarix.platform.editorial.internal.validation;
 
-import az.tarix.platform.editorial.api.ContentPart;
+import az.tarix.platform.shared.content.ContentPart;
 import az.tarix.platform.shared.domain.Slugs;
 import az.tarix.platform.shared.schema.SchemaViolation;
 import tools.jackson.databind.JsonNode;

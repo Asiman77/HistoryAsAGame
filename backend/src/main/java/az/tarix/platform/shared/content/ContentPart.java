@@ -1,4 +1,4 @@
-package az.tarix.platform.editorial.api;
+package az.tarix.platform.shared.content;
 
 /**
  * One top-level key of a revision's content. Content is always a JSON object whose keys are

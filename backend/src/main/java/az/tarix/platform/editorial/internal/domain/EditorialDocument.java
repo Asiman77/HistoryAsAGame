@@ -1,7 +1,7 @@
 package az.tarix.platform.editorial.internal.domain;
 
 import az.tarix.platform.editorial.api.DocumentStatus;
-import az.tarix.platform.editorial.api.DocumentType;
+import az.tarix.platform.shared.content.DocumentType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

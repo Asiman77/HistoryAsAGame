@@ -1,6 +1,6 @@
 package az.tarix.platform.editorial.internal.validation;
 
-import az.tarix.platform.editorial.api.DocumentType;
+import az.tarix.platform.shared.content.DocumentType;
 import az.tarix.platform.editorial.internal.validation.ValidationContext.Item;
 import az.tarix.platform.shared.domain.HistoricalDate;
 import java.util.Comparator;

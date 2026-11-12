@@ -8,7 +8,7 @@ import static az.tarix.platform.editorial.api.DocumentStatus.PUBLISHED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import az.tarix.platform.editorial.api.DocumentType;
+import az.tarix.platform.shared.content.DocumentType;
 import az.tarix.platform.identity.api.CurrentUser;
 import az.tarix.platform.identity.api.Role;
 import java.time.Instant;

@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import az.tarix.platform.IntegrationTest;
 import az.tarix.platform.editorial.api.ContentArchived;
 import az.tarix.platform.editorial.api.ContentPublished;
-import az.tarix.platform.editorial.api.DocumentType;
+import az.tarix.platform.shared.content.DocumentType;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;

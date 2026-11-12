@@ -2,7 +2,7 @@ package az.tarix.platform.editorial.internal.service;
 
 import az.tarix.platform.editorial.api.ContentArchived;
 import az.tarix.platform.editorial.api.ContentPublished;
-import az.tarix.platform.editorial.api.DocumentType;
+import az.tarix.platform.shared.content.DocumentType;
 import az.tarix.platform.editorial.internal.content.ContentJson;
 import az.tarix.platform.editorial.internal.content.JsonPatch;
 import az.tarix.platform.editorial.internal.domain.Action;

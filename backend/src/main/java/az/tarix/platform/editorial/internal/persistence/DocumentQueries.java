@@ -1,7 +1,7 @@
 package az.tarix.platform.editorial.internal.persistence;
 
 import az.tarix.platform.editorial.api.DocumentStatus;
-import az.tarix.platform.editorial.api.DocumentType;
+import az.tarix.platform.shared.content.DocumentType;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;

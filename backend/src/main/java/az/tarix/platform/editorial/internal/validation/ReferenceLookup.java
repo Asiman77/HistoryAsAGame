@@ -1,6 +1,6 @@
 package az.tarix.platform.editorial.internal.validation;
 
-import az.tarix.platform.editorial.api.DocumentType;
+import az.tarix.platform.shared.content.DocumentType;
 
 /**
  * Whether another document exists. References are slugs (EntityRef rule), so the target is

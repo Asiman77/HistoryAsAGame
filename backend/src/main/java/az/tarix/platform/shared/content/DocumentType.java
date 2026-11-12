@@ -1,11 +1,11 @@
-package az.tarix.platform.editorial.api;
+package az.tarix.platform.shared.content;
 
-import static az.tarix.platform.editorial.api.ContentPart.list;
-import static az.tarix.platform.editorial.api.ContentPart.object;
-import static az.tarix.platform.editorial.api.ContentPart.optionalObject;
-import static az.tarix.platform.editorial.api.ContentPart.optionalText;
-import static az.tarix.platform.editorial.api.ContentPart.slug;
-import static az.tarix.platform.editorial.api.ContentPart.wrappedItem;
+import static az.tarix.platform.shared.content.ContentPart.list;
+import static az.tarix.platform.shared.content.ContentPart.object;
+import static az.tarix.platform.shared.content.ContentPart.optionalObject;
+import static az.tarix.platform.shared.content.ContentPart.optionalText;
+import static az.tarix.platform.shared.content.ContentPart.slug;
+import static az.tarix.platform.shared.content.ContentPart.wrappedItem;
 
 import java.util.List;
 import java.util.Optional;

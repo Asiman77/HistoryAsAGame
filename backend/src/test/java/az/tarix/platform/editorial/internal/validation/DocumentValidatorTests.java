@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import az.tarix.platform.editorial.DataDocuments;
 import az.tarix.platform.editorial.DataDocuments.Doc;
-import az.tarix.platform.editorial.api.DocumentType;
+import az.tarix.platform.shared.content.DocumentType;
 import az.tarix.platform.editorial.internal.validation.ReferenceLookup.Target;
 import az.tarix.platform.editorial.internal.validation.ValidationIssue.Level;
 import az.tarix.platform.shared.schema.ContentSchemas;

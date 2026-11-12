@@ -1,6 +1,6 @@
 package az.tarix.platform.editorial.internal.validation;
 
-import az.tarix.platform.editorial.api.ContentPart;
+import az.tarix.platform.shared.content.ContentPart;
 import az.tarix.platform.editorial.internal.content.ContentJson;
 import az.tarix.platform.editorial.internal.validation.ValidationContext.Item;
 import java.util.HashMap;

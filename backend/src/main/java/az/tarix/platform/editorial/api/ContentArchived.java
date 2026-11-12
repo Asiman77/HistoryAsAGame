@@ -1,5 +1,6 @@
 package az.tarix.platform.editorial.api;
 
+import az.tarix.platform.shared.content.DocumentType;
 import java.util.UUID;
 
 /**

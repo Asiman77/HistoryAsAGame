@@ -1,6 +1,6 @@
 package az.tarix.platform.editorial.internal.persistence;
 
-import az.tarix.platform.editorial.api.DocumentType;
+import az.tarix.platform.shared.content.DocumentType;
 import az.tarix.platform.editorial.internal.validation.ReferenceLookup;
 import java.util.Locale;
 import java.util.Optional;
