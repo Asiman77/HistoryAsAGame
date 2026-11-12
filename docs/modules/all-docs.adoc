@@ -13,10 +13,6 @@ include::module-catalog.adoc[]
 plantuml::module-chronology.puml[,,format=svg]
 include::module-chronology.adoc[]
 
-== Editorial
-plantuml::module-editorial.puml[,,format=svg]
-include::module-editorial.adoc[]
-
 == Geo
 plantuml::module-geo.puml[,,format=svg]
 include::module-geo.adoc[]
@@ -40,4 +36,8 @@ include::module-shared.adoc[]
 == Theming
 plantuml::module-theming.puml[,,format=svg]
 include::module-theming.adoc[]
+
+== Editorial
+plantuml::module-editorial.puml[,,format=svg]
+include::module-editorial.adoc[]
 

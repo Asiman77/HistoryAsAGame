@@ -13,6 +13,19 @@ top to bottom direction
 
 !include <C4/C4>
 !include <C4/C4_Context>
+!include <C4/C4_Component>
+
+System_Boundary("PlatformApplication_boundary", "PlatformApplication", $tags="") {
+  Container_Boundary("PlatformApplication.PlatformApplication_boundary", "PlatformApplication", $tags="") {
+    Component(PlatformApplication.PlatformApplication.Shared, "Shared", $techn="Module", $descr="", $tags="", $link="")
+    Component(PlatformApplication.PlatformApplication.Editorial, "Editorial", $techn="Module", $descr="", $tags="", $link="")
+    Component(PlatformApplication.PlatformApplication.Identity, "Identity", $techn="Module", $descr="", $tags="", $link="")
+  }
+
+}
+
+Rel(PlatformApplication.PlatformApplication.Editorial, PlatformApplication.PlatformApplication.Shared, "uses", $techn="", $tags="", $link="")
+Rel(PlatformApplication.PlatformApplication.Editorial, PlatformApplication.PlatformApplication.Identity, "uses", $techn="", $tags="", $link="")
 
 SHOW_LEGEND(true)
 hide stereotypes
