@@ -5,6 +5,7 @@
 |Bean references
 |* `a.t.p.e.api.PublishedContents` (in Editorial)
 |Events listened to
-|* `a.t.p.e.api.ContentArchived` (async) 
-* `a.t.p.e.api.ContentPublished` (async) 
+|* `a.t.p.e.api.ContentPublished` (async) 
+* `a.t.p.e.api.ContentArchived` (async) 
+* `a.t.p.e.api.ContentImported` (async) 
 |===

@@ -54,3 +54,8 @@ platform:
   publishing:
     retry-interval: 1m     # how often incomplete event publications are resubmitted
     retry-after: 1m        # only those older than this (younger ones may still be running)
+  # The frontend's data/ folder for POST /api/v1/admin/import (ADR-0013). Defaults fit running
+  # from backend/ in the repository; docker/docker-compose.yml mounts the folders read-only.
+  import:
+    data-dir: ${IMPORT_DATA_DIR:../data}
+    built-territories-dir: ${IMPORT_BUILT_TERRITORIES_DIR:../public/data/territories}

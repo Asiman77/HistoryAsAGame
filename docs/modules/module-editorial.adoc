@@ -6,5 +6,6 @@
 |* `a.t.p.e.api.PublishedContents` (via `a.t.p.e.internal.persistence.JdbcPublishedContents`)
 |Bean references
 |* `a.t.p.s.schema.ContentSchemas` (in Shared)
+* `a.t.p.i.api.SystemAccounts` (in Identity)
 * `a.t.p.i.api.CurrentUserProvider` (in Identity)
 |===

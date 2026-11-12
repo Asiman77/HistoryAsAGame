@@ -1,6 +1,7 @@
 package az.tarix.platform.publishing.internal;
 
 import az.tarix.platform.editorial.api.ContentArchived;
+import az.tarix.platform.editorial.api.ContentImported;
 import az.tarix.platform.editorial.api.ContentPublished;
 import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Component;
@@ -29,5 +30,11 @@ class ProjectionListener {
     @ApplicationModuleListener
     void on(ContentArchived event) {
         projector.project(event.documentId());
+    }
+
+    /** A bulk import: one rebuild instead of one projection per document (ADR-0013). */
+    @ApplicationModuleListener
+    void on(ContentImported event) {
+        projector.rebuild();
     }
 }
