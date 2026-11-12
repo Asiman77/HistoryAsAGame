@@ -50,3 +50,7 @@ platform:
       email: ${ADMIN_EMAIL:}
       password: ${ADMIN_PASSWORD:}
       display-name: ${ADMIN_DISPLAY_NAME:Administrator}
+  # Failed projections stay in the event registry and are resubmitted (BACKEND_SPEC.md §9.7).
+  publishing:
+    retry-interval: 1m     # how often incomplete event publications are resubmitted
+    retry-after: 1m        # only those older than this (younger ones may still be running)

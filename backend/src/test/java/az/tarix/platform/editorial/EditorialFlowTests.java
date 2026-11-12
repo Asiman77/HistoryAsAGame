@@ -3,6 +3,7 @@ package az.tarix.platform.editorial;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import az.tarix.platform.IntegrationTest;
+import az.tarix.platform.TestDatabase;
 import az.tarix.platform.editorial.api.ContentArchived;
 import az.tarix.platform.editorial.api.ContentPublished;
 import az.tarix.platform.shared.content.DocumentType;
@@ -65,7 +66,7 @@ class EditorialFlowTests {
 
     @AfterEach
     void cleanUp() {
-        jdbc.sql("TRUNCATE review_comment, status_transition_log, editorial_revision, editorial_document, slug_redirect CASCADE").update();
+        TestDatabase.clearContent(jdbc);
         jdbc.sql("DELETE FROM app_user WHERE email LIKE '%@editorial.test'").update();
     }
 

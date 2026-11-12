@@ -17,9 +17,9 @@ top to bottom direction
 
 System_Boundary("PlatformApplication_boundary", "PlatformApplication", $tags="") {
   Container_Boundary("PlatformApplication.PlatformApplication_boundary", "PlatformApplication", $tags="") {
+    Component(PlatformApplication.PlatformApplication.Identity, "Identity", $techn="Module", $descr="", $tags="", $link="")
     Component(PlatformApplication.PlatformApplication.Shared, "Shared", $techn="Module", $descr="", $tags="", $link="")
     Component(PlatformApplication.PlatformApplication.Editorial, "Editorial", $techn="Module", $descr="", $tags="", $link="")
-    Component(PlatformApplication.PlatformApplication.Identity, "Identity", $techn="Module", $descr="", $tags="", $link="")
   }
 
 }
