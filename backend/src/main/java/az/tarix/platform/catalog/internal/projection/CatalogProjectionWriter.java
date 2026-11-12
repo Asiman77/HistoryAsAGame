@@ -126,12 +126,25 @@ class CatalogProjectionWriter implements ProjectionWriter {
         jdbc.sql("DELETE FROM planned_entity WHERE document_id = :doc").param("doc", documentId).update();
     }
 
+    /**
+     * DELETE, not TRUNCATE: TRUNCATE locks the tables exclusively for the whole rebuild, while
+     * DELETE lets the public API keep reading the old rows until the rebuild commits (MVCC).
+     */
     @Override
     public void deleteAll() {
-        jdbc.sql("""
-                TRUNCATE simulation_step, step_claim, step_source, claim_source, source, entity_relation, person, conflict,
-                         settlement, commander, state_profile, battle, hero, glossary_entry, commemoration, world_event,
-                         planned_entity""").update();
+        // Claims and step/claim sources cascade from the steps; settlements and commanders from conflicts.
+        jdbc.sql("DELETE FROM simulation_step").update();
+        jdbc.sql("DELETE FROM source").update();
+        jdbc.sql("DELETE FROM entity_relation").update();
+        jdbc.sql("DELETE FROM person").update();
+        jdbc.sql("DELETE FROM conflict").update();
+        jdbc.sql("DELETE FROM state_profile").update();
+        jdbc.sql("DELETE FROM battle").update();
+        jdbc.sql("DELETE FROM hero").update();
+        jdbc.sql("DELETE FROM glossary_entry").update();
+        jdbc.sql("DELETE FROM commemoration").update();
+        jdbc.sql("DELETE FROM world_event").update();
+        jdbc.sql("DELETE FROM planned_entity").update();
     }
 
     @Override

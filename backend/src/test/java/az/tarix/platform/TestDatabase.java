@@ -8,12 +8,14 @@ public final class TestDatabase {
     private TestDatabase() {}
 
     /**
-     * Empties the editorial documents, the event registry and every projection table in one
-     * statement. TRUNCATE waits for projections still running asynchronously (they hold locks
-     * on the documents they read), so none of them can write rows after the cleanup.
+     * Empties the editorial documents, the event registry and every projection table. Runs as
+     * one implicit transaction that first takes the projector's exclusive lock (Projector,
+     * namespace 0x7461 + 1): projections and rebuilds still running asynchronously finish
+     * first, and none can start in between, so the cleanup cannot deadlock with them.
      */
     public static void clearContent(JdbcClient jdbc) {
         jdbc.sql("""
+                DO $$ BEGIN PERFORM pg_advisory_xact_lock(29794, 0); END $$;
                 TRUNCATE review_comment, status_transition_log, editorial_revision, editorial_document, slug_redirect,
                          event_publication, event_publication_archive,
                          era, polity, polity_period, polity_fact, ruler, reign,
