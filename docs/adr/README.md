@@ -17,3 +17,4 @@ Qəbul olunmuş ADR dəyişdirilmir; yeni qərar köhnəni `Superseded by` ilə 
 | [0010](0010-media-permission-import.md) | İdxalda media icazə statusunun təyini | Qəbul |
 | [0011](0011-editorial-content-layout.md) | Redaksiya sənədinin kontent strukturu və validasiya səviyyələri | Qəbul |
 | [0012](0012-projection.md) | Proyeksiya: modulların writer-ləri, idempotent proyektor, sorğu zamanı hesablanan məkan | Qəbul |
+| [0013](0013-data-import.md) | Mövcud datanın idxalı: rəysiz dərc, hash ilə idempotentlik, CMS redaktələrinin qorunması | Qəbul |

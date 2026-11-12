@@ -75,6 +75,17 @@ cd backend
 
 Giriş: `POST /api/v1/auth/login` (`{"email", "password"}`) access və refresh token qaytarır; access token `Authorization: Bearer …` başlığında göndərilir. İlk ADMIN hesabı `ADMIN_EMAIL`/`ADMIN_PASSWORD`-dən yaradılır.
 
+**Mövcud `data/`-nı idxal etmək** (ADMIN; təkrar işlətmək təhlükəsizdir, dəyişməyən heç nə yazılmır):
+
+```bash
+TOKEN=$(curl -s localhost:8080/api/v1/auth/login -H 'Content-Type: application/json'   -d '{"email":"…","password":"…"}' | jq -r .accessToken)
+curl -s -X POST "localhost:8080/api/v1/admin/import?dryRun=true" -H "Authorization: Bearer $TOKEN" | jq '.outcomes, .drafts'
+curl -s -X POST  localhost:8080/api/v1/admin/import             -H "Authorization: Bearer $TOKEN" | jq '.published, .drafts'
+```
+
+Xətasız sənədlər birbaşa dərc olunur, xətalılar draft qalır (hesabatda `results[].errors`); sonra proyeksiya bir dəfə yenidən qurulur.
+Docker-də `data/` və `public/data/territories` konteynerə yalnız oxumaq üçün qoşulur ([ADR-0013](docs/adr/0013-data-import.md)).
+
 `verify` həm də modul diaqramlarını `docs/modules/`-a yenidən yazır; dəyişibsə, commit edin (CI bunu yoxlayır).
 
 ## Arxitektura

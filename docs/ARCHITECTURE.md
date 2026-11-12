@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 6 (dərc + proyektorlar).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 7 (idxal).
 
 ## 1. Ümumi görünüş
 
@@ -133,7 +133,8 @@ Konvensiyalar:
 | 4 | Identity (minimal) | ✅ |
 | 5 | Redaksiya | ✅ |
 | 6 | Dərc + proyektorlar | ✅ |
-| 7 | İdxal | növbəti |
+| 7 | İdxal | ✅ |
+| 8 | İctimai API (əsas) | növbəti |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -262,3 +263,29 @@ editorial ──ContentPublished / ContentArchived──► publishing.Projectio
   - API ilə dərc → asinxron proyeksiya → yeni draft ictimai sətirlərə toxunmur → arxiv sətirləri silir;
   - valideyni olmayan variantın proyeksiyası uğursuz olur, registry-də qalır və valideyn dərc olunandan sonra təkrar cəhddə keçir.
 - **Data qeydi:** qurulmuş `y2020` snapshot-unda `russian-federation` poliqonu PostGIS-ə görə etibarsızdır (halqa öz-özünü kəsir, (38.172, 50)). Validasiya onu `ERROR` sayır; proyeksiya onu təmir edir.
+
+## 12. İdxal (mərhələ 7)
+
+Qərarlar: [ADR-0013](adr/0013-data-import.md). Kod: `editorial.internal.importing` (`DataFolder`, `DataImporter`, `MediaPermissions`).
+
+```
+POST /api/v1/admin/import[?dryRun=true]  (ADMIN)
+  DataFolder.read(data/, public/data/territories)  → 432 sənəd (2026-11-12)
+  1. upsert: CREATED | UPDATED | UNCHANGED | CONFLICT (CMS-də redaktə olunub) | ARCHIVED   — müəllif: importer@system.invalid
+  2. flush → hər sənədin validasiyası (referanslar bir-birini tapır)
+  3. ERROR yoxdursa → PUBLISHED (jurnalda `import`, icraçı: ADMIN); varsa → DRAFT + hesabatda xətalar
+  4. ContentImported → publishing: bir rebuild (~6 san.)
+```
+
+- **Bugünkü nəticə:** 432 sənəd. 429-u dərc olunur. 3-ü draft qalır: icazəsi gözlənilən 2 trek (`media-permission`) və `y2020` snapshot-u (`invalid-geometry`, §11-dəki data qeydi). İkinci idxal 432 `UNCHANGED` verir: yeni revision, jurnal sətri və dublikat yaranmır.
+- **Hesabat:** `{dryRun, documents, outcomes, published, drafts, results[{type, slug, outcome, status, revisionNo, files, errors}], sourceProblems, media{status: say}, mediaPending[]}`.
+- **Konfiqurasiya:** `platform.import.data-dir` (`IMPORT_DATA_DIR`, defolt `../data`), `platform.import.built-territories-dir` (`IMPORT_BUILT_TERRITORIES_DIR`, defolt `../public/data/territories`). Docker-də `/import/data` və `/import/territories` yalnız oxumaq üçün qoşulur.
+- **Rebuild:** catalog cədvəlləri `TRUNCATE` ilə yox, `DELETE` ilə təmizlənir. Belə olanda ictimai oxu rebuild bitənə qədər köhnə sətirləri görür (MVCC) və bloklanmır.
+- **Testlər** (`ImportTests`):
+  - hamısı idxal olunur, yalnız dərc oluna bilməyənlər draft qalır;
+  - müəllif və icraçı düzgün yazılır; media statusları ADR-0010-a uyğundur;
+  - rebuild sonrası proyeksiya doludur;
+  - iki dəfə idxal heç nəyi dəyişmir;
+  - `dryRun` heç nə saxlamır;
+  - dəyişmiş data yeni revision olur, CMS redaktəsi isə `CONFLICT` kimi qorunur;
+  - yalnız ADMIN idxal edə bilər.
