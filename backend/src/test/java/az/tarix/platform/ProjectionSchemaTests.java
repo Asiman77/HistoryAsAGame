@@ -201,13 +201,14 @@ class ProjectionSchemaTests {
         assertThat(onThisDay).contains("WHERE ((date_precision)::text = 'DAY'::text)");
     }
 
+    /** Any index whose first column is document_id serves "rows of this document" (editorial ones are composite). */
     @Test
     void everyProjectionTableHasADocumentIndex() {
         List<String> missing = jdbc.sql("""
                         SELECT c.table_name FROM information_schema.columns c
                         WHERE c.table_schema = 'public' AND c.column_name = 'document_id'
                           AND NOT EXISTS (SELECT 1 FROM pg_indexes i
-                                          WHERE i.tablename = c.table_name AND i.indexdef LIKE '%(document_id)%')
+                                          WHERE i.tablename = c.table_name AND (i.indexdef LIKE '%(document_id)%' OR i.indexdef LIKE '%(document_id,%'))
                         """).query(String.class).list();
         assertThat(missing).isEmpty();
     }
