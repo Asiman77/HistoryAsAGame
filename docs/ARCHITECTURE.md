@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 5 (redaksiya).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 6 (dərc + proyektorlar).
 
 ## 1. Ümumi görünüş
 
@@ -132,7 +132,8 @@ Konvensiyalar:
 | 3 | Ümumi tiplər + proyeksiya cədvəlləri | ✅ |
 | 4 | Identity (minimal) | ✅ |
 | 5 | Redaksiya | ✅ |
-| 6 | Dərc + proyektorlar | növbəti |
+| 6 | Dərc + proyektorlar | ✅ |
+| 7 | İdxal | növbəti |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -225,4 +226,39 @@ src/domain/dataFiles.ts ────┴─► npm run schema:export ─► share
 
 - **Xətalar** (Problem Details, `…/problems/<type>`): `not-found` 404, `forbidden` 403, `conflict` 409 (`code`: `duplicate-slug`, `invalid-transition`, `archived`, `comment-required`…), `precondition-required` 428, `precondition-failed` 412, `validation-failed` 422, `content-too-large` 413 (> 5 MiB), `bad-request` 400. Bütün cavablar `Cache-Control: no-store`.
 - **Event-lər** (`editorial.api`): `ContentPublished(documentId, docType, slug, revisionId, revisionNo)`, `ContentArchived(…, wasPublished)`. Dinləyici mərhələ 6-da gəlir (`publishing`).
-- **Sonraya qalanlar:** `GET /{id}/preview` (ictimai API formatı mərhələ 8-dədir), `/media/*` (mərhələ 11), `/admin/broken-references` və `/admin/projections/rebuild` (mərhələ 6), `assignedToMe` filtri (təyinat modeli yoxdur; hələlik `mine=true`), slug dəyişmə endpoint-i (`slug_redirect` cədvəli hazırdır), daxili naməlum açarlar üçün `WARNING` (hələlik yalnız yuxarı səviyyədəki bölmələr).
+- **Sonraya qalanlar:** `GET /{id}/preview` (ictimai API formatı mərhələ 8-dədir), `/media/*` (mərhələ 11), `assignedToMe` filtri (təyinat modeli yoxdur; hələlik `mine=true`), slug dəyişmə endpoint-i (`slug_redirect` cədvəli hazırdır), daxili naməlum açarlar üçün `WARNING` (hələlik yalnız yuxarı səviyyədəki bölmələr).
+
+## 11. Dərc və proyeksiya (mərhələ 6)
+
+Qərarlar: [ADR-0012](adr/0012-projection.md).
+
+```
+editorial ──ContentPublished / ContentArchived──► publishing.ProjectionListener (@ApplicationModuleListener, async, registry)
+                                                     │
+                                                     ▼
+                                      Projector.project(documentId)   ── bir tranzaksiya, sənəd üzrə advisory lock
+                                        ├─ PublishedContents.of(id)    (editorial.api: hazırkı dərc olunmuş revision)
+                                        ├─ hər ProjectionWriter: delete(id) → write(content) → afterChanges()
+                                        ├─ content_version + 1
+                                        └─ ContentProjected(documentId, contentVersion)  (publishing.api)
+```
+
+| Writer (`<modul>.internal.projection`) | Sənəd tipləri → cədvəllər |
+|---|---|
+| `CatalogProjectionWriter` + `StepWriter` | `PERSON`, `CONFLICT`, `STATE` → `person`/`conflict`/`state_profile`, `simulation_step`, `step_claim`, `source`, `step_source`, `claim_source`, `entity_relation`, `settlement`, `commander`; `BATTLE`, `HERO`, `GLOSSARY_ENTRY`, `COMMEMORATION`, `WORLD_EVENT`, `PLANNED_ENTITY`; `RULER`-in `related` keçidləri |
+| `GeoProjectionWriter` | `PLACE` → `place`, `place_period`, `place_upcoming`; `TERRITORY_SNAPSHOT` → `territory_snapshot`, `polity_territory` |
+| `ChronologyProjectionWriter` | `ERA`, `POLITY` (+ `polity_period`, `polity_fact`, `reign`), `RULER` |
+| `ThemingProjectionWriter` | `THEME` (miras birləşdirilmiş) |
+| `MediaProjectionWriter` | `PERSON`-un yaşa görə portretləri → `portrait`; `SOUNDTRACK_TRACK` → `soundtrack_track` |
+
+- `SOURCE` və `TERRITORY_REGISTRY` proyeksiya olunmur (ADR-0007).
+- **Miqrasiya `V011`:** media reyestrinə qədər sətirdə saxlanılan şəkil/fayl sütunları (`person.portrait`, `hero.photo`, `polity.emblem`, `ruler.portraits`, `portrait.image`, `soundtrack_track.file_path`). `location_place_slug` yalnız açıq `placeId`-dir.
+- **Təkrar cəhd:** tamamlanmamış event-lər `platform.publishing.retry-interval` (1 dəq.) ilə yenidən göndərilir (`retry-after` = 1 dəq.-dən köhnələr), həmçinin tətbiq başlayanda (`republish-outstanding-events-on-restart`).
+- **Endpoint-lər (ADMIN):** `POST /api/v1/admin/projections/rebuild` → `{documents, deferred[], contentVersion, tookMs}`; `GET /api/v1/admin/broken-references` → `[{documentId, type, slug, revisionNo, level, code, pointer, message}]`.
+- **Testlər:** bugünkü bütün `data/` sənəd kimi yazılır və rebuild olunur. Yoxlananlar:
+  - hər cədvəlin sətir sayı data ilə üst-üstə düşür;
+  - törəmə dəyərlər: yaş, marşrut, snapshot aralıqları, tema mirası, mənbə dublikatsızlığı;
+  - rebuild iki dəfə eyni nəticəni verir;
+  - API ilə dərc → asinxron proyeksiya → yeni draft ictimai sətirlərə toxunmur → arxiv sətirləri silir;
+  - valideyni olmayan variantın proyeksiyası uğursuz olur, registry-də qalır və valideyn dərc olunandan sonra təkrar cəhddə keçir.
+- **Data qeydi:** qurulmuş `y2020` snapshot-unda `russian-federation` poliqonu PostGIS-ə görə etibarsızdır (halqa öz-özünü kəsir, (38.172, 50)). Validasiya onu `ERROR` sayır; proyeksiya onu təmir edir.
