@@ -25,7 +25,7 @@ Hər sxemdə `x-schema-version` var. Mövcud sənədləri etibarsız edən dəyi
 
 ## JSON Schema ilə ifadə olunmayan qaydalar
 
-Zod `.refine()` qaydaları JSON Schema-ya keçmir. Frontend-də onlar Zod-da qalır, backend-də isə validasiya qaydaları kimi təkrarlanır (mərhələ 5). Hər iki tərəf eyni nümunələrlə test olunur.
+Zod `.refine()` qaydaları JSON Schema-ya keçmir. Frontend-də onlar Zod-da qalır, backend-də isə validasiya qaydaları kimi təkrarlanır (`az.tarix.platform.editorial.internal.validation`, [ADR-0011](../../docs/adr/0011-editorial-content-layout.md)). Hər iki tərəf eyni nümunələrlə test olunur.
 
 | Sxem | Qayda | Mesaj |
 |---|---|---|
@@ -43,4 +43,4 @@ Zod `.refine()` qaydaları JSON Schema-ya keçmir. Frontend-də onlar Zod-da qal
 | `Commemoration` | `day` həmin ayda mövcuddur (fevral: 29-a qədər) | belə gün yoxdur |
 | `TerritorySnapshotSource` | hər dövlətdə `regions` və `iso`-dan **yalnız biri** | |
 
-Fayllar arası qaydalar (referansların mövcudluğu, `order` ardıcıllığı, tarixin doğum–ölüm aralığında olması və s.) `scripts/validate-data.ts`-də və `src/domain/integrity.ts`-dədir. Backend-də onlar redaksiya validasiya hesabatına çevrilir.
+Fayllar arası qaydalar (referansların mövcudluğu, `order` ardıcıllığı, tarixin doğum–ölüm aralığında olması və s.) `scripts/validate-data.ts`-də və `src/domain/integrity.ts`-dədir. Backend-də onlar redaksiya validasiya hesabatının qaydalarıdır; mövcud `data/`-nın xətasız keçməsi `DocumentValidatorTests` ilə yoxlanılır.

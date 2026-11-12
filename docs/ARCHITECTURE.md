@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 4 (identity).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 5 (redaksiya).
 
 ## 1. Ümumi görünüş
 
@@ -131,7 +131,8 @@ Konvensiyalar:
 | 2 | Paylaşılan sxem | ✅ |
 | 3 | Ümumi tiplər + proyeksiya cədvəlləri | ✅ |
 | 4 | Identity (minimal) | ✅ |
-| 5 | Redaksiya | növbəti |
+| 5 | Redaksiya | ✅ |
+| 6 | Dərc + proyektorlar | növbəti |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -199,3 +200,29 @@ src/domain/dataFiles.ts ────┴─► npm run schema:export ─► share
 - **Admin bootstrap:** `ADMIN_EMAIL` + `ADMIN_PASSWORD` verilibsə və hesab yoxdursa, ADMIN yaradılır. Mövcud hesab heç vaxt dəyişdirilmir; zəif şifrə startup-ı dayandırır. Kodda heç bir default şifrə yoxdur. Loglara e-poçt, şifrə və token yazılmır.
 - **Digər modullar üçün API:** `identity.api.CurrentUserProvider` → `CurrentUser(id, roles)`, `Role`.
 - Login rate limiting (Bucket4j) mərhələ 10-dadır.
+
+## 10. Redaksiya (mərhələ 5)
+
+- **Cədvəllər** (`V010__editorial`): `editorial_document` (+ `title`: cari revision-ın az başlığı, siyahı və axtarış üçün), `editorial_revision` (dəyişməz; `content_hash` = kanonik JSON-un SHA-256-sı, eyni kontent yeni revision yaratmır), `review_comment` (+ `resolved_by/at`, `version`), `status_transition_log` (+ `action`, `revision_id`), `slug_redirect`, `content_version` (tək sətir, 0). Sənəddən revision-lara FK-lar `DEFERRABLE`-dır. `geojson_problem(text)`: PostGIS-in poliqona rəyi, heç vaxt xəta atmır.
+- **Kontent strukturu və validasiya səviyyələri:** [ADR-0011](adr/0011-editorial-content-layout.md). Kontent bölmələrdən ibarət obyektdir (`PERSON` = `person` + `events` + `relations`…), hər bölmə `shared/schema` ilə yoxlanılır.
+- **Status maşını** (`editorial.internal.domain.Workflow`, təmiz Java, unit testli): `submit`, `request_changes` (şərh məcburi), `approve`, `publish`, `archive`. Yeni revision sənədi `DRAFT`-a qaytarır; dərc olunmuş revision ictimai qalır. Son dərcdən sonra revision yazan heç kim (ADMIN də) təsdiqləyə bilməz. Hər keçid, o cümlədən `create` və `edit`, `status_transition_log`-a yazılır.
+- **Validasiya** (`editorial.internal.validation`, 9 qayda): sxem və bölmələr, id = slug, mətn (`az` boş deyil; `en`/`ru` çatışmazlığı sənəd üzrə bir `INFO`), tarixlər (real gün, `disputed` → alternatives), addımlar (order, xronologiya, fakt/rəvayət/mübahisə iddiaları, quiz/choice/narration), şəxsiyyətin həyatı (doğum/ölüm hadisələri, ömürdən kənar tarix, döyüş nəticəsi), referanslar (redaksiya sənədlərinə qarşı), media (lisenziya, mənbə, müasir şəxslərin AI portreti, gözləyən icazə), tip üzrə uyğunluq (il aralıqları, hakimiyyət dövlətin illərində, musiqi teması, regions/iso), poliqonlar (PostGIS). Mövcud `data/`-nın hamısı xətasız keçir; yeganə istisna icazəsi gözlənilən 2 trekdir, onlar spesifikasiyaya görə dərc oluna bilməz.
+- **Diff:** öz RFC 6902 implementasiyası (`JsonPatch`). Massivlər LCS ilə hizalanır: ortaya addım əlavə etmək bir `add` verir, bir sahəni dəyişmək bir `replace`. Yalnız `add`/`remove`/`replace` yaradılır; `apply` testlərdə round-trip üçündür.
+- **Endpoint-lər** (`/api/v1/editorial/documents`, AUTHOR/REVIEWER/ADMIN):
+
+| Metod və yol | Qeyd |
+|---|---|
+| `GET /` | `type`, `status`, `q` (slug + `az_fold` başlıq, trigram), `mine`, `limit` ≤ 200, `offset` |
+| `POST /` | `{type, slug?, content, changeNote?}` → 201, `Location`, `ETag` |
+| `GET /{id}` | sənəd + cari revision + `publishedRevisionNo`; `ETag` = versiya |
+| `PUT /{id}` | `If-Match` məcburi: yoxdursa 428, köhnədirsə 412 (cari `ETag` ilə) |
+| `GET /{id}/revisions`, `GET /{id}/revisions/{no}` | tarixçə (kontentsiz), bir revision kontentlə |
+| `GET /{id}/diff?from=&to=` | `application/json-patch+json` |
+| `POST /{id}/revert?to=` | köhnə revision-ın kontenti ilə yeni revision |
+| `GET /{id}/validation?revision=` | `{publishable, errors, warnings, infos, issues[{level, code, pointer, message}]}` |
+| `POST /{id}/transitions`, `GET /{id}/transitions` | `{action, comment}`; xətalı dərc 422 (`errors` ilə) |
+| `GET/POST /{id}/comments`, `PATCH /{id}/comments/{cid}` | `fieldPath` JSON Pointer; mətni yalnız müəllif dəyişir; həll etmək şərhin müəllifi və ya sənədi redaktə edə bilən üçündür |
+
+- **Xətalar** (Problem Details, `…/problems/<type>`): `not-found` 404, `forbidden` 403, `conflict` 409 (`code`: `duplicate-slug`, `invalid-transition`, `archived`, `comment-required`…), `precondition-required` 428, `precondition-failed` 412, `validation-failed` 422, `content-too-large` 413 (> 5 MiB), `bad-request` 400. Bütün cavablar `Cache-Control: no-store`.
+- **Event-lər** (`editorial.api`): `ContentPublished(documentId, docType, slug, revisionId, revisionNo)`, `ContentArchived(…, wasPublished)`. Dinləyici mərhələ 6-da gəlir (`publishing`).
+- **Sonraya qalanlar:** `GET /{id}/preview` (ictimai API formatı mərhələ 8-dədir), `/media/*` (mərhələ 11), `/admin/broken-references` və `/admin/projections/rebuild` (mərhələ 6), `assignedToMe` filtri (təyinat modeli yoxdur; hələlik `mine=true`), slug dəyişmə endpoint-i (`slug_redirect` cədvəli hazırdır), daxili naməlum açarlar üçün `WARNING` (hələlik yalnız yuxarı səviyyədəki bölmələr).

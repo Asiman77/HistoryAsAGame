@@ -15,3 +15,4 @@ Qəbul olunmuş ADR dəyişdirilmir; yeni qərar köhnəni `Superseded by` ilə 
 | [0008](0008-object-storage.md) | Obyekt anbarı: S3 API, lokalda SeaweedFS (MinIO əvəzinə) | Qəbul |
 | [0009](0009-phase-order.md) | Mərhələ sırası: minimal identity redaksiyadan əvvəl | Qəbul |
 | [0010](0010-media-permission-import.md) | İdxalda media icazə statusunun təyini | Qəbul |
+| [0011](0011-editorial-content-layout.md) | Redaksiya sənədinin kontent strukturu və validasiya səviyyələri | Qəbul |
