@@ -21,5 +21,8 @@ public interface RefreshTokenRepository extends ListCrudRepository<RefreshToken,
     @Query("update RefreshToken t set t.revokedAt = :now where t.familyId = :family and t.revokedAt is null")
     int revokeFamily(UUID family, Instant now);
 
-
+    /** Ends every session of the user (password changed, account disabled, roles changed). */
+    @Modifying
+    @Query("update RefreshToken t set t.revokedAt = :now where t.userId = :user and t.revokedAt is null")
+    int revokeAllOf(UUID user, Instant now);
 }

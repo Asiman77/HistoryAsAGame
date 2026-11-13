@@ -4,6 +4,7 @@ import az.tarix.platform.identity.api.CurrentUser;
 import az.tarix.platform.identity.api.CurrentUserProvider;
 import az.tarix.platform.identity.api.Role;
 import az.tarix.platform.identity.internal.persistence.AppUserRepository;
+import az.tarix.platform.identity.internal.service.AccountService;
 import az.tarix.platform.identity.internal.service.AuthService;
 import az.tarix.platform.identity.internal.service.AuthService.TokenPair;
 import az.tarix.platform.identity.internal.service.AuthenticationFailedException;
@@ -44,12 +45,15 @@ class AuthController {
     private final CurrentUserProvider currentUser;
     private final AppUserRepository users;
     private final LoginRateLimiter limiter;
+    private final AccountService accounts;
 
-    AuthController(AuthService auth, CurrentUserProvider currentUser, AppUserRepository users, LoginRateLimiter limiter) {
+    AuthController(AuthService auth, CurrentUserProvider currentUser, AppUserRepository users, LoginRateLimiter limiter,
+                   AccountService accounts) {
         this.auth = auth;
         this.currentUser = currentUser;
         this.users = users;
         this.limiter = limiter;
+        this.accounts = accounts;
     }
 
     record LoginRequest(@NotBlank @Size(max = 254) String email, @NotBlank @Size(max = 128) String password) {}
@@ -104,6 +108,23 @@ class AuthController {
                 .map(u -> ResponseEntity.ok().cacheControl(CacheControl.noStore())
                         .body(new Me(u.id(), u.email(), u.displayName(), u.roles().stream().sorted().toList())))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    }
+
+    record ChangePassword(@NotBlank @Size(max = 128) String currentPassword, @NotBlank @Size(max = 128) String newPassword) {}
+
+    /**
+     * Changes the caller's own password. All their sessions end, this one included: the client
+     * logs in again with the new password. Counts as a login attempt for rate limiting, since
+     * it checks a password.
+     */
+    @PostMapping("/password")
+    ResponseEntity<?> changePassword(@Valid @RequestBody ChangePassword body, HttpServletRequest request) {
+        UUID id = currentUser.require().id();
+        String email = users.findById(id).map(u -> u.email()).orElse(id.toString());
+        Optional<Duration> wait = limiter.tryAttempt(request.getRemoteAddr(), email);
+        if (wait.isPresent()) return tooManyAttempts(wait.get());
+        accounts.changeOwnPassword(id, body.currentPassword(), body.newPassword());
+        return ResponseEntity.noContent().build();
     }
 
     @ExceptionHandler(AuthenticationFailedException.class)

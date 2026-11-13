@@ -109,4 +109,37 @@ public class AppUser {
         this.enabled = false;
         this.updatedAt = now;
     }
+
+    public void enable(Instant now) {
+        this.enabled = true;
+        this.updatedAt = now;
+    }
+
+    public void rename(String displayName, Instant now) {
+        this.displayName = displayName;
+        this.updatedAt = now;
+    }
+
+    public void changeRoles(Set<Role> roles, Instant now) {
+        this.roles.clear();
+        this.roles.addAll(roles);
+        this.updatedAt = now;
+    }
+
+    /** Accounts that act for the system, not a person ({@code @system.invalid}); never edited through the API. */
+    public boolean isSystem() {
+        return email.endsWith("@system.invalid");
+    }
+
+    public Instant createdAt() {
+        return createdAt;
+    }
+
+    public Instant updatedAt() {
+        return updatedAt;
+    }
+
+    public long version() {
+        return version;
+    }
 }
