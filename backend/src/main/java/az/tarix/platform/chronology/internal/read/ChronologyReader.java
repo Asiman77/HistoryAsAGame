@@ -55,6 +55,48 @@ public class ChronologyReader {
                             String personSlug, boolean personAvailable, List<ApiImage> portraits, List<RulerReign> reigns,
                             List<ApiLink> related, List<ApiSource> sources) {}
 
+    /**
+     * A ruler in the panel, with the reign that covers the year.
+     *
+     * @param available the ruler is published ({@code /rulers/{slug}}); when not, only the slug
+     *                  and the reign are known (BACKEND_SPEC.md §10.3: every reign is returned)
+     */
+    public record PanelRuler(String slug, boolean available, JsonNode name, List<JsonNode> titles, JsonNode dynasty, ApiDate birth,
+                             ApiDate death, ApiImage portrait, String personSlug, boolean personAvailable, YearMonth reignStart,
+                             YearMonth reignEnd, Certainty reignCertainty, JsonNode reignNote, List<ApiSource> sources) {}
+
+    public record PolityRef(String slug, JsonNode name, JsonNode shortName, String color) {}
+
+    /**
+     * The ruler panel of a polity in a year (BACKEND_SPEC.md §10.3): co-rulers and a change of
+     * hands in that year give several rulers.
+     *
+     * @param exists whether the polity existed that year (one of its periods covers it)
+     * @param facts  what was true of the polity that year, or null
+     */
+    public record RulerPanel(PolityRef polity, int year, boolean exists, PolityFact facts, List<PanelRuler> rulers) {}
+
+    static final String POLITY_AT = """
+            SELECT p.id, p.slug, p.name, p.short_name, p.color,
+                   EXISTS (SELECT 1 FROM polity_period pp WHERE pp.polity_id = p.id AND pp.from_year <= :year AND :year <= pp.to_year)
+                       AS existed
+            FROM polity p WHERE p.slug = :slug""";
+
+    static final String FACT_AT = """
+            SELECT from_year, to_year, status, status_note, religion, languages, rivals, allies, sources
+            FROM polity_fact WHERE polity_id = :id AND from_year <= :year AND :year <= to_year
+            ORDER BY from_year, sort_order LIMIT 1""";
+
+    /** Every reign covering the year, also of a ruler not published yet (then the ruler columns are NULL). */
+    static final String RULERS_AT = """
+            SELECT g.ruler_slug AS slug, r.id IS NOT NULL AS available, r.name, r.titles, r.dynasty, r.birth_year, r.birth_month, r.birth_day, r.birth_precision,
+                   r.birth_certainty, r.death_year, r.death_month, r.death_day, r.death_precision, r.death_certainty,
+                   r.person_slug, r.portraits, r.sources, g.start_year, g.start_month, g.end_year, g.end_month, g.certainty,
+                   g.note
+            FROM reign g LEFT JOIN ruler r ON r.slug = g.ruler_slug
+            WHERE g.polity_id = :id AND g.start_year <= :year AND (g.end_year IS NULL OR g.end_year >= :year)
+            ORDER BY g.start_year, g.start_month NULLS FIRST, g.sort_order""";
+
     static final String ERAS = """
             SELECT slug, name, start_year, end_year, description, theme_slug, color
             FROM era ORDER BY sort_order, start_year, slug""";
@@ -165,6 +207,53 @@ public class ChronologyReader {
             return new RulerView(r.slug(), r.name(), r.titles(), r.dynasty(), r.birth(), r.death(), r.personSlug(), personAvailable,
                     portraits, reigns, EntityLinks.links(row.related(), "RELATED", resolved, lang), r.sources());
         });
+    }
+
+    private record PanelKey(String slug, int year) {}
+
+    /** Four queries at most: the polity, its facts, the reigns with their rulers, the rulers' person pages. */
+    public RulerPanel rulerPanel(ReadContext ctx, String slug, int year) {
+        return cache.get(ctx, "ruler-panel", new PanelKey(slug, year), () -> {
+            Lang lang = ctx.lang();
+            record Row(UUID id, PolityRef polity, boolean existed) {}
+            Row row = jdbc.sql(POLITY_AT).param("slug", slug).param("year", year)
+                    .query((rs, n) -> new Row(rs.getObject("id", UUID.class), new PolityRef(rs.getString("slug"),
+                            lang.text(JsonColumns.json(rs, "name")), lang.text(JsonColumns.json(rs, "short_name")),
+                            rs.getString("color")), rs.getBoolean("existed")))
+                    .optional().orElseThrow(() -> new ResourceNotFoundException(DocumentType.POLITY, slug));
+            PolityFact facts = jdbc.sql(FACT_AT).param("id", row.id()).param("year", year)
+                    .query((rs, n) -> new PolityFact(rs.getInt("from_year"), rs.getInt("to_year"), rs.getString("status"),
+                            lang.text(JsonColumns.json(rs, "status_note")), lang.text(JsonColumns.json(rs, "religion")),
+                            lang.text(JsonColumns.json(rs, "languages")), JsonColumns.strings(rs, "rivals"),
+                            JsonColumns.strings(rs, "allies"), ApiSource.all(JsonColumns.json(rs, "sources"))))
+                    .optional().orElse(null);
+            List<PanelRuler> rulers = jdbc.sql(RULERS_AT).param("id", row.id()).param("year", year)
+                    .query((rs, n) -> new PanelRuler(rs.getString("slug"), rs.getBoolean("available"),
+                            lang.text(JsonColumns.json(rs, "name")),
+                            lang.localizeAll(JsonColumns.json(rs, "titles")), lang.text(JsonColumns.json(rs, "dynasty")),
+                            ApiDate.read(rs, "birth"), ApiDate.read(rs, "death"), firstPublic(JsonColumns.json(rs, "portraits"), lang),
+                            rs.getString("person_slug"), false, yearMonth(rs, "start"), yearMonth(rs, "end"),
+                            Certainty.valueOf(rs.getString("certainty")), lang.text(JsonColumns.json(rs, "note")),
+                            ApiSource.all(JsonColumns.json(rs, "sources"))))
+                    .list();
+            EntityLinks.Resolved persons = links.resolve(rulers.stream().filter(r -> r.personSlug() != null)
+                    .map(r -> new EntityLinks.Target(EntityType.PERSON, r.personSlug())).toList());
+            List<PanelRuler> withPersons = rulers.stream().map(r -> new PanelRuler(r.slug(), r.available(), r.name(), r.titles(),
+                    r.dynasty(),
+                    r.birth(), r.death(), r.portrait(), r.personSlug(),
+                    r.personSlug() != null && persons.available(new EntityLinks.Target(EntityType.PERSON, r.personSlug())),
+                    r.reignStart(), r.reignEnd(), r.reignCertainty(), r.reignNote(), r.sources())).toList();
+            return new RulerPanel(row.polity(), year, row.existed(), facts, withPersons);
+        });
+    }
+
+    /** The first portrait whose licence allows publishing (ADR-0014), or null. */
+    private static ApiImage firstPublic(JsonNode portraits, Lang lang) {
+        if (portraits != null) for (JsonNode p : portraits) {
+            ApiImage image = ApiImage.of(p, lang);
+            if (image != null) return image;
+        }
+        return null;
     }
 
     private static YearMonth yearMonth(ResultSet rs, String prefix) throws SQLException {
