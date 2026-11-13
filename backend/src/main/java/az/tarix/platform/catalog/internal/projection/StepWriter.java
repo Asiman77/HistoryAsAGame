@@ -9,11 +9,8 @@ import static az.tarix.platform.shared.content.ContentValues.present;
 import static az.tarix.platform.shared.content.ContentValues.text;
 
 import az.tarix.platform.shared.content.ContentValues;
+import az.tarix.platform.shared.content.SourceKeys;
 import az.tarix.platform.shared.domain.HistoricalDate;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.HexFormat;
 import java.util.Set;
 import java.util.UUID;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -190,24 +187,9 @@ class StepWriter {
     }
 
     private UUID upsertSource(JsonNode s) {
-        byte[] hash = sourceHash(s);
-        return jdbc.sql(UPSERT_SOURCE).param("slug", "src-" + HexFormat.of().formatHex(hash, 0, 12))
+        byte[] hash = SourceKeys.hash(s);
+        return jdbc.sql(UPSERT_SOURCE).param("slug", SourceKeys.slug(hash))
                 .param("title", text(s.path("title"))).param("authors", text(s.path("author"))).param("url", text(s.path("url")))
                 .param("type", enumName(s.path("type"))).param("hash", hash).query(UUID.class).single();
-    }
-
-    /** {@code sha256(title|author|url|type)}: the same book cited in two documents is one row (ADR-0007). */
-    static byte[] sourceHash(JsonNode s) {
-        String key = String.join("|", nz(text(s.path("title"))), nz(text(s.path("author"))), nz(text(s.path("url"))),
-                nz(text(s.path("type"))));
-        try {
-            return MessageDigest.getInstance("SHA-256").digest(key.getBytes(StandardCharsets.UTF_8));
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    private static String nz(String s) {
-        return s == null ? "" : s;
     }
 }

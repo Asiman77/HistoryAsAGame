@@ -2,6 +2,7 @@ package az.tarix.platform.catalog.internal.projection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import az.tarix.platform.shared.content.SourceKeys;
 import org.junit.jupiter.api.Test;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
@@ -32,6 +33,6 @@ class StepWriterTests {
         JsonNode a = json("{'title': 'Tarix', 'author': 'X', 'type': 'book', 'note': 's. 5'}");
         JsonNode b = json("{'title': 'Tarix', 'author': 'X', 'type': 'book', 'note': 's. 9'}");
         JsonNode c = json("{'title': 'Tarix', 'author': 'Y', 'type': 'book'}");
-        assertThat(StepWriter.sourceHash(a)).isEqualTo(StepWriter.sourceHash(b)).isNotEqualTo(StepWriter.sourceHash(c));
+        assertThat(SourceKeys.hash(a)).isEqualTo(SourceKeys.hash(b)).isNotEqualTo(SourceKeys.hash(c));
     }
 }
