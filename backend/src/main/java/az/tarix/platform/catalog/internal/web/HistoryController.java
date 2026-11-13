@@ -4,6 +4,8 @@ import az.tarix.platform.catalog.internal.read.CompareReader;
 import az.tarix.platform.catalog.internal.read.CompareReader.Comparison;
 import az.tarix.platform.catalog.internal.read.PlaceTimelineReader;
 import az.tarix.platform.catalog.internal.read.PlaceTimelineReader.PlaceTimeline;
+import az.tarix.platform.catalog.internal.read.SearchReader;
+import az.tarix.platform.catalog.internal.read.SearchReader.SearchResult;
 import az.tarix.platform.catalog.internal.read.TimelineReader;
 import az.tarix.platform.catalog.internal.read.TimelineReader.OnThisDay;
 import az.tarix.platform.catalog.internal.read.TimelineReader.YearView;
@@ -29,11 +31,13 @@ class HistoryController {
     private final TimelineReader timeline;
     private final PlaceTimelineReader placeTimeline;
     private final CompareReader compare;
+    private final SearchReader search;
 
-    HistoryController(TimelineReader timeline, PlaceTimelineReader placeTimeline, CompareReader compare) {
+    HistoryController(TimelineReader timeline, PlaceTimelineReader placeTimeline, CompareReader compare, SearchReader search) {
         this.timeline = timeline;
         this.placeTimeline = placeTimeline;
         this.compare = compare;
+        this.search = search;
     }
 
     @GetMapping("/timeline")
@@ -60,6 +64,18 @@ class HistoryController {
                     + "dövlətə aid olduğu (ərazi snapshot-larından; xəritəsiz illər GAP).")
     PlaceTimeline placeTimeline(ReadContext ctx, @PathVariable String slug) {
         return placeTimeline.timeline(ctx, slug);
+    }
+
+    @GetMapping("/search")
+    @Operation(summary = "Axtarış",
+            description = "Şəxsiyyətlər, müharibələr, dövlətlər, döyüşlər, qəhrəmanlar, məkanlar, dövlət qurumları, hökmdarlar və "
+                    + "dövrlər üzrə. Azərbaycan hərfləri və böyük-kiçik hərf fərq etmir (`seh ismayil` → Şah İsmayıl), "
+                    + "yazı səhvlərinə dözümlüdür (trigram). Ən uyğun nəticələr əvvəldə.")
+    SearchResult search(ReadContext ctx, @Parameter(description = "Sorğu, 2–100 simvol") @RequestParam(required = false) String q,
+                        @Parameter(description = "Vergüllə tiplər, məs. PERSON,PLACE; verilməyibsə hamısı")
+                        @RequestParam(required = false) String types,
+                        @Parameter(description = "Nəticə sayı, 1–50 (defolt 20)") @RequestParam(required = false) Integer limit) {
+        return search.search(ctx, q, types, limit);
     }
 
     @GetMapping("/compare")
