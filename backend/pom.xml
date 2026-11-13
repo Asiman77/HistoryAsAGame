@@ -22,6 +22,8 @@
         <spring-modulith.version>2.1.2</spring-modulith.version>
         <json-schema-validator.version>3.0.8</json-schema-validator.version>
         <bouncycastle.version>1.86</bouncycastle.version>
+        <!-- springdoc 3.2 is built against Spring Boot 4.1.2 (checked 2026-11-13). -->
+        <springdoc.version>3.2.0</springdoc.version>
         <!-- shared/schema is copied onto the classpath under schema/ (single source, ADR-0005). -->
         <shared.schema.dir>${project.basedir}/../shared/schema</shared.schema.dir>
         <!-- Docker image used by Testcontainers and docker/docker-compose.yml. -->
@@ -113,6 +115,17 @@
             <groupId>com.networknt</groupId>
             <artifactId>json-schema-validator</artifactId>
             <version>${json-schema-validator.version}</version>
+        </dependency>
+
+        <!-- Public read API: OpenAPI description and Swagger UI (BACKEND_SPEC.md §17), in-memory cache (§14). -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
         </dependency>
 
         <!-- Test -->
