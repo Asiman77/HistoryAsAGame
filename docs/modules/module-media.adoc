@@ -2,4 +2,6 @@
 |===
 |Base package
 |`az.tarix.platform.media`
+|Spring components
+|* `a.t.p.m.api.Portraits` (via `a.t.p.m.internal.read.JdbcPortraits`)
 |===

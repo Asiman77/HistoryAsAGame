@@ -13,10 +13,6 @@ include::module-identity.adoc[]
 plantuml::module-shared.puml[,,format=svg]
 include::module-shared.adoc[]
 
-== Catalog
-plantuml::module-catalog.puml[,,format=svg]
-include::module-catalog.adoc[]
-
 == Chronology
 plantuml::module-chronology.puml[,,format=svg]
 include::module-chronology.adoc[]
@@ -36,6 +32,10 @@ include::module-media.adoc[]
 == Theming
 plantuml::module-theming.puml[,,format=svg]
 include::module-theming.adoc[]
+
+== Catalog
+plantuml::module-catalog.puml[,,format=svg]
+include::module-catalog.adoc[]
 
 == Publishing
 plantuml::module-publishing.puml[,,format=svg]

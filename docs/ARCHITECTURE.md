@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 7 (idxal).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 8 (ictimai API).
 
 ## 1. Ümumi görünüş
 
@@ -29,11 +29,11 @@ Paket: `az.tarix.platform.<modul>`. Hər modulda `api/` (açıq) və `internal/`
 | `identity` | istifadəçilər, rollar, JWT, refresh, sinif qrupları | shared | — | — |
 | `editorial` | sənəd, revision, status maşını, validasiya, diff, şərhlər | shared, identity, media (lisenziya yoxlaması), catalog/geo/chronology (referans mövcudluğu — oxuma API-si) | `ContentPublished`, `ContentArchived` | — |
 | `publishing` | proyektorların orkestrasiyası, `content_version`, rebuild, statik eksport | shared, editorial (revision oxuma), catalog/geo/chronology/theming/media (`*ProjectionWriter`) | `ContentProjected` | `ContentPublished`, `ContentArchived`, `ContentProjected` (eksport) |
-| `catalog` | şəxsiyyət, müharibə, döyüş, dövlət, qəhrəman, addımlar, iddialar, mənbələr, əlaqələr, lüğət, xatirə günləri, dünya hadisələri | shared, geo (yaxın məkan) | — | `ContentProjected` (cache) |
-| `geo` | məkanlar, ərazi snapshot-ları, nöqtə→dövlət | shared | — | `ContentProjected` (cache) |
-| `chronology` | dövrlər, dövlətlər (polity), hökmdarlar, hakimiyyətlər | shared | — | `ContentProjected` (cache) |
-| `theming` | temalar (variant birləşməsi ilə) | shared | — | `ContentProjected` (cache) |
-| `media` | media reyestri, presigned yükləmə, portretlər, treklər | shared, identity | — | `ContentProjected` (cache) |
+| `catalog` | şəxsiyyət, müharibə, döyüş, dövlət, qəhrəman, addımlar, iddialar, mənbələr, əlaqələr, lüğət, xatirə günləri, dünya hadisələri | shared, geo (məkan uyğunlaşdırması), chronology, media (yaş portretləri) | — | — (keş versiya açarlıdır, ADR-0014) |
+| `geo` | məkanlar, ərazi snapshot-ları, nöqtə→dövlət | shared | — | — |
+| `chronology` | dövrlər, dövlətlər (polity), hökmdarlar, hakimiyyətlər | shared | — | — |
+| `theming` | temalar (variant birləşməsi ilə) | shared | — | — |
+| `media` | media reyestri, presigned yükləmə, portretlər, treklər | shared, identity | — | — |
 | `analytics` | anonim event qəbulu, toplama, hesabatlar | shared, identity | — | — |
 
 `/timeline`, `/compare`, `/search`, `/places/{slug}/timeline` kimi çox modullu oxuma sorğuları `catalog` modulunda yaşayır və `geo`/`chronology`-nin `api` sorğu interfeyslərini çağırır (tək istiqamət: `catalog → geo, chronology`; əksinə asılılıq yoxdur).
@@ -134,7 +134,8 @@ Konvensiyalar:
 | 5 | Redaksiya | ✅ |
 | 6 | Dərc + proyektorlar | ✅ |
 | 7 | İdxal | ✅ |
-| 8 | İctimai API (əsas) | növbəti |
+| 8 | İctimai API (əsas) | kod hazırdır; inteqrasiya testləri hələ işlədilməyib |
+| 9 | Coğrafi və xronoloji sorğular | növbəti |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -289,3 +290,50 @@ POST /api/v1/admin/import[?dryRun=true]  (ADMIN)
   - `dryRun` heç nə saxlamır;
   - dəyişmiş data yeni revision olur, CMS redaktəsi isə `CONFLICT` kimi qorunur;
   - yalnız ADMIN idxal edə bilər.
+
+## 13. İctimai API (mərhələ 8)
+
+Qərarlar: [ADR-0014](adr/0014-public-read-api.md). OpenAPI: `/v3/api-docs/public`, Swagger UI: `/swagger-ui.html`.
+
+```
+GET /api/v1/...  ──► PublicApiInterceptor: dil + content_version (1 sorğu) → If-None-Match uyğundursa 304
+                      │
+                      ▼
+                 @PublicApi controller (modulun internal.web) ──► <Modul>Reader (internal.read)
+                      │                                             ├─ PublicCache (version, dil, sorğu, arqument)
+                      │                                             ├─ JdbcClient + native SQL (ADR-0003)
+                      │                                             └─ EntityLinks / PlaceLookup / Portraits (modullar arası, toplu)
+                      ▼
+                 PublicApiHeaders (2xx: ETag, Cache-Control, Vary, Content-Language)
+                 PublicApiProblems (Problem Details + no-store; köhnə slug → 301)
+```
+
+| Endpoint | Modul | Qeyd |
+|---|---|---|
+| `GET /persons` | catalog | kartlar: ad, doğum/ölüm, dövrlər, teqlər, tema, əsas portret; seçilmişlər əvvəldə |
+| `GET /persons/{slug}` | catalog | + titullar, doğum/ölüm yeri (kataloq məkanı ilə), bio, epiqraf, yaş portretləri, əlaqələr |
+| `GET /persons/{slug}/steps`, `…/steps/{stepKey}` | catalog | §10.2 forması: `{owner, contentVersion, steps}` |
+| `GET /conflicts`, `/conflicts/{slug}`, `/conflicts/{slug}/days`, `…/days/{stepKey}` | catalog | müharibə + məntəqələr, komandanlar, qəhrəmanlar, döyüşlər |
+| `GET /states`, `/states/{slug}`, `/states/{slug}/steps`, `…/steps/{stepKey}` | catalog | |
+| `GET /battles/{slug}`, `/heroes/{slug}` | catalog | qəhrəman fotosu yalnız ictimai lisenziya ilə |
+| `GET /relations?type=&slug=` | catalog | öz və addımlarının keçidləri (`OUTGOING`) + ona gələnlər (`INCOMING`) |
+| `GET /places?bbox=&minImportance=`, `/places/{slug}` | geo | `minImportance=k` → vaciblik ≤ k (1 = ən vacib); dövrlərə görə adlar, gələcək məzmun |
+| `GET /eras` | chronology | hamısı, səhifələnmir |
+| `GET /polities/{slug}`, `/rulers/{slug}` | chronology | dövrlər, faktlar, hakimiyyətlər; hökmdarın şəxsiyyət səhifəsi varsa `personAvailable` |
+| `GET /themes/{slug}` | theming | miras birləşdirilmiş; `moodOverrides` açarları böyük hərflə |
+
+- **Addım:** `stepKey, sequence, kind, date (+alternatives, note), ageAtEvent, ageApproximate, title, factualSummary, narrative, mood, claimType, claims[], location, fromLocation, route (GeoJSON), territorySnapshot, themeSlug, portrait, sources[], related[], details`. `location.slug` açıq `placeId`-dir, yoxdursa uyğunlaşdırılmış kataloq məkanı (ADR-0014).
+- **Ümumi tiplər** (`shared.read`): `ApiDate`, `ApiImage`, `ApiSource` (`slug` = dublikatsız `source` sətirinin slug-ı), `ApiLink`, `ResultPage`.
+- **Modullar arası API-lər:** `geo.api.PlaceLookup` (`bySlugs`, `nearest`, `byName`), `media.api.Portraits`, `shared.read.EntityDirectory` (catalog, geo, chronology təqdim edir), `shared.read.PlannedTitles` (catalog).
+- **Təhlükəsizlik:** `GET /api/v1/**` əvvəlki kimi açıqdır. `/v3/api-docs/**` və `/swagger-ui/**` yalnız `GET` ilə açıqdır.
+- **Testlər:**
+  - unit: dil seçimi və dərin lokallaşdırma, ETag müqayisəsi, keş, slug yönləndirməsi, media icazəsi filtri, portret seçimi, bbox, səhifələmə;
+  - inteqrasiya (`PublicApiTests`, bütün `data/` dərc olunmuş halda):
+    - hər endpoint, dillər, `304`, keşin versiya ilə yenilənməsi, Problem Details, `301`;
+    - `PENDING` media görünmür;
+    - addım sorğusunun SQL sayı addımların sayından asılı deyil (`QueryCounter`, datasource-proxy).
+- **Sonraya qalanlar:**
+  - `GET /editorial/documents/{id}/preview`: dərc olunmamış revision-ı bu formatda göstərmək üçün proyeksiyanı tranzaksiyada yazıb geri almaq lazımdır;
+  - `/soundtracks` (media, mərhələ 11);
+  - `/timeline`, `/territories`, `/polities/at`, `/polities/{slug}/ruler`, `/places/{slug}/timeline`, `/compare`, `/on-this-day`, `/search` (mərhələ 9);
+  - `openapi.json`-dan frontend tiplərinin generasiyası (mərhələ 14).

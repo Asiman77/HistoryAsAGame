@@ -2,4 +2,6 @@
 |===
 |Base package
 |`az.tarix.platform.theming`
+|Bean references
+|* `a.t.p.s.read.PublicCache` (in Shared)
 |===

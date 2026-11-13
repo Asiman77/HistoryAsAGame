@@ -2,4 +2,9 @@
 |===
 |Base package
 |`az.tarix.platform.geo`
+|Spring components
+|* `a.t.p.g.api.PlaceLookup` (via `a.t.p.g.internal.read.JdbcPlaceLookup`)
+|Bean references
+|* `a.t.p.s.read.PublicCache` (in Shared)
+* `a.t.p.s.read.EntityLinks` (in Shared)
 |===

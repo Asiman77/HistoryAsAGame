@@ -3,7 +3,12 @@
 |Base package
 |`az.tarix.platform.shared`
 |Spring components
-|* `a.t.p.s.schema.ContentSchemas`
+|* `a.t.p.s.read.ContentVersion`
+* `a.t.p.s.read.EntityLinks`
+* `a.t.p.s.read.PublicCache`
+* `a.t.p.s.read.SlugRedirects`
+* `a.t.p.s.schema.ContentSchemas`
 * `a.t.p.s.time.ClockConfiguration`
+* `a.t.p.s.web.PublicApiInterceptor`
 * `a.t.p.s.web.RequestIdFilter`
 |===

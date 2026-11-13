@@ -86,6 +86,14 @@ curl -s -X POST  localhost:8080/api/v1/admin/import             -H "Authorizatio
 Xətasız sənədlər birbaşa dərc olunur, xətalılar draft qalır (hesabatda `results[].errors`); sonra proyeksiya bir dəfə yenidən qurulur.
 Docker-də `data/` və `public/data/territories` konteynerə yalnız oxumaq üçün qoşulur ([ADR-0013](docs/adr/0013-data-import.md)).
 
+**İctimai API** (yalnız `GET`, autentifikasiyasız; `ETag` ilə `304`, dil `?lang=az|en|ru|all` və ya `Accept-Language`):
+
+```bash
+curl -s "localhost:8080/api/v1/persons/shah-ismayil/steps?lang=en" | jq '.steps[0]'
+```
+
+Bütün endpoint-lər: `/swagger-ui.html` (OpenAPI: `/v3/api-docs/public`), ətraflı: [ARCHITECTURE.md §13](docs/ARCHITECTURE.md), [ADR-0014](docs/adr/0014-public-read-api.md).
+
 `verify` həm də modul diaqramlarını `docs/modules/`-a yenidən yazır; dəyişibsə, commit edin (CI bunu yoxlayır).
 
 ## Arxitektura
