@@ -19,3 +19,4 @@ Qəbul olunmuş ADR dəyişdirilmir; yeni qərar köhnəni `Superseded by` ilə 
 | [0012](0012-projection.md) | Proyeksiya: modulların writer-ləri, idempotent proyektor, sorğu zamanı hesablanan məkan | Qəbul |
 | [0013](0013-data-import.md) | Mövcud datanın idxalı: rəysiz dərc, hash ilə idempotentlik, CMS redaktələrinin qorunması | Qəbul |
 | [0014](0014-public-read-api.md) | İctimai oxuma API-si: kontekst, keş, keçidlər, sorğu zamanı məkan | Qəbul |
+| [0015](0015-geo-chronology-queries.md) | Coğrafi və xronoloji sorğular: frontend qaydaları, xəritənin əhatəsi, kəsişmə, axtarış | Qəbul |

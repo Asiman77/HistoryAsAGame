@@ -2,6 +2,8 @@
 |===
 |Base package
 |`az.tarix.platform.chronology`
+|Spring components
+|* `a.t.p.c.api.Chronology` (via `a.t.p.c.internal.read.JdbcChronology`)
 |Bean references
 |* `a.t.p.s.read.PublicCache` (in Shared)
 * `a.t.p.s.read.EntityLinks` (in Shared)

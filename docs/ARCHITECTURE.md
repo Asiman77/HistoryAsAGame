@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 8 (ictimai API).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 9 (coğrafi və xronoloji sorğular).
 
 ## 1. Ümumi görünüş
 
@@ -135,7 +135,8 @@ Konvensiyalar:
 | 6 | Dərc + proyektorlar | ✅ |
 | 7 | İdxal | ✅ |
 | 8 | İctimai API (əsas) | ✅ |
-| 9 | Coğrafi və xronoloji sorğular | növbəti |
+| 9 | Coğrafi və xronoloji sorğular | ✅ |
+| 10 | Təhlükəsizliyin qalanı | növbəti |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -335,5 +336,46 @@ GET /api/v1/...  ──► PublicApiInterceptor: dil + content_version (1 sorğu
 - **Sonraya qalanlar:**
   - `GET /editorial/documents/{id}/preview`: dərc olunmamış revision-ı bu formatda göstərmək üçün proyeksiyanı tranzaksiyada yazıb geri almaq lazımdır;
   - `/soundtracks` (media, mərhələ 11);
-  - `/timeline`, `/territories`, `/polities/at`, `/polities/{slug}/ruler`, `/places/{slug}/timeline`, `/compare`, `/on-this-day`, `/search` (mərhələ 9);
   - `openapi.json`-dan frontend tiplərinin generasiyası (mərhələ 14).
+
+## 14. Coğrafi və xronoloji sorğular (mərhələ 9)
+
+Qərarlar: [ADR-0015](adr/0015-geo-chronology-queries.md). Qaydalar frontend-dəki ilə eynidir. Bunu `scripts/parity-history-queries.ts` yoxlayır: bütün məkanlar, ilin hər günü və 1400–2020-nin hər ili.
+
+```
+                      ┌──────────── catalog (HistoryController) ───────────────┐
+ /timeline ─────────► │ TimelineReader ─┬─ HistoryIndex ─── PlaceMatcher ──────┼──► geo.api.PlaceLookup
+ /on-this-day ──────► │                 │   (simulation_step + sahib, LATERAL)  │
+ /places/{s}/timeline►│ PlaceTimelineReader                                     ├──► geo.api.Territories
+ /compare ──────────► │ CompareReader ──┘                                       ├──► chronology.api.Chronology
+ /search ───────────► │ SearchReader ──► shared.read.SearchSource (catalog, geo, chronology)
+                      └─────────────────────────────────────────────────────────┘
+ /territories, /polities/at ──► geo (TerritoryReader)       /polities/{slug}/ruler ──► chronology (ChronologyReader)
+```
+
+| Endpoint | Modul | Qeyd |
+|---|---|---|
+| `GET /territories?year=&simplified=true` | geo | `application/geo+json` FeatureCollection. Hər dövlət bir Feature-dır (`id` = polity slug, `capital`, `vassalOf`, `labelAt`, `areaKm2`). `covered`, `prevYear`, `nextYear`, `snapshot` əlavə üzvlərdir (foreign member). |
+| `GET /polities/at?lat=&lng=&year=` | geo | Əhatəli snapshot-da nöqtəni ehtiva edən bütün dövlətlər (`ST_Intersects`, sərhəd daxil). `available` dövlət səhifəsinin olub-olmadığını göstərir. |
+| `GET /polities/{slug}/ruler?year=` | chronology | `{polity, year, exists, facts, rulers[]}`. Həmhökmdarlar və həmin il hakimiyyətin dəyişməsi bir neçə hökmdar verir. Dərc olunmamış hökmdar `available: false` ilə gəlir. |
+| `GET /timeline?year=` | catalog | `{coverage, era, themeSlug, map, capitals, rulers, persons, events, nearestEventYears}`. `persons`: yaş (`ageApproximate`) və son məlum yer. |
+| `GET /on-this-day?month=&day=` | catalog | `mode: DAY` (günə qədər dəqiq), `MONTH` (ayın hadisələri, günə görə) və ya `NONE`. Xüsusi günlərdə `commemoration` də gəlir. |
+| `GET /places/{slug}/timeline` | catalog | `{place, membership[], events[]}`. `membership` frontend-in `placeMembership` + `clipToLifetime` qaydası ilə hesablanır. |
+| `GET /compare?a=type:slug&b=type:slug` | catalog | `{a, b, overlap, intersections[]}`. Zolaqlar `person`, `state` və `conflict` ola bilər. Addımlar `battles[]` daşıyır. Kəsişmənin səbəbi `PLACE` və/və ya `BATTLE`-dır. |
+| `GET /search?q=&types=&limit=` | catalog + SPI | 2–100 simvol. `types` vergüllə ayrılır, `limit` ≤ 50. Nəticə: `{type, slug, name, fromYear, toYear, score}`. |
+
+- **İndeks hadisəsi** (`HistoryIndex.IndexEvent`): `key` (`person:shah-ismayil:ismayil-chaldiran`), `ownerType/Slug/Name`, `category` (`PERSON`/`BATTLE`/`STATE`), `stepKey`, `kind`, `mood`, `claimType`, `title`, `date`, `location {placeSlug, name, lat, lng, type}`, `eraSlug`, `themeSlug`, `image`.
+- **Modullar arası API-lər:**
+  - `geo.api.Territories`: `pick(year)`, `at(point, year)`, `holders(snapshot)`, `membership(place)`;
+  - `chronology.api.Chronology`: `eras()`, `reignsIn(year)`, `eraFor`;
+  - `shared.read.SearchSource` + `TableSearch`;
+  - `shared.read.PublicParams`: il və koordinat yoxlaması.
+- Catalog artıq real olaraq `chronology :: api`-dən asılıdır (modul diaqramı yeniləndi). Asılılıq qaydaları dəyişməyib.
+- **Performans** (lokal, isti keş): bütün yeni endpoint-lər 10–22 ms. Soyuq keşdə `/compare` ~240 ms, qalanları < 100 ms. GeoJSON gzip ilə təxminən 3 dəfə kiçilir.
+- **Testlər:**
+  - unit: `TerritoryRulesTests` (snapshot seçimi, mənsubiyyət, kəsmə), `HistoryRulesTests` (dövr, gün, müqayisə qaydaları), `PublicParamsTests`, `SearchSqlTests`;
+  - inteqrasiya: `HistoryQueriesTests`, 29 test. Yoxlananlar:
+    - hər endpoint, kənar hallar (boşluq, sıçrayış ili, mübahisəli ərazi, dərc olunmamış hökmdar, açıq hakimiyyət);
+    - `400`/`404`, `304`, dil, OpenAPI;
+    - `/timeline`-ın sorğu sayı ildən asılı deyil.
+- **Açıq sual:** dünya hadisələri (`world_event`) proyeksiya olunur, amma heç bir endpoint onları vermir. Frontend onları şəxsiyyət və dövlət səhifələrində "eyni vaxtda dünyada" bloku üçün işlədir (`pickWorldEvents`). Spesifikasiyanın §10.1 siyahısında belə endpoint yoxdur. Sürüşdürücü onları göstərmir.
