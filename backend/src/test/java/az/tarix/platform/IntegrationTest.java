@@ -25,6 +25,7 @@ import org.springframework.context.annotation.Import;
         "platform.identity.login-limit.per-address.period=1m",
         "platform.identity.login-limit.per-account.capacity=1000000",
         "platform.identity.login-limit.per-account.period=1m",
+        "platform.cors.allowed-origins=" + IntegrationTest.ALLOWED_ORIGIN,
 })
 @Import(TestcontainersConfiguration.class)
 public @interface IntegrationTest {
@@ -32,4 +33,5 @@ public @interface IntegrationTest {
     String JWT_SECRET = "dGVzdC1vbmx5LWp3dC1zZWNyZXQtZm9yLWludGVncmF0aW9uLXRlc3RzLTAxMjM0NTY3ODk=";
     String ADMIN_EMAIL = "admin@test.invalid";
     String ADMIN_PASSWORD = "correct horse battery staple";
+    String ALLOWED_ORIGIN = "https://frontend.test";
 }
