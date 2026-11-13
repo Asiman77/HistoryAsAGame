@@ -3,6 +3,12 @@
 |Base package
 |`az.tarix.platform.identity`
 |Spring components
-|* `a.t.p.i.api.SystemAccounts` (via `a.t.p.i.internal.service.JpaSystemAccounts`)
+|_Services_
+
+* `a.t.p.i.api.ClassGroups` (via `a.t.p.i.internal.service.ClassService`)
+
+_Others_
+
+* `a.t.p.i.api.SystemAccounts` (via `a.t.p.i.internal.service.JpaSystemAccounts`)
 * `a.t.p.i.api.CurrentUserProvider` (via `a.t.p.i.internal.service.SecurityCurrentUserProvider`)
 |===

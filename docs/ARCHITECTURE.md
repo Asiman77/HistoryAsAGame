@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 9 (coğrafi və xronoloji sorğular).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 10 (təhlükəsizliyin qalanı).
 
 ## 1. Ümumi görünüş
 
@@ -136,7 +136,7 @@ Konvensiyalar:
 | 7 | İdxal | ✅ |
 | 8 | İctimai API (əsas) | ✅ |
 | 9 | Coğrafi və xronoloji sorğular | ✅ |
-| 10 | Təhlükəsizliyin qalanı | növbəti |
+| 10 | Təhlükəsizliyin qalanı | ✅ |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -195,15 +195,15 @@ src/domain/dataFiles.ts ────┴─► npm run schema:export ─► share
 
 ## 9. Identity (mərhələ 4)
 
-- **Cədvəllər** (`V009__identity`): `app_user` (e-poçt kiçik hərflə, unikal; `password_hash` NULL = login edə bilməz), `user_role`, `refresh_token` (+ `family_id`). `class_group` TEACHER funksiyaları ilə (mərhələ 10) gəlir.
+- **Cədvəllər** (`V009__identity`): `app_user` (e-poçt kiçik hərflə, unikal; `password_hash` NULL = login edə bilməz), `user_role`, `refresh_token` (+ `family_id`). `class_group` (`V012`) mərhələ 10-da gəldi, §15-ə bax.
 - **Şifrələr:** Argon2id, OWASP minimumu (m = 19 MiB, t = 2, p = 1). Parametrlər hash-in içindədir; artırılarsa köhnə hash-lər növbəti login-də yenilənir. Siyasət: 12–128 simvol, e-poçt adını ehtiva etməsin (NIST 800-63B: tərkib qaydaları yox, uzunluq).
 - **Access token:** JWT HS256, 15 dəq., `iss`, `sub` (istifadəçi id), `roles`, `jti`. Açar `JWT_SECRET`-dən (Base64, ≥ 256 bit; yoxdursa tətbiq başlamır). Yoxlama: imza, `iss`, `exp` (30 san. tolerantlıq), `sub` məcburi.
 - **Refresh token:** qeyri-şəffaf 256 bit təsadüfi sətir, bazada yalnız SHA-256. Hər refresh köhnəni ləğv edib yenisini verir (rotasiya). Artıq istifadə olunmuş token yenidən gələrsə, həmin login-in **bütün ailəsi** ləğv olunur (oğurlanmış token-in həm oğruda, həm sahibində işləməsi dayanır); istifadəçinin digər sessiyalarına toxunulmur. Eyni token ilə paralel refresh sətir kilidi (`SELECT … FOR UPDATE`) ilə bloklanır.
 - **Endpoint-lər** (`/api/v1/auth`): `POST /login`, `POST /refresh`, `POST /logout` (həmişə 204), `GET /me`. Token cavabları `Cache-Control: no-store`. Uğursuz login-in bütün səbəbləri (naməlum e-poçt, səhv şifrə, deaktiv hesab) eyni 401 cavabını verir; naməlum e-poçt üçün də Argon2 yoxlaması işləyir (vaxta görə hesab mövcudluğunu təxmin etmək olmasın).
-- **Giriş qaydaları:** `GET /api/v1/**` açıq; `/api/v1/{auth,editorial,admin,analytics}/**` və bütün digər metodlar token tələb edir; `/actuator/health`, `/actuator/info` açıq, digər actuator endpoint-ləri ADMIN. 401/403 Problem Details (`…/problems/unauthorized`, `…/problems/forbidden`) + `WWW-Authenticate: Bearer`. Rol qaydaları modullarda `@PreAuthorize` ilə.
+- **Giriş qaydaları:** `GET /api/v1/**` açıq; `/api/v1/{auth,editorial,admin,analytics,teacher}/**` və bütün digər metodlar token tələb edir; `/actuator/health`, `/actuator/info` açıq, digər actuator endpoint-ləri ADMIN. 401/403 Problem Details (`…/problems/unauthorized`, `…/problems/forbidden`) + `WWW-Authenticate: Bearer`. Rol qaydaları modullarda `@PreAuthorize` ilə.
 - **Admin bootstrap:** `ADMIN_EMAIL` + `ADMIN_PASSWORD` verilibsə və hesab yoxdursa, ADMIN yaradılır. Mövcud hesab heç vaxt dəyişdirilmir; zəif şifrə startup-ı dayandırır. Kodda heç bir default şifrə yoxdur. Loglara e-poçt, şifrə və token yazılmır.
 - **Digər modullar üçün API:** `identity.api.CurrentUserProvider` → `CurrentUser(id, roles)`, `Role`.
-- Login rate limiting (Bucket4j) mərhələ 10-dadır.
+- Login rate limiting, CORS, başlıqlar, hesab idarəetməsi: §15.
 
 ## 10. Redaksiya (mərhələ 5)
 
@@ -379,3 +379,21 @@ Qərarlar: [ADR-0015](adr/0015-geo-chronology-queries.md). Qaydalar frontend-də
     - `400`/`404`, `304`, dil, OpenAPI;
     - `/timeline`-ın sorğu sayı ildən asılı deyil.
 - **Açıq sual:** dünya hadisələri (`world_event`) proyeksiya olunur, amma heç bir endpoint onları vermir. Frontend onları şəxsiyyət və dövlət səhifələrində "eyni vaxtda dünyada" bloku üçün işlədir (`pickWorldEvents`). Spesifikasiyanın §10.1 siyahısında belə endpoint yoxdur. Sürüşdürücü onları göstərmir.
+
+## 15. Təhlükəsizliyin qalanı (mərhələ 10)
+
+Qərarlar: [ADR-0016](adr/0016-security-hardening.md).
+
+- **Login limiti** (Bucket4j, `platform.identity.login-limit.*`): ünvan üzrə 20/dəq., hesab üzrə 10/15 dəq. Limit şifrə yoxlamasından əvvəl yoxlanır. Hesab bloklanmır, sadəcə yavaşıdılır. Cavab `429` + `Retry-After`. `POST /auth/password` da eyni limitdən keçir. Vedrələr yaddaşdadır (bir instansiya). Ünvan `getRemoteAddr()`-dir; reverse proxy əlavə olunanda forward başlıqları etibarlı proxy ilə birlikdə qurulmalıdır.
+- **CORS:** `CORS_ALLOWED_ORIGINS` (dəqiq origin-lər, `*` yox, səhv yazılış startup-ı dayandırır). Credentials yoxdur, token `Authorization`-dadır. Açıq başlıqlar: `ETag`, `Location`, `Retry-After`, `Content-Language`, `X-Request-Id`. `local` profili və compose: `http://localhost:3000`.
+- **Başlıqlar:** `nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: DENY`, API üçün `Content-Security-Policy: default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'`. Swagger UI-nin öz CSP-si var.
+- **Hesablar** (ADMIN, `/api/v1/admin/users`):
+  - `GET` (rol və mətn filtri; sistem hesabları gizlidir), `POST` (rollar + ilk şifrə), `GET/PATCH /{id}` (ad, rollar, aktivlik), `PUT /{id}/password`;
+  - admin özünü deaktiv edə, öz ADMIN rolunu silə bilməz; son aktiv admin qalır;
+  - deaktiv etmək, rolu dəyişmək, şifrə qoymaq istifadəçinin bütün sessiyalarını bitirir;
+  - hər kəs: `POST /api/v1/auth/password` (cari şifrə tələb olunur), bütün sessiyalar bitir;
+  - xəta kodları: `duplicate-email`, `self-lockout`, `last-admin`, `invalid-password`, `wrong-password`.
+- **Siniflər** (`V012__class_group`): TEACHER `/api/v1/teacher/classes` altında öz siniflərini yaradır, siyahılayır, adını dəyişir, silir. Kod 6 simvoldur, oxşar hərflərsizdir (31⁶). Başqasının sinfi `404` verir. ADMIN: `GET /api/v1/admin/classes`. Analitika üçün API: `identity.api.ClassGroups` (`byCode`, `ownedBy`).
+- **İcazə matrisi:** `PermissionMatrixTests` — 37 qeyri-ictimai endpoint × 5 çağıran (anonim + 4 rol), 183 dinamik test. Matrisdə olmayan endpoint testi sındırır; `@PublicApi` controller-lərdə yalnız `GET` var.
+- **Asılılıq yoxlaması:** OWASP Dependency-Check 13.0.0, `./mvnw dependency-check:check` (fazaya bağlı deyil). CI: `.github/workflows/backend-dependencies.yml`, `pom.xml` dəyişəndə və həftəlik; CVSS ≥ 7 build-i dayandırır. Yanlış pozitivlər `backend/dependency-check-suppressions.xml`-də (səbəb + `until`). **`NVD_API_KEY` repo secret-i məcburidir** (lokalda: `-DnvdApiKey=…`); açarsız NVD yükləməsi işləmir.
+- **Testlər:** `LoginRateLimiterTests`, `LoginRateLimitTests`, `CorsPropertiesTests`, `SecurityHeadersTests`, `AccountManagementTests`, `ClassCodeTests`, `TeacherClassTests`, `PermissionMatrixTests`.
