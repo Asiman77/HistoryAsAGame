@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  False positives of OWASP Dependency-Check (./mvnw dependency-check:check).
+  Each rule needs a <notes> line saying why it does not apply and an `until` date,
+  so it gets looked at again. Unused rules fail the build.
+-->
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+</suppressions>

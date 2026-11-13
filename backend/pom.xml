@@ -27,6 +27,8 @@
         <datasource-proxy.version>1.11.1</datasource-proxy.version>
         <!-- Checked on Maven Central 2026-11-14 (latest GA). -->
         <bucket4j.version>8.22.0</bucket4j.version>
+        <!-- Checked on Maven Central 2026-11-14 (latest GA). Run: ./mvnw dependency-check:check -->
+        <dependency-check.version>13.0.0</dependency-check.version>
         <!-- shared/schema is copied onto the classpath under schema/ (single source, ADR-0005). -->
         <shared.schema.dir>${project.basedir}/../shared/schema</shared.schema.dir>
         <!-- Docker image used by Testcontainers and docker/docker-compose.yml. -->
@@ -230,6 +232,33 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <!-- Known vulnerabilities in dependencies (BACKEND_SPEC §13). Not bound to a phase:
+                     the CI job "Dependency vulnerabilities" runs it on its own. -->
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${dependency-check.version}</version>
+                <configuration>
+                    <!-- Needs an NVD API key: -DnvdApiKey=… (CI passes the NVD_API_KEY secret).
+                         Without one, 13.0.0 sends an empty key ("Invalid apiKey"), and keyless
+                         downloads hit NVD's 503 rate limit anyway (checked 2026-11-14). -->
+                    <failBuildOnCVSS>7</failBuildOnCVSS>
+                    <suppressionFiles>
+                        <suppressionFile>${project.basedir}/dependency-check-suppressions.xml</suppressionFile>
+                    </suppressionFiles>
+                    <failBuildOnUnusedSuppressionRule>true</failBuildOnUnusedSuppressionRule>
+                    <formats>
+                        <format>HTML</format>
+                        <format>JSON</format>
+                    </formats>
+                    <!-- Java only: no JS or .NET here, and OSS Index needs an account. -->
+                    <ossIndexAnalyzerEnabled>false</ossIndexAnalyzerEnabled>
+                    <nodeAnalyzerEnabled>false</nodeAnalyzerEnabled>
+                    <nodeAuditAnalyzerEnabled>false</nodeAuditAnalyzerEnabled>
+                    <retireJsAnalyzerEnabled>false</retireJsAnalyzerEnabled>
+                    <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
