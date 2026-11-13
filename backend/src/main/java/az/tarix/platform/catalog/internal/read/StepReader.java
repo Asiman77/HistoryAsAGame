@@ -1,7 +1,5 @@
 package az.tarix.platform.catalog.internal.read;
 
-import az.tarix.platform.geo.api.PlaceLookup;
-import az.tarix.platform.geo.api.PlaceLookup.Point;
 import az.tarix.platform.geo.api.PlaceSummary;
 import az.tarix.platform.media.api.ApiPortrait;
 import az.tarix.platform.media.api.Portraits;
@@ -110,10 +108,10 @@ public class StepReader {
 
     private final JdbcClient jdbc;
     private final EntityLinks links;
-    private final PlaceLookup places;
+    private final PlaceMatcher places;
     private final Portraits portraits;
 
-    StepReader(JdbcClient jdbc, EntityLinks links, PlaceLookup places, Portraits portraits) {
+    StepReader(JdbcClient jdbc, EntityLinks links, PlaceMatcher places, Portraits portraits) {
         this.jdbc = jdbc;
         this.links = links;
         this.portraits = portraits;
@@ -184,36 +182,18 @@ public class StepReader {
                 rs.getString(prefix + "_place_slug"));
     }
 
-    /**
-     * The catalogue place of every location (ADR-0012, the frontend's rules): the explicit
-     * {@code placeId}; otherwise for war days a place with the same name, for the other steps the
-     * nearest place within 30 km. One query per rule.
-     */
+    /** The catalogue place of every location (ADR-0012), see {@link PlaceMatcher}. */
     private Map<RawLocation, PlaceSummary> matchPlaces(List<Row> rows) {
-        List<RawLocation> explicit = new ArrayList<>();
-        List<RawLocation> byName = new ArrayList<>();
-        List<RawLocation> byDistance = new ArrayList<>();
+        record Item(RawLocation location, boolean warDay) {}
+        List<Item> items = new ArrayList<>();
         for (Row r : rows) {
             for (RawLocation l : new RawLocation[] {r.location(), r.from()}) {
-                if (l == null) continue;
-                if (l.placeSlug() != null) explicit.add(l);
-                else if (r.kind() == StepKind.WAR_DAY) byName.add(l);
-                else byDistance.add(l);
+                if (l != null) items.add(new Item(l, r.kind() == StepKind.WAR_DAY));
             }
         }
         Map<RawLocation, PlaceSummary> out = new HashMap<>();
-        Map<String, PlaceSummary> bySlug = places.bySlugs(explicit.stream().map(RawLocation::placeSlug).distinct().toList());
-        for (RawLocation l : explicit) {
-            PlaceSummary p = bySlug.get(l.placeSlug());
-            if (p != null) out.put(l, p);
-        }
-        Map<String, PlaceSummary> named = places.byName(byName.stream().map(l -> l.name().path("az").asString("")).distinct().toList());
-        for (RawLocation l : byName) {
-            PlaceSummary p = named.get(l.name().path("az").asString(""));
-            if (p != null) out.put(l, p);
-        }
-        List<PlaceSummary> nearest = places.nearest(byDistance.stream().map(l -> new Point(l.lat(), l.lng())).toList());
-        for (int i = 0; i < byDistance.size(); i++) if (nearest.get(i) != null) out.put(byDistance.get(i), nearest.get(i));
+        places.match(items, i -> new PlaceMatcher.Query(i.location().placeSlug(), i.location().name().path("az").asString(""),
+                i.location().lat(), i.location().lng(), i.warDay())).forEach((i, p) -> out.put(i.location(), p));
         return out;
     }
 
