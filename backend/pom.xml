@@ -24,6 +24,7 @@
         <bouncycastle.version>1.86</bouncycastle.version>
         <!-- springdoc 3.2 is built against Spring Boot 4.1.2 (checked 2026-11-13). -->
         <springdoc.version>3.2.0</springdoc.version>
+        <datasource-proxy.version>1.11.1</datasource-proxy.version>
         <!-- shared/schema is copied onto the classpath under schema/ (single source, ADR-0005). -->
         <shared.schema.dir>${project.basedir}/../shared/schema</shared.schema.dir>
         <!-- Docker image used by Testcontainers and docker/docker-compose.yml. -->
@@ -162,6 +163,13 @@
         <dependency>
             <groupId>org.springframework.modulith</groupId>
             <artifactId>spring-modulith-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!-- Counts SQL statements per request (N+1 checks, BACKEND_SPEC.md §14). -->
+            <groupId>net.ttddyy</groupId>
+            <artifactId>datasource-proxy</artifactId>
+            <version>${datasource-proxy.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

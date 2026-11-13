@@ -6,7 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
-/** PostgreSQL + PostGIS, the same image as docker/docker-compose.yml (version pinned in pom.xml). */
+/**
+ * PostgreSQL + PostGIS, the same image as docker/docker-compose.yml (version pinned in pom.xml),
+ * and a {@link QueryCounter} around the DataSource.
+ */
 @TestConfiguration(proxyBeanMethods = false)
 public class TestcontainersConfiguration {
 
@@ -16,5 +19,10 @@ public class TestcontainersConfiguration {
     @ServiceConnection
     PostgreSQLContainer postgres() {
         return new PostgreSQLContainer(DockerImageName.parse(IMAGE).asCompatibleSubstituteFor("postgres"));
+    }
+
+    @Bean
+    static QueryCounter queryCounter() {
+        return new QueryCounter();
     }
 }
