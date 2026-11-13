@@ -4,7 +4,6 @@ import az.tarix.platform.editorial.internal.importing.DataFolder.Doc;
 import az.tarix.platform.shared.domain.PermissionStatus;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import tools.jackson.databind.JsonNode;
 
 /**
@@ -19,14 +18,9 @@ public final class MediaPermissions {
 
     private MediaPermissions() {}
 
-    /** ADR-0010, first matching rule wins. */
+    /** ADR-0010, first matching rule wins ({@link PermissionStatus#fromLicense}). */
     public static PermissionStatus classify(String explicitStatus, String license, String backgroundArtKind) {
-        if (explicitStatus != null && !explicitStatus.isBlank()) return PermissionStatus.valueOf(explicitStatus.toUpperCase(Locale.ROOT));
-        String l = license == null ? "" : license.strip().toLowerCase(Locale.ROOT);
-        if (l.startsWith("public domain") || l.startsWith("cc0")) return PermissionStatus.NOT_REQUIRED;
-        if (l.startsWith("layihə lisenziyası") || "own".equals(backgroundArtKind)) return PermissionStatus.NOT_REQUIRED;
-        if (l.startsWith("cc by")) return PermissionStatus.NOT_REQUIRED;
-        return PermissionStatus.PENDING;
+        return PermissionStatus.fromLicense(explicitStatus, license, backgroundArtKind);
     }
 
     /** Every image and recording with a file in the document. Portraits without {@code src} are placeholders, not media. */
