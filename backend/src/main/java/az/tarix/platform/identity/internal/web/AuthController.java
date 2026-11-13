@@ -7,13 +7,18 @@ import az.tarix.platform.identity.internal.persistence.AppUserRepository;
 import az.tarix.platform.identity.internal.service.AuthService;
 import az.tarix.platform.identity.internal.service.AuthService.TokenPair;
 import az.tarix.platform.identity.internal.service.AuthenticationFailedException;
+import az.tarix.platform.identity.internal.service.LoginRateLimiter;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.net.URI;
+import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -33,15 +38,18 @@ import org.springframework.web.bind.annotation.RestController;
 class AuthController {
 
     static final URI AUTH_FAILED = URI.create("https://tarixin-icinde.az/problems/authentication-failed");
+    static final URI TOO_MANY_REQUESTS = URI.create("https://tarixin-icinde.az/problems/too-many-requests");
 
     private final AuthService auth;
     private final CurrentUserProvider currentUser;
     private final AppUserRepository users;
+    private final LoginRateLimiter limiter;
 
-    AuthController(AuthService auth, CurrentUserProvider currentUser, AppUserRepository users) {
+    AuthController(AuthService auth, CurrentUserProvider currentUser, AppUserRepository users, LoginRateLimiter limiter) {
         this.auth = auth;
         this.currentUser = currentUser;
         this.users = users;
+        this.limiter = limiter;
     }
 
     record LoginRequest(@NotBlank @Size(max = 254) String email, @NotBlank @Size(max = 128) String password) {}
@@ -57,9 +65,24 @@ class AuthController {
 
     record Me(UUID id, String email, String displayName, List<Role> roles) {}
 
+    /**
+     * Rate limited per client address and per account (BACKEND_SPEC.md §13) before the password
+     * is even checked, so throttled attempts cost no Argon2 work.
+     */
     @PostMapping("/login")
-    ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginRequest body) {
+    ResponseEntity<?> login(@Valid @RequestBody LoginRequest body, HttpServletRequest request) {
+        Optional<Duration> wait = limiter.tryAttempt(request.getRemoteAddr(), body.email());
+        if (wait.isPresent()) return tooManyAttempts(wait.get());
         return tokens(auth.login(body.email(), body.password()));
+    }
+
+    /** 429 with {@code Retry-After} (RFC 6585 §4). The same answer whichever limit was hit. */
+    static ResponseEntity<ProblemDetail> tooManyAttempts(Duration wait) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.TOO_MANY_REQUESTS,
+                "Too many login attempts. Try again in " + wait.toSeconds() + " seconds.");
+        problem.setType(TOO_MANY_REQUESTS);
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).cacheControl(CacheControl.noStore())
+                .header(HttpHeaders.RETRY_AFTER, Long.toString(wait.toSeconds())).body(problem);
     }
 
     @PostMapping("/refresh")

@@ -19,6 +19,12 @@ import org.springframework.context.annotation.Import;
         "platform.identity.jwt-secret=" + IntegrationTest.JWT_SECRET,
         "platform.identity.admin.email=" + IntegrationTest.ADMIN_EMAIL,
         "platform.identity.admin.password=" + IntegrationTest.ADMIN_PASSWORD,
+        // Every test logs in from 127.0.0.1, often as the same admin: no throttling here.
+        // LoginRateLimitTests checks the limits with their own, low values.
+        "platform.identity.login-limit.per-address.capacity=1000000",
+        "platform.identity.login-limit.per-address.period=1m",
+        "platform.identity.login-limit.per-account.capacity=1000000",
+        "platform.identity.login-limit.per-account.period=1m",
 })
 @Import(TestcontainersConfiguration.class)
 public @interface IntegrationTest {

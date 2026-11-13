@@ -25,6 +25,8 @@
         <!-- springdoc 3.2 is built against Spring Boot 4.1.2 (checked 2026-11-13). -->
         <springdoc.version>3.2.0</springdoc.version>
         <datasource-proxy.version>1.11.1</datasource-proxy.version>
+        <!-- Checked on Maven Central 2026-11-14 (latest GA). -->
+        <bucket4j.version>8.22.0</bucket4j.version>
         <!-- shared/schema is copied onto the classpath under schema/ (single source, ADR-0005). -->
         <shared.schema.dir>${project.basedir}/../shared/schema</shared.schema.dir>
         <!-- Docker image used by Testcontainers and docker/docker-compose.yml. -->
@@ -127,6 +129,12 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
+        </dependency>
+        <!-- Rate limiting (login now, analytics events in phase 12). -->
+        <dependency>
+            <groupId>com.bucket4j</groupId>
+            <artifactId>bucket4j_jdk17-core</artifactId>
+            <version>${bucket4j.version}</version>
         </dependency>
 
         <!-- Test -->
