@@ -134,7 +134,7 @@ Konvensiyalar:
 | 5 | Redaksiya | ✅ |
 | 6 | Dərc + proyektorlar | ✅ |
 | 7 | İdxal | ✅ |
-| 8 | İctimai API (əsas) | kod hazırdır; inteqrasiya testləri hələ işlədilməyib |
+| 8 | İctimai API (əsas) | ✅ |
 | 9 | Coğrafi və xronoloji sorğular | növbəti |
 
 ## 6. İş mühiti (mərhələ 1)

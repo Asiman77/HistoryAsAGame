@@ -225,8 +225,10 @@ class AuthFlowTests {
 
     @Test
     void publicReadApiIsOpenAndEverythingElseNeedsAToken() {
-        // No such resource yet, but anonymous GETs reach the application (404, not 401).
-        assertThat(http().get().uri("/api/v1/persons").retrieve().toBodilessEntity().getStatusCode().value()).isEqualTo(404);
+        // Anonymous GETs reach the application: a public resource answers, an unknown one is 404 (not 401).
+        assertThat(http().get().uri("/api/v1/persons").retrieve().toBodilessEntity().getStatusCode().value()).isEqualTo(200);
+        assertThat(http().get().uri("/api/v1/no-such-resource").retrieve().toBodilessEntity().getStatusCode().value())
+                .isEqualTo(404);
         assertThat(http().get().uri("/api/v1/editorial/documents").retrieve().toBodilessEntity().getStatusCode().value())
                 .isEqualTo(401);
         assertThat(http().post().uri("/api/v1/persons").retrieve().toBodilessEntity().getStatusCode().value()).isEqualTo(401);
