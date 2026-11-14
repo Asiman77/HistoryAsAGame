@@ -21,3 +21,4 @@ Qəbul olunmuş ADR dəyişdirilmir; yeni qərar köhnəni `Superseded by` ilə 
 | [0014](0014-public-read-api.md) | İctimai oxuma API-si: kontekst, keş, keçidlər, sorğu zamanı məkan | Qəbul |
 | [0015](0015-geo-chronology-queries.md) | Coğrafi və xronoloji sorğular: frontend qaydaları, xəritənin əhatəsi, kəsişmə, axtarış | Qəbul |
 | [0016](0016-security-hardening.md) | Təhlükəsizliyin qalanı: login limiti, CORS, sinif kodları, icazə matrisi, asılılıq yoxlaması | Qəbul |
+| [0017](0017-media-registry.md) | Media reyestri: məzmunda `media:<id>` istinadı, mövcud fayllar `LINKED`, icazə oxuda tətbiq olunur | Qəbul |

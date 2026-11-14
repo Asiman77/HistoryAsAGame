@@ -8,4 +8,5 @@
 |* `a.t.p.e.api.ContentArchived` (async) 
 * `a.t.p.e.api.ContentPublished` (async) 
 * `a.t.p.e.api.ContentImported` (async) 
+* `a.t.p.m.api.MediaAssetChanged` (async) 
 |===

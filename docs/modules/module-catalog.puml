@@ -27,7 +27,7 @@ System_Boundary("PlatformApplication_boundary", "PlatformApplication", $tags="")
 }
 
 Rel(PlatformApplication.PlatformApplication.Geo, PlatformApplication.PlatformApplication.Shared, "uses", $techn="", $tags="", $link="")
-Rel(PlatformApplication.PlatformApplication.Media, PlatformApplication.PlatformApplication.Shared, "depends on", $techn="", $tags="", $link="")
+Rel(PlatformApplication.PlatformApplication.Media, PlatformApplication.PlatformApplication.Shared, "uses", $techn="", $tags="", $link="")
 Rel(PlatformApplication.PlatformApplication.Chronology, PlatformApplication.PlatformApplication.Shared, "uses", $techn="", $tags="", $link="")
 Rel(PlatformApplication.PlatformApplication.Catalog, PlatformApplication.PlatformApplication.Shared, "uses", $techn="", $tags="", $link="")
 Rel(PlatformApplication.PlatformApplication.Catalog, PlatformApplication.PlatformApplication.Chronology, "uses", $techn="", $tags="", $link="")

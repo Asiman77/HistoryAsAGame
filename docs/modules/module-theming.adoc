@@ -4,4 +4,5 @@
 |`az.tarix.platform.theming`
 |Bean references
 |* `a.t.p.s.read.PublicCache` (in Shared)
+* `a.t.p.s.read.MediaFiles` (in Shared)
 |===

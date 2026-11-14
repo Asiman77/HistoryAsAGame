@@ -62,11 +62,11 @@ curl http://localhost:8080/actuator/health  # {"status":"UP",...}
 ```
 
 Servislər: `db` (PostgreSQL 18 + PostGIS 3.7, `127.0.0.1:${DB_PORT}`), `s3` (SeaweedFS, S3 API `127.0.0.1:8333`;
-`media` və `public-content` bucket-lərini `s3-init` yaradır), `backend` (`127.0.0.1:${BACKEND_PORT}`).
+`media` və `public-content` bucket-lərini `s3-init` yaradır; `media` anonim oxunur), `backend` (`127.0.0.1:${BACKEND_PORT}`).
 5432 portu məşğuldursa, `docker/.env`-də `DB_PORT`-u dəyişin. Dayandırmaq: `docker compose -f docker/docker-compose.yml down`
 (`-v` əlavə etsəniz, data da silinir).
 
-**Backend-i lokalda build və test etmək** (JDK 25 və işləyən Docker lazımdır; testlər PostGIS-i Testcontainers ilə qaldırır):
+**Backend-i lokalda build və test etmək** (JDK 25 və işləyən Docker lazımdır; testlər PostGIS-i və SeaweedFS-i Testcontainers ilə qaldırır):
 
 ```bash
 cd backend

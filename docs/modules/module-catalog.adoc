@@ -6,6 +6,7 @@
 |* `a.t.p.s.read.PublicCache` (in Shared)
 * `a.t.p.s.read.EntityLinks` (in Shared)
 * `a.t.p.c.api.Chronology` (in Chronology)
+* `a.t.p.s.read.MediaFiles` (in Shared)
 * `a.t.p.g.api.PlaceLookup` (in Geo)
 * `a.t.p.m.api.Portraits` (in Media)
 * `a.t.p.g.api.Territories` (in Geo)

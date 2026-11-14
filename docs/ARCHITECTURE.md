@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 10 (təhlükəsizliyin qalanı).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 11 (media).
 
 ## 1. Ümumi görünüş
 
@@ -108,7 +108,7 @@ Konvensiyalar:
 ### media
 | Cədvəl | Sütunlar | İndekslər |
 |---|---|---|
-| `media_asset` | spesifikasiyadakı kimi + `checksum` | `INDEX (permission_status)`, `UNIQUE (storage_key)` |
+| `media_asset` | spesifikasiyadakı kimi + `checksum`, `origin` (`UPLOAD`/`LINKED`, ADR-0017), `updated_at`, `version` | `INDEX (permission_status)`, `INDEX (created_at)`, `UNIQUE (storage_key)` |
 | `portrait` | `id`, `owner_type`, `owner_slug`, `age_from`, `age_to`, `media_id NULL`, `kind`, `alt LT`, `caption LT`, `prompt_id`, `sort_order`, `document_id` | `INDEX (owner_type, owner_slug)` |
 | `soundtrack_track` | `id`, `slug`, `conflict_slug`, `title LT`, `performer`, `media_id NULL`, `moods text[]`, `license`, `permission_status`, `rights_holder`, `document_id` | `UNIQUE (slug)`, `GIN (moods)` |
 
@@ -137,6 +137,7 @@ Konvensiyalar:
 | 8 | İctimai API (əsas) | ✅ |
 | 9 | Coğrafi və xronoloji sorğular | ✅ |
 | 10 | Təhlükəsizliyin qalanı | ✅ |
+| 11 | Media | ✅ |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -229,7 +230,7 @@ src/domain/dataFiles.ts ────┴─► npm run schema:export ─► share
 
 - **Xətalar** (Problem Details, `…/problems/<type>`): `not-found` 404, `forbidden` 403, `conflict` 409 (`code`: `duplicate-slug`, `invalid-transition`, `archived`, `comment-required`…), `precondition-required` 428, `precondition-failed` 412, `validation-failed` 422, `content-too-large` 413 (> 5 MiB), `bad-request` 400. Bütün cavablar `Cache-Control: no-store`.
 - **Event-lər** (`editorial.api`): `ContentPublished(documentId, docType, slug, revisionId, revisionNo)`, `ContentArchived(…, wasPublished)`. Dinləyici mərhələ 6-da gəlir (`publishing`).
-- **Sonraya qalanlar:** `GET /{id}/preview` (ictimai API formatı mərhələ 8-dədir), `/media/*` (mərhələ 11), `assignedToMe` filtri (təyinat modeli yoxdur; hələlik `mine=true`), slug dəyişmə endpoint-i (`slug_redirect` cədvəli hazırdır), daxili naməlum açarlar üçün `WARNING` (hələlik yalnız yuxarı səviyyədəki bölmələr).
+- **Sonraya qalanlar:** `GET /{id}/preview` (ictimai API formatı mərhələ 8-dədir), `assignedToMe` filtri (təyinat modeli yoxdur; hələlik `mine=true`), slug dəyişmə endpoint-i (`slug_redirect` cədvəli hazırdır), daxili naməlum açarlar üçün `WARNING` (hələlik yalnız yuxarı səviyyədəki bölmələr).
 
 ## 11. Dərc və proyeksiya (mərhələ 6)
 
@@ -335,7 +336,6 @@ GET /api/v1/...  ──► PublicApiInterceptor: dil + content_version (1 sorğu
     - addım sorğusunun SQL sayı addımların sayından asılı deyil (`QueryCounter`, datasource-proxy).
 - **Sonraya qalanlar:**
   - `GET /editorial/documents/{id}/preview`: dərc olunmamış revision-ı bu formatda göstərmək üçün proyeksiyanı tranzaksiyada yazıb geri almaq lazımdır;
-  - `/soundtracks` (media, mərhələ 11);
   - `openapi.json`-dan frontend tiplərinin generasiyası (mərhələ 14).
 
 ## 14. Coğrafi və xronoloji sorğular (mərhələ 9)
@@ -397,3 +397,41 @@ Qərarlar: [ADR-0016](adr/0016-security-hardening.md).
 - **İcazə matrisi:** `PermissionMatrixTests` — 37 qeyri-ictimai endpoint × 5 çağıran (anonim + 4 rol), 183 dinamik test. Matrisdə olmayan endpoint testi sındırır; `@PublicApi` controller-lərdə yalnız `GET` var.
 - **Asılılıq yoxlaması:** OWASP Dependency-Check 13.0.0, `./mvnw dependency-check:check` (fazaya bağlı deyil). CI: `.github/workflows/backend-dependencies.yml`, `pom.xml` dəyişəndə və həftəlik; CVSS ≥ 7 build-i dayandırır. Yanlış pozitivlər `backend/dependency-check-suppressions.xml`-də (səbəb + `until`). **`NVD_API_KEY` repo secret-i məcburidir** (lokalda: `-DnvdApiKey=…`); açarsız NVD yükləməsi işləmir.
 - **Testlər:** `LoginRateLimiterTests`, `LoginRateLimitTests`, `CorsPropertiesTests`, `SecurityHeadersTests`, `AccountManagementTests`, `ClassCodeTests`, `TeacherClassTests`, `PermissionMatrixTests`.
+
+## 16. Media (mərhələ 11)
+
+Qərarlar: [ADR-0017](adr/0017-media-registry.md). S3 müştərisi: AWS SDK v2 2.59.1 (yalnız sync, Apache HTTP; checksum `WHEN_REQUIRED` — S3-uyğun anbarlar üçün).
+
+```
+Redaktor ─► POST /editorial/media/uploads {mimeType, sizeBytes} ─► allowlist + ölçü ─► presigned PUT (15 dəq.)
+        ─► PUT <url> (fayl birbaşa S3-ə, backend-dən keçmir)
+        ─► POST /editorial/media {storageKey, license, …} ─► HEAD + ilk baytlar + SHA-256 ─► media_asset (status lisenziyadan)
+        ─► məzmunda src/url/file = "media:<id>"
+ADMIN ──► PATCH /editorial/media/{id} {permissionStatus: GRANTED} (If-Match) ─► MediaAssetChanged ─► publishing: content_version + 1
+
+İctimai oxu: <Modul>Reader ─► ApiImage.of(şəkil, dil, MediaFiles.at(contentVersion)) ─► reyestrə görə göstər / gizlət
+```
+
+- **Miqrasiya `V013__media_registry`:** `origin` (`UPLOAD`/`LINKED`), `updated_at`. CHECK-lər: yükləmənin açarı `uploads/…`-dir və `mime_type`, `size_bytes`, `checksum` doludur; `LINKED` açarı `/` və ya `http(s)://` ilə başlayır.
+- **Modullar arası API-lər:**
+  - `media.api.MediaRegistry`: `find(refs)` (validasiya üçün, həmişə cari vəziyyət), `registerLinked(files)` (idxal üçün);
+  - `media.api.MediaAssetChanged`: `publishing` dinləyir → `Projector.touch()`;
+  - `shared.read.MediaFiles` / `MediaIndex`: ictimai oxu üçün, `content_version` üzrə keşlənir. `catalog`, `chronology`, `theming` və `media` oxuyucuları bunu istifadə edir; `ApiImage.of` və `ofPhoto` indeks qəbul edir.
+- **Endpoint-lər** (`/api/v1/editorial/media`, AUTHOR/REVIEWER/ADMIN; hamısı `no-store`):
+
+| Metod və yol | Qeyd |
+|---|---|
+| `POST /uploads` | `{mimeType, sizeBytes}` → `{storageKey, url, method: PUT, headers, expiresAt, maxSizeBytes}`. Tip allowlist-də deyilsə 422 `unsupported-type`, böyükdürsə 413 |
+| `POST /` | `{storageKey, license, title?, caption?, sourceUrl?, rightsHolder?, aiGenerated?, aiDisclosureLabel?, width?, height?, durationMs?}` → 201, `Location`, `ETag`. Xəta kodları: `invalid-storage-key`, `upload-missing`, `content-type-mismatch`, `content-mismatch`, `empty-file`, `license-required`, `already-registered` (409); 413 `file-too-large`. Uyğun gəlməyən obyekt silinir |
+| `GET /` | `type`, `status`, `origin`, `q` (açar, lisenziya, hüquq sahibi, az başlıq), `limit` ≤ 200, `offset` |
+| `GET /{id}` | `ETag` = versiya; cavabda `ref` (`media:<id>`) və `url` |
+| `PATCH /{id}` | JSON Merge Patch; `If-Match` məcburi (428/412). `grant-requires-admin`, `deny-requires-reviewer` (403), `permission-not-applicable`, `unknown-field` |
+
+- **İctimai:** `GET /api/v1/soundtracks?mood=&conflict=` — yalnız səsləndirilə bilən treklər. Bugünkü data-da hər iki trekin icazəsi gözlənilir, ona görə siyahı boşdur.
+- **İdxal:** data-dakı lisenziyalı bütün fayllar `LINKED` kimi qeyd olunur (`importer@system.invalid` adından). Hesabatda `mediaRegistry: {registered, existing}` var. İkinci idxal heç nə qeyd etmir. Yalnız media qeyd olunubsa (dərc yoxdursa), `MediaAssetChanged` atılır.
+- **Gecəlik iş:** `OrphanUploadCleanup` (`platform.media.orphan-cleanup-cron`, 03:30) — 24 saatdan köhnə, qeyd olunmamış `uploads/` obyektlərini silir.
+- **Konfiqurasiya** (`platform.media.*`): `S3_ENDPOINT`, `S3_PRESIGN_ENDPOINT` (brauzerin gördüyü ünvan; presigned URL host-u imzalayır), `S3_REGION`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_MEDIA_BUCKET`, `MEDIA_PUBLIC_BASE_URL`; ölçü hədləri `max-size.{image,audio,geojson}`. Endpoint boşdursa AWS default-ları işləyir. Compose: SeaweedFS-də `anonymous` identity yalnız `Read:media` hüququna malikdir.
+- **Testlər:**
+  - unit: `FileTypeTests` (allowlist, imzalar, adı dəyişdirilmiş HTML), `PermissionPolicyTests`, `MediaPropertiesTests`, `PublicValuesTests` (reyestrə görə göstər/gizlət), `DocumentValidatorTests` (`media-not-found`, `media-permission`, `media-type`, lisenziya fərqi, reyestrdə AI);
+  - inteqrasiya (S3 ilə: Testcontainers SeaweedFS, eyni image): `MediaFlowTests` (presigned yükləmə → qeydiyyat → anonim oxu; saxta PNG silinir; icazə qaydaları və `If-Match`; icazə verilir/ləğv olunur → hero fotosu ictimai API-də görünür/gizlənir; `/soundtracks`), `OrphanUploadCleanupTests`;
+  - `ImportTests`: reyestr sayları, statuslar, `portrait.media_id`, ikinci idxal, `dryRun`; `PermissionMatrixTests`: 5 yeni endpoint.

@@ -7,4 +7,5 @@
 |Bean references
 |* `a.t.p.s.read.PublicCache` (in Shared)
 * `a.t.p.s.read.EntityLinks` (in Shared)
+* `a.t.p.s.read.MediaFiles` (in Shared)
 |===

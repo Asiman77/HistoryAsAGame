@@ -7,5 +7,6 @@
 |Bean references
 |* `a.t.p.s.schema.ContentSchemas` (in Shared)
 * `a.t.p.i.api.SystemAccounts` (in Identity)
+* `a.t.p.m.api.MediaRegistry` (in Media)
 * `a.t.p.i.api.CurrentUserProvider` (in Identity)
 |===
