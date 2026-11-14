@@ -18,7 +18,10 @@
     "test:e2e": "playwright test",
     "prebuild": "node scripts/copy-maplibre-worker.mjs && tsx scripts/build-territories.ts",
     "build:territories": "tsx scripts/build-territories.ts",
-    "generate:audio": "tsx scripts/generate-audio.ts"
+    "generate:audio": "tsx scripts/generate-audio.ts",
+    "api:types": "openapi-typescript shared/openapi/public.json -o src/data/api/openapi.ts",
+    "content:pull": "tsx scripts/pull-content.ts",
+    "build:api": "node scripts/copy-maplibre-worker.mjs && tsx scripts/pull-content.ts && next build && node scripts/flatten-segments.mjs"
   },
   "dependencies": {
     "@turf/turf": "^7.4.0",
@@ -40,6 +43,7 @@
     "@types/react-dom": "^19.3.0",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.4.3",
+    "openapi-typescript": "^7.13.0",
     "serve": "^14.2.6",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.15",

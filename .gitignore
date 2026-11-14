@@ -17,3 +17,6 @@ backend/target/
 backend/.mvn/wrapper/maven-wrapper.jar
 .env
 docker/.env
+
+# Content pulled from the backend export for an api build (npm run content:pull)
+.content/
