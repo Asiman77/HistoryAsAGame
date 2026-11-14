@@ -44,7 +44,10 @@ test("the home page carries a compact slider linking to the full timeline", asyn
   const box = page.locator("[data-testid=time-explorer][data-compact=true]");
   await expect(box).toBeVisible();
   await box.locator("#year-input").fill("1736");
-  await box.getByRole("link", { name: /Tam zaman xətti/ }).click();
+  // The link follows the slider once it has rested (debounced); clicking earlier would race it.
+  const full = box.getByRole("link", { name: /Tam zaman xətti/ });
+  await expect(full).toHaveAttribute("href", /year=1736/);
+  await full.click();
   await expect(page).toHaveURL(/\/az\/timeline\/\?year=1736/);
   await expect(page.getByTestId("year-value")).toHaveText("1736");
 });
