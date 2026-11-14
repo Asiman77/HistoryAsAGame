@@ -4,9 +4,9 @@ name: Backend
 on:
   push:
     branches: [main]
-    paths: ["backend/**", "shared/**", "data/**", "docker/**", ".github/workflows/backend.yml"]
+    paths: ["backend/**", "shared/**", "data/**", "docker/**", "scripts/build-territories.ts", ".github/workflows/backend.yml"]
   pull_request:
-    paths: ["backend/**", "shared/**", "data/**", "docker/**", ".github/workflows/backend.yml"]
+    paths: ["backend/**", "shared/**", "data/**", "docker/**", "scripts/build-territories.ts", ".github/workflows/backend.yml"]
   workflow_dispatch:
 
 permissions:
@@ -30,6 +30,15 @@ jobs:
           distribution: temurin
           java-version: "25"
           cache: maven
+      # The built territory polygons (public/data/territories) are generated, not committed;
+      # import, projection, export and geo tests read them.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Build territory polygons
+        working-directory: .
+        run: npm ci && npx tsx scripts/build-territories.ts
       # Unit, Modulith and Testcontainers (PostGIS) tests; Docker is available on ubuntu-latest.
       - run: ./mvnw -B verify
       - name: Module docs and OpenAPI description are up to date
