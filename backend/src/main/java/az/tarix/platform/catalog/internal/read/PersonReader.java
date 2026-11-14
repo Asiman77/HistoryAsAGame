@@ -12,6 +12,8 @@ import az.tarix.platform.shared.read.ApiDate;
 import az.tarix.platform.shared.read.ApiImage;
 import az.tarix.platform.shared.read.ApiLink;
 import az.tarix.platform.shared.read.Lang;
+import az.tarix.platform.shared.read.MediaFiles;
+import az.tarix.platform.shared.read.MediaIndex;
 import az.tarix.platform.shared.read.PublicCache;
 import az.tarix.platform.shared.read.ReadContext;
 import az.tarix.platform.shared.read.ResourceNotFoundException;
@@ -65,19 +67,21 @@ public class PersonReader {
     private final RelationReader relations;
     private final PlaceLookup places;
     private final Portraits portraits;
+    private final MediaFiles media;
 
     PersonReader(JdbcClient jdbc, PublicCache cache, StepReader steps, RelationReader relations, PlaceLookup places,
-                 Portraits portraits) {
+                 Portraits portraits, MediaFiles media) {
         this.jdbc = jdbc;
         this.cache = cache;
         this.steps = steps;
         this.relations = relations;
         this.places = places;
         this.portraits = portraits;
+        this.media = media;
     }
 
     public ResultPage<PersonCard> list(ReadContext ctx, ResultPage.Request page) {
-        return cache.get(ctx, "persons", page, () -> Lists.page(jdbc, LIST, page, rs -> card(rs, ctx.lang()), COUNT));
+        return cache.get(ctx, "persons", page, () -> Lists.page(jdbc, LIST, page, rs -> card(rs, ctx.lang(), media.at(ctx)), COUNT));
     }
 
     public PersonProfile profile(ReadContext ctx, String slug) {
@@ -85,7 +89,7 @@ public class PersonReader {
             Lang lang = ctx.lang();
             record Row(PersonCard card, List<JsonNode> titles, ApiDate birth, ApiDate death, JsonNode birthLocation,
                        JsonNode deathLocation, JsonNode shortBio, JsonNode legacy, JsonNode epigraph) {}
-            Row r = jdbc.sql(ONE).param("slug", slug).query((rs, n) -> new Row(card(rs, lang),
+            Row r = jdbc.sql(ONE).param("slug", slug).query((rs, n) -> new Row(card(rs, lang, media.at(ctx)),
                     lang.localizeAll(JsonColumns.json(rs, "titles")), ApiDate.readWithNotes(rs, "birth", lang),
                     ApiDate.readWithNotes(rs, "death", lang), JsonColumns.json(rs, "birth_location"),
                     JsonColumns.json(rs, "death_location"), lang.text(JsonColumns.json(rs, "short_bio")),
@@ -95,7 +99,7 @@ public class PersonReader {
             PersonCard c = r.card();
             return new PersonProfile(c.slug(), c.name(), c.shortName(), r.titles(), new LifeEnd(r.birth(), where.get(0)),
                     new LifeEnd(r.death(), where.get(1)), c.eraSlugs(), c.tags(), c.themeSlug(), c.featuredOrder(), c.portrait(),
-                    r.shortBio(), r.legacy(), r.epigraph(), portraits.of("PERSON", slug, lang),
+                    r.shortBio(), r.legacy(), r.epigraph(), portraits.of("PERSON", slug, ctx),
                     relations.of(EntityType.PERSON, slug, false, lang));
         });
     }
@@ -103,7 +107,7 @@ public class PersonReader {
     /** All life steps; 404 when the person does not exist. */
     public Steps steps(ReadContext ctx, String slug) {
         return cache.get(ctx, "person-steps", slug, () -> {
-            List<StepView> list = steps.of(EntityType.PERSON, slug, null, ctx.lang());
+            List<StepView> list = steps.of(EntityType.PERSON, slug, null, ctx);
             if (list.isEmpty()) requireExists(slug);
             return new Steps(new Steps.Owner(EntityType.PERSON, slug), ctx.contentVersion(), list);
         });
@@ -112,7 +116,7 @@ public class PersonReader {
     /** One life step (deep link); 404 when the person or the step does not exist. */
     public StepView step(ReadContext ctx, String slug, String stepKey) {
         return cache.get(ctx, "person-step", slug + "/" + stepKey, () -> {
-            List<StepView> list = steps.of(EntityType.PERSON, slug, stepKey, ctx.lang());
+            List<StepView> list = steps.of(EntityType.PERSON, slug, stepKey, ctx);
             if (!list.isEmpty()) return list.getFirst();
             requireExists(slug);
             throw new ResourceNotFoundException(DocumentType.PERSON, slug, stepKey);
@@ -125,10 +129,10 @@ public class PersonReader {
         }
     }
 
-    static PersonCard card(ResultSet rs, Lang lang) throws SQLException {
+    static PersonCard card(ResultSet rs, Lang lang, MediaIndex media) throws SQLException {
         return new PersonCard(rs.getString("slug"), lang.text(JsonColumns.json(rs, "name")),
                 lang.text(JsonColumns.json(rs, "short_name")), ApiDate.read(rs, "birth"), ApiDate.read(rs, "death"),
                 JsonColumns.strings(rs, "era_slugs"), JsonColumns.strings(rs, "tags"), rs.getString("theme_slug"),
-                JsonColumns.integer(rs, "featured_order"), ApiImage.of(JsonColumns.json(rs, "portrait"), lang));
+                JsonColumns.integer(rs, "featured_order"), ApiImage.of(JsonColumns.json(rs, "portrait"), lang, media));
     }
 }

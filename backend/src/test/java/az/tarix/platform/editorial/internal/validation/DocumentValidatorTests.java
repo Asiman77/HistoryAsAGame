@@ -1,18 +1,25 @@
 package az.tarix.platform.editorial.internal.validation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 import az.tarix.platform.editorial.DataDocuments;
 import az.tarix.platform.editorial.DataDocuments.Doc;
 import az.tarix.platform.shared.content.DocumentType;
 import az.tarix.platform.editorial.internal.validation.ReferenceLookup.Target;
 import az.tarix.platform.editorial.internal.validation.ValidationIssue.Level;
+import az.tarix.platform.media.api.AssetType;
+import az.tarix.platform.media.api.MediaRegistry;
+import az.tarix.platform.media.api.MediaRegistry.RegisteredMedia;
+import az.tarix.platform.shared.domain.PermissionStatus;
 import az.tarix.platform.shared.schema.ContentSchemas;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.node.ArrayNode;
@@ -239,6 +246,84 @@ class DocumentValidatorTests {
         ObjectNode p = portraits.addObject().put("ageFrom", 20).put("ageTo", 30).put("kind", "ai_illustration").put("promptId", "x");
         p.set("alt", d.content().path("person").path("name").deepCopy());
         assertThat(codes(errors(d))).contains("ai-portrait-of-modern-person");
+    }
+
+    /** A registry holding exactly {@code files} (ref → entry). */
+    static MediaRegistry registry(Map<String, RegisteredMedia> files) {
+        return new MediaRegistry() {
+            @Override
+            public Map<String, RegisteredMedia> find(Collection<String> refs) {
+                Map<String, RegisteredMedia> out = new HashMap<>();
+                for (String r : refs) if (files.containsKey(r)) out.put(r, files.get(r));
+                return out;
+            }
+
+            @Override
+            public LinkResult registerLinked(List<LinkedFile> list, UUID by) {
+                throw new UnsupportedOperationException();
+            }
+        };
+    }
+
+    static RegisteredMedia registered(PermissionStatus status, String license, boolean ai, AssetType type) {
+        return new RegisteredMedia(UUID.randomUUID(), "uploads/x", type, status, license, ai);
+    }
+
+    @Test
+    void filesAreJudgedByTheMediaRegistry() {
+        UUID pending = UUID.randomUUID();
+        UUID granted = UUID.randomUUID();
+        UUID audio = UUID.randomUUID();
+        DocumentValidator withMedia = new DocumentValidator(SCHEMAS, lookup, validGeometry, registry(Map.of(
+                "/portraits/shah-ismayil.jpg", registered(PermissionStatus.DENIED, "Public domain", false, AssetType.IMAGE),
+                "media:" + pending, registered(PermissionStatus.PENDING, "Muzeyin icazəsi ilə", false, AssetType.IMAGE),
+                "media:" + granted, registered(PermissionStatus.GRANTED, "Muzeyin icazəsi ilə", false, AssetType.IMAGE),
+                "media:" + audio, registered(PermissionStatus.NOT_REQUIRED, "CC0", false, AssetType.AUDIO))));
+        Doc d = copy(DocumentType.PERSON, "shah-ismayil");
+        JsonNode alt = d.content().path("person").path("name").deepCopy();
+        ArrayNode portraits = ((ObjectNode) d.content().path("person")).putArray("portraits");
+        portraits.addObject().put("ageFrom", 0).put("ageTo", 5).put("kind", "artwork").put("src", "media:" + UUID.randomUUID())
+                .set("alt", alt);
+        portraits.addObject().put("ageFrom", 6).put("ageTo", 10).put("kind", "artwork").put("src", "media:" + pending)
+                .put("license", "Public domain").set("alt", alt);
+        portraits.addObject().put("ageFrom", 11).put("ageTo", 20).put("kind", "artwork").put("src", "media:" + granted)
+                .set("alt", alt);
+        portraits.addObject().put("ageFrom", 21).put("ageTo", 30).put("kind", "artwork").put("src", "media:" + audio)
+                .set("alt", alt);
+
+        List<ValidationIssue> issues = withMedia.validate(d.type(), d.slug(), d.content());
+        assertThat(issues).filteredOn(i -> i.level() == Level.ERROR)
+                .extracting(ValidationIssue::code, ValidationIssue::pointer)
+                .containsExactlyInAnyOrder(
+                        tuple("media-permission", "/person/portrait/src"),       // denied path
+                        tuple("media-not-found", "/person/portraits/0/src"),
+                        tuple("media-permission", "/person/portraits/1/src"),
+                        tuple("media-type", "/person/portraits/3/src"));
+        assertThat(issues).anyMatch(i -> i.code().equals("media-license-mismatch") && i.level() == Level.WARNING
+                && i.pointer().equals("/person/portraits/1/license"));
+        // Uploads carry licence and source in the registry: no inline ones needed.
+        assertThat(codes(issues)).doesNotContain("media-without-license", "media-without-source", "media-src");
+    }
+
+    @Test
+    void registeredAiImagesOfModernPeopleAreErrors() {
+        UUID ai = UUID.randomUUID();
+        DocumentValidator withMedia = new DocumentValidator(SCHEMAS, lookup, validGeometry,
+                registry(Map.of("media:" + ai, registered(PermissionStatus.GRANTED, "CC BY 4.0", true, AssetType.IMAGE))));
+        Doc d = copy(DocumentType.HERO, "mehdiyev-i-lham");
+        ((ObjectNode) d.content().path("hero")).putObject("photo").put("url", "media:" + ai).put("source", "x")
+                .put("license", "CC BY 4.0").put("permissionNote", "x");
+        assertThat(codes(withMedia.validate(d.type(), d.slug(), d.content()).stream().filter(i -> i.level() == Level.ERROR).toList()))
+                .containsExactly("ai-portrait-of-modern-person");
+    }
+
+    @Test
+    void anUnregisteredPathWithARestrictedLicenceIsAnError() {
+        Doc d = copy(DocumentType.STATE, DATA.stream().filter(x -> x.type() == DocumentType.STATE).findFirst().orElseThrow().slug());
+        ObjectNode image = ((ObjectNode) d.content().path("state")).putObject("image").put("src", "/states/x.jpg")
+                .put("license", "Bütün hüquqlar qorunur");
+        image.putObject("alt").put("az", "X");
+        assertThat(errors(d)).anyMatch(i -> i.code().equals("media-permission") && i.pointer().equals("/state/image/src"));
     }
 
     @Test

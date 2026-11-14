@@ -81,6 +81,7 @@ class PermissionMatrixTests {
 
     static final String DOC = "/api/v1/editorial/documents/" + UUID.randomUUID();
     static final String USER = "/api/v1/admin/users/" + UUID.randomUUID();
+    static final String MEDIA = "/api/v1/editorial/media/" + UUID.randomUUID();
 
     static final List<Rule> MATRIX = List.of(
             // Editorial (§8.2): authors, reviewers and admins; the role rules per action are in the workflow.
@@ -101,6 +102,14 @@ class PermissionMatrixTests {
             new Rule(HttpMethod.POST, "/api/v1/editorial/documents/{id}/comments", DOC + "/comments", Map.of("body", "x"), EDITORS),
             new Rule(HttpMethod.PATCH, "/api/v1/editorial/documents/{id}/comments/{commentId}",
                     DOC + "/comments/" + UUID.randomUUID(), Map.of("resolved", true), EDITORS),
+            // Media (§11, ADR-0017): editors upload and describe; the role rules per status are in PermissionPolicy.
+            new Rule(HttpMethod.POST, "/api/v1/editorial/media/uploads", "/api/v1/editorial/media/uploads",
+                    Map.of("mimeType", "image/png", "sizeBytes", 10), EDITORS),
+            new Rule(HttpMethod.POST, "/api/v1/editorial/media", "/api/v1/editorial/media",
+                    Map.of("storageKey", "uploads/not-a-key.png", "license", "CC0"), EDITORS),
+            new Rule(HttpMethod.GET, "/api/v1/editorial/media", "/api/v1/editorial/media", null, EDITORS),
+            new Rule(HttpMethod.GET, "/api/v1/editorial/media/{id}", MEDIA, null, EDITORS),
+            new Rule(HttpMethod.PATCH, "/api/v1/editorial/media/{id}", MEDIA, Map.of("license", "CC0"), EDITORS),
             // Administration.
             new Rule(HttpMethod.GET, "/api/v1/admin/broken-references", "/api/v1/admin/broken-references", null, ADMIN),
             new Rule(HttpMethod.POST, "/api/v1/admin/import", "/api/v1/admin/import?dryRun=true", null, ADMIN, false),

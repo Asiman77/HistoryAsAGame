@@ -113,6 +113,20 @@ public class Projector {
         return new RebuildReport(written, List.copyOf(deferred), version, took);
     }
 
+    /**
+     * Moves the content version on without changing rows: something the public API reads at
+     * request time changed (a media licence or permission, ADR-0017). Reported like a rebuild,
+     * since any document may use the changed file.
+     */
+    @Transactional
+    public long touch() {
+        jdbc.sql(LOCK_ALL_SHARED).param("ns", LOCK_NAMESPACE + 1).query(Object.class).list();
+        long version = nextVersion();
+        log.info("content version moved on contentVersion={}", version);
+        events.publishEvent(new ContentProjected(null, version));
+        return version;
+    }
+
     private long nextVersion() {
         return jdbc.sql(NEXT_VERSION).query(Long.class).single();
     }

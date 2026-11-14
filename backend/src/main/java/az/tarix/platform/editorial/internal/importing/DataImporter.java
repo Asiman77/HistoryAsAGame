@@ -17,6 +17,9 @@ import az.tarix.platform.editorial.internal.validation.ValidationIssue;
 import az.tarix.platform.editorial.internal.validation.ValidationIssue.Level;
 import az.tarix.platform.identity.api.CurrentUser;
 import az.tarix.platform.identity.api.SystemAccounts;
+import az.tarix.platform.media.api.MediaAssetChanged;
+import az.tarix.platform.media.api.MediaRegistry;
+import az.tarix.platform.media.api.MediaRegistry.LinkResult;
 import az.tarix.platform.shared.content.DocumentType;
 import az.tarix.platform.shared.domain.PermissionStatus;
 import az.tarix.platform.shared.schema.ContentSchemas;
@@ -43,6 +46,8 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
  * <ol>
  *   <li>Every document is created or gets a new revision (author: the importer system account).
  *       A document someone has edited or is reviewing in the CMS is never overwritten.</li>
+ *   <li>The files the data links to are registered in the media registry, with the permission
+ *       ADR-0010 gives them; a path registered before is left alone (ADR-0017).</li>
  *   <li>Every imported document is validated, now that all of them exist (references resolve).</li>
  *   <li>Documents without errors are published directly (no review: the data is already public);
  *       the others stay drafts and are listed with their errors.</li>
@@ -74,7 +79,7 @@ public class DataImporter {
 
     public record Report(boolean dryRun, Instant startedAt, Duration took, int documents, Map<Outcome, Integer> outcomes,
                          int published, int drafts, List<DocumentResult> results, List<String> sourceProblems,
-                         Map<PermissionStatus, Integer> media, List<MediaItem> mediaPending) {}
+                         Map<PermissionStatus, Integer> media, List<MediaItem> mediaPending, LinkResult mediaRegistry) {}
 
     private final ImportProperties props;
     private final DocumentRepository documents;
@@ -83,12 +88,13 @@ public class DataImporter {
     private final DocumentValidator validator;
     private final ContentSchemas schemas;
     private final SystemAccounts systemAccounts;
+    private final MediaRegistry media;
     private final ApplicationEventPublisher events;
     private final Clock clock;
 
     public DataImporter(ImportProperties props, DocumentRepository documents, RevisionRepository revisions,
                         TransitionRepository transitions, DocumentValidator validator, ContentSchemas schemas,
-                        SystemAccounts systemAccounts, ApplicationEventPublisher events, Clock clock) {
+                        SystemAccounts systemAccounts, MediaRegistry media, ApplicationEventPublisher events, Clock clock) {
         this.props = props;
         this.documents = documents;
         this.revisions = revisions;
@@ -96,6 +102,7 @@ public class DataImporter {
         this.validator = validator;
         this.schemas = schemas;
         this.systemAccounts = systemAccounts;
+        this.media = media;
         this.events = events;
         this.clock = clock;
     }
@@ -111,6 +118,13 @@ public class DataImporter {
         List<Map.Entry<Doc, Imported>> imported = new ArrayList<>();
         for (Doc d : folder.documents()) imported.add(Map.entry(d, upsert(d, importer, admin.id())));
         documents.flush();     // the validator's reference lookups use SQL
+
+        // 1b. The files the data links to go into the media registry (ADR-0010, ADR-0017) before
+        // validation, which checks permissions there. Registered paths are never overwritten.
+        List<MediaItem> files = new ArrayList<>();
+        for (Doc d : folder.documents()) files.addAll(MediaPermissions.of(d));
+        LinkResult linked = media.registerLinked(files.stream().filter(MediaItem::registrable).map(MediaItem::linked).toList(),
+                importer);
 
         // 2. + 3. Validate and publish.
         int published = 0;
@@ -134,29 +148,30 @@ public class DataImporter {
         }
         documents.flush();
 
-        // Media permission statuses (ADR-0010): reported now, stored with the media registry (phase 11).
-        Map<PermissionStatus, Integer> media = new EnumMap<>(PermissionStatus.class);
+        // Media permission statuses as the data describes them (ADR-0010).
+        Map<PermissionStatus, Integer> mediaStatuses = new EnumMap<>(PermissionStatus.class);
         List<MediaItem> pending = new ArrayList<>();
-        for (Doc d : folder.documents()) {
-            for (MediaItem m : MediaPermissions.of(d)) {
-                media.merge(m.status(), 1, Integer::sum);
-                if (m.status() == PermissionStatus.PENDING || m.status() == PermissionStatus.DENIED) pending.add(m);
-            }
+        for (MediaItem m : files) {
+            mediaStatuses.merge(m.status(), 1, Integer::sum);
+            if (m.status() == PermissionStatus.PENDING || m.status() == PermissionStatus.DENIED) pending.add(m);
         }
 
         Map<Outcome, Integer> outcomes = new EnumMap<>(Outcome.class);
         results.forEach(r -> outcomes.merge(r.outcome(), 1, Integer::sum));
         int drafts = (int) results.stream().filter(r -> r.status() != DocumentStatus.PUBLISHED).count();
         Report report = new Report(dryRun, start, Duration.between(start, clock.instant()), results.size(), outcomes,
-                published, drafts, results, folder.problems(), media, pending);
+                published, drafts, results, folder.problems(), mediaStatuses, pending, linked);
 
         if (dryRun) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         } else if (published > 0) {
-            events.publishEvent(new ContentImported(published));
+            events.publishEvent(new ContentImported(published));     // the rebuild also picks up new media
+        } else if (linked.registered() > 0) {
+            // Nothing new to publish, but published paths now resolve through the registry.
+            events.publishEvent(new MediaAssetChanged(null));
         }
-        log.info("data import dryRun={} documents={} outcomes={} published={} drafts={} problems={}", dryRun,
-                results.size(), outcomes, published, drafts, folder.problems().size());
+        log.info("data import dryRun={} documents={} outcomes={} published={} drafts={} problems={} mediaRegistered={}", dryRun,
+                results.size(), outcomes, published, drafts, folder.problems().size(), linked.registered());
         return report;
     }
 

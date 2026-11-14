@@ -4,6 +4,7 @@ import az.tarix.platform.shared.content.DocumentType;
 import az.tarix.platform.editorial.internal.content.ContentJson;
 import az.tarix.platform.editorial.internal.validation.ReferenceLookup.Target;
 import az.tarix.platform.editorial.internal.validation.ValidationIssue.Level;
+import az.tarix.platform.media.api.MediaRegistry;
 import az.tarix.platform.shared.schema.ContentSchemas;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,11 +37,12 @@ public final class ValidationContext {
     private final ReferenceLookup references;
     private final GeometryCheck geometry;
     private final Set<String> musicThemes;
+    private final MediaRegistry media;
     private final List<ValidationIssue> issues = new ArrayList<>();
     private final Map<String, Target> targets = new HashMap<>();
 
     public ValidationContext(DocumentType type, String slug, JsonNode content, ContentSchemas schemas,
-                             ReferenceLookup references, GeometryCheck geometry, Set<String> musicThemes) {
+                             ReferenceLookup references, GeometryCheck geometry, Set<String> musicThemes, MediaRegistry media) {
         this.type = type;
         this.slug = slug;
         this.content = content;
@@ -48,6 +50,7 @@ public final class ValidationContext {
         this.references = references;
         this.geometry = geometry;
         this.musicThemes = Set.copyOf(musicThemes);
+        this.media = media;
     }
 
     public DocumentType type() {
@@ -68,6 +71,11 @@ public final class ValidationContext {
 
     public GeometryCheck geometry() {
         return geometry;
+    }
+
+    /** The media registry: the files the content refers to (ADR-0017). */
+    public MediaRegistry media() {
+        return media;
     }
 
     public Set<String> musicThemes() {

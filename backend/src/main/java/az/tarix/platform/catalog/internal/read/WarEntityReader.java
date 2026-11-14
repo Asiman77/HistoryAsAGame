@@ -8,6 +8,7 @@ import az.tarix.platform.shared.read.ApiImage;
 import az.tarix.platform.shared.read.ApiLink;
 import az.tarix.platform.shared.read.ApiSource;
 import az.tarix.platform.shared.read.Lang;
+import az.tarix.platform.shared.read.MediaFiles;
 import az.tarix.platform.shared.read.PublicCache;
 import az.tarix.platform.shared.read.ReadContext;
 import az.tarix.platform.shared.read.ResourceNotFoundException;
@@ -51,11 +52,13 @@ public class WarEntityReader {
     private final JdbcClient jdbc;
     private final PublicCache cache;
     private final RelationReader relations;
+    private final MediaFiles media;
 
-    WarEntityReader(JdbcClient jdbc, PublicCache cache, RelationReader relations) {
+    WarEntityReader(JdbcClient jdbc, PublicCache cache, RelationReader relations, MediaFiles media) {
         this.jdbc = jdbc;
         this.cache = cache;
         this.relations = relations;
+        this.media = media;
     }
 
     public BattleView battle(ReadContext ctx, String slug) {
@@ -83,7 +86,7 @@ public class WarEntityReader {
                     lang.text(JsonColumns.json(rs, "rank")), rs.getBoolean("posthumous"),
                     lang.text(JsonColumns.json(rs, "birth_place")), JsonColumns.integer(rs, "birth_year"), ApiDate.read(rs, "death"),
                     lang.localizeAll(JsonColumns.json(rs, "awards")), lang.text(JsonColumns.json(rs, "bio")),
-                    ApiImage.ofPhoto(JsonColumns.json(rs, "photo")), ApiSource.all(JsonColumns.json(rs, "sources"))))
+                    ApiImage.ofPhoto(JsonColumns.json(rs, "photo"), media.at(ctx)), ApiSource.all(JsonColumns.json(rs, "sources"))))
                     .optional().orElseThrow(() -> new ResourceNotFoundException(DocumentType.HERO, slug));
         });
     }

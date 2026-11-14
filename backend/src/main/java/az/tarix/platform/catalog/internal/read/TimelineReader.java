@@ -17,6 +17,8 @@ import az.tarix.platform.shared.read.ApiLink;
 import az.tarix.platform.shared.read.EntityLinks;
 import az.tarix.platform.shared.read.InvalidParameterException;
 import az.tarix.platform.shared.read.Lang;
+import az.tarix.platform.shared.read.MediaFiles;
+import az.tarix.platform.shared.read.MediaIndex;
 import az.tarix.platform.shared.read.PublicCache;
 import az.tarix.platform.shared.read.ReadContext;
 import java.time.MonthDay;
@@ -107,9 +109,10 @@ public class TimelineReader {
     private final Territories territories;
     private final PlaceLookup places;
     private final EntityLinks links;
+    private final MediaFiles media;
 
     TimelineReader(JdbcClient jdbc, PublicCache cache, HistoryIndex index, Chronology chronology, Territories territories,
-                   PlaceLookup places, EntityLinks links) {
+                   PlaceLookup places, EntityLinks links, MediaFiles media) {
         this.jdbc = jdbc;
         this.cache = cache;
         this.index = index;
@@ -117,6 +120,7 @@ public class TimelineReader {
         this.territories = territories;
         this.places = places;
         this.links = links;
+        this.media = media;
     }
 
     /** One year of the slider; a fixed number of queries. */
@@ -126,14 +130,15 @@ public class TimelineReader {
             SnapshotPick pick = territories.pick(year);
             List<Capital> capitals = capitals(pick, lang);
             List<RulerAtYear> rulers = chronology.reignsIn(year).stream().map(r -> ruler(r, lang)).toList();
+            MediaIndex images = media.at(ctx);
             List<PersonAtYear> persons = jdbc.sql(PERSONS).param("year", year).query((rs, n) -> {
                 int born = rs.getInt("birth_year");
                 return new PersonAtYear(rs.getString("slug"), lang.text(JsonColumns.json(rs, "name")),
-                        ApiImage.of(JsonColumns.json(rs, "portrait"), lang), born, JsonColumns.integer(rs, "death_year"),
+                        ApiImage.of(JsonColumns.json(rs, "portrait"), lang, images), born, JsonColumns.integer(rs, "death_year"),
                         year - born, !Certainty.EXACT.name().equals(rs.getString("birth_certainty")),
                         (Double) rs.getObject("lat"), (Double) rs.getObject("lng"));
             }).list();
-            List<IndexEvent> events = index.where(IN_YEAR, Map.of("year", year), lang);
+            List<IndexEvent> events = index.where(IN_YEAR, Map.of("year", year), ctx);
             NearestYears nearest = jdbc.sql(NEAREST_YEARS).param("year", year)
                     .query((rs, n) -> new NearestYears(JsonColumns.integer(rs, "prev"), JsonColumns.integer(rs, "next"))).single();
             Era era = Chronology.eraFor(chronology.eras(), year);
@@ -184,10 +189,10 @@ public class TimelineReader {
             Lang lang = ctx.lang();
             Map<String, Integer> params = Map.of("month", date.getMonthValue(), "day", date.getDayOfMonth());
             Commemoration commemoration = commemoration(params, lang);
-            List<IndexEvent> sameDay = index.where(ON_DAY, params, lang).stream()
+            List<IndexEvent> sameDay = index.where(ON_DAY, params, ctx).stream()
                     .sorted(Comparator.comparingInt(e -> e.date().year())).toList();
             if (!sameDay.isEmpty()) return new OnThisDay(date.getMonthValue(), date.getDayOfMonth(), DayMode.DAY, commemoration, sameDay);
-            List<IndexEvent> sameMonth = index.where(IN_MONTH, Map.of("month", date.getMonthValue()), lang).stream()
+            List<IndexEvent> sameMonth = index.where(IN_MONTH, Map.of("month", date.getMonthValue()), ctx).stream()
                     .sorted(Comparator.<IndexEvent>comparingInt(e -> e.date().day() == null ? 99 : e.date().day())
                             .thenComparingInt(e -> e.date().year()))
                     .toList();

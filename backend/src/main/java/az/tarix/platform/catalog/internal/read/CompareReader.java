@@ -128,8 +128,8 @@ public class CompareReader {
                     .computeIfAbsent(new Target(EntityType.valueOf(rs.getString("owner_type")), rs.getString("owner_slug")),
                             k -> new HashMap<>())
                     .computeIfAbsent(rs.getString("step_key"), k -> new TreeSet<>()).add(rs.getString("battle"))).list();
-            Lane laneA = lane(a, owners, battles.getOrDefault(a, Map.of()), lang);
-            Lane laneB = lane(b, owners, battles.getOrDefault(b, Map.of()), lang);
+            Lane laneA = lane(a, owners, battles.getOrDefault(a, Map.of()), ctx);
+            Lane laneB = lane(b, owners, battles.getOrDefault(b, Map.of()), ctx);
             Set<String> battleSlugs = new TreeSet<>();
             battles.values().forEach(m -> m.values().forEach(battleSlugs::addAll));
             EntityLinks.Resolved battleNames = links.resolve(battleSlugs.stream().map(s -> new Target(EntityType.BATTLE, s)).toList());
@@ -137,8 +137,9 @@ public class CompareReader {
         });
     }
 
-    private Lane lane(Target owner, EntityLinks.Resolved owners, Map<String, Set<String>> battles, Lang lang) {
-        List<IndexEvent> events = index.where(LANE, Map.of("type", owner.type().name(), "slug", owner.slug()), lang);
+    private Lane lane(Target owner, EntityLinks.Resolved owners, Map<String, Set<String>> battles, ReadContext ctx) {
+        Lang lang = ctx.lang();
+        List<IndexEvent> events = index.where(LANE, Map.of("type", owner.type().name(), "slug", owner.slug()), ctx);
         List<LaneEvent> out = events.stream()
                 .map(e -> new LaneEvent(e, List.copyOf(battles.getOrDefault(e.stepKey(), Set.of())))).toList();
         Integer from = events.isEmpty() ? null : events.getFirst().date().year();

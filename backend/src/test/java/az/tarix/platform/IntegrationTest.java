@@ -26,6 +26,9 @@ import org.springframework.context.annotation.Import;
         "platform.identity.login-limit.per-account.capacity=1000000",
         "platform.identity.login-limit.per-account.period=1m",
         "platform.cors.allowed-origins=" + IntegrationTest.ALLOWED_ORIGIN,
+        // S3 (SeaweedFS): the test identity of TestcontainersConfiguration; the endpoint comes from the container.
+        "platform.media.s3.access-key=" + TestcontainersConfiguration.S3_ACCESS_KEY,
+        "platform.media.s3.secret-key=" + TestcontainersConfiguration.S3_SECRET_KEY,
 })
 @Import(TestcontainersConfiguration.class)
 public @interface IntegrationTest {

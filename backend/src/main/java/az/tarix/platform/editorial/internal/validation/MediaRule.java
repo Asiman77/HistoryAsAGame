@@ -1,28 +1,121 @@
 package az.tarix.platform.editorial.internal.validation;
 
 import az.tarix.platform.editorial.internal.validation.ValidationContext.Item;
+import az.tarix.platform.media.api.AssetType;
+import az.tarix.platform.media.api.MediaRegistry.RegisteredMedia;
+import az.tarix.platform.shared.content.DocumentType;
+import az.tarix.platform.shared.domain.PermissionStatus;
+import az.tarix.platform.shared.read.MediaIndex;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import tools.jackson.databind.JsonNode;
 
 /**
- * Images and audio referenced inline by the content (there is no media registry yet; it comes
- * with the media module, ADR-0010): licence and source, no AI images of real modern people,
- * and no audio whose permission is not settled (BACKEND_SPEC.md §8.3).
+ * Images and audio the content refers to (BACKEND_SPEC.md §8.3, ADR-0010, ADR-0017): licence
+ * and source, no AI images of real modern people, no file whose permission is not settled.
+ * A registered file ({@code media:<id>} or a linked path) is judged by the registry; an
+ * unregistered path by its inline licence.
  */
 final class MediaRule implements ValidationRule {
 
     /** Latest birth year for which AI illustrations are allowed (frontend: AI_PORTRAIT_MAX_BIRTH_YEAR). */
     static final int AI_PORTRAIT_MAX_BIRTH_YEAR = 1850;
 
+    /**
+     * A file reference in the content.
+     *
+     * @param pointer where the reference is (the {@code src}/{@code url}/{@code file} field)
+     * @param owner   the object holding it (its licence, kind…)
+     */
+    record FileRef(String pointer, String ref, Item owner, AssetType expected) {}
+
     @Override
     public void check(ValidationContext ctx) {
+        registry(ctx);
         switch (ctx.type()) {
             case PERSON -> person(ctx);
             case SOUNDTRACK_TRACK -> track(ctx, ctx.part("track"));
             case THEME -> backgroundArt(ctx, ctx.part("theme"));
             default -> { }
         }
+    }
+
+    /** Every file reference of the document, where the content model has one. */
+    static List<FileRef> files(ValidationContext ctx) {
+        List<FileRef> out = new ArrayList<>();
+        switch (ctx.type()) {
+            case PERSON -> {
+                Item person = ctx.part("person");
+                file(out, ValidationContext.child(person, "portrait"), "src", AssetType.IMAGE);
+                for (Item p : ValidationContext.items(ValidationContext.child(person, "portraits"))) file(out, p, "src", AssetType.IMAGE);
+            }
+            case STATE -> file(out, ValidationContext.child(ctx.part("state"), "image"), "src", AssetType.IMAGE);
+            case POLITY -> file(out, ValidationContext.child(ctx.part("polity"), "emblem"), "src", AssetType.IMAGE);
+            case RULER -> {
+                for (Item p : ValidationContext.items(ValidationContext.child(ctx.part("ruler"), "portraits"))) {
+                    file(out, p, "src", AssetType.IMAGE);
+                }
+            }
+            case HERO -> file(out, ValidationContext.child(ctx.part("hero"), "photo"), "url", AssetType.IMAGE);
+            case THEME -> {
+                for (Item a : ValidationContext.items(ValidationContext.child(ctx.part("theme"), "backgroundArt"))) {
+                    file(out, a, "src", AssetType.IMAGE);
+                }
+            }
+            case SOUNDTRACK_TRACK -> file(out, ctx.part("track"), "file", AssetType.AUDIO);
+            default -> { }
+        }
+        return out;
+    }
+
+    private static void file(List<FileRef> out, Item owner, String field, AssetType expected) {
+        String ref = owner.text(field);
+        if (ref != null) out.add(new FileRef(owner.at(field), ref, owner, expected));
+    }
+
+    private static void registry(ValidationContext ctx) {
+        List<FileRef> refs = files(ctx);
+        if (refs.isEmpty()) return;
+        Map<String, RegisteredMedia> found = ctx.media().find(refs.stream().map(FileRef::ref).toList());
+        for (FileRef f : refs) {
+            RegisteredMedia m = found.get(f.ref());
+            String inlineLicense = f.owner().text("license");
+            if (m == null) {
+                if (MediaIndex.isRegistryRef(f.ref())) {
+                    ctx.error("media-not-found", f.pointer(), "'%s' media reyestrində yoxdur".formatted(f.ref()));
+                } else if (f.expected() == AssetType.IMAGE && inlineLicense != null
+                        && !PermissionStatus.fromLicense(null, inlineLicense, f.owner().text("kind")).isPublic()) {
+                    // Tracks state their permission explicitly; track() checks it.
+                    ctx.error("media-permission", f.pointer(),
+                            "lisenziya '%s' icazə tələb edir: faylı reyestrdə qeyd edin və icazəni təsdiqləyin".formatted(inlineLicense));
+                }
+                continue;
+            }
+            if (!m.status().isPublic()) {
+                ctx.error("media-permission", f.pointer(),
+                        "'%s' faylının icazə statusu %s: belə media dərc oluna bilməz".formatted(f.ref(), m.status()));
+            }
+            if (m.type() != f.expected()) {
+                ctx.error("media-type", f.pointer(), "'%s' %s faylıdır, burada %s gözlənilir".formatted(f.ref(), m.type(), f.expected()));
+            }
+            if (inlineLicense != null && !inlineLicense.equals(m.license())) {
+                ctx.warning("media-license-mismatch", f.owner().at("license"),
+                        "reyestrdəki lisenziya ('%s') göstəriləcək, bu mətn yox".formatted(m.license()));
+            }
+            if (m.aiGenerated() && modernPerson(ctx)) {
+                ctx.error("ai-portrait-of-modern-person", f.pointer(), "müasir real şəxslər üçün AI şəkli olmaz");
+            }
+        }
+    }
+
+    /** A hero, or a person born after {@link #AI_PORTRAIT_MAX_BIRTH_YEAR}. */
+    private static boolean modernPerson(ValidationContext ctx) {
+        if (ctx.type() == DocumentType.HERO) return true;
+        if (ctx.type() != DocumentType.PERSON) return false;
+        JsonNode birth = ctx.part("person").node().path("birth").path("date").path("year");
+        return birth.isIntegralNumber() && birth.intValue() > AI_PORTRAIT_MAX_BIRTH_YEAR;
     }
 
     private static void person(ValidationContext ctx) {
@@ -53,9 +146,11 @@ final class MediaRule implements ValidationRule {
             previous = p;
             boolean hasImage = n.path("src").isString();
             if (hasImage) {
+                // A registered upload carries its licence in the registry (registry() checks it).
+                boolean registered = MediaIndex.isRegistryRef(n.path("src").stringValue());
                 srcPrefix(ctx, p);
-                if (!n.path("license").isString()) ctx.error("media-without-license", p.pointer(), "portret %s: şəkil var, lisenziya yoxdur".formatted(where));
-                if (!n.path("source").isString() && !n.path("sourceUrl").isString()) {
+                if (!registered && !n.path("license").isString()) ctx.error("media-without-license", p.pointer(), "portret %s: şəkil var, lisenziya yoxdur".formatted(where));
+                if (!registered && !n.path("source").isString() && !n.path("sourceUrl").isString()) {
                     ctx.error("media-without-source", p.pointer(), "portret %s: şəkil var, mənbə yoxdur".formatted(where));
                 }
             }
@@ -72,8 +167,8 @@ final class MediaRule implements ValidationRule {
 
     private static void srcPrefix(ValidationContext ctx, Item image) {
         String src = image.text("src");
-        if (src != null && !src.startsWith("/") && !src.startsWith("http")) {
-            ctx.error("media-src", image.at("src"), "src '/' və ya 'http' ilə başlamalıdır");
+        if (src != null && !src.startsWith("/") && !src.startsWith("http") && !MediaIndex.isRegistryRef(src)) {
+            ctx.error("media-src", image.at("src"), "src '/', 'http' və ya 'media:' ilə başlamalıdır");
         }
     }
 

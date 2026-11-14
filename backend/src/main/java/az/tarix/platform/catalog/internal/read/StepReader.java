@@ -16,6 +16,7 @@ import az.tarix.platform.shared.read.ApiSource;
 import az.tarix.platform.shared.read.EntityLinks;
 import az.tarix.platform.shared.read.EntityLinks.Target;
 import az.tarix.platform.shared.read.Lang;
+import az.tarix.platform.shared.read.ReadContext;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -126,7 +127,8 @@ public class StepReader {
     private record RawLocation(JsonNode name, JsonNode modernName, double lat, double lng, boolean approximate, String placeSlug) {}
 
     /** All steps of the owner in order, or only {@code stepKey} (empty when it does not exist). */
-    List<StepView> of(EntityType ownerType, String ownerSlug, String stepKey, Lang lang) {
+    List<StepView> of(EntityType ownerType, String ownerSlug, String stepKey, ReadContext ctx) {
+        Lang lang = ctx.lang();
         Map<String, Object> filter = new HashMap<>();
         filter.put("ownerType", ownerType.name());
         filter.put("ownerSlug", ownerSlug);
@@ -149,7 +151,7 @@ public class StepReader {
 
         Map<String, List<ApiLink>> related = related(filter, lang);
         Map<RawLocation, PlaceSummary> matched = matchPlaces(rows);
-        List<ApiPortrait> agePortraits = ownerType == EntityType.PERSON ? portraits.of("PERSON", ownerSlug, lang) : List.of();
+        List<ApiPortrait> agePortraits = ownerType == EntityType.PERSON ? portraits.of("PERSON", ownerSlug, ctx) : List.of();
 
         List<StepView> out = new ArrayList<>(rows.size());
         for (Row r : rows) {

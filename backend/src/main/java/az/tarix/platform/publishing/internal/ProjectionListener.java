@@ -3,6 +3,7 @@ package az.tarix.platform.publishing.internal;
 import az.tarix.platform.editorial.api.ContentArchived;
 import az.tarix.platform.editorial.api.ContentImported;
 import az.tarix.platform.editorial.api.ContentPublished;
+import az.tarix.platform.media.api.MediaAssetChanged;
 import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,15 @@ class ProjectionListener {
     @ApplicationModuleListener
     void on(ContentArchived event) {
         projector.project(event.documentId());
+    }
+
+    /**
+     * A file's licence or permission changed: no rows change, but what the public API gives out
+     * may (ADR-0017), so the content version moves on.
+     */
+    @ApplicationModuleListener
+    void on(MediaAssetChanged event) {
+        projector.touch();
     }
 
     /** A bulk import: one rebuild instead of one projection per document (ADR-0013). */

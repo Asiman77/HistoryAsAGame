@@ -12,6 +12,9 @@ import az.tarix.platform.shared.jdbc.JsonColumns;
 import az.tarix.platform.shared.read.ApiDate;
 import az.tarix.platform.shared.read.ApiImage;
 import az.tarix.platform.shared.read.Lang;
+import az.tarix.platform.shared.read.MediaFiles;
+import az.tarix.platform.shared.read.MediaIndex;
+import az.tarix.platform.shared.read.ReadContext;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -77,11 +80,13 @@ public class HistoryIndex {
     private final JdbcClient jdbc;
     private final PlaceMatcher places;
     private final Chronology chronology;
+    private final MediaFiles media;
 
-    HistoryIndex(JdbcClient jdbc, PlaceMatcher places, Chronology chronology) {
+    HistoryIndex(JdbcClient jdbc, PlaceMatcher places, Chronology chronology, MediaFiles media) {
         this.jdbc = jdbc;
         this.places = places;
         this.chronology = chronology;
+        this.media = media;
     }
 
     private record Row(EntityType ownerType, String ownerSlug, String stepKey, StepKind kind, Mood mood, ClaimType claimType,
@@ -92,7 +97,8 @@ public class HistoryIndex {
      * The steps matching {@code condition} (SQL over {@code simulation_step s}, a constant of
      * the calling reader, never user input), in index order.
      */
-    List<IndexEvent> where(String condition, Map<String, ?> params, Lang lang) {
+    List<IndexEvent> where(String condition, Map<String, ?> params, ReadContext ctx) {
+        Lang lang = ctx.lang();
         List<Row> rows = jdbc.sql(EVENTS.replace("{where}", condition)).params(params).query((rs, n) -> new Row(
                 EntityType.valueOf(rs.getString("owner_type")), rs.getString("owner_slug"), rs.getString("step_key"),
                 StepKind.valueOf(rs.getString("step_kind")), Mood.valueOf(rs.getString("mood")),
@@ -104,10 +110,11 @@ public class HistoryIndex {
         List<Era> eras = chronology.eras();
         Map<Row, PlaceSummary> matched = places.match(rows, r -> new PlaceMatcher.Query(r.placeSlug(),
                 r.locationName().path("az").asString(""), r.lat(), r.lng(), r.kind() == StepKind.WAR_DAY));
-        return rows.stream().map(r -> event(r, matched.get(r), eras, lang)).toList();
+        MediaIndex media = this.media.at(ctx);
+        return rows.stream().map(r -> event(r, matched.get(r), eras, lang, media)).toList();
     }
 
-    private static IndexEvent event(Row r, PlaceSummary place, List<Era> eras, Lang lang) {
+    private static IndexEvent event(Row r, PlaceSummary place, List<Era> eras, Lang lang, MediaIndex media) {
         List<Era> own = eras.stream().filter(e -> r.ownerEras().contains(e.slug())).toList();
         Era era = Chronology.eraFor(own, r.date().year());
         if (era == null) era = Chronology.eraFor(eras, r.date().year());
@@ -116,7 +123,7 @@ public class HistoryIndex {
                 r.claimType(), lang.text(r.title()), r.date(),
                 new IndexLocation(place != null ? place.slug() : r.placeSlug(), lang.text(r.locationName()), r.lat(), r.lng(),
                         place == null ? null : place.type()),
-                era == null ? null : era.slug(), theme(r, own, eras), ApiImage.of(r.image(), lang));
+                era == null ? null : era.slug(), theme(r, own, eras), ApiImage.of(r.image(), lang, media));
     }
 
     /** Frontend {@code pickThemeId}. */

@@ -1,20 +1,43 @@
 package az.tarix.platform.editorial.internal.importing;
 
 import az.tarix.platform.editorial.internal.importing.DataFolder.Doc;
+import az.tarix.platform.media.api.AssetType;
+import az.tarix.platform.media.api.MediaRegistry.LinkedFile;
 import az.tarix.platform.shared.domain.PermissionStatus;
+import az.tarix.platform.shared.read.ApiImage;
 import java.util.ArrayList;
 import java.util.List;
 import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
- * The permission status an imported image or recording gets (ADR-0010). Permission is never
- * assumed: anything not clearly free is PENDING. Until the media registry exists (phase 11)
- * the result is only reported; phase 11 stores it on {@code media_asset}.
+ * The files the existing data links to, with the permission status each gets (ADR-0010).
+ * Permission is never assumed: anything not clearly free is PENDING. The importer registers
+ * them in the media registry as linked files (ADR-0017).
  */
 public final class MediaPermissions {
 
-    /** One file the content refers to. */
-    public record MediaItem(String docType, String slug, String pointer, String file, String license, PermissionStatus status) {}
+    /**
+     * One file the content refers to.
+     *
+     * @param rightsHolder the image's author or the recording's rights holder, or null
+     * @param aiDisclosure the content's caption of an AI illustration, or the default label; null otherwise
+     */
+    public record MediaItem(String docType, String slug, String pointer, String file, AssetType type, String license,
+                            String sourceUrl, String rightsHolder, PermissionStatus status, boolean aiGenerated,
+                            JsonNode aiDisclosure) {
+
+        /** Whether it can be registered: a file and a licence (the registry requires one). */
+        public boolean registrable() {
+            return file != null && !file.isBlank() && license != null && !license.isBlank();
+        }
+
+        public LinkedFile linked() {
+            return new LinkedFile(file, type, license, sourceUrl, rightsHolder, status, aiGenerated, aiDisclosure);
+        }
+    }
+
+    private static final JsonNode DEFAULT_DISCLOSURE = JsonMapper.shared().valueToTree(ApiImage.AI_DISCLOSURE);
 
     private MediaPermissions() {}
 
@@ -42,7 +65,8 @@ public final class MediaPermissions {
             case HERO -> {
                 JsonNode photo = c.path("hero").path("photo");
                 if (photo.path("url").isString()) {
-                    out.add(item(doc, "/hero/photo", photo.path("url").asString(), photo.path("license").asString(null), null, null));
+                    out.add(new MediaItem(doc.type().name(), doc.slug(), "/hero/photo", photo.path("url").asString(), AssetType.IMAGE,
+                            str(photo, "license"), null, null, classify(null, str(photo, "license"), null), false, null));
                 }
             }
             case THEME -> {
@@ -50,15 +74,18 @@ public final class MediaPermissions {
                 for (int i = 0; i < art.size(); i++) {
                     JsonNode a = art.get(i);
                     if (a.path("src").isString()) {
-                        out.add(item(doc, "/theme/backgroundArt/" + i, a.path("src").asString(), a.path("license").asString(null),
-                                null, a.path("kind").asString(null)));
+                        String kind = str(a, "kind");
+                        boolean ai = "ai_illustration".equals(kind);
+                        out.add(new MediaItem(doc.type().name(), doc.slug(), "/theme/backgroundArt/" + i, a.path("src").asString(),
+                                AssetType.IMAGE, str(a, "license"), str(a, "sourceUrl"), null,
+                                classify(null, str(a, "license"), kind), ai, ai ? DEFAULT_DISCLOSURE : null));
                     }
                 }
             }
             case SOUNDTRACK_TRACK -> {
                 JsonNode t = c.path("track");
-                out.add(item(doc, "/track", t.path("file").asString(null), t.path("license").asString(null),
-                        t.path("permissionStatus").asString(null), null));
+                out.add(new MediaItem(doc.type().name(), doc.slug(), "/track", str(t, "file"), AssetType.AUDIO, str(t, "license"),
+                        null, str(t, "rightsHolder"), classify(str(t, "permissionStatus"), str(t, "license"), null), false, null));
             }
             default -> { }
         }
@@ -66,12 +93,16 @@ public final class MediaPermissions {
     }
 
     private static void image(List<MediaItem> out, Doc doc, String pointer, JsonNode image) {
-        if (image.path("src").isString()) {
-            out.add(item(doc, pointer, image.path("src").asString(), image.path("license").asString(null), null, null));
-        }
+        if (!image.path("src").isString()) return;
+        boolean ai = "ai_illustration".equals(str(image, "kind"));
+        JsonNode disclosure = ai ? (image.path("caption").isObject() ? image.path("caption") : DEFAULT_DISCLOSURE) : null;
+        out.add(new MediaItem(doc.type().name(), doc.slug(), pointer, image.path("src").asString(), AssetType.IMAGE,
+                str(image, "license"), str(image, "sourceUrl"), str(image, "author"), classify(null, str(image, "license"), null),
+                ai, disclosure));
     }
 
-    private static MediaItem item(Doc doc, String pointer, String file, String license, String status, String artKind) {
-        return new MediaItem(doc.type().name(), doc.slug(), pointer, file, license, classify(status, license, artKind));
+    private static String str(JsonNode node, String field) {
+        JsonNode v = node.path(field);
+        return v.isString() ? v.asString() : null;
     }
 }

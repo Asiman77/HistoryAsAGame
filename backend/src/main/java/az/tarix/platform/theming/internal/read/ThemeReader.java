@@ -4,6 +4,8 @@ import az.tarix.platform.shared.content.DocumentType;
 import az.tarix.platform.shared.jdbc.JsonColumns;
 import az.tarix.platform.shared.read.ApiImage;
 import az.tarix.platform.shared.read.Lang;
+import az.tarix.platform.shared.read.MediaFiles;
+import az.tarix.platform.shared.read.MediaIndex;
 import az.tarix.platform.shared.read.PublicCache;
 import az.tarix.platform.shared.read.ReadContext;
 import az.tarix.platform.shared.read.ResourceNotFoundException;
@@ -42,10 +44,12 @@ public class ThemeReader {
 
     private final JdbcClient jdbc;
     private final PublicCache cache;
+    private final MediaFiles media;
 
-    ThemeReader(JdbcClient jdbc, PublicCache cache) {
+    ThemeReader(JdbcClient jdbc, PublicCache cache, MediaFiles media) {
         this.jdbc = jdbc;
         this.cache = cache;
+        this.media = media;
     }
 
     public ThemeView theme(ReadContext ctx, String slug) {
@@ -54,19 +58,19 @@ public class ThemeReader {
             return jdbc.sql(ONE).param("slug", slug).query((rs, n) -> new ThemeView(rs.getString("slug"),
                     lang.text(JsonColumns.json(rs, "name")), rs.getString("extends_slug"), JsonColumns.json(rs, "palette"),
                     JsonColumns.json(rs, "fonts"), JsonColumns.json(rs, "textures"), JsonColumns.json(rs, "ornaments"),
-                    art(JsonColumns.json(rs, "background_art"), lang), upperKeys(JsonColumns.json(rs, "mood_overrides")),
+                    art(JsonColumns.json(rs, "background_art"), lang, media.at(ctx)), upperKeys(JsonColumns.json(rs, "mood_overrides")),
                     rs.getString("ambient_effect"), rs.getString("map_style_variant"), rs.getString("music_theme_slug")))
                     .optional().orElseThrow(() -> new ResourceNotFoundException(DocumentType.THEME, slug));
         });
     }
 
-    static List<BackgroundArt> art(JsonNode list, Lang lang) {
+    static List<BackgroundArt> art(JsonNode list, Lang lang, MediaIndex media) {
         List<BackgroundArt> out = new ArrayList<>();
         if (list == null) return out;
         for (JsonNode a : list) {
             String url = null;
             if (a.path("src").isString()) {
-                ApiImage image = ApiImage.of(a, lang);
+                ApiImage image = ApiImage.of(a, lang, media);
                 if (image == null) continue;          // a file without public permission is not shown at all
                 url = image.url();
             }

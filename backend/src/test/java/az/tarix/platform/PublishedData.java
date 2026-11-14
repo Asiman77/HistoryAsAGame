@@ -29,7 +29,8 @@ public final class PublishedData {
         jdbc.sql("DELETE FROM app_user WHERE email LIKE :pattern").param("pattern", "%@" + ownerDomain).update();
     }
 
-    static void seedPublished(JdbcClient jdbc, Doc d, UUID owner) {
+    /** One document as published (no review flow); returns its id. */
+    public static UUID seedPublished(JdbcClient jdbc, Doc d, UUID owner) {
         UUID doc = jdbc.sql("""
                 INSERT INTO editorial_document (doc_type, slug, status, created_by, created_at, updated_at)
                 VALUES (:type, :slug, 'PUBLISHED', :owner, now(), now()) RETURNING id""")
@@ -40,5 +41,6 @@ public final class PublishedData {
                 .param("doc", doc).param("content", d.content().toString()).param("owner", owner).query(UUID.class).single();
         jdbc.sql("UPDATE editorial_document SET current_revision_id = :rev, published_revision_id = :rev WHERE id = :doc")
                 .param("rev", rev).param("doc", doc).update();
+        return doc;
     }
 }

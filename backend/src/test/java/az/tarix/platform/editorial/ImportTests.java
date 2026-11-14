@@ -134,10 +134,20 @@ class ImportTests {
         assertThat(report.path("media").path("NOT_REQUIRED").asInt()).isPositive();
         assertThat(report.path("mediaPending")).anyMatch(m -> m.path("docType").asString().equals("SOUNDTRACK_TRACK"));
 
+        // ADR-0017: every linked file with a licence is in the registry, with that same status.
+        long linked = count("SELECT count(*) FROM media_asset WHERE origin = 'LINKED'");
+        assertThat(linked).isPositive().isEqualTo(report.path("mediaRegistry").path("registered").asLong());
+        assertThat(count("SELECT count(*) FROM media_asset WHERE permission_status = 'GRANTED'")).isZero();
+        assertThat(count("SELECT count(*) FROM media_asset WHERE permission_status = 'NOT_REQUIRED'")).isPositive();
+        assertThat(count("SELECT count(*) FROM media_asset WHERE uploaded_by <> '" + importer + "'")).isZero();
+
         // The read model is rebuilt once, asynchronously.
         await().atMost(Duration.ofSeconds(60)).until(() -> count("SELECT count(*) FROM person") == 3);
         assertThat(count("SELECT value FROM content_version")).isEqualTo(version + 1);
         assertThat(count("SELECT count(*) FROM soundtrack_track WHERE permission_status = 'PENDING'")).isZero();
+        // Portraits with a file point at their registry entry.
+        assertThat(count("SELECT count(*) FROM portrait WHERE image IS NOT NULL")).isPositive();
+        assertThat(count("SELECT count(*) FROM portrait WHERE image IS NOT NULL AND media_id IS NULL")).isZero();
     }
 
     @Test
@@ -145,10 +155,14 @@ class ImportTests {
         runImport(false);
         long revisions = count("SELECT count(*) FROM editorial_revision");
         long transitions = count("SELECT count(*) FROM status_transition_log");
+        long media = count("SELECT count(*) FROM media_asset");
         JsonNode second = runImport(false);
 
         assertThat(second.path("outcomes").path("UNCHANGED").asInt()).isEqualTo(second.path("documents").asInt());
         assertThat(second.path("published").asInt()).isZero();
+        assertThat(second.path("mediaRegistry").path("registered").asInt()).isZero();
+        assertThat(second.path("mediaRegistry").path("existing").asLong()).isEqualTo(media);
+        assertThat(count("SELECT count(*) FROM media_asset")).isEqualTo(media);
         assertThat(count("SELECT count(*) FROM editorial_revision")).isEqualTo(revisions);
         assertThat(count("SELECT count(*) FROM status_transition_log")).isEqualTo(transitions);
         assertThat(count("SELECT count(*) FROM editorial_document")).isEqualTo(second.path("documents").asLong());
@@ -162,6 +176,8 @@ class ImportTests {
         assertThat(report.path("outcomes").path("CREATED").asInt()).isPositive();
         assertThat(count("SELECT count(*) FROM editorial_document")).isZero();
         assertThat(count("SELECT count(*) FROM event_publication")).isZero();
+        assertThat(report.path("mediaRegistry").path("registered").asInt()).isPositive();
+        assertThat(count("SELECT count(*) FROM media_asset")).isZero();
     }
 
     @Test

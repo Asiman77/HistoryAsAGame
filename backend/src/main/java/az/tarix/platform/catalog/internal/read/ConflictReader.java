@@ -130,7 +130,7 @@ public class ConflictReader {
 
     public Steps days(ReadContext ctx, String slug) {
         return cache.get(ctx, "conflict-days", slug, () -> {
-            List<StepView> list = steps.of(EntityType.CONFLICT, slug, null, ctx.lang());
+            List<StepView> list = steps.of(EntityType.CONFLICT, slug, null, ctx);
             if (list.isEmpty()) requireExists(slug);
             return new Steps(new Steps.Owner(EntityType.CONFLICT, slug), ctx.contentVersion(), list);
         });
@@ -138,7 +138,7 @@ public class ConflictReader {
 
     public StepView day(ReadContext ctx, String slug, String stepKey) {
         return cache.get(ctx, "conflict-day", slug + "/" + stepKey, () -> {
-            List<StepView> list = steps.of(EntityType.CONFLICT, slug, stepKey, ctx.lang());
+            List<StepView> list = steps.of(EntityType.CONFLICT, slug, stepKey, ctx);
             if (!list.isEmpty()) return list.getFirst();
             requireExists(slug);
             throw new ResourceNotFoundException(DocumentType.CONFLICT, slug, stepKey);

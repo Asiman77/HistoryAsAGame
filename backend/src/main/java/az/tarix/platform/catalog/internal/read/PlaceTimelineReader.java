@@ -80,7 +80,7 @@ public class PlaceTimelineReader {
             params.put("lng", place.lng());
             // A little more than 30 km: the spheroid differs slightly from the frontend's sphere.
             params.put("meters", PlaceLookup.MATCH_KM * 1000 * 1.01);
-            List<IndexEvent> events = index.where(CANDIDATES, params, lang).stream()
+            List<IndexEvent> events = index.where(CANDIDATES, params, ctx).stream()
                     .filter(e -> slug.equals(e.location().placeSlug())).toList();
             return new PlaceTimeline(new PlaceHead(place.slug(), lang.text(place.historicalName()), lang.text(place.modernName()),
                     place.type(), place.lat(), place.lng()), membership, events);

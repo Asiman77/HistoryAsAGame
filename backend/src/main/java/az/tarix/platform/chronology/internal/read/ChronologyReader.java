@@ -10,6 +10,8 @@ import az.tarix.platform.shared.read.ApiLink;
 import az.tarix.platform.shared.read.ApiSource;
 import az.tarix.platform.shared.read.EntityLinks;
 import az.tarix.platform.shared.read.Lang;
+import az.tarix.platform.shared.read.MediaFiles;
+import az.tarix.platform.shared.read.MediaIndex;
 import az.tarix.platform.shared.read.PublicCache;
 import az.tarix.platform.shared.read.ReadContext;
 import az.tarix.platform.shared.read.ResourceNotFoundException;
@@ -130,11 +132,13 @@ public class ChronologyReader {
     private final JdbcClient jdbc;
     private final PublicCache cache;
     private final EntityLinks links;
+    private final MediaFiles media;
 
-    ChronologyReader(JdbcClient jdbc, PublicCache cache, EntityLinks links) {
+    ChronologyReader(JdbcClient jdbc, PublicCache cache, EntityLinks links, MediaFiles media) {
         this.jdbc = jdbc;
         this.cache = cache;
         this.links = links;
+        this.media = media;
     }
 
     public List<EraView> eras(ReadContext ctx) {
@@ -153,7 +157,7 @@ public class ChronologyReader {
             Row row = jdbc.sql(POLITY).param("slug", slug).query((rs, n) -> new Row(rs.getObject("id", UUID.class),
                     new PolityView(rs.getString("slug"), lang.text(JsonColumns.json(rs, "name")),
                             lang.text(JsonColumns.json(rs, "short_name")), rs.getString("color"),
-                            ApiImage.of(JsonColumns.json(rs, "emblem"), lang), rs.getInt("start_year"), rs.getInt("end_year"),
+                            ApiImage.of(JsonColumns.json(rs, "emblem"), lang, media.at(ctx)), rs.getInt("start_year"), rs.getInt("end_year"),
                             rs.getString("state_slug"), lang.text(JsonColumns.json(rs, "description")), null, null, null)))
                     .optional().orElseThrow(() -> new ResourceNotFoundException(DocumentType.POLITY, slug));
             List<Period> periods = jdbc.sql(POLITY_PERIODS).param("id", row.id())
@@ -199,7 +203,7 @@ public class ChronologyReader {
             EntityLinks.Resolved resolved = links.resolve(targets);
             List<ApiImage> portraits = new ArrayList<>();
             if (row.portraits() != null) for (JsonNode p : row.portraits()) {
-                ApiImage image = ApiImage.of(p, lang);
+                ApiImage image = ApiImage.of(p, lang, media.at(ctx));
                 if (image != null) portraits.add(image);
             }
             boolean personAvailable = r.personSlug() != null
@@ -231,7 +235,7 @@ public class ChronologyReader {
                     .query((rs, n) -> new PanelRuler(rs.getString("slug"), rs.getBoolean("available"),
                             lang.text(JsonColumns.json(rs, "name")),
                             lang.localizeAll(JsonColumns.json(rs, "titles")), lang.text(JsonColumns.json(rs, "dynasty")),
-                            ApiDate.read(rs, "birth"), ApiDate.read(rs, "death"), firstPublic(JsonColumns.json(rs, "portraits"), lang),
+                            ApiDate.read(rs, "birth"), ApiDate.read(rs, "death"), firstPublic(JsonColumns.json(rs, "portraits"), lang, media.at(ctx)),
                             rs.getString("person_slug"), false, yearMonth(rs, "start"), yearMonth(rs, "end"),
                             Certainty.valueOf(rs.getString("certainty")), lang.text(JsonColumns.json(rs, "note")),
                             ApiSource.all(JsonColumns.json(rs, "sources"))))
@@ -248,9 +252,9 @@ public class ChronologyReader {
     }
 
     /** The first portrait whose licence allows publishing (ADR-0014), or null. */
-    private static ApiImage firstPublic(JsonNode portraits, Lang lang) {
+    private static ApiImage firstPublic(JsonNode portraits, Lang lang, MediaIndex media) {
         if (portraits != null) for (JsonNode p : portraits) {
-            ApiImage image = ApiImage.of(p, lang);
+            ApiImage image = ApiImage.of(p, lang, media);
             if (image != null) return image;
         }
         return null;

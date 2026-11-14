@@ -8,6 +8,8 @@ import az.tarix.platform.shared.read.ApiImage;
 import az.tarix.platform.shared.read.ApiLink;
 import az.tarix.platform.shared.read.ApiSource;
 import az.tarix.platform.shared.read.Lang;
+import az.tarix.platform.shared.read.MediaFiles;
+import az.tarix.platform.shared.read.MediaIndex;
 import az.tarix.platform.shared.read.PublicCache;
 import az.tarix.platform.shared.read.ReadContext;
 import az.tarix.platform.shared.read.ResourceNotFoundException;
@@ -52,23 +54,25 @@ public class StateReader {
     private final PublicCache cache;
     private final StepReader steps;
     private final RelationReader relations;
+    private final MediaFiles media;
 
-    StateReader(JdbcClient jdbc, PublicCache cache, StepReader steps, RelationReader relations) {
+    StateReader(JdbcClient jdbc, PublicCache cache, StepReader steps, RelationReader relations, MediaFiles media) {
         this.jdbc = jdbc;
         this.cache = cache;
         this.steps = steps;
         this.relations = relations;
+        this.media = media;
     }
 
     public ResultPage<StateCard> list(ReadContext ctx, ResultPage.Request page) {
-        return cache.get(ctx, "states", page, () -> Lists.page(jdbc, LIST, page, rs -> card(rs, ctx.lang()), COUNT));
+        return cache.get(ctx, "states", page, () -> Lists.page(jdbc, LIST, page, rs -> card(rs, ctx.lang(), media.at(ctx)), COUNT));
     }
 
     public StateDetail detail(ReadContext ctx, String slug) {
         return cache.get(ctx, "state", slug, () -> {
             Lang lang = ctx.lang();
             record Row(StateCard card, JsonNode legacy, JsonNode sources) {}
-            Row r = jdbc.sql(ONE).param("slug", slug).query((rs, n) -> new Row(card(rs, lang), lang.text(JsonColumns.json(rs, "legacy")),
+            Row r = jdbc.sql(ONE).param("slug", slug).query((rs, n) -> new Row(card(rs, lang, media.at(ctx)), lang.text(JsonColumns.json(rs, "legacy")),
                     JsonColumns.json(rs, "sources"))).optional()
                     .orElseThrow(() -> new ResourceNotFoundException(DocumentType.STATE, slug));
             StateCard c = r.card();
@@ -80,7 +84,7 @@ public class StateReader {
 
     public Steps steps(ReadContext ctx, String slug) {
         return cache.get(ctx, "state-steps", slug, () -> {
-            List<StepView> list = steps.of(EntityType.STATE, slug, null, ctx.lang());
+            List<StepView> list = steps.of(EntityType.STATE, slug, null, ctx);
             if (list.isEmpty()) requireExists(slug);
             return new Steps(new Steps.Owner(EntityType.STATE, slug), ctx.contentVersion(), list);
         });
@@ -88,7 +92,7 @@ public class StateReader {
 
     public StepView step(ReadContext ctx, String slug, String stepKey) {
         return cache.get(ctx, "state-step", slug + "/" + stepKey, () -> {
-            List<StepView> list = steps.of(EntityType.STATE, slug, stepKey, ctx.lang());
+            List<StepView> list = steps.of(EntityType.STATE, slug, stepKey, ctx);
             if (!list.isEmpty()) return list.getFirst();
             requireExists(slug);
             throw new ResourceNotFoundException(DocumentType.STATE, slug, stepKey);
@@ -101,10 +105,10 @@ public class StateReader {
         }
     }
 
-    static StateCard card(ResultSet rs, Lang lang) throws SQLException {
+    static StateCard card(ResultSet rs, Lang lang, MediaIndex media) throws SQLException {
         return new StateCard(rs.getString("slug"), rs.getString("polity_slug"), lang.text(JsonColumns.json(rs, "name")),
                 rs.getString("years"), JsonColumns.integer(rs, "start_year"), JsonColumns.integer(rs, "end_year"),
-                lang.text(JsonColumns.json(rs, "summary")), ApiImage.of(JsonColumns.json(rs, "image"), lang),
+                lang.text(JsonColumns.json(rs, "summary")), ApiImage.of(JsonColumns.json(rs, "image"), lang, media),
                 JsonColumns.strings(rs, "era_slugs"), JsonColumns.strings(rs, "dynasty"), rs.getString("theme_slug"));
     }
 }

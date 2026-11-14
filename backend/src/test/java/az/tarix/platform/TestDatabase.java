@@ -8,7 +8,7 @@ public final class TestDatabase {
     private TestDatabase() {}
 
     /**
-     * Empties the editorial documents, the event registry and every projection table. Runs as
+     * Empties the editorial documents, the event registry, the media registry and every projection table. Runs as
      * one implicit transaction that first takes the projector's exclusive lock (Projector,
      * namespace 0x7461 + 1): projections and rebuilds still running asynchronously finish
      * first, and none can start in between, so the cleanup cannot deadlock with them.
@@ -22,7 +22,7 @@ public final class TestDatabase {
                          place, place_period, place_upcoming, territory_snapshot, polity_territory,
                          person, conflict, settlement, commander, battle, state_profile, hero, simulation_step, step_claim,
                          source, step_source, claim_source, entity_relation, glossary_entry, commemoration, world_event,
-                         planned_entity, theme, portrait, soundtrack_track
+                         planned_entity, theme, portrait, soundtrack_track, media_asset
                 CASCADE""").update();
     }
 }
