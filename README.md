@@ -33,6 +33,9 @@ npm run dev          # http://localhost:3000
 | `npm test` | Unit testlər (Vitest) |
 | `npm run test:e2e` | Playwright: hər şəxsiyyət başdan sona; desktop, planşet və mobil. Əvvəlcə `npm run build` lazımdır. İlk dəfə `npx playwright install chromium` |
 | `npm run lint`, `npm run typecheck` | ESLint və TypeScript |
+| `npm run build:api` | Saytı backend-in dərc olunmuş məzmunundan build edir: eksportu `.content/`-ə çəkir (`CONTENT_URL` və ya `CONTENT_DIR`), sonra `next build`. `NEXT_PUBLIC_DATA_SOURCE=api` ilə işlədin (aşağıya bax) |
+| `npm run content:pull` | Yalnız eksportu çəkir (`build:api`-nin birinci addımı) |
+| `npm run api:types` | `shared/openapi/public.json`-dan (backend testləri yazır) `src/data/api/openapi.ts` tiplərini generasiya edir |
 
 ## Deploy (GitHub Pages)
 
@@ -94,7 +97,20 @@ curl -s "localhost:8080/api/v1/persons/shah-ismayil/steps?lang=en" | jq '.steps[
 
 Bütün endpoint-lər: `/swagger-ui.html` (OpenAPI: `/v3/api-docs/public`), ətraflı: [ARCHITECTURE.md §13](docs/ARCHITECTURE.md), [ADR-0014](docs/adr/0014-public-read-api.md).
 
-`verify` həm də modul diaqramlarını `docs/modules/`-a yenidən yazır; dəyişibsə, commit edin (CI bunu yoxlayır).
+`verify` həm də modul diaqramlarını `docs/modules/`-a, ictimai OpenAPI təsvirini `shared/openapi/public.json`-a yenidən yazır;
+dəyişibsə, commit edin və `npm run api:types` işlədin (CI bunu yoxlayır).
+
+**Saytı backend-in məzmunundan build etmək** ([ADR-0020](docs/adr/0020-frontend-integration.md)). Backend dərcdən sonra statik eksportu
+`public-content` bucket-inə yazır ([ADR-0019](docs/adr/0019-static-export.md)); sayt ondan, `data/` formatında build olunur, UI dəyişmir:
+
+```bash
+NEXT_PUBLIC_DATA_SOURCE=api CONTENT_URL=http://localhost:8333/public-content npm run build:api
+```
+
+Backend-in anonim öyrənmə analitikası ([ADR-0018](docs/adr/0018-analytics.md)) üçün build zamanı `NEXT_PUBLIC_ANALYTICS_URL=https://…/api/v1/events`
+verin. Verilməyibsə, sayt heç bir event göndərmir. Brauzer DNT və ya GPC siqnalı göndərirsə, yenə göndərmir. Müəllim sinfin
+linkini `?class=KOD` ilə paylaşa bilər; həmin tab-ın event-ləri sinfin hesabatına düşür.
+
 
 ## Arxitektura
 

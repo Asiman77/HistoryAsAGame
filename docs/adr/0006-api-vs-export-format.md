@@ -1,6 +1,6 @@
 # 0006. İctimai API öz formasında, statik eksport `data/` formasında
 
-Tarix: 2026-11-11 · Status: Qəbul
+Tarix: 2026-11-11 · Status: Qəbul; "Frontend `ApiRepository`" bəndi [ADR-0020](0020-frontend-integration.md) ilə əvəz olunub
 
 ## Kontekst
 Spesifikasiya ictimai API üçün resurs-yönümlü forma verir (`stepKey`, `sequence`, böyük hərfli enum-lar, `?lang` ilə tək dilli sətirlər, `available` bayrağı). Frontend isə kiçik hərfli enum-lar, `id`/`order`, çoxdilli `LocalizedText` obyektləri ilə işləyir. Frontend tam statikdir (`output: "export"`, GitHub Pages).

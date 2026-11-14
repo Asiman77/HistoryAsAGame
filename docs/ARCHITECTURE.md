@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 13 (statik eksport).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 14 (frontend inteqrasiyası).
 
 ## 1. Ümumi görünüş
 
@@ -140,6 +140,7 @@ Konvensiyalar:
 | 11 | Media | ✅ |
 | 12 | Analitika | ✅ |
 | 13 | Statik eksport | ✅ |
+| 14 | Frontend inteqrasiyası | ✅ |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -522,3 +523,34 @@ ADMIN ─► POST /api/v1/admin/export (dərhal)
   - Zod sxem xətası yoxdur;
   - 26 bütövlük xətası: müharibə günləri dərc olunmamış `y2020` snapshot-una istinad edir (§11-dəki data qeydi);
   - qalanları eksport qovluğunun yanında olmayan şəkillər və `docs/*.md` faylları haqqındadır (mühitlə bağlıdır).
+
+## 19. Frontend inteqrasiyası (mərhələ 14)
+
+Qərarlar: [ADR-0020](adr/0020-frontend-integration.md).
+
+```
+NEXT_PUBLIC_DATA_SOURCE=static (defolt)   data/ ─────────────────────────────┐
+NEXT_PUBLIC_DATA_SOURCE=api               public-content/latest.json         ├─► FileSystemRepository (Zod) ─► next build (UI eynidir)
+  npm run build:api ─► pull-content.ts ─► .content/data, .content/public/…  ─┘
+                                        └► public/data/territories (brauzer)
+
+backend test ─► shared/openapi/public.json ─► npm run api:types ─► src/data/api/openapi.ts ─► analitika klienti
+Brauzer (NEXT_PUBLIC_ANALYTICS_URL varsa, DNT/GPC yoxdursa) ─► sendBeacon text/plain ─► POST /api/v1/events
+```
+
+- **Frontend faylları:** `src/data/index.ts` (`dataSource`, `dataRoot`), `scripts/pull-content.ts`, `src/data/api/openapi.ts` (generasiya olunur), `src/lib/analytics/{client.ts, context.tsx, quiz.ts}`.
+- **Event-lər** (§17-dəki cədvəl): `SimulationEngine`, `Quiz`, `RelatedLinks`, `SettingsPanel`, `TimeExplorer`. Sahib və addım `AnalyticsOwnerProvider` kontekstindən gəlir, quiz sualı isə öz addımını saxlayır (`quizOf`).
+- **`scripts/validate-data.ts`:** istəyə bağlı qovluq arqumenti qəbul edir (§18).
+- **CI:** `git diff --exit-code -- docs/modules shared/openapi`.
+- **Testlər:**
+  - backend `OpenApiExportTests`;
+  - frontend `analytics.test.ts`:
+    - batch, ən çox 50 event;
+    - icazəli sahələr;
+    - sessiya və sinif kodu;
+    - DNT/endpoint olmayanda söndürülür;
+    - `quizOf`, `dataSource`, `safePath`;
+  - frontend `apiTypes.test.ts`: generasiya olunan tiplər aktualdır;
+  - e2e `analytics.spec.ts`: brauzerdə bir səyahət `simulation_started`, `step_viewed`, `simulation_abandoned` göndərir, yalnız sessiya id-si ilə. Yalnız `NEXT_PUBLIC_ANALYTICS_URL` ilə build olunanda işləyir;
+  - `timeline.spec.ts`-dəki köhnə yarış vəziyyəti düzəldildi.
+- **Yoxlama (2026-11-14):** eksportdan və `data/`-dan build olunan saytlar 541 faylda müqayisə edildi (ADR-0020). Real fərq `y2020` və gözləyən treklərdir.
