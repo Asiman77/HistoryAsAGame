@@ -11,6 +11,11 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,6 +36,7 @@ import tools.jackson.databind.json.JsonMapper;
  * too, which is what {@code navigator.sendBeacon} sends cross-origin without a preflight.
  */
 @RestController
+@Tag(name = "Analitika")
 class EventController {
 
     /** Fails on any field that is not declared: personal data cannot slip in under another name. */
@@ -59,6 +65,12 @@ class EventController {
     }
 
     @PostMapping(path = "/api/v1/events", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
+    @Operation(summary = "Anonim öyrənmə event-ləri", description = """
+            1–50 event. Siyahıda olmayan sahə bütün sorğunu rədd edir (400). Token oxunmur. `text/plain` da qəbul olunur \n            (`navigator.sendBeacon`). Pis event-lər `rejected`-də göstərilir, qalanları saxlanılır.""")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = EventBatch.class)))
+    @ApiResponse(responseCode = "202", description = "Qəbul olundu", content = @Content(schema = @Schema(implementation = Result.class)))
+    @ApiResponse(responseCode = "429", description = "Limit; `Retry-After` qədər gözləyin")
     ResponseEntity<?> accept(@RequestBody String body, HttpServletRequest request) {
         // The size limit is enforced before the body is read: EventBodyLimitFilter.
         EventBatch batch;

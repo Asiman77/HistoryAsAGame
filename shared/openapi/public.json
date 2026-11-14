@@ -1,0 +1,4507 @@
+{
+  "components" : {
+    "schemas" : {
+      "ApiDate" : {
+        "properties" : {
+          "alternatives" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "certainty" : {
+            "enum" : [ "EXACT", "APPROXIMATE", "DISPUTED" ],
+            "type" : "string"
+          },
+          "day" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "month" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "note" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "precision" : {
+            "enum" : [ "YEAR", "MONTH", "DAY" ],
+            "type" : "string"
+          },
+          "year" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "ApiImage" : {
+        "properties" : {
+          "alt" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "author" : {
+            "type" : "string"
+          },
+          "caption" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "disclosure" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "kind" : {
+            "type" : "string"
+          },
+          "license" : {
+            "type" : "string"
+          },
+          "source" : {
+            "type" : "string"
+          },
+          "sourceUrl" : {
+            "type" : "string"
+          },
+          "url" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "ApiLink" : {
+        "properties" : {
+          "available" : {
+            "type" : "boolean"
+          },
+          "direction" : {
+            "enum" : [ "OUTGOING", "INCOMING" ],
+            "type" : "string"
+          },
+          "fromStepKey" : {
+            "type" : "string"
+          },
+          "label" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "note" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "relation" : {
+            "type" : "string"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "stepKey" : {
+            "type" : "string"
+          },
+          "type" : {
+            "enum" : [ "PERSON", "CONFLICT", "BATTLE", "STATE", "PLACE", "POLITY", "RULER", "ERA", "HERO" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "ApiPortrait" : {
+        "properties" : {
+          "ageFrom" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "ageTo" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "alt" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "author" : {
+            "type" : "string"
+          },
+          "caption" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "disclosure" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "kind" : {
+            "type" : "string"
+          },
+          "license" : {
+            "type" : "string"
+          },
+          "promptId" : {
+            "type" : "string"
+          },
+          "source" : {
+            "type" : "string"
+          },
+          "sourceUrl" : {
+            "type" : "string"
+          },
+          "url" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "ApiSource" : {
+        "properties" : {
+          "authors" : {
+            "type" : "string"
+          },
+          "locator" : {
+            "type" : "string"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "url" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "ApiTrack" : {
+        "properties" : {
+          "conflictSlug" : {
+            "type" : "string"
+          },
+          "license" : {
+            "type" : "string"
+          },
+          "moods" : {
+            "items" : {
+              "enum" : [ "BIRTH", "CHILDHOOD", "HARDSHIP", "EXILE", "JOURNEY", "RISE", "CORONATION", "BATTLE", "VICTORY", "DEFEAT", "PEACE", "DIPLOMACY", "CULTURE", "DECLINE", "DEATH", "REMEMBRANCE", "TRIUMPH" ],
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "performer" : {
+            "type" : "string"
+          },
+          "rightsHolder" : {
+            "type" : "string"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "url" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "BackgroundArt" : {
+        "properties" : {
+          "focus" : {
+            "type" : "string"
+          },
+          "kind" : {
+            "type" : "string"
+          },
+          "license" : {
+            "type" : "string"
+          },
+          "procedural" : {
+            "type" : "string"
+          },
+          "promptId" : {
+            "type" : "string"
+          },
+          "source" : {
+            "type" : "string"
+          },
+          "sourceUrl" : {
+            "type" : "string"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "url" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "BattleCard" : {
+        "properties" : {
+          "dates" : {
+            "type" : "string"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "stepKey" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "BattleView" : {
+        "properties" : {
+          "commanders" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "conflictSlug" : {
+            "type" : "string"
+          },
+          "date" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "dates" : {
+            "type" : "string"
+          },
+          "forces" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "outcome" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "placeSlug" : {
+            "type" : "string"
+          },
+          "relations" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiLink"
+            },
+            "type" : "array"
+          },
+          "sides" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "significance" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "stepKey" : {
+            "type" : "string"
+          },
+          "summary" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          }
+        },
+        "type" : "object"
+      },
+      "Capital" : {
+        "properties" : {
+          "color" : {
+            "type" : "string"
+          },
+          "lat" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "lng" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "place" : {
+            "type" : "string"
+          },
+          "placeName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "polity" : {
+            "type" : "string"
+          },
+          "polityName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          }
+        },
+        "type" : "object"
+      },
+      "ClaimVersion" : {
+        "properties" : {
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "text" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          }
+        },
+        "type" : "object"
+      },
+      "ClaimView" : {
+        "properties" : {
+          "claimKey" : {
+            "type" : "string"
+          },
+          "claimType" : {
+            "enum" : [ "FACT", "DISPUTED", "LEGEND", "LITERARY" ],
+            "type" : "string"
+          },
+          "firstRecorded" : {
+            "$ref" : "#/components/schemas/FirstRecorded"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "text" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "versions" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ClaimVersion"
+            },
+            "type" : "array"
+          },
+          "why" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          }
+        },
+        "type" : "object"
+      },
+      "ClassName" : {
+        "properties" : {
+          "name" : {
+            "maxLength" : 120,
+            "minLength" : 0,
+            "type" : "string"
+          }
+        },
+        "required" : [ "name" ],
+        "type" : "object"
+      },
+      "ClassView" : {
+        "properties" : {
+          "code" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "updatedAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "CommanderView" : {
+        "properties" : {
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "position" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "role" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "stepKeys" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "Commemoration" : {
+        "properties" : {
+          "description" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "ref" : {
+            "$ref" : "#/components/schemas/ApiLink"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "style" : {
+            "type" : "string"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          }
+        },
+        "type" : "object"
+      },
+      "Comparison" : {
+        "properties" : {
+          "a" : {
+            "$ref" : "#/components/schemas/Lane"
+          },
+          "b" : {
+            "$ref" : "#/components/schemas/Lane"
+          },
+          "intersections" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Intersection"
+            },
+            "type" : "array"
+          },
+          "overlap" : {
+            "$ref" : "#/components/schemas/Overlap"
+          }
+        },
+        "type" : "object"
+      },
+      "ConflictCard" : {
+        "properties" : {
+          "displayTitle" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "end" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "eraSlugs" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "start" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "summary" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "themeSlug" : {
+            "type" : "string"
+          },
+          "years" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "ConflictDetail" : {
+        "properties" : {
+          "battles" : {
+            "items" : {
+              "$ref" : "#/components/schemas/BattleCard"
+            },
+            "type" : "array"
+          },
+          "commanders" : {
+            "items" : {
+              "$ref" : "#/components/schemas/CommanderView"
+            },
+            "type" : "array"
+          },
+          "displayTitle" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "end" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "eraSlugs" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "finalNotes" : {
+            "items" : {
+              "$ref" : "#/components/schemas/JsonNode"
+            },
+            "type" : "array"
+          },
+          "heroes" : {
+            "items" : {
+              "$ref" : "#/components/schemas/HeroCard"
+            },
+            "type" : "array"
+          },
+          "introDate" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "legacy" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "relations" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiLink"
+            },
+            "type" : "array"
+          },
+          "settlements" : {
+            "items" : {
+              "$ref" : "#/components/schemas/SettlementView"
+            },
+            "type" : "array"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "start" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "summary" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "themeSlug" : {
+            "type" : "string"
+          },
+          "years" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "EraRef" : {
+        "properties" : {
+          "color" : {
+            "type" : "string"
+          },
+          "endYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "startYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "themeSlug" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "EraView" : {
+        "properties" : {
+          "color" : {
+            "type" : "string"
+          },
+          "description" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "endYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "startYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "themeSlug" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "EventBatch" : {
+        "properties" : {
+          "classCode" : {
+            "type" : "string"
+          },
+          "events" : {
+            "items" : {
+              "$ref" : "#/components/schemas/IncomingEvent"
+            },
+            "type" : "array"
+          },
+          "sessionId" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "Feature" : {
+        "properties" : {
+          "geometry" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "properties" : {
+            "$ref" : "#/components/schemas/FeatureProperties"
+          },
+          "type" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "FeatureProperties" : {
+        "properties" : {
+          "areaKm2" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "capital" : {
+            "type" : "string"
+          },
+          "certainty" : {
+            "enum" : [ "EXACT", "APPROXIMATE", "DISPUTED" ],
+            "type" : "string"
+          },
+          "color" : {
+            "type" : "string"
+          },
+          "labelAt" : {
+            "items" : {
+              "format" : "double",
+              "type" : "number"
+            },
+            "type" : "array"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "polity" : {
+            "type" : "string"
+          },
+          "vassalOf" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "FirstRecorded" : {
+        "properties" : {
+          "note" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "source" : {
+            "$ref" : "#/components/schemas/ApiSource"
+          }
+        },
+        "type" : "object"
+      },
+      "HeroCard" : {
+        "properties" : {
+          "fullName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "posthumous" : {
+            "type" : "boolean"
+          },
+          "rank" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "HeroView" : {
+        "properties" : {
+          "awards" : {
+            "items" : {
+              "$ref" : "#/components/schemas/JsonNode"
+            },
+            "type" : "array"
+          },
+          "bio" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "birthPlace" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "birthYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "conflictSlug" : {
+            "type" : "string"
+          },
+          "death" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "fullName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "photo" : {
+            "$ref" : "#/components/schemas/ApiImage"
+          },
+          "posthumous" : {
+            "type" : "boolean"
+          },
+          "rank" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "IncomingEvent" : {
+        "properties" : {
+          "correct" : {
+            "type" : "boolean"
+          },
+          "durationMs" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "mode" : {
+            "type" : "string"
+          },
+          "occurredAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "optionIndex" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "ownerSlug" : {
+            "type" : "string"
+          },
+          "ownerType" : {
+            "type" : "string"
+          },
+          "questionIndex" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "shown" : {
+            "type" : "boolean"
+          },
+          "stepKey" : {
+            "type" : "string"
+          },
+          "targetSlug" : {
+            "type" : "string"
+          },
+          "targetType" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "year" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "IndexEvent" : {
+        "properties" : {
+          "category" : {
+            "enum" : [ "PERSON", "BATTLE", "STATE" ],
+            "type" : "string"
+          },
+          "claimType" : {
+            "enum" : [ "FACT", "DISPUTED", "LEGEND", "LITERARY" ],
+            "type" : "string"
+          },
+          "date" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "eraSlug" : {
+            "type" : "string"
+          },
+          "image" : {
+            "$ref" : "#/components/schemas/ApiImage"
+          },
+          "key" : {
+            "type" : "string"
+          },
+          "kind" : {
+            "enum" : [ "LIFE_EVENT", "WAR_DAY", "STATE_STEP" ],
+            "type" : "string"
+          },
+          "location" : {
+            "$ref" : "#/components/schemas/IndexLocation"
+          },
+          "mood" : {
+            "enum" : [ "BIRTH", "CHILDHOOD", "HARDSHIP", "EXILE", "JOURNEY", "RISE", "CORONATION", "BATTLE", "VICTORY", "DEFEAT", "PEACE", "DIPLOMACY", "CULTURE", "DECLINE", "DEATH", "REMEMBRANCE", "TRIUMPH" ],
+            "type" : "string"
+          },
+          "ownerName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "ownerSlug" : {
+            "type" : "string"
+          },
+          "ownerType" : {
+            "enum" : [ "PERSON", "CONFLICT", "BATTLE", "STATE", "PLACE", "POLITY", "RULER", "ERA", "HERO" ],
+            "type" : "string"
+          },
+          "stepKey" : {
+            "type" : "string"
+          },
+          "themeSlug" : {
+            "type" : "string"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          }
+        },
+        "type" : "object"
+      },
+      "IndexLocation" : {
+        "properties" : {
+          "lat" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "lng" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "placeSlug" : {
+            "type" : "string"
+          },
+          "type" : {
+            "enum" : [ "CAPITAL", "CITY", "FORTRESS", "SHRINE", "BATTLEFIELD", "PORT", "VILLAGE", "REGION" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "Intersection" : {
+        "properties" : {
+          "a" : {
+            "type" : "string"
+          },
+          "b" : {
+            "type" : "string"
+          },
+          "battle" : {
+            "$ref" : "#/components/schemas/ApiLink"
+          },
+          "distanceKm" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "place" : {
+            "type" : "string"
+          },
+          "placeName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "reasons" : {
+            "items" : {
+              "enum" : [ "PLACE", "BATTLE" ],
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "year" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "JsonNode" : {
+        "properties" : {
+          "array" : {
+            "type" : "boolean"
+          },
+          "bigDecimal" : {
+            "type" : "boolean"
+          },
+          "bigInteger" : {
+            "type" : "boolean"
+          },
+          "binary" : {
+            "type" : "boolean"
+          },
+          "boolean" : {
+            "type" : "boolean"
+          },
+          "container" : {
+            "type" : "boolean"
+          },
+          "double" : {
+            "type" : "boolean"
+          },
+          "embeddedValue" : {
+            "type" : "boolean"
+          },
+          "empty" : {
+            "type" : "boolean"
+          },
+          "float" : {
+            "type" : "boolean"
+          },
+          "floatingPointNumber" : {
+            "type" : "boolean"
+          },
+          "int" : {
+            "type" : "boolean"
+          },
+          "integralNumber" : {
+            "type" : "boolean"
+          },
+          "long" : {
+            "type" : "boolean"
+          },
+          "missingNode" : {
+            "type" : "boolean"
+          },
+          "nodeType" : {
+            "enum" : [ "ARRAY", "BINARY", "BOOLEAN", "MISSING", "NULL", "NUMBER", "OBJECT", "POJO", "STRING" ],
+            "type" : "string"
+          },
+          "null" : {
+            "type" : "boolean"
+          },
+          "number" : {
+            "type" : "boolean"
+          },
+          "object" : {
+            "type" : "boolean"
+          },
+          "pojo" : {
+            "type" : "boolean"
+          },
+          "short" : {
+            "type" : "boolean"
+          },
+          "string" : {
+            "type" : "boolean"
+          },
+          "textual" : {
+            "deprecated" : true,
+            "type" : "boolean"
+          },
+          "valueNode" : {
+            "type" : "boolean"
+          }
+        },
+        "type" : "object"
+      },
+      "Lane" : {
+        "properties" : {
+          "events" : {
+            "items" : {
+              "$ref" : "#/components/schemas/LaneEvent"
+            },
+            "type" : "array"
+          },
+          "fromYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "toYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "type" : {
+            "enum" : [ "PERSON", "CONFLICT", "BATTLE", "STATE", "PLACE", "POLITY", "RULER", "ERA", "HERO" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "LaneEvent" : {
+        "properties" : {
+          "battles" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "category" : {
+            "enum" : [ "PERSON", "BATTLE", "STATE" ],
+            "type" : "string"
+          },
+          "claimType" : {
+            "enum" : [ "FACT", "DISPUTED", "LEGEND", "LITERARY" ],
+            "type" : "string"
+          },
+          "date" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "eraSlug" : {
+            "type" : "string"
+          },
+          "image" : {
+            "$ref" : "#/components/schemas/ApiImage"
+          },
+          "key" : {
+            "type" : "string"
+          },
+          "kind" : {
+            "enum" : [ "LIFE_EVENT", "WAR_DAY", "STATE_STEP" ],
+            "type" : "string"
+          },
+          "location" : {
+            "$ref" : "#/components/schemas/IndexLocation"
+          },
+          "mood" : {
+            "enum" : [ "BIRTH", "CHILDHOOD", "HARDSHIP", "EXILE", "JOURNEY", "RISE", "CORONATION", "BATTLE", "VICTORY", "DEFEAT", "PEACE", "DIPLOMACY", "CULTURE", "DECLINE", "DEATH", "REMEMBRANCE", "TRIUMPH" ],
+            "type" : "string"
+          },
+          "ownerName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "ownerSlug" : {
+            "type" : "string"
+          },
+          "ownerType" : {
+            "enum" : [ "PERSON", "CONFLICT", "BATTLE", "STATE", "PLACE", "POLITY", "RULER", "ERA", "HERO" ],
+            "type" : "string"
+          },
+          "stepKey" : {
+            "type" : "string"
+          },
+          "themeSlug" : {
+            "type" : "string"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          }
+        },
+        "type" : "object"
+      },
+      "LifeEnd" : {
+        "properties" : {
+          "date" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "location" : {
+            "$ref" : "#/components/schemas/StepLocation"
+          }
+        },
+        "type" : "object"
+      },
+      "MapPick" : {
+        "properties" : {
+          "covered" : {
+            "type" : "boolean"
+          },
+          "nextYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "prevYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "snapshot" : {
+            "type" : "string"
+          },
+          "snapshotYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "NamePeriod" : {
+        "properties" : {
+          "fromYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "toYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "NearestYears" : {
+        "properties" : {
+          "next" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "prev" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "OnThisDay" : {
+        "properties" : {
+          "commemoration" : {
+            "$ref" : "#/components/schemas/Commemoration"
+          },
+          "day" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "events" : {
+            "items" : {
+              "$ref" : "#/components/schemas/IndexEvent"
+            },
+            "type" : "array"
+          },
+          "mode" : {
+            "enum" : [ "DAY", "MONTH", "NONE" ],
+            "type" : "string"
+          },
+          "month" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "Overlap" : {
+        "properties" : {
+          "fromYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "toYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "Owner" : {
+        "properties" : {
+          "slug" : {
+            "type" : "string"
+          },
+          "type" : {
+            "enum" : [ "PERSON", "CONFLICT", "BATTLE", "STATE", "PLACE", "POLITY", "RULER", "ERA", "HERO" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "PanelRuler" : {
+        "properties" : {
+          "available" : {
+            "type" : "boolean"
+          },
+          "birth" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "death" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "dynasty" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "personAvailable" : {
+            "type" : "boolean"
+          },
+          "personSlug" : {
+            "type" : "string"
+          },
+          "portrait" : {
+            "$ref" : "#/components/schemas/ApiImage"
+          },
+          "reignCertainty" : {
+            "enum" : [ "EXACT", "APPROXIMATE", "DISPUTED" ],
+            "type" : "string"
+          },
+          "reignEnd" : {
+            "$ref" : "#/components/schemas/YearMonth"
+          },
+          "reignNote" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "reignStart" : {
+            "$ref" : "#/components/schemas/YearMonth"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "titles" : {
+            "items" : {
+              "$ref" : "#/components/schemas/JsonNode"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "Period" : {
+        "properties" : {
+          "fromYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "toYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "PersonAtYear" : {
+        "properties" : {
+          "age" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "ageApproximate" : {
+            "type" : "boolean"
+          },
+          "birthYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "deathYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "lat" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "lng" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "portrait" : {
+            "$ref" : "#/components/schemas/ApiImage"
+          },
+          "slug" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "PersonCard" : {
+        "properties" : {
+          "birth" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "death" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "eraSlugs" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "featuredOrder" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "portrait" : {
+            "$ref" : "#/components/schemas/ApiImage"
+          },
+          "shortName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "tags" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "themeSlug" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "PersonProfile" : {
+        "properties" : {
+          "birth" : {
+            "$ref" : "#/components/schemas/LifeEnd"
+          },
+          "death" : {
+            "$ref" : "#/components/schemas/LifeEnd"
+          },
+          "epigraph" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "eraSlugs" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "featuredOrder" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "legacy" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "portrait" : {
+            "$ref" : "#/components/schemas/ApiImage"
+          },
+          "portraits" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiPortrait"
+            },
+            "type" : "array"
+          },
+          "relations" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiLink"
+            },
+            "type" : "array"
+          },
+          "shortBio" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "shortName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "tags" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "themeSlug" : {
+            "type" : "string"
+          },
+          "titles" : {
+            "items" : {
+              "$ref" : "#/components/schemas/JsonNode"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "PlaceCard" : {
+        "properties" : {
+          "historicalName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "importance" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "lat" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "lng" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "modernName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "type" : {
+            "enum" : [ "CAPITAL", "CITY", "FORTRESS", "SHRINE", "BATTLEFIELD", "PORT", "VILLAGE", "REGION" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "PlaceDetail" : {
+        "properties" : {
+          "description" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "historicalName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "importance" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "lat" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "lng" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "modernName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "periods" : {
+            "items" : {
+              "$ref" : "#/components/schemas/NamePeriod"
+            },
+            "type" : "array"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "type" : {
+            "enum" : [ "CAPITAL", "CITY", "FORTRESS", "SHRINE", "BATTLEFIELD", "PORT", "VILLAGE", "REGION" ],
+            "type" : "string"
+          },
+          "upcoming" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Upcoming"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "PlaceHead" : {
+        "properties" : {
+          "historicalName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "lat" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "lng" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "modernName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "type" : {
+            "enum" : [ "CAPITAL", "CITY", "FORTRESS", "SHRINE", "BATTLEFIELD", "PORT", "VILLAGE", "REGION" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "PlaceTimeline" : {
+        "properties" : {
+          "events" : {
+            "items" : {
+              "$ref" : "#/components/schemas/IndexEvent"
+            },
+            "type" : "array"
+          },
+          "membership" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Span"
+            },
+            "type" : "array"
+          },
+          "place" : {
+            "$ref" : "#/components/schemas/PlaceHead"
+          }
+        },
+        "type" : "object"
+      },
+      "PolitiesAt" : {
+        "properties" : {
+          "covered" : {
+            "type" : "boolean"
+          },
+          "lat" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "lng" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "polities" : {
+            "items" : {
+              "$ref" : "#/components/schemas/PolityAtPoint"
+            },
+            "type" : "array"
+          },
+          "snapshot" : {
+            "type" : "string"
+          },
+          "snapshotYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "year" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "PolityAtPoint" : {
+        "properties" : {
+          "available" : {
+            "type" : "boolean"
+          },
+          "capital" : {
+            "type" : "string"
+          },
+          "certainty" : {
+            "enum" : [ "EXACT", "APPROXIMATE", "DISPUTED" ],
+            "type" : "string"
+          },
+          "color" : {
+            "type" : "string"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "vassalOf" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "PolityFact" : {
+        "properties" : {
+          "allies" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "fromYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "languages" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "religion" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "rivals" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "statusNote" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "toYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "PolityRef" : {
+        "properties" : {
+          "color" : {
+            "type" : "string"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "shortName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "PolityReign" : {
+        "properties" : {
+          "certainty" : {
+            "enum" : [ "EXACT", "APPROXIMATE", "DISPUTED" ],
+            "type" : "string"
+          },
+          "end" : {
+            "$ref" : "#/components/schemas/YearMonth"
+          },
+          "note" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "rulerAvailable" : {
+            "type" : "boolean"
+          },
+          "rulerName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "rulerSlug" : {
+            "type" : "string"
+          },
+          "start" : {
+            "$ref" : "#/components/schemas/YearMonth"
+          }
+        },
+        "type" : "object"
+      },
+      "PolityView" : {
+        "properties" : {
+          "color" : {
+            "type" : "string"
+          },
+          "description" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "emblem" : {
+            "$ref" : "#/components/schemas/ApiImage"
+          },
+          "endYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "facts" : {
+            "items" : {
+              "$ref" : "#/components/schemas/PolityFact"
+            },
+            "type" : "array"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "periods" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Period"
+            },
+            "type" : "array"
+          },
+          "reigns" : {
+            "items" : {
+              "$ref" : "#/components/schemas/PolityReign"
+            },
+            "type" : "array"
+          },
+          "shortName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "startYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "stateSlug" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "Rejection" : {
+        "properties" : {
+          "index" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "reason" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "Result" : {
+        "properties" : {
+          "accepted" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "classCode" : {
+            "type" : "boolean"
+          },
+          "rejected" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Rejection"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "ResultPageConflictCard" : {
+        "properties" : {
+          "items" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ConflictCard"
+            },
+            "type" : "array"
+          },
+          "page" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "size" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "totalElements" : {
+            "format" : "int64",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "ResultPagePersonCard" : {
+        "properties" : {
+          "items" : {
+            "items" : {
+              "$ref" : "#/components/schemas/PersonCard"
+            },
+            "type" : "array"
+          },
+          "page" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "size" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "totalElements" : {
+            "format" : "int64",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "ResultPagePlaceCard" : {
+        "properties" : {
+          "items" : {
+            "items" : {
+              "$ref" : "#/components/schemas/PlaceCard"
+            },
+            "type" : "array"
+          },
+          "page" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "size" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "totalElements" : {
+            "format" : "int64",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "ResultPageStateCard" : {
+        "properties" : {
+          "items" : {
+            "items" : {
+              "$ref" : "#/components/schemas/StateCard"
+            },
+            "type" : "array"
+          },
+          "page" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "size" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "totalElements" : {
+            "format" : "int64",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "RulerAtYear" : {
+        "properties" : {
+          "certainty" : {
+            "enum" : [ "EXACT", "APPROXIMATE", "DISPUTED" ],
+            "type" : "string"
+          },
+          "endMonth" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "endYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "polity" : {
+            "type" : "string"
+          },
+          "polityColor" : {
+            "type" : "string"
+          },
+          "polityName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "ruler" : {
+            "$ref" : "#/components/schemas/ApiLink"
+          },
+          "startMonth" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "startYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "RulerPanel" : {
+        "properties" : {
+          "exists" : {
+            "type" : "boolean"
+          },
+          "facts" : {
+            "$ref" : "#/components/schemas/PolityFact"
+          },
+          "polity" : {
+            "$ref" : "#/components/schemas/PolityRef"
+          },
+          "rulers" : {
+            "items" : {
+              "$ref" : "#/components/schemas/PanelRuler"
+            },
+            "type" : "array"
+          },
+          "year" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "RulerReign" : {
+        "properties" : {
+          "certainty" : {
+            "enum" : [ "EXACT", "APPROXIMATE", "DISPUTED" ],
+            "type" : "string"
+          },
+          "end" : {
+            "$ref" : "#/components/schemas/YearMonth"
+          },
+          "note" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "polityName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "politySlug" : {
+            "type" : "string"
+          },
+          "start" : {
+            "$ref" : "#/components/schemas/YearMonth"
+          }
+        },
+        "type" : "object"
+      },
+      "RulerView" : {
+        "properties" : {
+          "birth" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "death" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "dynasty" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "personAvailable" : {
+            "type" : "boolean"
+          },
+          "personSlug" : {
+            "type" : "string"
+          },
+          "portraits" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiImage"
+            },
+            "type" : "array"
+          },
+          "reigns" : {
+            "items" : {
+              "$ref" : "#/components/schemas/RulerReign"
+            },
+            "type" : "array"
+          },
+          "related" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiLink"
+            },
+            "type" : "array"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "titles" : {
+            "items" : {
+              "$ref" : "#/components/schemas/JsonNode"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "SearchItem" : {
+        "properties" : {
+          "fromYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "score" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "toYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "type" : {
+            "enum" : [ "PERSON", "CONFLICT", "BATTLE", "STATE", "PLACE", "POLITY", "RULER", "ERA", "HERO" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "SearchResult" : {
+        "properties" : {
+          "items" : {
+            "items" : {
+              "$ref" : "#/components/schemas/SearchItem"
+            },
+            "type" : "array"
+          },
+          "query" : {
+            "type" : "string"
+          },
+          "types" : {
+            "items" : {
+              "enum" : [ "PERSON", "CONFLICT", "BATTLE", "STATE", "PLACE", "POLITY", "RULER", "ERA", "HERO" ],
+              "type" : "string"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "SettlementView" : {
+        "properties" : {
+          "district" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "kind" : {
+            "type" : "string"
+          },
+          "lat" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "lng" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "SnapshotInfo" : {
+        "properties" : {
+          "certainty" : {
+            "enum" : [ "EXACT", "APPROXIMATE", "DISPUTED" ],
+            "type" : "string"
+          },
+          "note" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "validFromYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "validToYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "year" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "Span" : {
+        "properties" : {
+          "capital" : {
+            "type" : "boolean"
+          },
+          "certainty" : {
+            "enum" : [ "EXACT", "APPROXIMATE", "DISPUTED" ],
+            "type" : "string"
+          },
+          "color" : {
+            "type" : "string"
+          },
+          "fromYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "kind" : {
+            "enum" : [ "POLITY", "GAP" ],
+            "type" : "string"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "polity" : {
+            "type" : "string"
+          },
+          "toYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "vassalOf" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "StateCard" : {
+        "properties" : {
+          "dynasty" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "endYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "eraSlugs" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "image" : {
+            "$ref" : "#/components/schemas/ApiImage"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "politySlug" : {
+            "type" : "string"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "startYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "summary" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "themeSlug" : {
+            "type" : "string"
+          },
+          "years" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "StateDetail" : {
+        "properties" : {
+          "dynasty" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "endYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "eraSlugs" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "image" : {
+            "$ref" : "#/components/schemas/ApiImage"
+          },
+          "legacy" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "politySlug" : {
+            "type" : "string"
+          },
+          "relations" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiLink"
+            },
+            "type" : "array"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "startYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "summary" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "themeSlug" : {
+            "type" : "string"
+          },
+          "years" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "StepLocation" : {
+        "properties" : {
+          "approximate" : {
+            "type" : "boolean"
+          },
+          "lat" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "lng" : {
+            "format" : "double",
+            "type" : "number"
+          },
+          "modernName" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "type" : {
+            "enum" : [ "CAPITAL", "CITY", "FORTRESS", "SHRINE", "BATTLEFIELD", "PORT", "VILLAGE", "REGION" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "StepView" : {
+        "properties" : {
+          "ageApproximate" : {
+            "type" : "boolean"
+          },
+          "ageAtEvent" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "claimType" : {
+            "enum" : [ "FACT", "DISPUTED", "LEGEND", "LITERARY" ],
+            "type" : "string"
+          },
+          "claims" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ClaimView"
+            },
+            "type" : "array"
+          },
+          "date" : {
+            "$ref" : "#/components/schemas/ApiDate"
+          },
+          "details" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "factualSummary" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "fromLocation" : {
+            "$ref" : "#/components/schemas/StepLocation"
+          },
+          "kind" : {
+            "enum" : [ "LIFE_EVENT", "WAR_DAY", "STATE_STEP" ],
+            "type" : "string"
+          },
+          "location" : {
+            "$ref" : "#/components/schemas/StepLocation"
+          },
+          "mood" : {
+            "enum" : [ "BIRTH", "CHILDHOOD", "HARDSHIP", "EXILE", "JOURNEY", "RISE", "CORONATION", "BATTLE", "VICTORY", "DEFEAT", "PEACE", "DIPLOMACY", "CULTURE", "DECLINE", "DEATH", "REMEMBRANCE", "TRIUMPH" ],
+            "type" : "string"
+          },
+          "narrative" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "portrait" : {
+            "$ref" : "#/components/schemas/ApiPortrait"
+          },
+          "related" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiLink"
+            },
+            "type" : "array"
+          },
+          "route" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "sequence" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "stepKey" : {
+            "type" : "string"
+          },
+          "territorySnapshot" : {
+            "type" : "string"
+          },
+          "themeSlug" : {
+            "type" : "string"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          }
+        },
+        "type" : "object"
+      },
+      "Steps" : {
+        "properties" : {
+          "contentVersion" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "owner" : {
+            "$ref" : "#/components/schemas/Owner"
+          },
+          "steps" : {
+            "items" : {
+              "$ref" : "#/components/schemas/StepView"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "TerritoryMap" : {
+        "properties" : {
+          "covered" : {
+            "type" : "boolean"
+          },
+          "features" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Feature"
+            },
+            "type" : "array"
+          },
+          "nextYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "prevYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "snapshot" : {
+            "$ref" : "#/components/schemas/SnapshotInfo"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "year" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "ThemeView" : {
+        "properties" : {
+          "ambientEffect" : {
+            "type" : "string"
+          },
+          "backgroundArt" : {
+            "items" : {
+              "$ref" : "#/components/schemas/BackgroundArt"
+            },
+            "type" : "array"
+          },
+          "extendsSlug" : {
+            "type" : "string"
+          },
+          "fonts" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "mapStyleVariant" : {
+            "type" : "string"
+          },
+          "moodOverrides" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "musicThemeSlug" : {
+            "type" : "string"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "ornaments" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "palette" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "textures" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          }
+        },
+        "type" : "object"
+      },
+      "Upcoming" : {
+        "properties" : {
+          "ref" : {
+            "$ref" : "#/components/schemas/ApiLink"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "year" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "YearMonth" : {
+        "properties" : {
+          "month" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "year" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "YearView" : {
+        "properties" : {
+          "capitals" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Capital"
+            },
+            "type" : "array"
+          },
+          "coverage" : {
+            "enum" : [ "FULL", "PARTIAL", "NONE" ],
+            "type" : "string"
+          },
+          "era" : {
+            "$ref" : "#/components/schemas/EraRef"
+          },
+          "events" : {
+            "items" : {
+              "$ref" : "#/components/schemas/IndexEvent"
+            },
+            "type" : "array"
+          },
+          "map" : {
+            "$ref" : "#/components/schemas/MapPick"
+          },
+          "nearestEventYears" : {
+            "$ref" : "#/components/schemas/NearestYears"
+          },
+          "persons" : {
+            "items" : {
+              "$ref" : "#/components/schemas/PersonAtYear"
+            },
+            "type" : "array"
+          },
+          "rulers" : {
+            "items" : {
+              "$ref" : "#/components/schemas/RulerAtYear"
+            },
+            "type" : "array"
+          },
+          "themeSlug" : {
+            "type" : "string"
+          },
+          "year" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      }
+    },
+    "securitySchemes" : {
+      "bearer" : {
+        "bearerFormat" : "JWT",
+        "scheme" : "bearer",
+        "type" : "http"
+      }
+    }
+  },
+  "info" : {
+    "description" : "İctimai oxuma API-si (`GET`, autentifikasiyasız, `ETag` + `Cache-Control`) və redaksiya API-si (JWT). Lokallaşdırılmış sahələr seçilmiş dildə sətir olur; `?lang=all` bütün dilləri obyekt kimi qaytarır.",
+    "title" : "Tarixin İçində API",
+    "version" : "v1"
+  },
+  "openapi" : "3.1.0",
+  "paths" : {
+    "/api/v1/battles/{slug}" : {
+      "get" : {
+        "operationId" : "battle",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BattleView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Döyüş",
+        "tags" : [ "Kataloq" ]
+      }
+    },
+    "/api/v1/compare" : {
+      "get" : {
+        "description" : "İki simulyasiya (şəxsiyyət, dövlət və ya müharibə) eyni zaman oxunda. Kəsişmə: eyni il və eyni məkan (və ya 25 km-dən yaxın), ya da eyni döyüşə istinad.",
+        "operationId" : "compare",
+        "parameters" : [ {
+          "description" : "type:slug, məs. person:uzun-hasan",
+          "in" : "query",
+          "name" : "a",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "type:slug, məs. person:shah-ismayil",
+          "in" : "query",
+          "name" : "b",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Comparison"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Paralel müqayisə",
+        "tags" : [ "Zaman və məkan" ]
+      }
+    },
+    "/api/v1/conflicts" : {
+      "get" : {
+        "operationId" : "conflicts",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "page",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "in" : "query",
+          "name" : "size",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResultPageConflictCard"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Müharibələr",
+        "tags" : [ "Simulyasiyalar" ]
+      }
+    },
+    "/api/v1/conflicts/{slug}" : {
+      "get" : {
+        "description" : "Yaşayış məntəqələri, komandanlar, qəhrəmanlar, döyüşlər, əlaqələr.",
+        "operationId" : "conflict",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConflictDetail"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Müharibə",
+        "tags" : [ "Simulyasiyalar" ]
+      }
+    },
+    "/api/v1/conflicts/{slug}/days" : {
+      "get" : {
+        "operationId" : "conflictDays",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Steps"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Müharibənin günləri",
+        "tags" : [ "Simulyasiyalar" ]
+      }
+    },
+    "/api/v1/conflicts/{slug}/days/{stepKey}" : {
+      "get" : {
+        "description" : "Dərin link üçün.",
+        "operationId" : "conflictDay",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "stepKey",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StepView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Müharibənin bir günü",
+        "tags" : [ "Simulyasiyalar" ]
+      }
+    },
+    "/api/v1/eras" : {
+      "get" : {
+        "description" : "Hamısı, xronoloji sırada (az sayda olduğu üçün səhifələnmir).",
+        "operationId" : "eras",
+        "parameters" : [ {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/EraView"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Dövrlər",
+        "tags" : [ "Xronologiya" ]
+      }
+    },
+    "/api/v1/events" : {
+      "post" : {
+        "description" : "1–50 event. Siyahıda olmayan sahə bütün sorğunu rədd edir (400). Token oxunmur. `text/plain` da qəbul olunur \n            (`navigator.sendBeacon`). Pis event-lər `rejected`-də göstərilir, qalanları saxlanılır.",
+        "operationId" : "accept",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/EventBatch"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Result"
+                }
+              }
+            },
+            "description" : "Qəbul olundu"
+          },
+          "429" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "Limit; `Retry-After` qədər gözləyin"
+          }
+        },
+        "summary" : "Anonim öyrənmə event-ləri",
+        "tags" : [ "Analitika" ]
+      }
+    },
+    "/api/v1/heroes/{slug}" : {
+      "get" : {
+        "operationId" : "hero",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HeroView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Qəhrəman / şəhid",
+        "tags" : [ "Kataloq" ]
+      }
+    },
+    "/api/v1/on-this-day" : {
+      "get" : {
+        "description" : "Həmin gün və ayda baş vermiş hadisələr (yalnız günə qədər dəqiq tarixlər), illərə görə. Yoxdursa, həmin ayın hadisələri (`mode: MONTH`). Xüsusi tarixlər `commemoration` ilə gəlir.",
+        "operationId" : "onThisDay",
+        "parameters" : [ {
+          "description" : "Ay, 1–12",
+          "in" : "query",
+          "name" : "month",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Gün",
+          "in" : "query",
+          "name" : "day",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OnThisDay"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Tarixdə bu gün",
+        "tags" : [ "Zaman və məkan" ]
+      }
+    },
+    "/api/v1/persons" : {
+      "get" : {
+        "description" : "Kartlar üçün: ad, illər, dövrlər, portret, tema. Seçilmişlər əvvəldə.",
+        "operationId" : "persons",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "page",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "in" : "query",
+          "name" : "size",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResultPagePersonCard"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Şəxsiyyətlər",
+        "tags" : [ "Simulyasiyalar" ]
+      }
+    },
+    "/api/v1/persons/{slug}" : {
+      "get" : {
+        "description" : "Doğum və ölüm, yaşa görə portretlər, əlaqələr.",
+        "operationId" : "person",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PersonProfile"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Şəxsiyyətin profili",
+        "tags" : [ "Simulyasiyalar" ]
+      }
+    },
+    "/api/v1/persons/{slug}/steps" : {
+      "get" : {
+        "description" : "Sıra ilə, iddialar, mənbələr, əlaqələr və yaşa uyğun portretlə.",
+        "operationId" : "personSteps",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Steps"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Həyat mərhələləri",
+        "tags" : [ "Simulyasiyalar" ]
+      }
+    },
+    "/api/v1/persons/{slug}/steps/{stepKey}" : {
+      "get" : {
+        "description" : "Dərin link üçün.",
+        "operationId" : "personStep",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "stepKey",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StepView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Tək həyat mərhələsi",
+        "tags" : [ "Simulyasiyalar" ]
+      }
+    },
+    "/api/v1/places" : {
+      "get" : {
+        "description" : "Ən vacib məkanlar əvvəldə.",
+        "operationId" : "list_1",
+        "parameters" : [ {
+          "description" : "minLng,minLat,maxLng,maxLat (WGS 84); verilməyibsə hamısı",
+          "in" : "query",
+          "name" : "bbox",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Vaciblik həddi: 1 = yalnız ən vacib məkanlar, 3 = hamısı",
+          "in" : "query",
+          "name" : "minImportance",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "in" : "query",
+          "name" : "page",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "in" : "query",
+          "name" : "size",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResultPagePlaceCard"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Xəritə görünüşündəki məkanlar",
+        "tags" : [ "Məkanlar" ]
+      }
+    },
+    "/api/v1/places/{slug}" : {
+      "get" : {
+        "description" : "Tarixi və müasir ad, dövrlərə görə adlar, gələcək məzmun.",
+        "operationId" : "detail",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PlaceDetail"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Məkan",
+        "tags" : [ "Məkanlar" ]
+      }
+    },
+    "/api/v1/places/{slug}/timeline" : {
+      "get" : {
+        "description" : "Bütün kateqoriyalardan bu məkanda baş vermiş addımlar (xronoloji) və məkanın dövrlərə görə hansı dövlətə aid olduğu (ərazi snapshot-larından; xəritəsiz illər GAP).",
+        "operationId" : "placeTimeline",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PlaceTimeline"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Məkanın tarixi",
+        "tags" : [ "Zaman və məkan" ]
+      }
+    },
+    "/api/v1/polities/at" : {
+      "get" : {
+        "description" : "Əhatəli snapshot-da nöqtəni ehtiva edən bütün dövlətlər (mübahisəli və vassal ərazilərdə bir neçə). İl heç bir snapshot ilə əhatə olunmayıbsa `covered: false` və boş siyahı.",
+        "operationId" : "politiesAt",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "lat",
+          "required" : false,
+          "schema" : {
+            "format" : "double",
+            "type" : "number"
+          }
+        }, {
+          "in" : "query",
+          "name" : "lng",
+          "required" : false,
+          "schema" : {
+            "format" : "double",
+            "type" : "number"
+          }
+        }, {
+          "in" : "query",
+          "name" : "year",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PolitiesAt"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Nöqtə həmin il hansı dövlətdə idi",
+        "tags" : [ "Ərazilər" ]
+      }
+    },
+    "/api/v1/polities/{slug}" : {
+      "get" : {
+        "description" : "Rəng, emblem, mövcudluq dövrləri, dövrlərə görə faktlar və hakimiyyətlər.",
+        "operationId" : "polity",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PolityView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Siyasi qurum",
+        "tags" : [ "Xronologiya" ]
+      }
+    },
+    "/api/v1/polities/{slug}/ruler" : {
+      "get" : {
+        "description" : "İldə hakimiyyətdə olan hökmdar(lar): həmhökmdarlar və həmin il hakimiyyət dəyişibsə bir neçə. `exists`: dövlət həmin il mövcud idimi; `facts`: həmin ilin faktları.",
+        "operationId" : "rulerPanel",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "İl",
+          "in" : "query",
+          "name" : "year",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RulerPanel"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Hökmdar paneli",
+        "tags" : [ "Xronologiya" ]
+      }
+    },
+    "/api/v1/relations" : {
+      "get" : {
+        "description" : "Öz və addımlarının əlaqələri (`OUTGOING`) və ona işarə edənlər (`INCOMING`). `available: false` — hədəf hələ dərc olunmayıb (passiv keçid).",
+        "operationId" : "relations",
+        "parameters" : [ {
+          "description" : "person, conflict, battle, state, place, polity, ruler, era, hero",
+          "in" : "query",
+          "name" : "type",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/ApiLink"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Entity-nin bütün əlaqələri",
+        "tags" : [ "Kataloq" ]
+      }
+    },
+    "/api/v1/rulers/{slug}" : {
+      "get" : {
+        "description" : "Titullar, sülalə, həyat tarixləri, hakimiyyətləri və əlaqələri.",
+        "operationId" : "ruler",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RulerView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Hökmdar",
+        "tags" : [ "Xronologiya" ]
+      }
+    },
+    "/api/v1/search" : {
+      "get" : {
+        "description" : "Şəxsiyyətlər, müharibələr, dövlətlər, döyüşlər, qəhrəmanlar, məkanlar, dövlət qurumları, hökmdarlar və dövrlər üzrə. Azərbaycan hərfləri və böyük-kiçik hərf fərq etmir (`seh ismayil` → Şah İsmayıl), yazı səhvlərinə dözümlüdür (trigram). Ən uyğun nəticələr əvvəldə.",
+        "operationId" : "search",
+        "parameters" : [ {
+          "description" : "Sorğu, 2–100 simvol",
+          "in" : "query",
+          "name" : "q",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Vergüllə tiplər, məs. PERSON,PLACE; verilməyibsə hamısı",
+          "in" : "query",
+          "name" : "types",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Nəticə sayı, 1–50 (defolt 20)",
+          "in" : "query",
+          "name" : "limit",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SearchResult"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Axtarış",
+        "tags" : [ "Zaman və məkan" ]
+      }
+    },
+    "/api/v1/soundtracks" : {
+      "get" : {
+        "description" : "Yalnız səs yazısı ictimai səsləndirilə bilən treklər (GRANTED və ya NOT_REQUIRED). `mood` və `conflict` ilə süzülür.",
+        "operationId" : "list",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "mood",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "conflict",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/ApiTrack"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "İcazəli treklər",
+        "tags" : [ "Musiqi" ]
+      }
+    },
+    "/api/v1/states" : {
+      "get" : {
+        "operationId" : "states",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "page",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "in" : "query",
+          "name" : "size",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResultPageStateCard"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Dövlətlər",
+        "tags" : [ "Simulyasiyalar" ]
+      }
+    },
+    "/api/v1/states/{slug}" : {
+      "get" : {
+        "operationId" : "state",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StateDetail"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Dövlət simulyasiyası",
+        "tags" : [ "Simulyasiyalar" ]
+      }
+    },
+    "/api/v1/states/{slug}/steps" : {
+      "get" : {
+        "operationId" : "stateSteps",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Steps"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Dövlətin mərhələləri",
+        "tags" : [ "Simulyasiyalar" ]
+      }
+    },
+    "/api/v1/states/{slug}/steps/{stepKey}" : {
+      "get" : {
+        "description" : "Dərin link üçün.",
+        "operationId" : "stateStep",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "stepKey",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StepView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Dövlətin bir mərhələsi",
+        "tags" : [ "Simulyasiyalar" ]
+      }
+    },
+    "/api/v1/teacher/classes" : {
+      "get" : {
+        "operationId" : "mine",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/ClassView"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "class-controller" ]
+      },
+      "post" : {
+        "operationId" : "create",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ClassName"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClassView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "class-controller" ]
+      }
+    },
+    "/api/v1/teacher/classes/{code}" : {
+      "delete" : {
+        "operationId" : "delete",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "code",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "class-controller" ]
+      },
+      "get" : {
+        "operationId" : "get",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "code",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClassView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "class-controller" ]
+      },
+      "patch" : {
+        "operationId" : "rename",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "code",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ClassName"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClassView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "class-controller" ]
+      }
+    },
+    "/api/v1/territories" : {
+      "get" : {
+        "description" : "İlin ərazi snapshot-u: hər dövlət bir Feature. Snapshot öz ilini və ən çox 30 il sonranı əhatə edir; əhatəsiz ildə ən yaxın snapshot `covered: false` ilə qaytarılır (solğun çəkmək üçün), `prevYear`/`nextYear` isə əhatəli illərə keçid üçündür.",
+        "operationId" : "map",
+        "parameters" : [ {
+          "description" : "İl (astronomik nömrələmə)",
+          "in" : "query",
+          "name" : "year",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Sadələşdirilmiş geometriya (≈ 1 km); `false` yalnız yaxın zoom üçün",
+          "in" : "query",
+          "name" : "simplified",
+          "required" : false,
+          "schema" : {
+            "default" : true,
+            "type" : "boolean"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/geo+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TerritoryMap"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TerritoryMap"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Siyasi xəritə (GeoJSON)",
+        "tags" : [ "Ərazilər" ]
+      }
+    },
+    "/api/v1/themes/{slug}" : {
+      "get" : {
+        "description" : "Variantlar əsas tema ilə birləşdirilmiş halda (frontend `resolveThemes` qaydası).",
+        "operationId" : "theme",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThemeView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Vizual tema",
+        "tags" : [ "Temalar" ]
+      }
+    },
+    "/api/v1/timeline" : {
+      "get" : {
+        "description" : "İlin xəritəsi (snapshot seçimi və paytaxtlar), hakimiyyətdə olan hökmdarlar, sağ olan şəxsiyyətlər (yaş və son məlum yer), həmin ilin hadisələri. `coverage`: FULL — xəritə ili əhatə edir, PARTIAL — xəritə yoxdur, digər məlumat var, NONE — heç nə yoxdur.",
+        "operationId" : "timeline",
+        "parameters" : [ {
+          "description" : "İl",
+          "in" : "query",
+          "name" : "year",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/YearView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "İl üzrə tarix (zaman sürüşdürücüsü)",
+        "tags" : [ "Zaman və məkan" ]
+      }
+    }
+  }
+}

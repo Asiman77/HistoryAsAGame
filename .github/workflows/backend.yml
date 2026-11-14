@@ -32,9 +32,9 @@ jobs:
           cache: maven
       # Unit, Modulith and Testcontainers (PostGIS) tests; Docker is available on ubuntu-latest.
       - run: ./mvnw -B verify
-      - name: Module docs are up to date
+      - name: Module docs and OpenAPI description are up to date
         working-directory: .
-        run: git diff --exit-code -- docs/modules
+        run: git diff --exit-code -- docs/modules shared/openapi
 
   image:
     name: Docker image and compose file
