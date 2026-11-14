@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 11 (media).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 12 (analitika).
 
 ## 1. Ümumi görünüş
 
@@ -116,7 +116,7 @@ Konvensiyalar:
 `app_user`, `user_role`, `refresh_token` (+ `family_id` — təkrar istifadədə bütün ailəni ləğv etmək üçün), `class_group` — spesifikasiyadakı kimi.
 
 ### analytics
-`learning_event` (aylıq `RANGE` partition-lar, partition-ları planlı job yaradır), `daily_aggregate (day, event_type, owner_type, owner_slug, step_key, class_code, count, payload_stats jsonb)` — `UNIQUE` toplama açarı ilə upsert.
+`learning_event` (`received_at` üzrə aylıq `RANGE` partition-lar; IP/user-agent/istifadəçi sütunu yoxdur; `detail`, `payload` yalnız tipin sahələri), `daily_aggregate (day, event_type, owner_type, owner_slug, step_key, class_code, detail, count, sessions, payload_stats jsonb, computed_at)` — `UNIQUE` toplama açarı ilə upsert (ADR-0018).
 
 ## 4. Mərhələ planı
 
@@ -138,6 +138,7 @@ Konvensiyalar:
 | 9 | Coğrafi və xronoloji sorğular | ✅ |
 | 10 | Təhlükəsizliyin qalanı | ✅ |
 | 11 | Media | ✅ |
+| 12 | Analitika | ✅ |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -435,3 +436,58 @@ ADMIN ──► PATCH /editorial/media/{id} {permissionStatus: GRANTED} (If-Matc
   - unit: `FileTypeTests` (allowlist, imzalar, adı dəyişdirilmiş HTML), `PermissionPolicyTests`, `MediaPropertiesTests`, `PublicValuesTests` (reyestrə görə göstər/gizlət), `DocumentValidatorTests` (`media-not-found`, `media-permission`, `media-type`, lisenziya fərqi, reyestrdə AI);
   - inteqrasiya (S3 ilə: Testcontainers SeaweedFS, eyni image): `MediaFlowTests` (presigned yükləmə → qeydiyyat → anonim oxu; saxta PNG silinir; icazə qaydaları və `If-Match`; icazə verilir/ləğv olunur → hero fotosu ictimai API-də görünür/gizlənir; `/soundtracks`), `OrphanUploadCleanupTests`;
   - `ImportTests`: reyestr sayları, statuslar, `portrait.media_id`, ikinci idxal, `dryRun`; `PermissionMatrixTests`: 5 yeni endpoint.
+
+## 17. Analitika (mərhələ 12)
+
+Qərarlar: [ADR-0018](adr/0018-analytics.md).
+
+```
+Brauzer ─► POST /api/v1/events {sessionId, classCode?, events[≤50]}   (token oxunmur; application/json və ya text/plain)
+             EventBodyLimitFilter (≤ 64 KB) ─► sərt JSON (naməlum sahə → 400) ─► EventRateLimiter (sessiya, ünvan)
+             ─► EventRules (tip üzrə sahələr) ─► learning_event_YYYY_MM                       ─► 202 {accepted, rejected[]}
+Gecə 02:15 (Asia/Baku) ─► DailyAggregation: son 3 gün → daily_aggregate (upsert) ─► retention (12 ay) ─► partition-lar (+2 ay)
+ADMIN/TEACHER ─► /api/v1/analytics/* ─► yalnız daily_aggregate
+```
+
+- **Miqrasiya `V014__analytics`:**
+  - `learning_event` (partition-lı) və `daily_aggregate`;
+  - `analytics_ensure_partitions(n)`, `analytics_drop_partitions_before(cutoff)` (DDL `format('%I')` ilə, Java-da SQL birləşdirmə yoxdur).
+- **Event-lər və sahələri:**
+
+| `type` | sahib / addım | sahələr | `detail` |
+|---|---|---|---|
+| `simulation_started` | sahib məcburi | `mode?` | `story` / `learn` / boş |
+| `step_viewed` | sahib + addım | `durationMs?` | — |
+| `simulation_completed` | sahib | `durationMs?` | — |
+| `simulation_abandoned` | sahib + addım (son addım) | — | — |
+| `quiz_answered` | sahib + addım | `questionIndex` (0–4), `correct` | `q<i>` |
+| `choice_made` | sahib + addım | `optionIndex` (0–3) | `o<i>` |
+| `mode_switched` | sahib? | `mode` | rejim |
+| `cross_link_followed` | sahib? addım? | `targetType`, `targetSlug` | `battle:chaldiran` |
+| `legend_toggle` | sahib? addım? | `shown` | `shown` / `hidden` |
+| `time_slider_used` | — | `year` | il |
+
+  `ownerType`: `person`, `conflict`, `state`. `occurredAt` yalnız `[qəbul − 48 saat, qəbul + 5 dəq.]` aralığında qəbul olunur, əks halda qəbul vaxtı yazılır.
+- **Endpoint-lər** (hamısı `no-store`):
+
+| Metod və yol | Kim | Qeyd |
+|---|---|---|
+| `POST /api/v1/events` | hər kəs | `202`; `400` (forma, naməlum sahə, 0 və ya > 50 event), `413`, `429` + `Retry-After` |
+| `GET /api/v1/analytics/quiz-difficulty?from=&to=&minAnswers=&limit=` | ADMIN | `[{ownerType, ownerSlug, stepKey, questionIndex, answers, wrong, wrongRate}]` |
+| `GET /api/v1/analytics/drop-off?owner=person:<slug>&from=&to=` | ADMIN | `{started, completed, steps[{stepKey, views, abandoned, abandonRate}]}` |
+| `GET /api/v1/analytics/classes/{code}?from=&to=` | TEACHER (öz sinfi) | `{code, name, period, simulations[], quizzes[], abandoned[]}`; başqasının sinfi `404` |
+| `POST /api/v1/admin/analytics/aggregate?from=&to=` | ADMIN | günləri indi yenidən hesablayır |
+
+- **Konfiqurasiya** (`platform.analytics.*`): `zone`, `max-batch`, `max-body`, `retention`, `recompute-days`, `per-session`, `per-address`, `aggregate-cron`.
+- **Testlər:**
+  - `EventRulesTests` (tip üzrə sahələr, saatın məhdudlaşdırılması);
+  - `AnalyticsTests`, 7 test. Yoxlananlar:
+    - sütunlarda şəxsi məlumat yoxdur, token oxunmur;
+    - naməlum sahə `400` verir;
+    - batch event-event yoxlanılır, `text/plain` qəbul olunur, `413`;
+    - sessiya limiti işləyir;
+    - toplama idempotentdir;
+    - üç hesabat, başqa müəllimin sinfi `404`;
+  - `RetentionTests` (köhnə partition silinir, cəmlər qalır);
+  - `PermissionMatrixTests`: 5 yeni endpoint.
+- **Hələ yoxdur:** frontend event göndərmir. Göndərmə mərhələ 14-də (frontend inteqrasiyası) qoşulur.

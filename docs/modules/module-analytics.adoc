@@ -2,4 +2,9 @@
 |===
 |Base package
 |`az.tarix.platform.analytics`
+|Bean references
+|* `a.t.p.i.api.ClassGroups` (in Identity)
+* `a.t.p.i.api.CurrentUserProvider` (in Identity)
+|Events listened to
+|* `org.springframework.boot.context.event.ApplicationReadyEvent` 
 |===
