@@ -79,3 +79,16 @@ platform:
       image: 15MB
       audio: 50MB
       geojson: 30MB
+  # Anonymous learning events (BACKEND_SPEC.md §12, ADR-0018). Totals are per day in this zone.
+  analytics:
+    zone: Asia/Baku
+    max-batch: 50
+    max-body: 64KB
+    retention: P12M
+    recompute-days: 3
+    per-session:
+      capacity: 600
+      period: 10m
+    per-address:
+      capacity: 20000
+      period: 10m

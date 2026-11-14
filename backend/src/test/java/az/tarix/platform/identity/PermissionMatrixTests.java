@@ -110,6 +110,14 @@ class PermissionMatrixTests {
             new Rule(HttpMethod.GET, "/api/v1/editorial/media", "/api/v1/editorial/media", null, EDITORS),
             new Rule(HttpMethod.GET, "/api/v1/editorial/media/{id}", MEDIA, null, EDITORS),
             new Rule(HttpMethod.PATCH, "/api/v1/editorial/media/{id}", MEDIA, Map.of("license", "CC0"), EDITORS),
+            // Analytics (§12): events are anonymous; reports for admins, class reports for their teacher.
+            new Rule(HttpMethod.POST, "/api/v1/events", "/api/v1/events",
+                    Map.of("sessionId", UUID.randomUUID().toString(), "events", List.of(Map.of("type", "legend_toggle", "shown", true))),
+                    EVERYONE),
+            new Rule(HttpMethod.GET, "/api/v1/analytics/quiz-difficulty", "/api/v1/analytics/quiz-difficulty", null, ADMIN),
+            new Rule(HttpMethod.GET, "/api/v1/analytics/drop-off", "/api/v1/analytics/drop-off?owner=person:x", null, ADMIN),
+            new Rule(HttpMethod.GET, "/api/v1/analytics/classes/{code}", "/api/v1/analytics/classes/ZZZZZZ", null, TEACHER),
+            new Rule(HttpMethod.POST, "/api/v1/admin/analytics/aggregate", "/api/v1/admin/analytics/aggregate", null, ADMIN),
             // Administration.
             new Rule(HttpMethod.GET, "/api/v1/admin/broken-references", "/api/v1/admin/broken-references", null, ADMIN),
             new Rule(HttpMethod.POST, "/api/v1/admin/import", "/api/v1/admin/import?dryRun=true", null, ADMIN, false),

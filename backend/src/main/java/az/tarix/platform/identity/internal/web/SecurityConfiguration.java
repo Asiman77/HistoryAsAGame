@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.DelegatingRequestMatcherHeaderWriter;
@@ -34,6 +36,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableMethodSecurity
 @EnableConfigurationProperties(CorsProperties.class)
 class SecurityConfiguration {
+
+    /** Anonymous learning events (analytics). */
+    static final String EVENTS = "/api/v1/events";
 
     /**
      * For JSON: nothing may be loaded, framed or submitted. A browser never renders API
@@ -73,6 +78,8 @@ class SecurityConfiguration {
                         .permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout")
                         .permitAll()
+                        // Anonymous learning events (§12); see anonymousEvents() below.
+                        .requestMatchers(HttpMethod.POST, EVENTS).permitAll()
                         // Non-public areas, whatever the HTTP method.
                         .requestMatchers("/api/v1/auth/**", "/api/v1/editorial/**", "/api/v1/admin/**", "/api/v1/analytics/**",
                                 "/api/v1/teacher/**")
@@ -81,6 +88,7 @@ class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(o -> o
+                        .bearerTokenResolver(anonymousEvents())
                         .jwt(j -> j.jwtAuthenticationConverter(rolesFromToken()))
                         .authenticationEntryPoint(problems)
                         .accessDeniedHandler(problems))
@@ -107,6 +115,15 @@ class SecurityConfiguration {
         api.setMaxAge(Duration.ofHours(1));
         source.registerCorsConfiguration("/api/**", api);
         return source;
+    }
+
+    /**
+     * The event endpoint never reads a token, even a valid one: events must not be linkable to
+     * an account (BACKEND_SPEC.md §12), and a stale token must not make a student's events fail.
+     */
+    static BearerTokenResolver anonymousEvents() {
+        DefaultBearerTokenResolver standard = new DefaultBearerTokenResolver();
+        return request -> EVENTS.equals(request.getRequestURI()) ? null : standard.resolve(request);
     }
 
     /** The {@code roles} claim (["ADMIN", …]) becomes ROLE_ADMIN, … authorities. */
