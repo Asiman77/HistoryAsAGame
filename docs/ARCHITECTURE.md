@@ -1,7 +1,7 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 12 (analitika).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 13 (statik eksport).
 
 ## 1. Ümumi görünüş
 
@@ -139,6 +139,7 @@ Konvensiyalar:
 | 10 | Təhlükəsizliyin qalanı | ✅ |
 | 11 | Media | ✅ |
 | 12 | Analitika | ✅ |
+| 13 | Statik eksport | ✅ |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -491,3 +492,33 @@ ADMIN/TEACHER ─► /api/v1/analytics/* ─► yalnız daily_aggregate
   - `RetentionTests` (köhnə partition silinir, cəmlər qalır);
   - `PermissionMatrixTests`: 5 yeni endpoint.
 - **Hələ yoxdur:** frontend event göndərmir. Göndərmə mərhələ 14-də (frontend inteqrasiyası) qoşulur.
+
+## 18. Statik eksport (mərhələ 13)
+
+Qərarlar: [ADR-0019](adr/0019-static-export.md).
+
+```
+ContentProjected ─► ExportScheduler (30 san. sakitlik, ən çox 5 dəq. gözləmə; startup-da gecikən versiya)
+                       └─► StaticExporter: PublishedContents.allPublished() (position sırası)
+                                ─► ExportMedia (icazəsiz fayl çıxır, media:<id> → URL)
+                                ─► ExportLayout (DataFolder-in tərsi) ─► public-content/v{N}/data/…, v{N}/public/data/territories/…
+                                ─► latest.json {contentVersion, prefix, generatedAt, fileCount, files[]}
+ADMIN ─► POST /api/v1/admin/export (dərhal)
+```
+
+- **Miqrasiya `V015__document_position`:** `editorial_document.position`. İdxal onu faylın sırasından yazır.
+- **Fayllar:** `data/persons/{s}/person.json`, `events.json`; `data/conflicts/{s}/conflict.json`, `days.json`, `settlements.json`, `commanders.json`, `heroes.json`, `soundtrack.json`, `battles/{b}.json`; `data/states/{s}/state.json`, `steps.json`; `data/polities/{s}.json`; `data/eras/`, `data/themes/`; ümumi `places`, `rulers`, `reigns`, `relations`, `glossary`, `commemorations`, `world-events`, `planned`; `data/territories/snapshots/{s}.json`, `registry.json`; `public/data/territories/{s}.json`.
+- **API-lər:** `editorial.api.PublishedContents.allPublished()`, `media.api.PublicContentStore` (`public-content` bucket-i, `platform.media.s3.public-content-bucket`).
+- **Konfiqurasiya** (`platform.export.*`): `enabled` (`EXPORT_ENABLED`), `debounce`, `max-delay`, `poll`.
+- **Testlər:**
+  - `ExportSchedulerTests`: debounce, maksimum gözləmə, söndürülmüş halı;
+  - `StaticExportTests`:
+    - idxal + eksport = `data/` + `public/data/territories` (fayllar, məzmun, sıra), dərc olunmayanlar çıxmaq şərtilə;
+    - hər fayl `shared/schema`-dan keçir və `target/static-export`-a yazılır;
+    - icazəsi götürülmüş portret eksportdan çıxır;
+    - S3-ə versiyalı fayllar + manifest yazılır (S3 lazımdır);
+  - `PermissionMatrixTests`: `POST /admin/export`.
+- **Frontend yoxlaması:** `npx tsx scripts/validate-data.ts backend/target/static-export/data`. Skript indi qovluq arqumenti qəbul edir. 2026-11-14 nəticəsi:
+  - Zod sxem xətası yoxdur;
+  - 26 bütövlük xətası: müharibə günləri dərc olunmamış `y2020` snapshot-una istinad edir (§11-dəki data qeydi);
+  - qalanları eksport qovluğunun yanında olmayan şəkillər və `docs/*.md` faylları haqqındadır (mühitlə bağlıdır).

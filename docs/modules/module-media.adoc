@@ -3,7 +3,8 @@
 |Base package
 |`az.tarix.platform.media`
 |Spring components
-|* `a.t.p.m.api.Portraits` (via `a.t.p.m.internal.read.JdbcPortraits`)
+|* `a.t.p.m.api.PublicContentStore`
+* `a.t.p.m.api.Portraits` (via `a.t.p.m.internal.read.JdbcPortraits`)
 * `a.t.p.m.api.MediaRegistry` (via `a.t.p.m.internal.service.JdbcMediaRegistry`)
 |Bean references
 |* `a.t.p.s.read.MediaFiles` (in Shared)

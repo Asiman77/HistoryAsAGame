@@ -23,3 +23,4 @@ Qəbul olunmuş ADR dəyişdirilmir; yeni qərar köhnəni `Superseded by` ilə 
 | [0016](0016-security-hardening.md) | Təhlükəsizliyin qalanı: login limiti, CORS, sinif kodları, icazə matrisi, asılılıq yoxlaması | Qəbul |
 | [0017](0017-media-registry.md) | Media reyestri: məzmunda `media:<id>` istinadı, mövcud fayllar `LINKED`, icazə oxuda tətbiq olunur | Qəbul |
 | [0018](0018-analytics.md) | Anonim analitika: sahə siyahısı, tokensiz qəbul, aylıq partition-lar, gecəlik toplama, hesabatlar | Qəbul |
+| [0019](0019-static-export.md) | Statik eksport: idxalın tərsi, sənədin mövqeyi, versiyalı bucket + manifest, debounce | Qəbul |

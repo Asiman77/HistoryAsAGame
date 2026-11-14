@@ -4,9 +4,14 @@
 |`az.tarix.platform.publishing`
 |Bean references
 |* `a.t.p.e.api.PublishedContents` (in Editorial)
+* `a.t.p.s.read.MediaFiles` (in Shared)
+* `a.t.p.s.read.ContentVersion` (in Shared)
+* `a.t.p.m.api.PublicContentStore` (in Media)
 |Events listened to
-|* `a.t.p.e.api.ContentArchived` (async) 
-* `a.t.p.e.api.ContentPublished` (async) 
+|* `a.t.p.m.api.MediaAssetChanged` (async) 
 * `a.t.p.e.api.ContentImported` (async) 
-* `a.t.p.m.api.MediaAssetChanged` (async) 
+* `a.t.p.e.api.ContentPublished` (async) 
+* `a.t.p.e.api.ContentArchived` (async) 
+* `a.t.p.p.api.ContentProjected` (async) 
+* `org.springframework.boot.context.event.ApplicationReadyEvent` 
 |===
