@@ -122,6 +122,7 @@ class PermissionMatrixTests {
             new Rule(HttpMethod.GET, "/api/v1/admin/broken-references", "/api/v1/admin/broken-references", null, ADMIN),
             new Rule(HttpMethod.POST, "/api/v1/admin/import", "/api/v1/admin/import?dryRun=true", null, ADMIN, false),
             new Rule(HttpMethod.POST, "/api/v1/admin/projections/rebuild", "/api/v1/admin/projections/rebuild", null, ADMIN, false),
+            new Rule(HttpMethod.POST, "/api/v1/admin/export", "/api/v1/admin/export", null, ADMIN, false),
             new Rule(HttpMethod.GET, "/api/v1/admin/users", "/api/v1/admin/users", null, ADMIN),
             new Rule(HttpMethod.POST, "/api/v1/admin/users", "/api/v1/admin/users",
                     Map.of("email", "new" + DOMAIN, "displayName", "New", "roles", List.of("AUTHOR"), "password", "short"), ADMIN),

@@ -23,6 +23,12 @@ class JdbcPublishedContents implements PublishedContents {
             WHERE published_revision_id IS NOT NULL AND status <> 'ARCHIVED'
             ORDER BY doc_type, slug""";
 
+    static final String ALL_CONTENTS = """
+            SELECT d.id, d.doc_type, d.slug, d.position, r.id AS revision_id, r.revision_no, r.content
+            FROM editorial_document d JOIN editorial_revision r ON r.id = d.published_revision_id
+            WHERE d.status <> 'ARCHIVED'
+            ORDER BY d.position NULLS LAST, d.created_at, d.slug""";
+
     private final JdbcClient jdbc;
 
     JdbcPublishedContents(JdbcClient jdbc) {
@@ -40,5 +46,12 @@ class JdbcPublishedContents implements PublishedContents {
     @Override
     public List<UUID> publishedDocumentIds() {
         return jdbc.sql(ALL).query(UUID.class).list();
+    }
+
+    @Override
+    public List<Positioned> allPublished() {
+        return jdbc.sql(ALL_CONTENTS).query((rs, n) -> new Positioned(new PublishedContent(rs.getObject("id", UUID.class),
+                DocumentType.valueOf(rs.getString("doc_type")), rs.getString("slug"), rs.getObject("revision_id", UUID.class),
+                rs.getInt("revision_no"), ContentJson.parse(rs.getString("content"))), (Integer) rs.getObject("position"))).list();
     }
 }

@@ -27,8 +27,13 @@ import tools.jackson.databind.node.ObjectNode;
  */
 public final class DataFolder {
 
-    /** One document, and the files it was assembled from (relative to the data folder). */
-    public record Doc(DocumentType type, String slug, ObjectNode content, List<String> files) {}
+    /**
+     * One document, and the files it was assembled from (relative to the data folder).
+     *
+     * @param position its order inside the shared file it comes from (places.json, heroes.json…; for a
+     *                 person or polity: where its relations or reigns start), or null (ADR-0019)
+     */
+    public record Doc(DocumentType type, String slug, ObjectNode content, List<String> files, Integer position) {}
 
     /** All documents and what could not be placed in one. */
     public record Result(List<Doc> documents, List<String> problems) {}
@@ -66,8 +71,13 @@ public final class DataFolder {
             c.set("person", person);
             c.set("events", read(rel(dir.resolve("events.json"))).path("events"));
             ArrayNode own = c.putArray("relations");
-            for (JsonNode r : relations) if (id.equals(r.path("from").asString())) own.add(r);
-            add(DocumentType.PERSON, id, c, rel(dir.resolve("person.json")), rel(dir.resolve("events.json")), "relations.json");
+            Integer first = null;
+            for (int i = 0; i < relations.size(); i++) {
+                if (!id.equals(relations.get(i).path("from").asString())) continue;
+                if (first == null) first = i;
+                own.add(relations.get(i));
+            }
+            add(DocumentType.PERSON, id, c, first, rel(dir.resolve("person.json")), rel(dir.resolve("events.json")), "relations.json");
         }
         for (JsonNode r : relations) {
             if (!persons.contains(r.path("from").asString())) {
@@ -94,18 +104,22 @@ public final class DataFolder {
                     rel(dir.resolve("settlements.json")), rel(dir.resolve("commanders.json")));
 
             String heroes = rel(dir.resolve("heroes.json"));
-            for (JsonNode hero : optional(heroes).path("heroes")) {
+            JsonNode heroList = optional(heroes).path("heroes");
+            for (int i = 0; i < heroList.size(); i++) {
+                JsonNode hero = heroList.get(i);
                 ObjectNode h = NODES.objectNode();
                 h.put("conflictId", id);
                 h.set("hero", hero);
-                add(DocumentType.HERO, hero.path("id").asString(), h, heroes);
+                add(DocumentType.HERO, hero.path("id").asString(), h, i, heroes);
             }
             String soundtrack = rel(dir.resolve("soundtrack.json"));
-            for (JsonNode track : optional(soundtrack).path("tracks")) {
+            JsonNode trackList = optional(soundtrack).path("tracks");
+            for (int i = 0; i < trackList.size(); i++) {
+                JsonNode track = trackList.get(i);
                 ObjectNode t = NODES.objectNode();
                 t.put("conflictId", id);
                 t.set("track", track);
-                add(DocumentType.SOUNDTRACK_TRACK, track.path("trackId").asString(), t, soundtrack);
+                add(DocumentType.SOUNDTRACK_TRACK, track.path("trackId").asString(), t, i, soundtrack);
             }
             for (Path f : jsonFiles(dir.resolve("battles"))) single(DocumentType.BATTLE, "battle", read(rel(f)), rel(f));
         }
@@ -130,8 +144,13 @@ public final class DataFolder {
             ObjectNode c = NODES.objectNode();
             c.set("polity", polity);
             ArrayNode own = c.putArray("reigns");
-            for (JsonNode r : reigns) if (id.equals(r.path("polityId").asString())) own.add(r);
-            add(DocumentType.POLITY, id, c, rel(f), "reigns.json");
+            Integer first = null;
+            for (int i = 0; i < reigns.size(); i++) {
+                if (!id.equals(reigns.get(i).path("polityId").asString())) continue;
+                if (first == null) first = i;
+                own.add(reigns.get(i));
+            }
+            add(DocumentType.POLITY, id, c, first, rel(f), "reigns.json");
         }
         for (JsonNode r : reigns) {
             if (!polities.contains(r.path("polityId").asString())) {
@@ -140,16 +159,14 @@ public final class DataFolder {
             }
         }
 
-        for (JsonNode p : optional("places.json").path("places")) single(DocumentType.PLACE, "place", p, "places.json");
-        for (JsonNode r : optional("rulers.json").path("rulers")) single(DocumentType.RULER, "ruler", r, "rulers.json");
+        shared("places.json", "places", DocumentType.PLACE, "place");
+        shared("rulers.json", "rulers", DocumentType.RULER, "ruler");
         for (Path f : jsonFiles(data.resolve("eras"))) single(DocumentType.ERA, "era", read(rel(f)), rel(f));
         for (Path f : jsonFiles(data.resolve("themes"))) single(DocumentType.THEME, "theme", read(rel(f)), rel(f));
-        for (JsonNode g : optional("glossary.json").path("entries")) single(DocumentType.GLOSSARY_ENTRY, "entry", g, "glossary.json");
-        for (JsonNode d : optional("commemorations.json").path("days")) {
-            single(DocumentType.COMMEMORATION, "commemoration", d, "commemorations.json");
-        }
-        for (JsonNode e : optional("world-events.json").path("events")) single(DocumentType.WORLD_EVENT, "event", e, "world-events.json");
-        for (JsonNode e : optional("planned.json").path("entities")) single(DocumentType.PLANNED_ENTITY, "entity", e, "planned.json");
+        shared("glossary.json", "entries", DocumentType.GLOSSARY_ENTRY, "entry");
+        shared("commemorations.json", "days", DocumentType.COMMEMORATION, "commemoration");
+        shared("world-events.json", "events", DocumentType.WORLD_EVENT, "event");
+        shared("planned.json", "entities", DocumentType.PLANNED_ENTITY, "entity");
 
         for (Path f : jsonFiles(data.resolve("territories").resolve("snapshots"))) {
             JsonNode snapshot = read(rel(f));
@@ -174,14 +191,28 @@ public final class DataFolder {
         }
     }
 
+    /** One document per element of a shared file; the position is the element's index. */
+    private void shared(String file, String arrayKey, DocumentType type, String key) {
+        JsonNode list = optional(file).path(arrayKey);
+        for (int i = 0; i < list.size(); i++) single(type, key, list.get(i), i, file);
+    }
+
     private void single(DocumentType type, String key, JsonNode value, String file) {
+        single(type, key, value, null, file);
+    }
+
+    private void single(DocumentType type, String key, JsonNode value, Integer position, String file) {
         if (value.isMissingNode()) return;
         ObjectNode c = NODES.objectNode();
         c.set(key, value);
-        add(type, value.path("id").asString(), c, file);
+        add(type, value.path("id").asString(), c, position, file);
     }
 
     private void add(DocumentType type, String slug, ObjectNode content, String... files) {
+        add(type, slug, content, null, files);
+    }
+
+    private void add(DocumentType type, String slug, ObjectNode content, Integer position, String... files) {
         if (slug == null || slug.isBlank()) {
             problems.add("%s: id yoxdur, sənəd yaradılmadı".formatted(String.join(", ", files)));
             return;
@@ -190,7 +221,7 @@ public final class DataFolder {
             problems.add("%s: '%s' (%s) təkrarlanır; yalnız birincisi idxal olunur".formatted(String.join(", ", files), slug, type));
             return;
         }
-        out.add(new Doc(type, slug, content, List.of(files)));
+        out.add(new Doc(type, slug, content, List.of(files), position));
     }
 
     /** A required file: a problem when missing or broken. */

@@ -29,6 +29,8 @@ import org.springframework.context.annotation.Import;
         // S3 (SeaweedFS): the test identity of TestcontainersConfiguration; the endpoint comes from the container.
         "platform.media.s3.access-key=" + TestcontainersConfiguration.S3_ACCESS_KEY,
         "platform.media.s3.secret-key=" + TestcontainersConfiguration.S3_SECRET_KEY,
+        // The static export runs on demand in its own tests, not after every publish.
+        "platform.export.enabled=false",
 })
 @Import(TestcontainersConfiguration.class)
 public @interface IntegrationTest {

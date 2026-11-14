@@ -1,5 +1,6 @@
 package az.tarix.platform.media.internal.storage;
 
+import az.tarix.platform.media.api.PublicContentStore;
 import java.net.URI;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -54,6 +55,14 @@ class StorageConfiguration {
         ObjectStorage storage = new ObjectStorage(s3, presigner, props.s3().bucket());
         if (props.s3().createBucket()) storage.ensureBucket();
         return storage;
+    }
+
+    /** A separate bucket, not a second ObjectStorage bean: the media code means the uploads bucket. */
+    @Bean
+    PublicContentStore publicContentStore(S3Client s3, S3Presigner presigner, MediaProperties props) {
+        ObjectStorage bucket = new ObjectStorage(s3, presigner, props.s3().publicContentBucket());
+        if (props.s3().createBucket()) bucket.ensureBucket();
+        return new S3PublicContentStore(bucket);
     }
 
     private static AwsCredentialsProvider credentials(MediaProperties.S3 c) {

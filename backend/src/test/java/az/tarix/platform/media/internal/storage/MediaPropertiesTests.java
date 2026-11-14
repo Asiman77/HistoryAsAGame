@@ -10,7 +10,7 @@ import org.springframework.util.unit.DataSize;
 class MediaPropertiesTests {
 
     static MediaProperties props(String endpoint, String presign, String publicBase) {
-        return new MediaProperties(new MediaProperties.S3(endpoint, presign, "us-east-1", "k", "s", "media", true, false),
+        return new MediaProperties(new MediaProperties.S3(endpoint, presign, "us-east-1", "k", "s", "media", "public-content", true, false),
                 publicBase, Duration.ofMinutes(15), Duration.ofHours(24),
                 new MediaProperties.MaxSize(DataSize.ofMegabytes(15), DataSize.ofMegabytes(50), DataSize.ofMegabytes(30)));
     }

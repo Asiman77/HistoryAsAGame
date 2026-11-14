@@ -13,4 +13,13 @@ public interface PublishedContents {
 
     /** Every document that has a public revision and is not archived (for a rebuild). */
     List<UUID> publishedDocumentIds();
+
+    /**
+     * Every public revision with its document's order (for the static export, ADR-0019), in one
+     * query: sorted by position (unpositioned last), then creation time, then slug.
+     */
+    List<Positioned> allPublished();
+
+    /** A public revision and where its document goes inside a shared data file (null: after the positioned ones). */
+    record Positioned(PublishedContent content, Integer position) {}
 }

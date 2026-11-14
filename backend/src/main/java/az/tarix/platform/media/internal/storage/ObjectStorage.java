@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.HeadObjectResponse;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
@@ -73,6 +74,11 @@ public class ObjectStorage {
             if (e.statusCode() == 404) return Optional.empty();
             throw e;
         }
+    }
+
+    /** Writes an object (replacing it). */
+    public void put(String key, byte[] body, String contentType, String cacheControl) {
+        s3.putObject(r -> r.bucket(bucket).key(key).contentType(contentType).cacheControl(cacheControl), RequestBody.fromBytes(body));
     }
 
     /** The object's bytes; the caller closes the stream. */

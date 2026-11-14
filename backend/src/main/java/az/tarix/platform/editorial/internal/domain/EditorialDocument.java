@@ -54,6 +54,9 @@ public class EditorialDocument {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
+    /** Order inside the shared data file it is exported to (ADR-0019); null: after the others. */
+    private Integer position;
+
     @Version
     private long version;
 
@@ -123,6 +126,15 @@ public class EditorialDocument {
 
     public Instant updatedAt() {
         return updatedAt;
+    }
+
+    public Integer position() {
+        return position;
+    }
+
+    /** Set by the importer from the file order; not a content change (no revision). */
+    public void placeAt(Integer position) {
+        this.position = position;
     }
 
     public long version() {

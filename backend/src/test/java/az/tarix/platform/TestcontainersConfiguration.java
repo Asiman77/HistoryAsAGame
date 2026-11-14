@@ -30,12 +30,12 @@ public class TestcontainersConfiguration {
     public static final String S3_ACCESS_KEY = "test-access";
     public static final String S3_SECRET_KEY = "test-secret-key";
 
-    /** One identity for the backend, anonymous read on the media bucket (as docker/init/s3-entrypoint.sh). */
+    /** One identity for the backend, anonymous read on the public buckets (as docker/init/s3-entrypoint.sh). */
     static final String S3_CONFIG = """
             {"identities": [
               {"name": "platform", "credentials": [{"accessKey": "%s", "secretKey": "%s"}],
                "actions": ["Admin", "Read", "Write", "List", "Tagging"]},
-              {"name": "anonymous", "actions": ["Read:media"]}
+              {"name": "anonymous", "actions": ["Read:media", "Read:public-content"]}
             ]}""".formatted(S3_ACCESS_KEY, S3_SECRET_KEY);
 
     /** Containers only when no external database is given (a Docker run, e.g. CI). */

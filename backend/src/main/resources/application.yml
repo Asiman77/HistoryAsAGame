@@ -92,3 +92,8 @@ platform:
     per-address:
       capacity: 20000
       period: 10m
+  # Static export to the public-content bucket (BACKEND_SPEC.md §15, ADR-0019): debounced after publishing.
+  export:
+    enabled: ${EXPORT_ENABLED:true}
+    debounce: 30s
+    max-delay: 5m

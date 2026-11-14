@@ -116,7 +116,12 @@ public class DataImporter {
 
         // 1. Documents and revisions.
         List<Map.Entry<Doc, Imported>> imported = new ArrayList<>();
-        for (Doc d : folder.documents()) imported.add(Map.entry(d, upsert(d, importer, admin.id())));
+        for (Doc d : folder.documents()) {
+            Imported i = upsert(d, importer, admin.id());
+            // Order inside its shared file, for the static export (ADR-0019); not a content change.
+            if (i.outcome() != Outcome.ARCHIVED) i.doc().placeAt(d.position());
+            imported.add(Map.entry(d, i));
+        }
         documents.flush();     // the validator's reference lookups use SQL
 
         // 1b. The files the data links to go into the media registry (ADR-0010, ADR-0017) before

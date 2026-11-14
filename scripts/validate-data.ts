@@ -2,6 +2,7 @@
  * Validates everything under data/ against the Zod schema and the
  * cross-record integrity rules. Exits non-zero on any problem.
  *   npm run validate:data
+ *   npx tsx scripts/validate-data.ts <folder>   (another data folder, e.g. a static export)
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -49,7 +50,8 @@ import {
   type Issue,
 } from "../src/domain/integrity";
 
-const root = path.join(process.cwd(), "data");
+// Optional folder argument, e.g. the backend's static export: tsx scripts/validate-data.ts backend/target/static-export/data
+const root = path.resolve(process.argv[2] ?? path.join(process.cwd(), "data"));
 const issues: Issue[] = [];
 const rel = (f: string) => path.relative(process.cwd(), f).replaceAll("\\", "/");
 const add = (file: string, message: string) => issues.push({ file: rel(file), message });

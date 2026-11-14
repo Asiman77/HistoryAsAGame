@@ -32,10 +32,12 @@ public record MediaProperties(
      *                     {@code http://s3:8333}, the browser {@code http://localhost:8333}.
      * @param accessKey    empty: the AWS default credentials chain
      * @param pathStyle    {@code bucket} in the path, not in the host name (SeaweedFS, MinIO)
+     * @param publicContentBucket where the static export goes (ADR-0019)
      * @param createBucket create {@code bucket} on startup when it is missing (tests, local runs)
      */
     public record S3(String endpoint, String presignEndpoint, @DefaultValue("us-east-1") String region, String accessKey, String secretKey,
-                     @DefaultValue("media") String bucket, @DefaultValue("true") boolean pathStyle,
+                     @DefaultValue("media") String bucket, @DefaultValue("public-content") String publicContentBucket,
+                     @DefaultValue("true") boolean pathStyle,
                      @DefaultValue("false") boolean createBucket) {
 
         public URI endpointUri() {
