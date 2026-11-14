@@ -29,6 +29,10 @@
         <bucket4j.version>8.22.0</bucket4j.version>
         <!-- Checked on Maven Central 2026-11-14 (latest GA). Run: ./mvnw dependency-check:check -->
         <dependency-check.version>13.0.0</dependency-check.version>
+        <!-- S3 client (ADR-0008). Checked on Maven Central 2026-11-14 (latest GA). -->
+        <awssdk.version>2.59.1</awssdk.version>
+        <!-- S3-compatible store for the tests; keep in sync with docker/docker-compose.yml. -->
+        <seaweedfs.image>chrislusf/seaweedfs:4.50</seaweedfs.image>
         <!-- shared/schema is copied onto the classpath under schema/ (single source, ADR-0005). -->
         <shared.schema.dir>${project.basedir}/../shared/schema</shared.schema.dir>
         <!-- Docker image used by Testcontainers and docker/docker-compose.yml. -->
@@ -139,6 +143,33 @@
             <version>${bucket4j.version}</version>
         </dependency>
 
+        <!-- Object storage: S3 API only (ADR-0008). The sync client runs over the JDK's
+             HttpURLConnection. The default apache5-client is excluded on purpose: httpclient5 on
+             the classpath makes Spring's RestClient switch to it (it follows redirects and retries
+             429s by Retry-After). The async Netty client is not used. -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>netty-nio-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>apache5-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>apache-client</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>url-connection-client</artifactId>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -200,6 +231,13 @@
                 <groupId>org.springframework.modulith</groupId>
                 <artifactId>spring-modulith-bom</artifactId>
                 <version>${spring-modulith.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${awssdk.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -266,6 +304,7 @@
                 <configuration>
                     <systemPropertyVariables>
                         <postgis.image>${postgis.image}</postgis.image>
+                        <seaweedfs.image>${seaweedfs.image}</seaweedfs.image>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
