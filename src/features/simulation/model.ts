@@ -1,3 +1,4 @@
+import { quizOf, type TrackedQuizQuestion } from "@/lib/analytics/quiz";
 import type {
   Era,
   EventType,
@@ -6,7 +7,6 @@ import type {
   Location,
   Person,
   Place,
-  QuizQuestion,
   TerritorySnapshotMeta,
   WorldEvent,
 } from "@/domain/schema";
@@ -40,7 +40,7 @@ export interface JourneyStats {
 export interface Journey extends SimulationData<Step> {
   person: Person;
   stats: JourneyStats;
-  quiz: QuizQuestion[];
+  quiz: TrackedQuizQuestion[];
 }
 
 export interface JourneyContext {
@@ -129,7 +129,7 @@ export function buildJourney(person: Person, events: LifeEvent[], allEras: Era[]
     steps,
     places: [...places.values()],
     stats,
-    quiz: events.flatMap((e) => e.quiz ?? []),
+    quiz: quizOf(events),
     landmarks,
     snapshots: ctx?.snapshots ?? [],
     polityColors: ctx?.polityColors ?? {},

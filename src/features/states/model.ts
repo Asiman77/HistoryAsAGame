@@ -1,10 +1,10 @@
+import { quizOf, type TrackedQuizQuestion } from "@/lib/analytics/quiz";
 import type {
   Era,
   EventType,
   GlossaryEntry,
   Mood,
   Place,
-  QuizQuestion,
   State,
   StateStep,
   TerritorySnapshotMeta,
@@ -27,7 +27,7 @@ export interface StateSimStep extends EngineStep {
 
 export interface StateSimulationData extends SimulationData<StateSimStep> {
   state: State;
-  quiz: QuizQuestion[];
+  quiz: TrackedQuizQuestion[];
 }
 
 export const STATE_ICON: Partial<Record<Mood, EventType>> = {
@@ -119,6 +119,6 @@ export function buildStateSimulation(state: State, stages: StateStep[], ctx: Sta
     polityColors: ctx.polityColors,
     glossary: ctx.glossary,
     political: ctx.political,
-    quiz: stages.flatMap((s) => s.quiz ?? []),
+    quiz: quizOf(stages),
   };
 }

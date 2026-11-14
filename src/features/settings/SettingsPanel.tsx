@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { CHANNELS, type Channel } from "@/features/audio/manifest";
 import { format, type Messages } from "@/lib/i18n";
+import { track } from "@/lib/analytics/client";
 import { isLightMode, setChannel, updateSettings, useSettings } from "@/lib/settings";
 
 /** One-click mute plus a popover with per-channel volume, light mode and teacher mode. */
@@ -93,7 +94,10 @@ export function SettingsButton({ m, align = "right" }: { m: Messages; align?: "l
               label={m.claims.showLegends}
               help={m.claims.showLegendsHelp}
               checked={s.showLegends}
-              onChange={(v) => updateSettings({ showLegends: v })}
+              onChange={(v) => {
+                updateSettings({ showLegends: v });
+                track({ type: "legend_toggle", shown: v });
+              }}
             />
           </div>
           <p className="mt-3 text-[11px] text-ink-faint">{m.settings.saved}</p>

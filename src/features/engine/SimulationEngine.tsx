@@ -27,6 +27,8 @@ import { PolityPanel } from "@/features/map/PolityPanel";
 import { DEFAULT_ENEMY_COLOR, DEFAULT_OWN_COLOR } from "@/features/map/style";
 import { SettingsButton } from "@/features/settings/SettingsPanel";
 import { useStoredMode, type Mode } from "@/features/simulation/useStoredMode";
+import { flushAnalytics, ownerOf, track } from "@/lib/analytics/client";
+import { AnalyticsOwnerProvider } from "@/lib/analytics/context";
 import { format, t, type Messages } from "@/lib/i18n";
 import { MOOD_STYLES } from "@/lib/mood";
 import { clearProgress, progressStore, saveProgress, useProgress } from "@/lib/progress";
@@ -123,7 +125,16 @@ export function SimulationEngine<S extends EngineStep>({
   const [index, setIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>("journey");
   const [dir, setDir] = useState(1);
-  const [mode, setMode] = useStoredMode();
+  const [mode, setStoredMode] = useStoredMode();
+  // Anonymous learning events (docs/adr/0018, 0020); a no-op without a configured endpoint.
+  const owner = useMemo(() => ownerOf(data.key), [data.key]);
+  const setMode = useCallback(
+    (next: Mode) => {
+      if (next !== mode) track({ type: "mode_switched", ...owner, mode: next });
+      setStoredMode(next);
+    },
+    [mode, owner, setStoredMode],
+  );
   const [choices, setChoices] = useState<Record<string, number>>({});
   const [placeId, setPlaceIdRaw] = useState<string | null>(null);
   const [polityId, setPolityIdRaw] = useState<string | null>(null);
@@ -188,11 +199,42 @@ export function SimulationEngine<S extends EngineStep>({
         setPhase("journey");
       }
       setStarted(true);
+      track({ type: "simulation_started", ...ownerOf(data.key), mode });
       const first = steps[choice.kind === "begin" ? 0 : choice.index]!;
       void engine.start(settings, first.mood, soundOf(first, false, first.mood) ?? null);
     },
-    [data.key, last, steps, engine, settings, soundOf],
+    [data.key, last, steps, engine, settings, soundOf, mode],
   );
+
+  // ---- learning events: what was viewed, finished or left half-way ----------------
+  const startedAt = useRef(0);
+  const progressNow = useRef({ started: false, final: false, stepKey: steps[0]!.id, left: false });
+  useEffect(() => {
+    progressNow.current = { ...progressNow.current, started, final, stepKey: step.id };
+    if (!started) return;
+    if (final) {
+      const ms = Date.now() - startedAt.current;
+      track({ type: "simulation_completed", ...owner, ...(startedAt.current > 0 && ms <= 3_600_000 ? { durationMs: ms } : {}) });
+    } else {
+      if (startedAt.current === 0) startedAt.current = Date.now();
+      track({ type: "step_viewed", ...owner, stepKey: step.id });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [started, index, phase]);
+  useEffect(() => {
+    const leave = () => {
+      const p = progressNow.current;
+      if (!p.started || p.final || p.left) return;
+      p.left = true;
+      track({ type: "simulation_abandoned", ...owner, stepKey: p.stepKey });
+      flushAnalytics();
+    };
+    window.addEventListener("pagehide", leave);
+    return () => {
+      window.removeEventListener("pagehide", leave);
+      leave();
+    };
+  }, [owner]);
 
   // ---- persistence --------------------------------------------------------------
   useEffect(() => {
@@ -356,6 +398,7 @@ export function SimulationEngine<S extends EngineStep>({
               openPlace: setPlaceId,
               choose: (i) => {
                 engine.playSfx("page");
+                track({ type: "choice_made", ...owner, stepKey: step.id, optionIndex: i });
                 setChoices((c) => ({ ...c, [step.id]: i }));
               },
             })}
@@ -454,6 +497,7 @@ export function SimulationEngine<S extends EngineStep>({
   };
 
   return (
+    <AnalyticsOwnerProvider value={{ key: data.key, ...(final ? {} : { stepKey: step.id }) }}>
     <MotionConfig reducedMotion={light ? "always" : "user"}>
       <ThemeShell theme={theme} mood={mood} variant="none">
       <GlossaryProvider entries={data.glossary} locale={locale} label={m.glossary.label}>
@@ -566,6 +610,7 @@ export function SimulationEngine<S extends EngineStep>({
       </GlossaryProvider>
       </ThemeShell>
     </MotionConfig>
+    </AnalyticsOwnerProvider>
   );
 }
 

@@ -14,6 +14,9 @@ import { withBasePath } from "@/lib/basePath";
 import { recordQuiz, useProgress } from "@/lib/progress";
 import { classifyItems } from "@/lib/claims";
 import { FactOrLegendQuiz } from "@/features/claims/FactOrLegendQuiz";
+import { ownerOf, track } from "@/lib/analytics/client";
+import { useAnalyticsOwner } from "@/lib/analytics/context";
+import type { TrackedQuizQuestion } from "@/lib/analytics/quiz";
 
 const MAX_QUESTIONS = 6;
 
@@ -123,7 +126,7 @@ function Stat({ label, children, help, wide }: { label: string; children: React.
 }
 
 /** Deterministic pick so the static page and the client agree, spread across the life. */
-function pickQuestions(all: QuizQuestion[]): QuizQuestion[] {
+function pickQuestions<Q extends QuizQuestion>(all: Q[]): Q[] {
   if (all.length <= MAX_QUESTIONS) return all;
   const step = all.length / MAX_QUESTIONS;
   return Array.from({ length: MAX_QUESTIONS }, (_, i) => all[Math.floor(i * step)]!);
@@ -136,12 +139,13 @@ export function Quiz({
   teacher,
   onFinish,
 }: {
-  questions: QuizQuestion[];
+  questions: TrackedQuizQuestion[];
   locale: Locale;
   m: Messages;
   teacher: boolean;
   onFinish: (score: number, total: number) => void;
 }) {
+  const owner = useAnalyticsOwner();
   const questions = useMemo(() => pickQuestions(all), [all]);
   const [started, setStarted] = useState(false);
   const [qi, setQi] = useState(0);
@@ -187,6 +191,9 @@ export function Quiz({
 
   const reveal = (i: number) => {
     setAnswer(i);
+    if (owner && q!.stepKey !== undefined) {
+      track({ type: "quiz_answered", ...ownerOf(owner.key), stepKey: q!.stepKey, questionIndex: q!.questionIndex, correct: i === q!.correctIndex });
+    }
     if (i === q!.correctIndex) setScore((s) => s + 1);
     getAudioEngine().playSfx(i === q!.correctIndex ? "chime" : "page");
   };

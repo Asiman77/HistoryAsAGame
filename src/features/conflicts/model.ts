@@ -1,3 +1,4 @@
+import { quizOf, type TrackedQuizQuestion } from "@/lib/analytics/quiz";
 import type {
   Commander,
   Conflict,
@@ -7,7 +8,6 @@ import type {
   Hero,
   Mood,
   Place,
-  QuizQuestion,
   Settlement,
   TerritorySnapshotMeta,
   Track,
@@ -37,7 +37,7 @@ export interface ConflictSimulationData extends SimulationData<ConflictStep> {
   /** Only tracks whose rights holders have agreed; pending ones are not shipped. */
   tracks: Track[];
   pendingTracks: number;
-  quiz: QuizQuestion[];
+  quiz: TrackedQuizQuestion[];
 }
 
 export const WAR_DAY_ICON: Record<WarDay["kind"], EventType> = {
@@ -129,6 +129,6 @@ export function buildConflictSimulation(conflict: Conflict, days: WarDay[], ctx:
     commanders: ctx.commanders,
     tracks: ctx.tracks.filter((t) => t.permissionStatus === "granted"),
     pendingTracks: ctx.tracks.filter((t) => t.permissionStatus !== "granted").length,
-    quiz: days.flatMap((d) => d.quiz ?? []),
+    quiz: quizOf(days),
   };
 }

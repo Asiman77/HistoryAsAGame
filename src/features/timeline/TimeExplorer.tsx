@@ -9,6 +9,7 @@ import { EventIcon } from "@/components/EventIcon";
 import { ClaimBadge } from "@/features/claims/ClaimBadge";
 import { PolityPanel } from "@/features/map/PolityPanel";
 import { ThemeShell, useCalmVisuals } from "@/features/theme/ThemeShell";
+import { track } from "@/lib/analytics/client";
 import { formatDate } from "@/lib/dates";
 import { format, t, type Messages } from "@/lib/i18n";
 import { DEFAULT_THEME_ID, eraForYear, themeVars } from "@/lib/theme";
@@ -57,6 +58,12 @@ export function TimeExplorer({ data, locale, messages: m, initialYear, compact =
   const deferred = useDeferredValue(year);
   const settled = useSettled(year, 140);
   const themeYear = useSettled(year, 320);
+  // A learning event once the slider has rested on a year for a moment (not for every pixel of a drag).
+  const restedYear = useSettled(year, 1500);
+  const [reportedFrom] = useState(initialYear);
+  useEffect(() => {
+    if (restedYear !== reportedFrom) track({ type: "time_slider_used", year: restedYear });
+  }, [restedYear, reportedFrom]);
   const [polityId, setPolityId] = useState<string | null>(null);
   const { light } = useCalmVisuals();
   const router = useRouter();

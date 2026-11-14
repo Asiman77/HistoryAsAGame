@@ -5,6 +5,8 @@ import type { Locale } from "@/domain/schema";
 import type { ResolvedRef } from "@/domain/registry";
 import { withBasePath } from "@/lib/basePath";
 import { format, t, type Messages } from "@/lib/i18n";
+import { ownerOf, track } from "@/lib/analytics/client";
+import { useAnalyticsOwner } from "@/lib/analytics/context";
 import { pushReturn } from "./navStack";
 
 interface Props {
@@ -22,11 +24,17 @@ interface Props {
  * passive ("tezliklə"), and turn into links once their data is added.
  */
 export function RelatedLinks({ refs, locale, m, here, onPlace }: Props) {
+  const owner = useAnalyticsOwner();
   if (refs.length === 0) return null;
   const cards = refs.filter((r) => r.note);
   const chips = refs.filter((r) => !r.note);
-  const follow = (r: ResolvedRef) => () =>
-    r.href && pushReturn({ href: here.href, label: here.label, target: r.href.split("?")[0]! });
+  const follow = (r: ResolvedRef) => () => {
+    if (!r.href) return;
+    pushReturn({ href: here.href, label: here.label, target: r.href.split("?")[0]! });
+    if (owner) {
+      track({ type: "cross_link_followed", ...ownerOf(owner.key), ...(owner.stepKey ? { stepKey: owner.stepKey } : {}), targetType: r.type, targetSlug: r.id });
+    }
+  };
 
   return (
     <section className="flex flex-col gap-3" aria-label={m.related.title}>
