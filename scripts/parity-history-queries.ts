@@ -7,7 +7,8 @@
  *
  * Compared: the events of every place (eventsAtPlace) and who held it (placeMembership +
  * clipToLifetime); "Tarixdə bu gün" for every day of the year; and for every slider year the
- * snapshot pick, the living persons with age and position, the year's events and the reigns.
+ * snapshot pick, the living persons with age and position, the year's events and the reigns;
+ * and /compare for every ordered pair of simulations (lanes, battles, overlap, meetings).
  * Exits with 1 and lists the differences when anything differs.
  */
 import { getRepository } from "@/data";
@@ -17,6 +18,8 @@ import { clipToLifetime, placeMembership } from "@/lib/placeHistory";
 import { eventsInYear, personsInYear, reignsInYear, snapshotForYear, SLIDER_FROM, SLIDER_TO } from "@/lib/timeSlider";
 import { loadTimeExplorerData } from "@/data/timeExplorer";
 import type { TerritorySnapshot } from "@/domain/schema";
+import { loadCompareData } from "@/data/compare";
+import { compareLanes } from "@/lib/compare";
 
 const base = (process.argv[2] ?? "http://localhost:8080").replace(/\/$/, "") + "/api/v1";
 const differences: string[] = [];
@@ -93,11 +96,32 @@ async function main() {
     same(`timeline ${year}: era`, era?.id ?? null, b.era?.slug ?? null);
   }
 
+  // --- compare ----------------------------------------------------------------------------
+  const compare = await loadCompareData(repo);
+  let pairs = 0;
+  for (const x of compare.owners) {
+    for (const y of compare.owners) {
+      if (x === y) continue;
+      pairs++;
+      const b = await get(`/compare?a=${x.type}:${x.id}&b=${y.type}:${y.id}`);
+      const what = `compare ${x.type}:${x.id} / ${y.type}:${y.id}`;
+      for (const [lane, res] of [[x, b.a], [y, b.b]] as const)
+        same(`${what}: lane ${lane.id}`, lane.events.map((e) => [e.key, e.battles]), res.events.map((e: any) => [e.key, e.battles]));
+      const f = compareLanes(x, y);
+      same(`${what}: overlap`, f.overlap, b.overlap ? { from: b.overlap.fromYear, to: b.overlap.toYear } : null);
+      same(
+        `${what}: meetings`,
+        f.meetings.map((m) => [m.reasons.map((r) => r.toUpperCase()), m.a, m.b, m.year, m.placeId, m.distanceKm, m.battle]),
+        b.intersections.map((i: any) => [i.reasons, i.a, i.b, i.year, i.place, i.distanceKm, i.battle?.slug ?? null]),
+      );
+    }
+  }
+
   if (differences.length) {
     console.error(`${differences.length} difference(s):\n` + differences.slice(0, 50).join("\n"));
     process.exit(1);
   }
-  console.log(`parity OK: ${places.length} places, 366 days, ${SLIDER_TO - SLIDER_FROM + 1} years`);
+  console.log(`parity OK: ${places.length} places, 366 days, ${SLIDER_TO - SLIDER_FROM + 1} years, ${pairs} compare pairs`);
 }
 
 /** Snapshots the backend did not publish: their year never comes back from /territories. */

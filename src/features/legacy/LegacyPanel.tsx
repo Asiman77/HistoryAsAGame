@@ -108,6 +108,13 @@ export function LegacyPanel({ journey, choices, locale, m, teacher, onRestart, o
         <Link href={`/${locale}/persons/`} className="rounded-full border border-ink/30 px-4 py-2 text-sm font-medium text-ink hover:border-ink">
           {m.legacy.others}
         </Link>
+        <Link
+          href={`/${locale}/compare/?a=person:${person.id}`}
+          className="rounded-full border border-ink/30 px-4 py-2 text-sm font-medium text-ink hover:border-ink"
+          data-testid="legacy-compare"
+        >
+          {m.compare.withOther}
+        </Link>
         <button type="button" onClick={onBack} className="px-2 py-2 text-sm text-ink-soft underline underline-offset-2">
           {m.legacy.backToJourney}
         </button>

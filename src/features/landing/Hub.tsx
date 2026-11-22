@@ -128,6 +128,9 @@ export function Hub({ locale, messages: m, categories, persons, theme, timeline,
           <Link href={`/${locale}/places/`} className="paper-card rounded-full px-4 py-2 text-sm font-medium text-lapis hover:-translate-y-0.5 transition-transform">
             {m.places.title} →
           </Link>
+          <Link href={`/${locale}/compare/`} className="paper-card rounded-full px-4 py-2 text-sm font-medium text-lapis hover:-translate-y-0.5 transition-transform">
+            {m.compare.cta} →
+          </Link>
         </nav>
 
         <CollectionStrip persons={persons} progress={progress} locale={locale} m={m} />

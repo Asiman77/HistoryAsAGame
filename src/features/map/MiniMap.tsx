@@ -13,6 +13,14 @@ export interface MiniMarker {
   lat: number;
   label?: string;
   color?: string;
+  /** Small dot instead of a pin (many steps of one lane). */
+  dot?: boolean;
+}
+
+export interface MiniLine {
+  coords: [number, number][];
+  color: string;
+  dashed?: boolean;
 }
 
 /**
@@ -24,6 +32,8 @@ export function MiniMap({
   center,
   zoom = 5,
   markers,
+  lines = [],
+  fit,
   variant = "manuscript",
   className = "",
   label,
@@ -32,6 +42,9 @@ export function MiniMap({
   center: [number, number];
   zoom?: number;
   markers: MiniMarker[];
+  lines?: MiniLine[];
+  /** [[west, south], [east, north]]: frames these bounds instead of center/zoom. */
+  fit?: [[number, number], [number, number]];
   variant?: MapStyleVariant;
   className?: string;
   label: string;
@@ -39,12 +52,19 @@ export function MiniMap({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
-  const key = JSON.stringify({ center, zoom, markers, variant });
+  const key = JSON.stringify({ center, zoom, markers, lines, fit, variant });
 
   useEffect(() => {
     let map: MlMap | undefined;
     let disposed = false;
-    const { center: c, zoom: z, markers: ms, variant: v } = JSON.parse(key) as { center: [number, number]; zoom: number; markers: MiniMarker[]; variant: MapStyleVariant };
+    const { center: c, zoom: z, markers: ms, lines: ls, fit: f, variant: v } = JSON.parse(key) as {
+      center: [number, number];
+      zoom: number;
+      markers: MiniMarker[];
+      lines: MiniLine[];
+      fit?: [[number, number], [number, number]];
+      variant: MapStyleVariant;
+    };
     (async () => {
       const lib = await import("maplibre-gl");
       lib.setWorkerUrl(WORKER_URL);
@@ -54,23 +74,37 @@ export function MiniMap({
         style: buildBaseStyle({ hillshade: false, variant: v }),
         center: c,
         zoom: z,
+        ...(f ? { bounds: f, fitBoundsOptions: { padding: 28, maxZoom: 7 } } : {}),
         interactive: false,
         // Credits are printed under the box by the caller (they would cover a small map).
         attributionControl: false,
         renderWorldCopies: false,
         fadeDuration: 0,
       });
-      map.on("load", () => !disposed && setReady(true));
+      map.on("load", () => {
+        if (disposed || !map) return;
+        ls.forEach((line, i) => {
+          map!.addSource(`line-${i}`, { type: "geojson", data: { type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: line.coords } } });
+          map!.addLayer({
+            id: `line-${i}`,
+            type: "line",
+            source: `line-${i}`,
+            layout: { "line-cap": "round", "line-join": "round" },
+            paint: { "line-color": line.color, "line-width": 2.5, "line-opacity": 0.85, ...(line.dashed ? { "line-dasharray": [2, 1.5] } : {}) },
+          });
+        });
+        setReady(true);
+      });
       for (const mk of ms) {
         const el = document.createElement("div");
-        el.className = "mini-marker";
+        el.className = mk.dot ? "mini-marker mini-dot" : "mini-marker";
         el.style.setProperty("--marker-color", mk.color ?? "var(--color-carmine)");
         if (mk.label) {
           const span = document.createElement("span");
           span.textContent = mk.label;
           el.appendChild(span);
         }
-        new lib.Marker({ element: el, anchor: "bottom" }).setLngLat([mk.lng, mk.lat]).addTo(map);
+        new lib.Marker({ element: el, anchor: mk.dot ? "center" : "bottom" }).setLngLat([mk.lng, mk.lat]).addTo(map);
       }
     })();
     return () => {

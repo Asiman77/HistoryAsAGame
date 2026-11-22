@@ -357,6 +357,20 @@ həmin məkanda baş verən bütün mərhələləri (şəxsiyyət, döyüş, dö
 - **Tezliklə:** `Place.upcoming` hələ simulyasiyası olmayan fəsilləri göstərir (məs. Şuşa üçün Qarabağ xanlığı).
 - Xəritədə şəhər kartında "Bu şəhərin tarixi" düyməsi var.
 
+## Müqayisə (`/compare/?a=…&b=…`)
+
+İki simulyasiyanı (şəxsiyyət, dövlət və ya müharibə) bir zaman oxunda və bir xəritədə yan-yana göstərir.
+Parametrlər `type:slug` formasındadır (`?a=person:nadir-shah&b=state:afshar`); sadə slug şəxsiyyət sayılır.
+Parametr verilməyibsə, defolt cüt Uzun Həsən ilə Şah İsmayıldır.
+Seçicilər bütün simulyasiyaları build zamanı `loadCompareData` (`src/data/compare.ts`) ilə yığır, ona görə yeni simulyasiya (məs. Sultan Səlim) kodsuz əlavə olunur.
+
+- **Görüş** (qızılı rəng, zolaqları birləşdirən xətt): eyni ildə eyni məkan və ya bir-birindən ≤ 25 km məsafə, ya da eyni döyüşə istinad.
+  Döyüşə istinad addımın `battle` keçidindən və ya müharibə gününün özünün döyüş olmasından gəlir. Qaydalar backend-in `GET /compare`-i ilə eynidir (`src/lib/compare.ts`).
+  `scripts/parity-history-queries.ts` bütün cütləri backend ilə müqayisə edir.
+- **Ortaq məkan** (qırıq xətt): eyni məkan, amma fərqli illərdə. Bu səviyyə yalnız frontend-dədir; həyatları üst-üstə düşməyən rəqiblər üçündür (Uzun Həsən və Şah İsmayıl: Təbriz).
+- Zolaqların rəngi sabitdir (birinci göy, ikinci qırmızı), çünki temanın öz rəngləri dövrə görə dəyişir. Seçim URL-ə yazılır.
+- Giriş nöqtələri: ana səhifə və şəxsiyyətin final ekranındakı "Başqası ilə müqayisə et" düyməsi.
+
 ## Dövr temaları və atmosfer
 
 Görünüş data ilə idarə olunur, komponentlərdə hardcode olunmur. Hər `Era` bir temaya bağlıdır. Şəxsiyyət, dövlət və müharibə onu miras alır

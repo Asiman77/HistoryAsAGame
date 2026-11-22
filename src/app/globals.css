@@ -664,6 +664,13 @@ html.teacher-mode .polity-label {
   text-shadow: 0 0 3px var(--color-parchment-light), 0 0 6px var(--color-parchment-light);
 }
 
+.mini-dot::after {
+  width: 7px;
+  height: 7px;
+  border-width: 1px;
+  box-shadow: none;
+}
+
 /* ---------- Time slider map: capitals and persons ---------- */
 .capital-star {
   display: flex;
