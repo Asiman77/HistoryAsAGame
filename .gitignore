@@ -20,3 +20,4 @@ docker/.env
 
 # Content pulled from the backend export for an api build (npm run content:pull)
 .content/
+storybook-static/

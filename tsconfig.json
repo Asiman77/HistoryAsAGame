@@ -15,7 +15,7 @@
     "jsx": "react-jsx",
     "incremental": true,
     "plugins": [{ "name": "next" }],
-    "paths": { "@/*": ["./src/*"], "@data/*": ["./data/*"], "@locales/*": ["./locales/*"] }
+    "paths": { "@/*": ["./src/*"], "@data/*": ["./data/*"], "@locales/*": ["./locales/*"], "@fixtures/*": ["./fixtures/*"] }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts"],
   "exclude": ["node_modules", "out"]
