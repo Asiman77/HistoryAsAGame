@@ -2,8 +2,6 @@ package az.tarix.platform;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +36,8 @@ class OpenApiExportTests {
         ((ObjectNode) api).remove("servers");
         assertThat(api.path("paths").has("/api/v1/events")).isTrue();
         assertThat(api.path("paths").has("/api/v1/persons/{slug}/steps")).isTrue();
-        Files.createDirectories(OUT.getParent());
         String json = JsonMapper.shared().writerWithDefaultPrettyPrinter().writeValueAsString(api) + "\n";
-        Files.writeString(OUT, json.replace("\r\n", "\n"), StandardCharsets.UTF_8);
+        StableFiles.write(OUT, json);
     }
 
     /** A copy with every object's keys in alphabetical order. */
