@@ -54,3 +54,51 @@ jobs:
         run: cp docker/.env.example docker/.env && sed -i 's/=$/=ci-placeholder/' docker/.env && docker compose -f docker/docker-compose.yml config --quiet
       - name: Build backend image
         run: docker build --build-context shared-schema=shared/schema -t tarix-backend:ci backend
+
+  # BACKEND_SPEC §21 phase 1: the whole system comes up with `docker compose up`. Then the same
+  # steps a person follows in the README: log in, import data/, read the public API.
+  compose:
+    name: docker compose up (smoke test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Build territory polygons (the import reads them)
+        run: npm ci && npx tsx scripts/build-territories.ts
+      - name: Fill docker/.env with throwaway secrets
+        run: |
+          cp docker/.env.example docker/.env
+          set_env() { sed -i "s|^$1=.*|$1=$2|" docker/.env; }
+          set_env POSTGRES_PASSWORD "ci-$(openssl rand -hex 12)"
+          set_env S3_ACCESS_KEY "ci-$(openssl rand -hex 8)"
+          set_env S3_SECRET_KEY "ci-$(openssl rand -hex 16)"
+          set_env JWT_SECRET "$(openssl rand -base64 48 | tr -d '\n')"
+          set_env ADMIN_EMAIL "admin@ci.invalid"
+          set_env ADMIN_PASSWORD "ci-admin-passphrase-$(openssl rand -hex 6)"
+      - name: docker compose up --build --wait
+        run: docker compose -f docker/docker-compose.yml up --build --wait --wait-timeout 420
+      - name: Health, login, import, public API
+        run: |
+          set -euo pipefail
+          curl -fsS localhost:8080/actuator/health | tee /dev/stderr | grep -q '"UP"'
+          PASSWORD=$(grep '^ADMIN_PASSWORD=' docker/.env | cut -d= -f2-)
+          TOKEN=$(curl -fsS localhost:8080/api/v1/auth/login -H 'Content-Type: application/json' \
+            -d "{\"email\":\"admin@ci.invalid\",\"password\":\"$PASSWORD\"}" | jq -r .accessToken)
+          curl -fsS -X POST localhost:8080/api/v1/admin/import -H "Authorization: Bearer $TOKEN" | jq '{documents, published, drafts}'
+          for i in $(seq 1 30); do
+            n=$(curl -fsS localhost:8080/api/v1/persons | jq '.items | length')
+            [ "$n" -ge 3 ] && break
+            sleep 2
+          done
+          test "$n" -ge 3
+          curl -fsS localhost:8080/api/v1/places/tebriz | jq -e '.slug == "tebriz"'
+          curl -fsS "localhost:8080/api/v1/compare?a=person:nadir-shah&b=state:afshar" | jq -e '.intersections | length > 0'
+      - name: Logs on failure
+        if: failure()
+        run: docker compose -f docker/docker-compose.yml logs --no-color --tail 300
+      - name: docker compose down
+        if: always()
+        run: docker compose -f docker/docker-compose.yml down -v
