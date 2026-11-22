@@ -5,7 +5,7 @@ Qərar: [ADR-0005](../../docs/adr/0005-shared-schema.md).
 
 > **Hazırda generasiya olunur.** Mənbə `src/domain/schema.ts` (Zod) və `src/domain/dataFiles.ts`-dir (fayl manifesti).
 > Sxemi dəyişdikdən sonra `npm run schema:export` işlədin və nəticəni commit edin. `npm test` və backend CI
-> uyğunsuzluğu tutur. Frontend generasiya olunmuş Zod-a keçəndə (mərhələ 14) bu fayllar əsas mənbə olacaq.
+> uyğunsuzluğu tutur. İstiqaməti çevirmək (Zod-u bu fayllardan generasiya etmək, ADR-0005-in 3-cü addımı) sonraya saxlanılıb.
 
 ## Fayllar
 
@@ -20,7 +20,7 @@ Hər sxemdə `x-schema-version` var. Mövcud sənədləri etibarsız edən dəyi
 ## Semantika
 
 - Sxemlər **giriş** formasını təsvir edir (`io: "input"`): JSON faylda necə yazılırsa, elə.
-- Obyektlərdə naməlum açarlara icazə verilir (`additionalProperties` yoxdur), çünki Zod da onları rədd etmir. Redaksiyada naməlum açar ayrıca `WARNING` qaydası ilə göstəriləcək.
+- Obyektlərdə naməlum açarlara icazə verilir (`additionalProperties` yoxdur), çünki Zod da onları rədd etmir. Redaksiya sənədin yuxarı səviyyəsindəki naməlum bölmələri `WARNING` ilə göstərir, daxili naməlum açarları hələ göstərmir.
 - Zod-un `z.url()`-i `format: "iri"` (RFC 3987) kimi yazılır, `uri` kimi yox: Zod ASCII olmayan ünvanları qəbul edir (məs. `…/wiki/Recep_Tayyip_Erdoğan`), ciddi `uri` (RFC 3986) isə onları rədd edərdi. Backend `format`-ı yoxlayır (yalnız annotasiya kimi saxlamır).
 
 ## JSON Schema ilə ifadə olunmayan qaydalar

@@ -4,7 +4,7 @@ Azərbaycan tarixi şəxsiyyətlərinin həyatını interaktiv şəkildə yaşam
 İstifadəçi şəxsiyyət seçir və onun həyatını doğumdan ölümə qədər mərhələ-mərhələ keçir.
 Hər mərhələ xəritədə göstərilir. Yerdəyişmələr animasiyalı marşrutla çəkilir, döyüşlər, seçim anları və yekun sınaq var.
 
-Xəritə həmin ilin siyasi vəziyyətini göstərir (14 snapshot, 1440–1739). Dövlətlər, paytaxtlar və dövrə uyğun toponimlər var.
+Xəritə həmin ilin siyasi vəziyyətini göstərir (18 snapshot, 1440–2020). Dövlətlər, paytaxtlar və dövrə uyğun toponimlər var.
 Hər mərhələnin əhvalı (*mood*) musiqini, mühit səslərini, xəritənin rəng tonunu və UI vurğusunu idarə edir.
 Döyüşlərdə xəritə meydana yaxınlaşır, tərəflərin hərəkəti sxematik oxlarla çəkilir.
 Bundan əlavə: "Bu zaman dünyada" paneli, şəxsiyyətlər arası kəsişmələr, qlossari, proqresin yadda saxlanması,
@@ -50,11 +50,24 @@ Sayt kökdə deyilsə, build zamanı `NEXT_PUBLIC_BASE_PATH=/alt-yol` verilməli
 > (yolda `\` işarəsinin nöqtəyə çevrilmədiyi üçün). Bu halda brauzer konsolunda `__next.*.txt` üçün 404 görünür və keçidlər
 > adi səhifə yüklənməsi ilə işləyir. Linux-da (GitHub Actions) build edəndə bu problem yoxdur.
 
-## Backend (işlənir)
+## Backend
 
-`backend/` qovluğunda Spring Boot 4.1 (Java 25) modular monoliti var: məzmunun redaksiyası, ictimai API, PostGIS sorğuları.
-Sayt hələ də `data/`-dan statik build olunur və backend-siz işləyir. Plan: [`docs/BACKEND_SPEC.md`](docs/BACKEND_SPEC.md),
-qərarlar: [`docs/adr/`](docs/adr/README.md), struktur: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+`backend/` qovluğunda Spring Boot 4.1 (Java 25) modular monoliti var (Spring Modulith, 10 modul). O, bunları edir:
+- məzmunun redaksiyası: draft → rəy → dərc, versiyalar, sahə səviyyəsində şərhlər;
+- ictimai oxuma API-si və PostGIS sorğuları: xəritə, zaman sürgüsü, müqayisə, axtarış;
+- media reyestri və lisenziya qaydaları;
+- anonim öyrənmə analitikası;
+- saytın build olunduğu statik eksport.
+
+Sayt backend-siz də işləyir: defolt olaraq `data/`-dan build olunur. Backend qoşulanda isə onun dərc etdiyi məzmundan build olunur.
+
+| Sənəd | Nə var |
+|---|---|
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | modullar, ER modeli, hər mərhələnin təfsilatı; §20: mühit dəyişənləri, planlı işlər, API xəritəsi; §21: açıq məsələlər |
+| [`docs/adr/`](docs/adr/README.md) | memarlıq qərarları (20 ADR), spesifikasiyadan fərqlər |
+| [`docs/modules/`](docs/modules/) | modul diaqramları (Spring Modulith `Documenter`, testlər yaradır) |
+| [`docs/BACKEND_SPEC.md`](docs/BACKEND_SPEC.md) | ilkin spesifikasiya |
+| [`shared/schema/`](shared/schema/README.md), `shared/openapi/` | frontend və backend arasında paylaşılan JSON Schema və ictimai OpenAPI |
 
 **Bütün sistemi Docker ilə qaldırmaq** (yalnız Docker lazımdır):
 
@@ -117,6 +130,8 @@ linkini `?class=KOD` ilə paylaşa bilər; həmin tab-ın event-ləri sinfin hes
 ```
 data/                    bütün kontent, kodda heç bir şəxsiyyət yoxdur
   eras/<id>.json         dövrlər
+  themes/<id>.json       dövr temaları (rəng, şrift, faktura, ornament)
+  commemorations.json    xüsusi günlər ("Tarixdə bu gün")
   persons/<id>/          person.json + events.json
   relations.json         şəxsiyyətlər arası əlaqələr (qohumluq, varislik)
   planned.json           elan olunmuş, hələ qurulmamış simulyasiyalar ("tezliklə" kartları və passiv keçidlər)
@@ -145,14 +160,22 @@ src/
   features/audio/        Howler.js mühərriki: music / ambience / sfx / voice kanalları, mood → səs xəritəsi
   features/settings/     səs səviyyələri, tam söndürmə, yüngül rejim, müəllim rejimi
   features/legacy/       final: irs, statistika, quiz
-scripts/validate-data.ts
+  features/…             conflicts, states, places, timeline, home, claims, theme, engine
+  lib/analytics/         anonim öyrənmə event-ləri (backend-ə, istəyə bağlı)
+scripts/                 validate-data, export-json-schema, pull-content, build-territories, parity-history-queries…
 tests/unit, tests/e2e
+shared/schema/           Zod-dan çıxarılan JSON Schema (backend eyni qaydalarla yoxlayır)
+shared/openapi/          backend-in ictimai API təsviri (frontend tipləri buradan)
+backend/                 Spring Boot modular monolit: az.tarix.platform.{shared, identity, editorial, publishing,
+                         catalog, geo, chronology, theming, media, analytics}
+docker/                  docker-compose.yml (PostGIS, SeaweedFS, backend) + .env.example
+docs/                    ARCHITECTURE.md, adr/, modules/, BACKEND_SPEC.md, mənbə və lisenziya qeydləri
 ```
 
 **Data qatı.** UI yalnız `HistoryRepository` interfeysindən (`src/data/repository.ts`) asılıdır.
-Hazırda `FileSystemRepository` build zamanı `data/`-nı oxuyur və `data/persons/*` qovluqlarını özü tapır.
-REST API-yə (məsələn, Spring Boot) keçmək üçün `src/data/index.ts`-də `HttpRepository` qaytarmaq kifayətdir.
-Data runtime-da gələcəksə, `next.config.ts`-dəki `output: "export"` da götürülməlidir.
+`FileSystemRepository` build zamanı məzmun qovluğunu oxuyur və `data/persons/*` qovluqlarını özü tapır.
+Qovluğu `src/data/index.ts` seçir: defolt `data/`, `NEXT_PUBLIC_DATA_SOURCE=api` ilə isə backend-in eksportu (`.content/`).
+Eksport `data/` ilə eyni formatdadır, ona görə ikinci repository implementasiyası lazım olmadı ([ADR-0020](docs/adr/0020-frontend-integration.md)).
 
 **Build zamanı hesablananlar** (`src/features/simulation/model.ts`): hər hadisə üçün yaş, hamarlanmış marşrut koordinatları
 (turf `bezierSpline` / `greatCircle`), məsafə, məkan siyahısı, statistika və quiz sualları. Brauzerə hazır nəticə gedir, turf client bundle-a düşmür.
@@ -453,11 +476,11 @@ Brauzer yaddaşı əlçatan deyilsə (gizli rejim, bloklanmış sayt datası), t
 
 ## Gələcək üçün (arxitekturada yer saxlanılıb, hələ qurulmayıb)
 
-- **Dövrlər üzrə naviqasiya və geniş xronoloji ox.** Snapshot-lar və dünya hadisələri şəxsiyyətdən asılı deyil, il üzrə seçilir.
 - **Ailə ağacı.** `Relation` tipləri (`parent`, `grandparent`, `spouse`, `sibling`, `successor`) qrafa çevrilə bilər.
 - **Çoxdilli interfeys (az, en, ru).** Bütün mətnlər `LocalizedText`-dir, UI mətnləri `locales/`-dadır. Yeni dil faylı əlavə edib `generateStaticParams`-da açmaq lazımdır.
 - **PWA / offline.** Audio, snapshot və ikonlar statik fayldır və service worker ilə keşlənə bilər. Xəritə tile-ları üçün ölçüsü məhdud runtime keş lazım olacaq.
-- **Backend (Spring Boot).** UI yalnız `HistoryRepository`-dən asılıdır, bax "Data qatı".
+- **Redaksiya UI-si (CMS frontend-i).** Backend-in redaksiya API-si və OpenAPI təsviri hazırdır; UI ayrıca layihə olacaq.
+- **"Tarixi şəxsiyyətdən soruş".** Yalnız dərc olunmuş, mənbəli məzmun üzərində; arxitekturada yer saxlanılıb.
 
 ## Lisenziyalar və mənbələr
 

@@ -1,7 +1,8 @@
 # Arxitektura
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
-> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 14 (frontend inteqrasiyası).
+> Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 15 (sənədləşmə). BACKEND_SPEC-in bütün mərhələləri bitib.
+> Gündəlik iş üçün qısa bələdçi: §20 (konfiqurasiya, planlı işlər, miqrasiyalar), açıq məsələlər: §21.
 
 ## 1. Ümumi görünüş
 
@@ -11,13 +12,19 @@
                  │    ▲                               │            theming / media (proyeksiya)   │
                  │ identity                    ContentProjected          │                        │
                  │                                   ▼                    ▼                        │
-                 │                              export (S3)         İctimai API (GET, ETag, cache) │ ◄── Next.js build (ApiRepository)
- Şagird ───────► │ analytics (POST /events, anonim)                                                │ ◄── mobil, digər istehlakçılar
-                 └───────────────────────────────────────────────────────────────────────────────┘
+                 │                     statik eksport (S3)    İctimai API (GET, ETag, cache)       │ ◄── mobil, digər istehlakçılar
+ Şagird ───────► │ analytics (POST /events, anonim)  │                                             │
+                 └───────────────────────────────────┼─────────────────────────────────────────────┘
                         PostgreSQL 18 + PostGIS 3.7 + pg_trgm          S3 (lokalda SeaweedFS)
+                                                     │
+                                                     ▼
+                              Next.js build (npm run build:api, data/ formatında) ─► statik sayt
 ```
 
-Frontend (repo kökü, Next.js `output: "export"`) bu gün `data/`-dan oxuyur və backend hazır olana qədər belə qalır (ADR-0004, ADR-0006).
+Frontend (repo kökü, Next.js `output: "export"`) iki mənbədən build oluna bilər (ADR-0004, ADR-0020):
+defolt olaraq repodakı `data/`-dan, `NEXT_PUBLIC_DATA_SOURCE=api` ilə isə backend-in statik eksportundan.
+Hər iki halda eyni `FileSystemRepository` və eyni Zod sxemi işləyir, UI fərqlənmir. Sayt runtime-da backend-ə
+yalnız anonim analitika üçün müraciət edir (`NEXT_PUBLIC_ANALYTICS_URL` verilibsə).
 
 ## 2. Modullar və sərhədlər
 
@@ -141,6 +148,7 @@ Konvensiyalar:
 | 12 | Analitika | ✅ |
 | 13 | Statik eksport | ✅ |
 | 14 | Frontend inteqrasiyası | ✅ |
+| 15 | Sənədləşmə | ✅ |
 
 ## 6. İş mühiti (mərhələ 1)
 
@@ -171,7 +179,7 @@ src/domain/dataFiles.ts ────┴─► npm run schema:export ─► share
 - Backend: `shared.schema.ContentSchemas` (networknt `json-schema-validator` 3.0.8, Jackson 3). `$id` prefiksi classpath-a bağlanır, şəbəkə istifadə olunmur; `format` yoxlanılır; xəta yolları JSON Pointer-dir (`review_comment.field_path` ilə eyni format).
 - Docker build `shared/schema`-nı əlavə build context (`shared-schema`) kimi alır.
 - Yoxlamalar: frontend `tests/unit/sharedSchema.test.ts` (sxem Zod ilə eynidir, hər data faylı tam bir sxemə düşür); backend `ContentSchemasTests` (hər `data/` faylı JSON Schema-dan keçir + mənfi hallar).
-- `.refine()` qaydaları JSON Schema-ya keçmir; siyahısı `shared/schema/README.md`-dədir, backend-də mərhələ 5-də qayda kimi yazılacaq.
+- `.refine()` qaydaları JSON Schema-ya keçmir; siyahısı `shared/schema/README.md`-dədir. Backend-də onlar redaksiya validasiyasının qaydaları kimi yazılıb (§10).
 
 ## 8. Ümumi tiplər və proyeksiya sxemi (mərhələ 3)
 
@@ -232,7 +240,7 @@ src/domain/dataFiles.ts ────┴─► npm run schema:export ─► share
 | `GET/POST /{id}/comments`, `PATCH /{id}/comments/{cid}` | `fieldPath` JSON Pointer; mətni yalnız müəllif dəyişir; həll etmək şərhin müəllifi və ya sənədi redaktə edə bilən üçündür |
 
 - **Xətalar** (Problem Details, `…/problems/<type>`): `not-found` 404, `forbidden` 403, `conflict` 409 (`code`: `duplicate-slug`, `invalid-transition`, `archived`, `comment-required`…), `precondition-required` 428, `precondition-failed` 412, `validation-failed` 422, `content-too-large` 413 (> 5 MiB), `bad-request` 400. Bütün cavablar `Cache-Control: no-store`.
-- **Event-lər** (`editorial.api`): `ContentPublished(documentId, docType, slug, revisionId, revisionNo)`, `ContentArchived(…, wasPublished)`. Dinləyici mərhələ 6-da gəlir (`publishing`).
+- **Event-lər** (`editorial.api`): `ContentPublished(documentId, docType, slug, revisionId, revisionNo)`, `ContentArchived(…, wasPublished)`. Onları `publishing` dinləyir (§11).
 - **Sonraya qalanlar:** `GET /{id}/preview` (ictimai API formatı mərhələ 8-dədir), `assignedToMe` filtri (təyinat modeli yoxdur; hələlik `mine=true`), slug dəyişmə endpoint-i (`slug_redirect` cədvəli hazırdır), daxili naməlum açarlar üçün `WARNING` (hələlik yalnız yuxarı səviyyədəki bölmələr).
 
 ## 11. Dərc və proyeksiya (mərhələ 6)
@@ -337,9 +345,7 @@ GET /api/v1/...  ──► PublicApiInterceptor: dil + content_version (1 sorğu
     - hər endpoint, dillər, `304`, keşin versiya ilə yenilənməsi, Problem Details, `301`;
     - `PENDING` media görünmür;
     - addım sorğusunun SQL sayı addımların sayından asılı deyil (`QueryCounter`, datasource-proxy).
-- **Sonraya qalanlar:**
-  - `GET /editorial/documents/{id}/preview`: dərc olunmamış revision-ı bu formatda göstərmək üçün proyeksiyanı tranzaksiyada yazıb geri almaq lazımdır;
-  - `openapi.json`-dan frontend tiplərinin generasiyası (mərhələ 14).
+- **Sonraya qalan:** `GET /editorial/documents/{id}/preview`. Dərc olunmamış revision-ı bu formatda göstərmək üçün proyeksiyanı tranzaksiyada yazıb geri almaq lazımdır (§21). Frontend tiplərinin OpenAPI-dən generasiyası mərhələ 14-də edildi (§19).
 
 ## 14. Coğrafi və xronoloji sorğular (mərhələ 9)
 
@@ -492,7 +498,7 @@ ADMIN/TEACHER ─► /api/v1/analytics/* ─► yalnız daily_aggregate
     - üç hesabat, başqa müəllimin sinfi `404`;
   - `RetentionTests` (köhnə partition silinir, cəmlər qalır);
   - `PermissionMatrixTests`: 5 yeni endpoint.
-- **Hələ yoxdur:** frontend event göndərmir. Göndərmə mərhələ 14-də (frontend inteqrasiyası) qoşulur.
+- **Frontend:** event-ləri mərhələ 14-dən göndərir (§19). Yalnız `NEXT_PUBLIC_ANALYTICS_URL` ilə build olunanda və brauzer DNT/GPC göndərmirsə.
 
 ## 18. Statik eksport (mərhələ 13)
 
@@ -554,3 +560,95 @@ Brauzer (NEXT_PUBLIC_ANALYTICS_URL varsa, DNT/GPC yoxdursa) ─► sendBeacon te
   - e2e `analytics.spec.ts`: brauzerdə bir səyahət `simulation_started`, `step_viewed`, `simulation_abandoned` göndərir, yalnız sessiya id-si ilə. Yalnız `NEXT_PUBLIC_ANALYTICS_URL` ilə build olunanda işləyir;
   - `timeline.spec.ts`-dəki köhnə yarış vəziyyəti düzəldildi.
 - **Yoxlama (2026-11-14):** eksportdan və `data/`-dan build olunan saytlar 541 faylda müqayisə edildi (ADR-0020). Real fərq `y2020` və gözləyən treklərdir.
+
+## 20. Əməliyyat bələdçisi (mərhələ 15)
+
+Əvvəlki bölmələrdə səpələnmiş məlumatın xülasəsi. Qurulma addımları: [README → Backend](../README.md#backend).
+
+**Mühit dəyişənləri** (hamısı `application.yml`-də `${…}` ilə bağlanır; sirlər yalnız mühitdən gəlir, şablon: [`docker/.env.example`](../docker/.env.example)):
+
+| Dəyişən | Məcburi | Nə üçündür |
+|---|---|---|
+| `SPRING_DATASOURCE_URL`, `_USERNAME`, `_PASSWORD` | bəli | PostgreSQL 18 + PostGIS 3.7 |
+| `JWT_SECRET` | bəli | HS256 açarı, Base64, ≥ 256 bit; yoxdursa tətbiq başlamır (§9) |
+| `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_DISPLAY_NAME` | ilk dəfə | ilk ADMIN hesabı; mövcud hesab dəyişdirilmir |
+| `CORS_ALLOWED_ORIGINS` | sayt başqa origin-dədirsə | dəqiq origin-lər, vergüllə (§15) |
+| `S3_ENDPOINT`, `S3_PRESIGN_ENDPOINT`, `S3_REGION`, `S3_ACCESS_KEY`, `S3_SECRET_KEY` | media/eksport üçün | boşdursa AWS default-ları (§16) |
+| `S3_MEDIA_BUCKET`, `MEDIA_PUBLIC_BASE_URL` | media üçün | yükləmələrin bucket-i və brauzerin oxuduğu ünvan |
+| `EXPORT_ENABLED` | yox (`true`) | dərcdən sonra statik eksport (§18) |
+| `IMPORT_DATA_DIR`, `IMPORT_BUILT_TERRITORIES_DIR` | yox | `POST /admin/import` üçün qovluqlar (§12) |
+| `SPRING_PROFILES_ACTIVE` | yox | `local` (compose) və ya `prod` (yalnız `health` açıq, ECS JSON log) |
+
+**Frontend build dəyişənləri:** `NEXT_PUBLIC_DATA_SOURCE` (`static` | `api`), `CONTENT_URL` və ya `CONTENT_DIR` (`api` rejimində eksportun yeri),
+`NEXT_PUBLIC_ANALYTICS_URL` (verilməyibsə event göndərilmir), `NEXT_PUBLIC_BASE_PATH` (alt-yol).
+
+**Planlı işlər** (bir instansiya nəzərdə tutulub; bir neçə instansiyada ShedLock və ya oxşar kilid lazım olacaq):
+
+| İş | Vaxt | Açar |
+|---|---|---|
+| Tamamlanmamış proyeksiya event-lərinin təkrarı (`RetryIncompleteProjections`) | hər 1 dəq. | `platform.publishing.retry-interval` |
+| Statik eksport (`ExportScheduler`) | dərcdən 30 san. sakitlik sonra, ən gec 5 dəq. | `platform.export.*` |
+| Gündəlik analitika toplaması + retention + partition-lar (`DailyAggregation`) | 02:15 Asia/Baku | `platform.analytics.aggregate-cron` |
+| Qeyd olunmamış yükləmələrin silinməsi (`OrphanUploadCleanup`) | 03:30 | `platform.media.orphan-cleanup-cron` |
+
+**Flyway miqrasiyaları** (`backend/src/main/resources/db/migration`):
+
+| Fayl | Mərhələ | Məzmun |
+|---|---|---|
+| `V001__extensions`, `V002__event_publication` | 1 | PostGIS, `pg_trgm`; Modulith event registry |
+| `V003`–`V008` | 3 | ümumi funksiyalar, chronology, geo, catalog, theming, media proyeksiyaları (§8) |
+| `V009__identity` | 4 | istifadəçilər, rollar, refresh token-lər |
+| `V010__editorial` | 5 | sənədlər, revision-lar, şərhlər, jurnal, `content_version` |
+| `V011__projection_adjustments` | 6 | proyeksiya sütunlarının düzəlişləri |
+| `V012__class_group` | 10 | müəllim sinifləri |
+| `V013__media_registry` | 11 | `origin`, `updated_at` |
+| `V014__analytics` | 12 | partition-lı `learning_event`, `daily_aggregate` |
+| `V015__document_position` | 13 | eksport sırası |
+
+Tətbiq olunmuş miqrasiya heç vaxt dəyişdirilmir; düzəliş yeni `V0NN` faylı ilədir.
+
+**API xəritəsi** (`/api/v1`):
+
+| Prefiks | Kim | Bölmə |
+|---|---|---|
+| `GET /persons`, `/conflicts`, `/states`, `/battles`, `/heroes`, `/relations`, `/places`, `/eras`, `/polities`, `/rulers`, `/themes`, `/soundtracks` | hər kəs | §13, §16 |
+| `GET /territories`, `/polities/at`, `/polities/{slug}/ruler`, `/timeline`, `/on-this-day`, `/places/{slug}/timeline`, `/compare`, `/search` | hər kəs | §14 |
+| `POST /events` | hər kəs (anonim) | §17 |
+| `/auth/*` | `login`, `refresh`: hər kəs; qalanı token ilə | §9, §15 |
+| `/editorial/documents/*`, `/editorial/media/*` | AUTHOR, REVIEWER, ADMIN | §10, §16 |
+| `/teacher/classes/*` | TEACHER | §15 |
+| `/analytics/*` | ADMIN; `classes/{code}` TEACHER | §17 |
+| `/admin/import`, `/admin/projections/rebuild`, `/admin/broken-references`, `/admin/export`, `/admin/users`, `/admin/classes`, `/admin/analytics/aggregate` | ADMIN | §11–§18 |
+
+Tam siyahı və sxemlər: `/swagger-ui.html`. İctimai hissənin təsviri repoda da var: `shared/openapi/public.json`.
+
+**Generasiya olunan və commit edilən fayllar** (CI fərqi yoxlayır):
+
+| Fayl | Kim yaradır | Nə vaxt yeniləmək lazımdır |
+|---|---|---|
+| `shared/schema/*.json` | `npm run schema:export` | `src/domain/schema.ts` dəyişəndə |
+| `docs/modules/*` | backend `ModularityTests` | modul asılılıqları və ya event-lər dəyişəndə. Yalnız sətir sırası dəyişibsə commit etməyin (§21) |
+| `shared/openapi/public.json` | backend `OpenApiExportTests` | ictimai API dəyişəndə; sonra `npm run api:types` |
+| `src/data/api/openapi.ts` | `npm run api:types` | `public.json` dəyişəndə |
+
+**Testlər:** `./mvnw verify` (backend; Docker lazımdır: Testcontainers PostGIS və SeaweedFS qaldırır), `npm test`, `npm run test:e2e`.
+Docker yoxdursa, backend testlərini mövcud PostGIS bazası ilə işlətmək olar:
+`-Dspring.datasource.url=jdbc:postgresql://…`. Bu halda `TestcontainersConfiguration` konteyneri qaldırmır,
+S3 testləri isə `-Dplatform.media.s3.endpoint=…` verilməyibsə ötürülür.
+
+## 21. Açıq məsələlər
+
+Mərhələlər bitəndən sonra qalanlar. Heç biri mövcud funksionallığı bloklamır.
+
+| Məsələ | Harada | Qeyd |
+|---|---|---|
+| `y2020` snapshot-unda `russian-federation` poliqonu etibarsızdır | data, §11 | snapshot dərc olunmur; eksportda 26 müharibə günü ona istinad edir. Poliqon `data/territories`-də düzəldilməlidir |
+| 2 soundtrack trekinin icazəsi gözlənilir | data, §16 | ADMIN icazə verənə qədər dərc olunmur, `/soundtracks` boşdur |
+| `world_event` üçün ictimai endpoint yoxdur | API, §14 | proyeksiya olunur; frontend onları şəxsiyyət və dövlət səhifələrində işlədir |
+| `GET /editorial/documents/{id}/preview` | editorial, §10, §13 | redaksiya UI-si gələndə lazım olacaq |
+| Slug dəyişmə endpoint-i, `assignedToMe` filtri | editorial, §10 | `slug_redirect` cədvəli hazırdır |
+| Zod sxemlərinin `shared/schema`-dan generasiyası | ADR-0005, 3-cü addım | hazırda istiqamət Zod → JSON Schema-dır |
+| Modulith `Documenter` diaqram sətirlərini hər dəfə başqa sırayla yazır | CI | yalnız sıra dəyişibsə, faylları geri qaytarın; CI-ın `git diff` addımı bu səbəbdən arabir düşə bilər |
+| `NVD_API_KEY` repo secret-i | CI, §15 | açar olmadan Dependency-Check işləmir |
+| Login limiti və planlı işlər bir instansiya üçündür | §15, §20 | üfüqi miqyaslamada paylaşılan vedrə və iş kilidi lazımdır |
+| Reverse proxy arxasında real ünvan | §15 | forward başlıqları yalnız etibarlı proxy ilə açılmalıdır |
