@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { kinks, multiPolygon, polygon } from "@turf/turf";
+import { kinks, polygon } from "@turf/turf";
+import type { Position } from "geojson";
 import { buildTerritories } from "../../scripts/build-territories";
 
 describe("territory snapshots", () => {
@@ -20,10 +21,11 @@ describe("territory snapshots", () => {
     for (const s of snapshots)
       for (const p of s.polities) {
         const g = p.geometry;
-        const parts = g.type === "Polygon" ? [g.coordinates] : g.coordinates;
+        const parts: Position[][][] = g.type === "Polygon" ? [g.coordinates] : g.coordinates;
         expect(parts.every((x) => x.length > 0 && x.every((r) => r.length >= 4)), `${s.id}/${p.id}: empty part`).toBe(true);
-        const f = g.type === "Polygon" ? polygon(g.coordinates) : multiPolygon(g.coordinates);
-        expect(kinks(f).features.map((k) => k.geometry.coordinates), `${s.id}/${p.id}`).toEqual([]);
+        // Part by part: kinks() takes one polygon; crossings between parts would be overlaps, which union removes.
+        const crossings = parts.flatMap((x) => kinks(polygon(x)).features.map((k) => k.geometry.coordinates));
+        expect(crossings, `${s.id}/${p.id}`).toEqual([]);
       }
   });
 
