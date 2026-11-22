@@ -44,6 +44,8 @@ public class PublicCache {
      */
     @SuppressWarnings("unchecked")
     public <T> T get(ReadContext ctx, String name, Object argument, Supplier<T> loader) {
+        // A preview reads rows that are rolled back: caching it would serve unpublished content.
+        if (ctx.preview()) return loader.get();
         long version = ctx.contentVersion();
         long previous = newestVersion.getAndAccumulate(version, Math::max);
         if (version > previous && previous != Long.MIN_VALUE) cache.invalidateAll();

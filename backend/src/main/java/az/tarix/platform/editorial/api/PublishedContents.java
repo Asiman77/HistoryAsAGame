@@ -11,6 +11,12 @@ public interface PublishedContents {
     /** The public revision of a document; empty when it has none or the document is archived. */
     Optional<PublishedContent> of(UUID documentId);
 
+    /**
+     * Any revision of a document, public or not, for the editorial preview: {@code revisionNo},
+     * or the current one when null. Empty when the document or the revision does not exist.
+     */
+    Optional<PublishedContent> revision(UUID documentId, Integer revisionNo);
+
     /** Every document that has a public revision and is not archived (for a rebuild). */
     List<UUID> publishedDocumentIds();
 

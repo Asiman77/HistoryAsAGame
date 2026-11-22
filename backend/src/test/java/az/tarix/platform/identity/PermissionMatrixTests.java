@@ -95,6 +95,7 @@ class PermissionMatrixTests {
             new Rule(HttpMethod.GET, "/api/v1/editorial/documents/{id}/diff", DOC + "/diff?from=1&to=2", null, EDITORS),
             new Rule(HttpMethod.POST, "/api/v1/editorial/documents/{id}/revert", DOC + "/revert?to=1", null, EDITORS),
             new Rule(HttpMethod.GET, "/api/v1/editorial/documents/{id}/validation", DOC + "/validation", null, EDITORS),
+            new Rule(HttpMethod.GET, "/api/v1/editorial/documents/{id}/preview", DOC + "/preview", null, EDITORS),
             new Rule(HttpMethod.POST, "/api/v1/editorial/documents/{id}/transitions", DOC + "/transitions",
                     Map.of("action", "submit"), EDITORS),
             new Rule(HttpMethod.GET, "/api/v1/editorial/documents/{id}/transitions", DOC + "/transitions", null, EDITORS),

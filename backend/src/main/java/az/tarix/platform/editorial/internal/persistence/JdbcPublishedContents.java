@@ -18,6 +18,16 @@ class JdbcPublishedContents implements PublishedContents {
             FROM editorial_document d JOIN editorial_revision r ON r.id = d.published_revision_id
             WHERE d.id = :id AND d.status <> 'ARCHIVED'""";
 
+    static final String CURRENT = """
+            SELECT d.id, d.doc_type, d.slug, r.id AS revision_id, r.revision_no, r.content
+            FROM editorial_document d JOIN editorial_revision r ON r.id = d.current_revision_id
+            WHERE d.id = :id""";
+
+    static final String NUMBERED = """
+            SELECT d.id, d.doc_type, d.slug, r.id AS revision_id, r.revision_no, r.content
+            FROM editorial_document d JOIN editorial_revision r ON r.document_id = d.id AND r.revision_no = :no
+            WHERE d.id = :id""";
+
     static final String ALL = """
             SELECT id FROM editorial_document
             WHERE published_revision_id IS NOT NULL AND status <> 'ARCHIVED'
@@ -38,6 +48,15 @@ class JdbcPublishedContents implements PublishedContents {
     @Override
     public Optional<PublishedContent> of(UUID documentId) {
         return jdbc.sql(PUBLISHED).param("id", documentId).query((rs, n) -> new PublishedContent(
+                rs.getObject("id", UUID.class), DocumentType.valueOf(rs.getString("doc_type")), rs.getString("slug"),
+                rs.getObject("revision_id", UUID.class), rs.getInt("revision_no"), ContentJson.parse(rs.getString("content"))))
+                .optional();
+    }
+
+    @Override
+    public Optional<PublishedContent> revision(UUID documentId, Integer revisionNo) {
+        var sql = revisionNo == null ? jdbc.sql(CURRENT) : jdbc.sql(NUMBERED).param("no", revisionNo);
+        return sql.param("id", documentId).query((rs, n) -> new PublishedContent(
                 rs.getObject("id", UUID.class), DocumentType.valueOf(rs.getString("doc_type")), rs.getString("slug"),
                 rs.getObject("revision_id", UUID.class), rs.getInt("revision_no"), ContentJson.parse(rs.getString("content"))))
                 .optional();

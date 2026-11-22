@@ -30,6 +30,16 @@ class PublicCacheTests {
     }
 
     @Test
+    void aPreviewIsNeverCachedNorServedFromTheCache() {
+        ReadContext ctx = new ReadContext(1, Lang.AZ);
+        assertThat(cache.get(ctx.asPreview(), "place", "tebriz", this::load)).isEqualTo("v1");
+        assertThat(cache.size()).isZero();
+        assertThat(cache.get(ctx, "place", "tebriz", this::load)).isEqualTo("v2");
+        assertThat(cache.get(ctx.asPreview(), "place", "tebriz", this::load)).isEqualTo("v3");
+        assertThat(cache.get(ctx, "place", "tebriz", this::load)).isEqualTo("v2");
+    }
+
+    @Test
     void aNewContentVersionDropsEverything() {
         cache.get(new ReadContext(1, Lang.AZ), "person", "a", this::load);
         cache.get(new ReadContext(1, Lang.AZ), "person", "b", this::load);
