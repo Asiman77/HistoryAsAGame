@@ -30,9 +30,12 @@ npm run dev          # http://localhost:3000
 | `npm run schema:export` | Zod modelindən `shared/schema/` (JSON Schema, backend ilə paylaşılır) yaradır. `src/domain/schema.ts` dəyişəndən sonra işlədin; `npm test` uyğunsuzluğu tutur |
 | `npm run build:territories` | Siyasi xəritə snapshot-larını `public/data/territories/`-a yığır (`dev` və `build`-dan əvvəl avtomatik işləyir) |
 | `npm run generate:audio` | Placeholder musiqi və səsləri yenidən sintez edir (`public/audio/`, bax `docs/AUDIO_CREDITS.md`) |
-| `npm test` | Unit testlər (Vitest) |
+| `npm test` | Unit testlər (`tests/unit`, node) və komponent testləri (`tests/component`, jsdom + Testing Library), Vitest |
 | `npm run test:e2e` | Playwright: hər şəxsiyyət başdan sona; desktop, planşet və mobil. Əvvəlcə `npm run build` lazımdır. İlk dəfə `npx playwright install chromium` |
-| `npm run lint`, `npm run typecheck` | ESLint və TypeScript |
+| `npm run lint`, `npm run typecheck` | ESLint və TypeScript. ESLint komponentlərdə hex rəngi qadağan edir (dizayn tokenləri, bax `docs/FRONTEND_PLAN.md`) |
+| `npm run storybook` | Komponent kataloqu (http://localhost:6006). Alət panelində dövr teması və yüngül rejim seçilir |
+| `npm run build-storybook` | Storybook-u `storybook-static/`-a statik build edir |
+| `npm run stories:shots -- <qovluq> [--axe] [story-id@tema …]` | Story-lərin ekran görüntüləri (mərhələ hesabatları üçün). `--axe` WCAG 2.2 AA yoxlaması da aparır |
 | `npm run build:api` | Saytı backend-in dərc olunmuş məzmunundan build edir: eksportu `.content/`-ə çəkir (`CONTENT_URL` və ya `CONTENT_DIR`), sonra `next build`. `NEXT_PUBLIC_DATA_SOURCE=api` ilə işlədin (aşağıya bax) |
 | `npm run content:pull` | Yalnız eksportu çəkir (`build:api`-nin birinci addımı) |
 | `npm run api:types` | `shared/openapi/public.json`-dan (backend testləri yazır) `src/data/api/openapi.ts` tiplərini generasiya edir |

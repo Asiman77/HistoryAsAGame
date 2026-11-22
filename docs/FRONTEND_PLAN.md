@@ -343,3 +343,43 @@ Funksionallıq və refaktorinq ayrı commit-lərdə. `ARCHITECTURE.md` yerinə f
 - §2 (Zod generasiyası) və §9 (`ApiRepository`, SSR/ISR) → Q7, Q2, Q1.
 - §4: `/dovletler` və `/mekanlar` siyahıları yoxdur, dizaynın menyusu isə onlara keçid verir → Q3.
 - §3.2 tema slug-ları datadakı id-lərlə üst-üstə düşmür → Q8.
+
+---
+
+## 15. Mərhələ vəziyyəti
+
+| # | Mərhələ | Vəziyyət |
+|---|---|---|
+| 0 | Plan | ✅ 2026-11-22, ADR-0022 |
+| 1 | Dizayn sistemi | ✅ 2026-11-22 |
+| 2–15 | | gözləyir |
+
+### Mərhələ 1: dizayn sistemi
+
+**Fayllar:**
+- `src/styles/tokens.css`: §3.1 tokenləri, `@property` qeydiyyatı (crossfade 750 ms), `.ds-root`. `src/styles/design-system.css`: Tailwind adları. `globals.css` onu import edir.
+- `src/theme/`: `color.ts` (qarışdırma, WCAG kontrastı, OKLCH), `tokens.ts` (CSS-in güzgüsü), `fallbacks.ts` (§3.2 + dizayndan götürülən mətn və səth rəngləri), `resolve.ts` (`themeTokens`, `deriveUiPalette`, `themeCss`).
+- `src/styles/fonts.ts`: Noto Serif Display və Inter (variable). Köhnə səhifələrin şriftləri də burada, mərhələ 14-ə qədər.
+- `src/components/`: `ui/` (Button, IconButton, Chip, Badge, Card, Panel, Eyebrow, SectionHeading, SegmentedControl, Progress*, Stat, EmptyState, ComingSoon, Checkbox), `claims/ClaimBadge`, `icons/`, `atmosphere/AtmosphereBackground`, `layout/ThemeScope`, `layout/ThemeStyles`.
+- Storybook (`.storybook/`), komponent testləri (`tests/component/`), `scripts/story-screenshots.ts`.
+
+**Tailwind adları** (komponentlərdə yalnız bunlar, hex qadağandır):
+
+| Token | Utility |
+|---|---|
+| `--bg-base`, `--bg-raised`, `--bg-panel` | `bg-surface`, `bg-surface-raised`, `bg-surface-panel` |
+| `--text-primary`, `--text-secondary`, `--text-muted` | `text-fg`, `text-fg-secondary`, `text-fg-muted` |
+| `--accent`, `--accent-ink`, `--accent-hover`, `--eyebrow` | `accent`, `accent-ink`, `accent-hover`, `eyebrow` (`bg-`, `text-`, `border-`…) |
+| `--border-subtle`, `--border-strong` | `border-line`, `border-line-strong` |
+| `--secondary`, `--secondary-2` | `secondary`, `secondary-2` (səthləri tonlayır, mətn fonu deyil) |
+| `--claim-*`, `--negative`, `--map-*`, `--flag-*`, `--sky-*`, `--dawn-glow` | eyni adla |
+| şriftlər | `font-heading` (Noto Serif Display), `font-ui` (Inter) |
+| ölçülər | `text-12` … `text-88`, `rounded-button(-lg)`, `rounded-panel`, `rounded-card(-lg)`, `shadow-deep`, `tracking-eyebrow(-wide)`, `max-w-content` |
+
+**Qərarlar və qeydlər:**
+- TypeScript 5.9.3-də qalır: 7.0-ın klassik compiler API-si yoxdur, `typescript-eslint` `<6.1` tələb edir, 6.0.3 isə `openapi-typescript` 7.13-ün `^5` peer-i ilə toqquşur. ESLint 9.39-da qalır: `eslint-plugin-react` 7.37 ESLint 10-u dəstəkləmir.
+- Bütün dizayn temaları AA-dan düzəlişsiz keçir. `themeTokens` buna baxmayaraq hər mətn rəngini və vurğunu lazım olsa OKLCH-da açır, ona görə törədilən temalar da oxunaqlı qalır (test 9 fərqli rənglə yoxlayır).
+- 2020, Səfəvi və Əfşar temalarının səth rəngləri artboard-lardan götürülüb (`#13263A`, `#1E0C0F`, `#1C130B` və s.).
+- `next-intl` komponentlər üçün indidən quraşdırılıb (`useTranslations("ui")`), routing mərhələ 2-də. UI mətnləri `locales/az.json`-un `ui` bölməsindədir.
+- Storybook telemetriyası söndürülüb. `@storybook/nextjs-vite`-in docgen plaqininin dev asılılığında (`glob` → `minimatch`) orta dərəcəli bir xəbərdarlıq qalır. Production bundle-a düşmür.
+- next-intl-in `@swc/core` və `@parcel/watcher` install skriptləri `allowScripts`-də rədd edilib: hazır Windows/Linux binary paketləri onsuz da quraşdırılır.
