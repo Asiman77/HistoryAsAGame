@@ -636,6 +636,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/world-events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Bu zaman dünyada
+         * @description `year` ilə: o ilə ən yaxın (±12 il) ən çox `limit` hadisə, əvvəlcə fərqli regionlardan — frontend-in "Bu zaman dünyada" paneli. `from` və `to` ilə: bu illərlə kəsişən bütün hadisələr.
+         */
+        get: operations["worldEvents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1526,6 +1546,26 @@ export interface components {
             ref?: components["schemas"]["ApiLink"];
             sources?: components["schemas"]["ApiSource"][];
             title?: components["schemas"]["JsonNode"];
+            /** Format: int32 */
+            year?: number;
+        };
+        WorldEventView: {
+            description?: components["schemas"]["JsonNode"];
+            /** Format: int32 */
+            endYear?: number;
+            region?: string;
+            slug?: string;
+            sources?: components["schemas"]["ApiSource"][];
+            title?: components["schemas"]["JsonNode"];
+            /** Format: int32 */
+            year?: number;
+        };
+        WorldEvents: {
+            /** Format: int32 */
+            from?: number;
+            items?: components["schemas"]["WorldEventView"][];
+            /** Format: int32 */
+            to?: number;
             /** Format: int32 */
             year?: number;
         };
@@ -2589,6 +2629,41 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["YearView"];
+                };
+            };
+        };
+    };
+    worldEvents: {
+        parameters: {
+            query?: {
+                /** @description İl (seçim rejimi) */
+                year?: number;
+                /** @description Seçim rejimində hadisə sayı, 1–10 (defolt 3) */
+                limit?: number;
+                /** @description Aralığın başlanğıcı */
+                from?: number;
+                /** @description Aralığın sonu */
+                to?: number;
+                /** @description Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`. */
+                lang?: "az" | "en" | "ru" | "all";
+            };
+            header?: {
+                "Accept-Language"?: string;
+                /** @description Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`. */
+                "If-None-Match"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WorldEvents"];
                 };
             };
         };

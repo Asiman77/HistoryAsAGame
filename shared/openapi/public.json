@@ -2535,6 +2535,60 @@
         },
         "type" : "object"
       },
+      "WorldEventView" : {
+        "properties" : {
+          "description" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "endYear" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "region" : {
+            "type" : "string"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ApiSource"
+            },
+            "type" : "array"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "year" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "WorldEvents" : {
+        "properties" : {
+          "from" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "items" : {
+            "items" : {
+              "$ref" : "#/components/schemas/WorldEventView"
+            },
+            "type" : "array"
+          },
+          "to" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "year" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
       "YearMonth" : {
         "properties" : {
           "month" : {
@@ -4501,6 +4555,87 @@
         },
         "summary" : "İl üzrə tarix (zaman sürüşdürücüsü)",
         "tags" : [ "Zaman və məkan" ]
+      }
+    },
+    "/api/v1/world-events" : {
+      "get" : {
+        "description" : "`year` ilə: o ilə ən yaxın (±12 il) ən çox `limit` hadisə, əvvəlcə fərqli regionlardan — frontend-in \"Bu zaman dünyada\" paneli. `from` və `to` ilə: bu illərlə kəsişən bütün hadisələr.",
+        "operationId" : "worldEvents",
+        "parameters" : [ {
+          "description" : "İl (seçim rejimi)",
+          "in" : "query",
+          "name" : "year",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Seçim rejimində hadisə sayı, 1–10 (defolt 3)",
+          "in" : "query",
+          "name" : "limit",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Aralığın başlanğıcı",
+          "in" : "query",
+          "name" : "from",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Aralığın sonu",
+          "in" : "query",
+          "name" : "to",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WorldEvents"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Bu zaman dünyada",
+        "tags" : [ "Kataloq" ]
       }
     }
   }

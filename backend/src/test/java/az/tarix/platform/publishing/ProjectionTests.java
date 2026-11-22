@@ -344,8 +344,11 @@ class ProjectionTests {
         transition(id, "admin", "publish");
         await().atMost(Duration.ofSeconds(10)).until(() -> count("SELECT count(*) FROM place WHERE slug = 'tabriz'") == 1);
         assertThat(count("SELECT count(*) FROM place WHERE slug = 'tebriz'")).isZero();
-        // The old link answers 301 to the new one (the client follows it).
-        assertThat(call("admin", HttpMethod.GET, "/api/v1/places/tebriz", null, null).getBody().path("slug").asString()).isEqualTo("tabriz");
+        // The old link answers 301 to the new one.
+        ResponseEntity<JsonNode> moved = call("admin", HttpMethod.GET, "/api/v1/places/tebriz", null, null);
+        assertThat(moved.getStatusCode().value()).isEqualTo(301);
+        assertThat(moved.getHeaders().getLocation()).hasToString("/api/v1/places/tabriz");
+        assertThat(call("admin", HttpMethod.GET, "/api/v1/places/tabriz", null, null).getBody().path("slug").asString()).isEqualTo("tabriz");
 
         // The old name cannot be taken by a new document, but this one may get it back.
         assertThat(call("author", HttpMethod.POST, DOCS, Map.of("type", "PLACE",
