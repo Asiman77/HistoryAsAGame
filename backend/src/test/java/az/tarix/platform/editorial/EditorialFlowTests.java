@@ -358,6 +358,41 @@ class EditorialFlowTests {
         assertThat(edit.getBody().path("code").asString()).isEqualTo("archived");
     }
 
+    // --- review assignment --------------------------------------------------------------------
+
+    @Test
+    void reviewersAreAssignedAndFindTheirDocuments() {
+        String mine = create("author", DocumentType.PLACE, place("tebriz")).getBody().path("id").asString();
+        String other = create("author", DocumentType.PLACE, place("erdebil")).getBody().path("id").asString();
+        String assign = BASE + "/" + mine + "/assignee";
+
+        // Only reviewers and admins assign, and only to an active reviewer or admin.
+        assertThat(status(call("author", HttpMethod.PUT, assign, Map.of("assigneeId", ids.get("reviewer")), null))).isEqualTo(403);
+        assertThat(status(call("admin", HttpMethod.PUT, assign, Map.of("assigneeId", ids.get("author2")), null))).isEqualTo(400);
+        assertThat(status(call("admin", HttpMethod.PUT, assign, Map.of("assigneeId", java.util.UUID.randomUUID()), null))).isEqualTo(400);
+        ResponseEntity<JsonNode> assigned = call("admin", HttpMethod.PUT, assign, Map.of("assigneeId", ids.get("reviewer")), null);
+        assertThat(status(assigned)).isEqualTo(200);
+        assertThat(assigned.getBody().path("assigneeId").asString()).isEqualTo(ids.get("reviewer").toString());
+        assertThat(assigned.getBody().path("status").asString()).isEqualTo("DRAFT");
+
+        JsonNode forReviewer = get("reviewer", BASE + "?assignedToMe=true").getBody();
+        assertThat(forReviewer).extracting(d -> d.path("id").asString()).containsExactly(mine);
+        assertThat(forReviewer.get(0).path("assigneeId").asString()).isEqualTo(ids.get("reviewer").toString());
+        assertThat(get("reviewer2", BASE + "?assignedToMe=true").getBody()).isEmpty();
+        assertThat(get("reviewer", BASE).getBody()).extracting(d -> d.path("id").asString()).contains(mine, other);
+
+        // Logged without a status change; null takes the assignment away.
+        assertThat(get("admin", BASE + "/" + mine + "/transitions").getBody())
+                .anyMatch(t -> t.path("action").asString().equals("assign"));
+        ResponseEntity<JsonNode> cleared = call("reviewer", HttpMethod.PUT, assign, Map.of(), assigned.getHeaders().getETag());
+        assertThat(status(cleared)).isEqualTo(200);
+        assertThat(cleared.getBody().path("assigneeId").isNull()).isTrue();
+        assertThat(get("reviewer", BASE + "?assignedToMe=true").getBody()).isEmpty();
+        // A stale If-Match is refused like any other write.
+        assertThat(status(call("admin", HttpMethod.PUT, assign, Map.of("assigneeId", ids.get("reviewer")), assigned.getHeaders().getETag())))
+                .isEqualTo(412);
+    }
+
     // --- list and search ----------------------------------------------------------------------
 
     @Test

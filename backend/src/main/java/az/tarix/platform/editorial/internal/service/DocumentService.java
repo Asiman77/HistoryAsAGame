@@ -23,7 +23,9 @@ import az.tarix.platform.editorial.internal.service.EditorialExceptions.Precondi
 import az.tarix.platform.editorial.internal.service.EditorialExceptions.PublishBlocked;
 import az.tarix.platform.editorial.internal.validation.DocumentValidator;
 import az.tarix.platform.editorial.internal.validation.ValidationReport;
+import az.tarix.platform.identity.api.Accounts;
 import az.tarix.platform.identity.api.CurrentUser;
+import az.tarix.platform.identity.api.Role;
 import az.tarix.platform.shared.domain.Slugs;
 import az.tarix.platform.shared.schema.ContentSchemas;
 import java.time.Clock;
@@ -63,11 +65,12 @@ public class DocumentService {
     private final ContentSchemas schemas;
     private final ApplicationEventPublisher events;
     private final JdbcClient jdbc;
+    private final Accounts accounts;
     private final Clock clock;
 
     public DocumentService(DocumentRepository documents, RevisionRepository revisions, TransitionRepository transitions,
                            DocumentQueries queries, DocumentValidator validator, ContentSchemas schemas,
-                           ApplicationEventPublisher events, JdbcClient jdbc, Clock clock) {
+                           ApplicationEventPublisher events, JdbcClient jdbc, Accounts accounts, Clock clock) {
         this.documents = documents;
         this.revisions = revisions;
         this.transitions = transitions;
@@ -76,6 +79,7 @@ public class DocumentService {
         this.schemas = schemas;
         this.events = events;
         this.jdbc = jdbc;
+        this.accounts = accounts;
         this.clock = clock;
     }
 
@@ -205,6 +209,23 @@ public class DocumentService {
             events.publishEvent(new ContentArchived(doc.id(), doc.type(), doc.slug(), wasPublished));
         }
         return view(doc, current);
+    }
+
+    /**
+     * Assigns the document to a reviewer, or takes the assignment away ({@code assignee} null).
+     * The assignee must be an active reviewer or admin; the status does not change.
+     */
+    @Transactional
+    public DocumentView assign(CurrentUser actor, UUID id, Long expectedVersion, UUID assignee) {
+        Workflow.requireRead(actor);
+        EditorialDocument doc = load(id);
+        requireVersion(doc, expectedVersion, false);
+        if (assignee != null) {
+            boolean reviews = accounts.activeRoles(assignee).map(r -> r.contains(Role.REVIEWER) || r.contains(Role.ADMIN)).orElse(false);
+            if (!reviews) throw new IllegalArgumentException("Yalnız aktiv rəyçi və ya admin təyin oluna bilər.");
+        }
+        log(Workflow.assign(doc, assignee, actor, clock.instant()));
+        return view(documents.saveAndFlush(doc), current(doc));
     }
 
     // --- helpers ------------------------------------------------------------------------------

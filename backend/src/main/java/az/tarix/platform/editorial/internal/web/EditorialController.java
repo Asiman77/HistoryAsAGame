@@ -7,6 +7,7 @@ import az.tarix.platform.editorial.internal.persistence.DocumentQueries;
 import az.tarix.platform.editorial.internal.service.CommentService;
 import az.tarix.platform.editorial.internal.service.DocumentService;
 import az.tarix.platform.editorial.internal.service.DocumentService.DocumentView;
+import az.tarix.platform.editorial.internal.web.EditorialDtos.AssignRequest;
 import az.tarix.platform.editorial.internal.web.EditorialDtos.CommentResponse;
 import az.tarix.platform.editorial.internal.web.EditorialDtos.CreateComment;
 import az.tarix.platform.editorial.internal.web.EditorialDtos.CreateDocument;
@@ -69,18 +70,20 @@ class EditorialController {
 
     // --- documents ----------------------------------------------------------------------------
 
-    /** {@code mine=true}: only documents the caller created. */
+    /** {@code mine=true}: only documents the caller created; {@code assignedToMe=true}: only those assigned to the caller for review. */
     @GetMapping
     ResponseEntity<List<DocumentSummary>> list(@RequestParam(required = false) DocumentType type,
                                                @RequestParam(required = false) DocumentStatus status,
                                                @RequestParam(required = false) String q,
                                                @RequestParam(defaultValue = "false") boolean mine,
+                                               @RequestParam(defaultValue = "false") boolean assignedToMe,
                                                @RequestParam(defaultValue = "50") int limit,
                                                @RequestParam(defaultValue = "0") int offset) {
         if (limit < 1 || limit > 200 || offset < 0) throw new IllegalArgumentException("limit 1–200, offset ≥ 0 olmalıdır.");
         if (q != null && q.length() > 200) throw new IllegalArgumentException("q 200 simvoldan uzundur.");
         CurrentUser user = user();
-        var rows = documents.list(user, new DocumentQueries.Filter(type, status, q, mine ? user.id() : null, limit, offset));
+        var rows = documents.list(user, new DocumentQueries.Filter(type, status, q, mine ? user.id() : null,
+                assignedToMe ? user.id() : null, limit, offset));
         return ok(rows.stream().map(DocumentSummary::of).toList());
     }
 
@@ -129,6 +132,14 @@ class EditorialController {
     @GetMapping("/{id}/validation")
     ResponseEntity<ValidationResponse> validation(@PathVariable UUID id, @RequestParam(required = false) Integer revision) {
         return ok(ValidationResponse.of(documents.validate(user(), id, revision)));
+    }
+
+    /** Review assignment (reviewers and admins); {@code If-Match} optional, as for transitions. */
+    @PutMapping("/{id}/assignee")
+    ResponseEntity<DocumentResponse> assign(@PathVariable UUID id,
+                                            @RequestHeader(value = HttpHeaders.IF_MATCH, required = false) String ifMatch,
+                                            @RequestBody AssignRequest body) {
+        return document(documents.assign(user(), id, version(ifMatch), body.assigneeId()));
     }
 
     @PostMapping("/{id}/transitions")

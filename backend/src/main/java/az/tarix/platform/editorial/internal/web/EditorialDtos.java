@@ -35,6 +35,9 @@ final class EditorialDtos {
 
     record TransitionRequest(@NotBlank String action, @Size(max = 10_000) String comment) {}
 
+    /** {@code assigneeId}: an active reviewer or admin, or null to take the assignment away. */
+    record AssignRequest(UUID assigneeId) {}
+
     record CreateComment(Integer revisionNo, @Size(max = ReviewComment.MAX_PATH) String fieldPath,
                          @NotBlank @Size(max = ReviewComment.MAX_BODY) String body) {}
 
@@ -43,13 +46,13 @@ final class EditorialDtos {
     // --- responses ----------------------------------------------------------------------------
 
     record DocumentSummary(UUID id, DocumentType type, String slug, String title, DocumentStatus status, long version,
-                           Integer revisionNo, Integer publishedRevisionNo, UUID createdBy, Instant createdAt,
+                           Integer revisionNo, Integer publishedRevisionNo, UUID createdBy, UUID assigneeId, Instant createdAt,
                            Instant updatedAt) {
 
         static DocumentSummary of(DocumentRow r) {
             return new DocumentSummary(r.id(), DocumentType.valueOf(r.docType()), r.slug(), r.title(),
                     DocumentStatus.valueOf(r.status()), r.version(), r.revisionNo(), r.publishedRevisionNo(),
-                    r.createdBy(), r.createdAt(), r.updatedAt());
+                    r.createdBy(), r.assigneeId(), r.createdAt(), r.updatedAt());
         }
     }
 
@@ -69,13 +72,13 @@ final class EditorialDtos {
      * when it differs from {@code revision.revisionNo}, the public site still shows the older one.
      */
     record DocumentResponse(UUID id, DocumentType type, String slug, String title, DocumentStatus status, long version,
-                            Integer publishedRevisionNo, UUID createdBy, Instant createdAt, Instant updatedAt,
+                            Integer publishedRevisionNo, UUID createdBy, UUID assigneeId, Instant createdAt, Instant updatedAt,
                             RevisionInfo revision, JsonNode content) {
 
         static DocumentResponse of(DocumentView v) {
             EditorialDocument d = v.document();
             return new DocumentResponse(d.id(), d.type(), d.slug(), d.title(), d.status(), d.version(),
-                    v.publishedRevisionNo(), d.createdBy(), d.createdAt(), d.updatedAt(), RevisionInfo.of(v.current()),
+                    v.publishedRevisionNo(), d.createdBy(), d.assigneeId(), d.createdAt(), d.updatedAt(), RevisionInfo.of(v.current()),
                     ContentJson.parse(v.current().content()));
         }
     }

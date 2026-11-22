@@ -14,7 +14,9 @@ public enum Action {
     /** A new revision (edit or revert) that sent a reviewed or published document back to DRAFT. */
     EDIT,
     /** Published by the data importer without review (ADR-0013); the actor is the admin who ran the import. */
-    IMPORT;
+    IMPORT,
+    /** The reviewer assignment changed (status unchanged); the comment names the new assignee. */
+    ASSIGN;
 
     /** The spelling used in the API: {@code request_changes}. */
     public String apiName() {

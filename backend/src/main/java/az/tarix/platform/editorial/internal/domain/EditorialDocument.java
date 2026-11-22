@@ -54,6 +54,10 @@ public class EditorialDocument {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
+    /** The reviewer or admin expected to review it; null: nobody in particular. */
+    @Column(name = "assignee_id")
+    private UUID assigneeId;
+
     /** Order inside the shared data file it is exported to (ADR-0019); null: after the others. */
     private Integer position;
 
@@ -80,6 +84,11 @@ public class EditorialDocument {
 
     void moveTo(DocumentStatus to, Instant now) {
         this.status = to;
+        this.updatedAt = now;
+    }
+
+    void assignTo(UUID assignee, Instant now) {
+        this.assigneeId = assignee;
         this.updatedAt = now;
     }
 
@@ -118,6 +127,10 @@ public class EditorialDocument {
 
     public UUID createdBy() {
         return createdBy;
+    }
+
+    public UUID assigneeId() {
+        return assigneeId;
     }
 
     public Instant createdAt() {

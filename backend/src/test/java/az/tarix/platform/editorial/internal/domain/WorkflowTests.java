@@ -41,6 +41,24 @@ class WorkflowTests {
     }
 
     @Test
+    void reviewersAndAdminsAssignWithoutChangingTheStatus() {
+        EditorialDocument doc = draftBy(author);
+        apply(doc, Action.SUBMIT, author, List.of(author.id()));
+        StatusTransition assigned = Workflow.assign(doc, reviewer.id(), admin, NOW);
+        assertThat(assigned.action()).isEqualTo(Action.ASSIGN);
+        assertThat(assigned.fromStatus()).isEqualTo(IN_REVIEW);
+        assertThat(assigned.toStatus()).isEqualTo(IN_REVIEW);
+        assertThat(doc.assigneeId()).isEqualTo(reviewer.id());
+        assertThat(Workflow.assign(doc, reviewer.id(), reviewer, NOW)).isNull();          // nothing changed
+        assertThat(Workflow.assign(doc, null, reviewer, NOW).comment()).isEqualTo("təyinat götürüldü");
+        assertThat(doc.assigneeId()).isNull();
+        assertThatThrownBy(() -> Workflow.assign(doc, reviewer.id(), author, NOW)).isInstanceOf(NotPermittedException.class);
+        assertThatThrownBy(() -> Workflow.assign(doc, reviewer.id(), teacher, NOW)).isInstanceOf(NotPermittedException.class);
+        apply(doc, Action.ARCHIVE, admin, List.of());
+        assertThatThrownBy(() -> Workflow.assign(doc, reviewer.id(), admin, NOW)).isInstanceOf(WorkflowViolationException.class);
+    }
+
+    @Test
     void happyPathFromDraftToPublished() {
         EditorialDocument doc = draftBy(author);
         List<UUID> authors = List.of(author.id());

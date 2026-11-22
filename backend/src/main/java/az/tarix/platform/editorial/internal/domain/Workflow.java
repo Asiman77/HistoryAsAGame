@@ -12,6 +12,7 @@ import az.tarix.platform.identity.api.CurrentUser;
 import az.tarix.platform.identity.api.Role;
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -153,11 +154,29 @@ public final class Workflow {
                 requireRole(actor, "Arxivləmə yalnız admin üçündür.", Role.ADMIN);
                 yield ARCHIVED;
             }
-            case CREATE, EDIT, IMPORT -> throw new IllegalArgumentException(action + " is not a workflow action");
+            case CREATE, EDIT, IMPORT, ASSIGN -> throw new IllegalArgumentException(action + " is not a workflow action");
         };
         if (to == PUBLISHED) doc.markPublished(doc.currentRevisionId(), now);
         else doc.moveTo(to, now);
         return new StatusTransition(doc.id(), doc.currentRevisionId(), action, from, to, actor.id(), blankToNull(comment), now);
+    }
+
+    // --- review assignment ---------------------------------------------------------------------
+
+    /**
+     * Assigns the document to a reviewer (or takes the assignment away with null). Reviewers and
+     * admins assign; whether the assignee may review is checked by the caller, which knows the
+     * accounts. The status does not change.
+     *
+     * @return the log entry, or null when nothing changed
+     */
+    public static StatusTransition assign(EditorialDocument doc, UUID assignee, CurrentUser actor, Instant now) {
+        requireRole(actor, "Rəyçi təyinatı yalnız rəyçi və ya admin üçündür.", Role.REVIEWER, Role.ADMIN);
+        if (doc.status() == ARCHIVED) throw new WorkflowViolationException("archived", "Arxivlənmiş sənəd dəyişdirilə bilməz.");
+        if (Objects.equals(doc.assigneeId(), assignee)) return null;
+        doc.assignTo(assignee, now);
+        return new StatusTransition(doc.id(), doc.currentRevisionId(), Action.ASSIGN, doc.status(), doc.status(), actor.id(),
+                assignee == null ? "təyinat götürüldü" : "təyin olundu: " + assignee, now);
     }
 
     private static void requireFrom(Action action, DocumentStatus from, Set<DocumentStatus> allowed) {

@@ -14,13 +14,14 @@ public class DocumentQueries {
 
     /** One row of the document list. */
     public record DocumentRow(UUID id, String docType, String slug, String title, String status, UUID createdBy,
-                              Instant createdAt, Instant updatedAt, long version, Integer revisionNo,
+                              UUID assigneeId, Instant createdAt, Instant updatedAt, long version, Integer revisionNo,
                               Integer publishedRevisionNo) {}
 
-    public record Filter(DocumentType type, DocumentStatus status, String q, UUID createdBy, int limit, int offset) {}
+    /** {@code createdBy}, {@code assignee}: only that user's documents, or any when null. */
+    public record Filter(DocumentType type, DocumentStatus status, String q, UUID createdBy, UUID assignee, int limit, int offset) {}
 
     static final String LIST = """
-            SELECT d.id, d.doc_type, d.slug, d.title, d.status, d.created_by, d.created_at, d.updated_at, d.version,
+            SELECT d.id, d.doc_type, d.slug, d.title, d.status, d.created_by, d.assignee_id, d.created_at, d.updated_at, d.version,
                    cur.revision_no AS revision_no, pub.revision_no AS published_revision_no
             FROM editorial_document d
             LEFT JOIN editorial_revision cur ON cur.id = d.current_revision_id
@@ -28,6 +29,7 @@ public class DocumentQueries {
             WHERE (CAST(:type AS varchar) IS NULL OR d.doc_type = :type)
               AND (CAST(:status AS varchar) IS NULL OR d.status = :status)
               AND (CAST(:createdBy AS uuid) IS NULL OR d.created_by = :createdBy)
+              AND (CAST(:assignee AS uuid) IS NULL OR d.assignee_id = :assignee)
               AND (CAST(:q AS text) IS NULL
                    OR d.slug LIKE lower(:pattern)
                    OR az_fold(d.title) LIKE az_fold(:pattern)
@@ -47,13 +49,14 @@ public class DocumentQueries {
                 .param("type", f.type() == null ? null : f.type().name())
                 .param("status", f.status() == null ? null : f.status().name())
                 .param("createdBy", f.createdBy())
+                .param("assignee", f.assignee())
                 .param("q", q)
                 .param("pattern", q == null ? null : "%" + likeEscape(q) + "%")
                 .param("limit", f.limit())
                 .param("offset", f.offset())
                 .query((rs, n) -> new DocumentRow(rs.getObject("id", UUID.class), rs.getString("doc_type"), rs.getString("slug"),
                         rs.getString("title"), rs.getString("status"), rs.getObject("created_by", UUID.class),
-                        rs.getTimestamp("created_at").toInstant(), rs.getTimestamp("updated_at").toInstant(),
+                        rs.getObject("assignee_id", UUID.class), rs.getTimestamp("created_at").toInstant(), rs.getTimestamp("updated_at").toInstant(),
                         rs.getLong("version"), (Integer) rs.getObject("revision_no"), (Integer) rs.getObject("published_revision_no")))
                 .list();
     }
