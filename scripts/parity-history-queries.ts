@@ -8,6 +8,7 @@
  * Compared: the events of every place (eventsAtPlace) and who held it (placeMembership +
  * clipToLifetime); "Tarixdə bu gün" for every day of the year; and for every slider year the
  * snapshot pick, the living persons with age and position, the year's events and the reigns;
+ * the "meanwhile in the world" pick of every slider year (/world-events?year=);
  * and /compare for every ordered pair of simulations (lanes, battles, overlap, meetings).
  * Exits with 1 and lists the differences when anything differs.
  */
@@ -20,6 +21,7 @@ import { loadTimeExplorerData } from "@/data/timeExplorer";
 import type { TerritorySnapshot } from "@/domain/schema";
 import { loadCompareData } from "@/data/compare";
 import { compareLanes } from "@/lib/compare";
+import { pickWorldEvents } from "@/lib/worldContext";
 
 const base = (process.argv[2] ?? "http://localhost:8080").replace(/\/$/, "") + "/api/v1";
 const differences: string[] = [];
@@ -76,6 +78,7 @@ async function main() {
 
   // --- slider years -----------------------------------------------------------------------
   const explorer = await loadTimeExplorerData(repo);
+  const worldEvents = await repo.listWorldEvents();
   const usableMetas = snapshotMetas.filter((s) => usable.some((u) => u.id === s.id));
   for (let year = SLIDER_FROM; year <= SLIDER_TO; year++) {
     const b = await get(`/timeline?year=${year}`);
@@ -92,6 +95,8 @@ async function main() {
       reignsInYear(year, explorer.political.reigns).map((r) => `${r.polityId}/${r.rulerId}`).sort(),
       b.rulers.map((r: any) => `${r.polity}/${r.ruler.slug}`).sort(),
     );
+    same(`world-events ${year}`, pickWorldEvents(year, worldEvents).map((e) => e.id),
+      (await get(`/world-events?year=${year}`)).items.map((e: any) => e.slug));
     const era = eras.filter((e) => year >= e.startYear && year <= e.endYear).sort((a, c) => c.startYear - a.startYear)[0];
     same(`timeline ${year}: era`, era?.id ?? null, b.era?.slug ?? null);
   }

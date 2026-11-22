@@ -85,6 +85,27 @@ class PublicApiTests {
     // --- persons ---------------------------------------------------------------------------
 
     @Test
+    void worldEventsForAYearAreTheFrontendsPickAndASpanListsThemAll() {
+        // The same picks as the frontend's pickWorldEvents over data/world-events.json.
+        JsonNode y1514 = ok("/api/v1/world-events?year=1514");
+        assertThat(y1514.path("items")).extracting(e -> e.path("slug").asString())
+                .containsExactly("balboa-pacific", "orsha", "ottoman-egypt");
+        assertThat(ok("/api/v1/world-events?year=1739").path("items")).extracting(e -> e.path("slug").asString())
+                .containsExactly("qianlong", "austrian-succession", "messiah");
+        assertThat(ok("/api/v1/world-events?year=1300").path("items")).isEmpty();
+        assertThat(ok("/api/v1/world-events?year=1514&limit=5").path("items").size()).isBetween(3, 5);
+
+        JsonNode span = ok("/api/v1/world-events?from=1400&to=1450");
+        assertThat(span.path("items")).isNotEmpty()
+                .allMatch(e -> e.path("year").asInt() <= 1450 && (e.path("endYear").isNull() ? e.path("year").asInt() : e.path("endYear").asInt()) >= 1400);
+        assertThat(span.path("items").get(0).path("slug").asString()).isEqualTo("zheng-he-voyages");
+        assertThat(span.path("items").get(0).path("region").asString()).isEqualTo("ASIA");
+
+        for (String bad : List.of("", "?year=1514&from=1400", "?limit=3&from=1400&to=1500", "?from=1500&to=1400", "?year=1514&limit=11"))
+            assertThat(get("/api/v1/world-events" + bad).getStatusCode().value()).as(bad).isEqualTo(400);
+    }
+
+    @Test
     void personCardsComeFeaturedFirstWithTheirPortrait() {
         JsonNode page = ok("/api/v1/persons");
         assertThat(page.path("totalElements").asLong()).isEqualTo(3);
