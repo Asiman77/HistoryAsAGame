@@ -57,6 +57,28 @@ class ContentSchemasTests {
         assertThat(failures).isEmpty();
     }
 
+    /** Today's data has no key that the schemas do not describe; a typo inside an object is found. */
+    @Test
+    void unknownKeysAreFoundAtAnyDepth() throws IOException {
+        List<String> unknown = new ArrayList<>();
+        for (String file : dataFiles()) {
+            String schema = schemas.schemaForDataFile(file).orElseThrow();
+            JsonNode doc = json.readTree(DATA.resolve(file).toFile());
+            schemas.unknownKeys(schema, doc).forEach(v -> unknown.add(file + " " + v));
+        }
+        assertThat(unknown).isEmpty();
+
+        assertThat(schemas.unknownKeys("LocalizedText", parse("{\"az\": \"Təbriz\", \"tr\": \"Tebriz\"}")))
+                .singleElement().satisfies(v -> {
+                    assertThat(v.keyword()).isEqualTo("unevaluatedProperties");
+                    assertThat(v.message()).contains("tr");
+                });
+        JsonNode place = json.readTree(DATA.resolve("places.json").toFile()).path("places").get(0).deepCopy();
+        ((tools.jackson.databind.node.ObjectNode) place.path("names")).put("historicl", "x");
+        assertThat(schemas.unknownKeys("Place", place)).extracting(SchemaViolation::pointer).containsExactly("/names");
+        assertThat(schemas.validate("Place", place)).isEmpty();      // still valid: Zod ignores the key too
+    }
+
     @Test
     void everySchemaFileCompiles() throws IOException {
         try (Stream<Path> files = Files.list(SHARED_SCHEMA)) {

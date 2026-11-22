@@ -29,9 +29,12 @@ public class ContentSchemas {
     static final String CLASSPATH_DIR = "schema/";
 
     private final SchemaRegistry registry;
+    /** The same schemas with {@code unevaluatedProperties: false} on every object: finds keys no schema knows. */
+    private final SchemaRegistry strictRegistry;
     private final List<DataFile> dataFiles;
     private final int schemaVersion;
     private final ConcurrentMap<String, Schema> schemas = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Schema> strictSchemas = new ConcurrentHashMap<>();
 
     public ContentSchemas() {
         SchemaRegistryConfig config = SchemaRegistryConfig.builder()
@@ -42,6 +45,9 @@ public class ContentSchemas {
         this.registry = SchemaRegistry.withDefaultDialect(SpecificationVersion.DRAFT_2020_12, b -> b
                 .schemaRegistryConfig(config)
                 .schemaIdResolvers(r -> r.mapPrefix(BASE, "classpath:" + CLASSPATH_DIR)));
+        this.strictRegistry = SchemaRegistry.withDefaultDialect(SpecificationVersion.DRAFT_2020_12, b -> b
+                .schemaRegistryConfig(config)
+                .schemas(iri -> iri.startsWith(BASE) ? strict(iri.substring(BASE.length())) : null));
 
         JsonNode manifest = readClasspathJson("files.json");
         this.schemaVersion = manifest.path("schemaVersion").asInt();
@@ -70,6 +76,55 @@ public class ContentSchemas {
         return schema(schemaName).validate(document).stream()
                 .map(e -> new SchemaViolation(pointer(e.getInstanceLocation().toString()), e.getKeyword(), e.getMessage()))
                 .toList();
+    }
+
+    /**
+     * Keys inside {@code document} that no schema describes (Zod ignores them, so they are not
+     * errors, but they are usually typos or leftovers): JSON Pointers of the objects holding them,
+     * with a message naming the keys.
+     */
+    public List<SchemaViolation> unknownKeys(String schemaName, JsonNode document) {
+        checkName(schemaName);
+        Schema strict = strictSchemas.computeIfAbsent(schemaName,
+                n -> strictRegistry.getSchema(SchemaLocation.of(BASE + n + ".schema.json")));
+        return strict.validate(document).stream()
+                .filter(e -> "unevaluatedProperties".equals(e.getKeyword()))
+                .map(e -> new SchemaViolation(pointer(e.getInstanceLocation().toString()), e.getKeyword(), e.getMessage()))
+                .toList();
+    }
+
+    /**
+     * A schema file with {@code unevaluatedProperties: false} added to every object schema that
+     * lists its properties and does not decide about others itself. Branches of
+     * {@code anyOf}/{@code oneOf}/{@code allOf} are left open: a strict branch would fail for keys
+     * that another branch (or the parent) evaluates.
+     */
+    static String strict(String file) {
+        JsonNode root = readClasspathJson(file);
+        close(root, false);
+        return root.toString();
+    }
+
+    private static void close(JsonNode node, boolean inBranch) {
+        if (node instanceof tools.jackson.databind.node.ObjectNode o) {
+            if (!inBranch && o.has("properties") && !o.has("additionalProperties") && !o.has("unevaluatedProperties")) {
+                o.put("unevaluatedProperties", false);
+            }
+            for (String key : List.copyOf(o.propertyNames())) {
+                boolean branch = key.equals("anyOf") || key.equals("oneOf") || key.equals("allOf");
+                close(o.get(key), branch || (inBranch && !key.equals("properties") && !key.equals("items")
+                        && !key.equals("$defs") && !key.equals("prefixItems")));
+            }
+        } else if (node != null && node.isArray()) {
+            for (JsonNode child : node) close(child, inBranch);
+        }
+    }
+
+    private void checkName(String name) {
+        if (!name.matches("[A-Za-z]+")) throw new IllegalArgumentException("invalid schema name: " + name);
+        if (getClass().getClassLoader().getResource(CLASSPATH_DIR + name + ".schema.json") == null) {
+            throw new IllegalArgumentException("unknown schema: " + name);
+        }
     }
 
     private Schema schema(String name) {

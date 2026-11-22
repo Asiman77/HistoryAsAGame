@@ -327,6 +327,20 @@ class DocumentValidatorTests {
     }
 
     @Test
+    void unknownKeysInsideAPartAreWarningsNotErrors() {
+        Doc d = DATA.stream().filter(x -> x.type() == DocumentType.PLACE && x.slug().equals("tebriz")).findFirst().orElseThrow();
+        ObjectNode content = d.content().deepCopy();
+        ((ObjectNode) content.path("place").path("names")).put("historicl", "x");
+        assertThat(validator.validate(d.type(), d.slug(), content))
+                .filteredOn(i -> i.code().equals("unknown-key")).singleElement()
+                .satisfies(i -> {
+                    assertThat(i.level()).isEqualTo(ValidationIssue.Level.WARNING);
+                    assertThat(i.pointer()).isEqualTo("/place/names");
+                });
+        assertThat(validator.validate(d.type(), d.slug(), content)).noneMatch(i -> i.level() == ValidationIssue.Level.ERROR);
+    }
+
+    @Test
     void invalidPolygonsAreErrors() {
         Doc d = DATA.stream().filter(x -> x.type() == DocumentType.TERRITORY_SNAPSHOT && x.content().has("built"))
                 .findFirst().orElseThrow();
