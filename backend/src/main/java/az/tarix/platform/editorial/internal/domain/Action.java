@@ -16,7 +16,9 @@ public enum Action {
     /** Published by the data importer without review (ADR-0013); the actor is the admin who ran the import. */
     IMPORT,
     /** The reviewer assignment changed (status unchanged); the comment names the new assignee. */
-    ASSIGN;
+    ASSIGN,
+    /** The slug changed (admin); the comment is "old → new". The old slug redirects. */
+    RENAME;
 
     /** The spelling used in the API: {@code request_changes}. */
     public String apiName() {

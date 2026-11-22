@@ -32,6 +32,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import tools.jackson.databind.node.ObjectNode;
 import java.util.UUID;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -51,6 +52,8 @@ public class DocumentService {
     public static final int MAX_CONTENT_CHARS = 5 * 1024 * 1024;
     static final int MAX_TITLE = 500;
     static final int MAX_NOTE = 2_000;
+
+    static final String REDIRECT_TARGET = "SELECT new_slug FROM slug_redirect WHERE doc_type = :type AND old_slug = :slug";
 
     static final String REDIRECTED = "SELECT count(*) > 0 FROM slug_redirect WHERE doc_type = :type AND old_slug = :slug";
 
@@ -209,6 +212,71 @@ public class DocumentService {
             events.publishEvent(new ContentArchived(doc.id(), doc.type(), doc.slug(), wasPublished));
         }
         return view(doc, current);
+    }
+
+    /**
+     * Renames the document (admins, BACKEND_SPEC.md §5.5). A new revision carries the new id (and
+     * the rows that point back at it); the old slug redirects to the new one. The public revision
+     * keeps the old slug until the renamed one is reviewed and published, so no link breaks in
+     * between; references from other documents show up in {@code /admin/broken-references}.
+     */
+    @Transactional
+    public DocumentView rename(CurrentUser actor, UUID id, Long expectedVersion, String newSlug, String changeNote) {
+        Workflow.requireRead(actor);
+        EditorialDocument doc = load(id);
+        requireVersion(doc, expectedVersion, false);
+        String old = doc.slug();
+        String pointer = doc.type().idPointer()
+                .orElseThrow(() -> new IllegalArgumentException(doc.type() + " sənədinin slug-ı dəyişdirilmir."));
+        if (newSlug == null || !Slugs.isValid(newSlug)) throw new IllegalArgumentException("Etibarsız slug: " + newSlug);
+        if (newSlug.equals(old)) throw new IllegalArgumentException("Yeni slug köhnəsi ilə eynidir.");
+        if (documents.existsByTypeAndSlug(doc.type(), newSlug)) {
+            throw new WorkflowViolationException("duplicate-slug", "%s tipində '%s' slug-ı artıq var.".formatted(doc.type(), newSlug));
+        }
+        // Renaming back to an old name of this document takes that redirect away; any other redirect blocks the name.
+        String redirectTarget = jdbc.sql(REDIRECT_TARGET).param("type", doc.type().name()).param("slug", newSlug)
+                .query(String.class).optional().orElse(null);
+        if (redirectTarget != null && !redirectTarget.equals(old)) {
+            throw new WorkflowViolationException("slug-redirected", "'%s' başqa sənədə yönləndirilir.".formatted(newSlug));
+        }
+        StatusTransition renamed = Workflow.rename(doc, newSlug, actor, clock.instant());
+        String type = doc.type().name();
+        jdbc.sql("DELETE FROM slug_redirect WHERE doc_type = :type AND old_slug = :new").param("type", type).param("new", newSlug).update();
+        // Older names now point at the newest one: no chains of redirects.
+        jdbc.sql("UPDATE slug_redirect SET new_slug = :new WHERE doc_type = :type AND new_slug = :old")
+                .param("type", type).param("old", old).param("new", newSlug).update();
+        jdbc.sql("INSERT INTO slug_redirect (doc_type, old_slug, new_slug) VALUES (:type, :old, :new)")
+                .param("type", type).param("old", old).param("new", newSlug).update();
+        log(renamed);
+        ObjectNode content = (ObjectNode) ContentJson.parse(current(doc).content()).deepCopy();
+        renameInside(doc.type(), content, pointer, old, newSlug);
+        String note = changeNote == null || changeNote.isBlank() ? "slug: %s → %s".formatted(old, newSlug) : changeNote.strip();
+        return addRevision(doc, actor, ContentJson.write(content), ContentJson.hash(content), content, note);
+    }
+
+    /** The content's id and the rows that point back at the document (IdentityRule) follow the new slug. */
+    static void renameInside(DocumentType type, ObjectNode content, String idPointer, String old, String newSlug) {
+        int cut = idPointer.lastIndexOf('/');
+        if (content.at(idPointer.substring(0, cut)) instanceof ObjectNode holder) holder.put(idPointer.substring(cut + 1), newSlug);
+        switch (type) {
+            case PERSON -> {
+                owned(content, "events", "personId", old, newSlug);
+                owned(content, "relations", "from", old, newSlug);
+            }
+            case POLITY -> owned(content, "reigns", "polityId", old, newSlug);
+            case TERRITORY_SNAPSHOT -> {
+                if (content.path("built") instanceof ObjectNode built && old.equals(built.path("id").asString(null))) {
+                    built.put("id", newSlug);
+                }
+            }
+            default -> { }
+        }
+    }
+
+    private static void owned(ObjectNode content, String list, String field, String old, String newSlug) {
+        for (JsonNode item : content.path(list)) {
+            if (item instanceof ObjectNode o && old.equals(o.path(field).asString(null))) o.put(field, newSlug);
+        }
     }
 
     /**

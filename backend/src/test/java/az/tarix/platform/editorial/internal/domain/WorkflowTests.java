@@ -41,6 +41,18 @@ class WorkflowTests {
     }
 
     @Test
+    void onlyAdminsRenameAndTheLogNamesBothSlugs() {
+        EditorialDocument doc = draftBy(author);
+        assertThatThrownBy(() -> Workflow.rename(doc, "tabriz", reviewer, NOW)).isInstanceOf(NotPermittedException.class);
+        StatusTransition entry = Workflow.rename(doc, "tabriz", admin, NOW);
+        assertThat(entry.action()).isEqualTo(Action.RENAME);
+        assertThat(entry.comment()).isEqualTo("tebriz → tabriz");
+        assertThat(doc.slug()).isEqualTo("tabriz");
+        apply(doc, Action.ARCHIVE, admin, List.of());
+        assertThatThrownBy(() -> Workflow.rename(doc, "x", admin, NOW)).isInstanceOf(WorkflowViolationException.class);
+    }
+
+    @Test
     void reviewersAndAdminsAssignWithoutChangingTheStatus() {
         EditorialDocument doc = draftBy(author);
         apply(doc, Action.SUBMIT, author, List.of(author.id()));

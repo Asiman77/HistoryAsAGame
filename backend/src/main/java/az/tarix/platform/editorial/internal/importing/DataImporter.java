@@ -68,7 +68,7 @@ public class DataImporter {
         UPDATED,
         /** Same content as the current revision. */
         UNCHANGED,
-        /** Changed in the data, but edited or under review in the CMS: left alone. */
+        /** Changed in the data, but edited, under review or renamed in the CMS: left alone. */
         CONFLICT,
         /** Archived in the CMS: left alone. */
         ARCHIVED
@@ -190,6 +190,15 @@ public class DataImporter {
         String note = "İdxal: " + String.join(", ", d.files());
         String title = title(d);
         EditorialDocument doc = documents.findByTypeAndSlug(d.type(), d.slug()).orElse(null);
+        // Renamed in the CMS: the data still has the old id. Left alone, not created again under the old slug.
+        if (doc == null) {
+            EditorialDocument renamed = documents.redirectOf(d.type().name(), d.slug())
+                    .flatMap(newSlug -> documents.findByTypeAndSlug(d.type(), newSlug)).orElse(null);
+            if (renamed != null) {
+                Integer no = revisions.findById(renamed.currentRevisionId()).map(EditorialRevision::revisionNo).orElse(null);
+                return new Imported(renamed, Outcome.CONFLICT, no, false);
+            }
+        }
         if (doc == null) {
             doc = documents.save(new EditorialDocument(d.type(), d.slug(), importer, now));
             EditorialRevision rev = revisions.save(new EditorialRevision(doc.id(), 1, schemas.schemaVersion(), json, hash,

@@ -30,7 +30,8 @@ public class EditorialDocument {
     @Column(name = "doc_type", nullable = false, updatable = false)
     private DocumentType type;
 
-    @Column(nullable = false, updatable = false)
+    /** Changed only by {@link Workflow#rename} (the old one then redirects, BACKEND_SPEC.md §5.5). */
+    @Column(nullable = false)
     private String slug;
 
     private String title;
@@ -84,6 +85,11 @@ public class EditorialDocument {
 
     void moveTo(DocumentStatus to, Instant now) {
         this.status = to;
+        this.updatedAt = now;
+    }
+
+    void renameTo(String newSlug, Instant now) {
+        this.slug = newSlug;
         this.updatedAt = now;
     }
 

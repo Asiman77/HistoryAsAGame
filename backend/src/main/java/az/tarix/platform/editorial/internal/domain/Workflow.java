@@ -154,7 +154,7 @@ public final class Workflow {
                 requireRole(actor, "Arxivləmə yalnız admin üçündür.", Role.ADMIN);
                 yield ARCHIVED;
             }
-            case CREATE, EDIT, IMPORT, ASSIGN -> throw new IllegalArgumentException(action + " is not a workflow action");
+            case CREATE, EDIT, IMPORT, ASSIGN, RENAME -> throw new IllegalArgumentException(action + " is not a workflow action");
         };
         if (to == PUBLISHED) doc.markPublished(doc.currentRevisionId(), now);
         else doc.moveTo(to, now);
@@ -177,6 +177,21 @@ public final class Workflow {
         doc.assignTo(assignee, now);
         return new StatusTransition(doc.id(), doc.currentRevisionId(), Action.ASSIGN, doc.status(), doc.status(), actor.id(),
                 assignee == null ? "təyinat götürüldü" : "təyin olundu: " + assignee, now);
+    }
+
+    // --- rename --------------------------------------------------------------------------------
+
+    /**
+     * Changes the slug (BACKEND_SPEC.md §5.5: after publishing only with a redirect, which the
+     * caller writes). Admins only; the content's id follows in a new revision added by the caller.
+     */
+    public static StatusTransition rename(EditorialDocument doc, String newSlug, CurrentUser actor, Instant now) {
+        requireRole(actor, "Slug-ı yalnız admin dəyişə bilər.", Role.ADMIN);
+        if (doc.status() == ARCHIVED) throw new WorkflowViolationException("archived", "Arxivlənmiş sənəd dəyişdirilə bilməz.");
+        String old = doc.slug();
+        doc.renameTo(newSlug, now);
+        return new StatusTransition(doc.id(), doc.currentRevisionId(), Action.RENAME, doc.status(), doc.status(), actor.id(),
+                old + " → " + newSlug, now);
     }
 
     private static void requireFrom(Action action, DocumentStatus from, Set<DocumentStatus> allowed) {

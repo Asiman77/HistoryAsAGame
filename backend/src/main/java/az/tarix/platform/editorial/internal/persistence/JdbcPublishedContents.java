@@ -4,11 +4,14 @@ import az.tarix.platform.editorial.api.PublishedContents;
 import az.tarix.platform.editorial.internal.content.ContentJson;
 import az.tarix.platform.shared.content.DocumentType;
 import az.tarix.platform.shared.content.PublishedContent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
+import tools.jackson.databind.JsonNode;
 
 @Component
 class JdbcPublishedContents implements PublishedContents {
@@ -47,19 +50,25 @@ class JdbcPublishedContents implements PublishedContents {
 
     @Override
     public Optional<PublishedContent> of(UUID documentId) {
-        return jdbc.sql(PUBLISHED).param("id", documentId).query((rs, n) -> new PublishedContent(
-                rs.getObject("id", UUID.class), DocumentType.valueOf(rs.getString("doc_type")), rs.getString("slug"),
-                rs.getObject("revision_id", UUID.class), rs.getInt("revision_no"), ContentJson.parse(rs.getString("content"))))
-                .optional();
+        return jdbc.sql(PUBLISHED).param("id", documentId).query((rs, n) -> content(rs)).optional();
+    }
+
+    /**
+     * The slug is the revision's own id, not the document's: after a rename the public revision
+     * keeps the old slug (and its links keep working) until the renamed revision is published.
+     */
+    static PublishedContent content(ResultSet rs) throws SQLException {
+        DocumentType type = DocumentType.valueOf(rs.getString("doc_type"));
+        JsonNode content = ContentJson.parse(rs.getString("content"));
+        String slug = type.idPointer().map(p -> ContentJson.text(content, p)).orElse(rs.getString("slug"));
+        return new PublishedContent(rs.getObject("id", UUID.class), type, slug, rs.getObject("revision_id", UUID.class),
+                rs.getInt("revision_no"), content);
     }
 
     @Override
     public Optional<PublishedContent> revision(UUID documentId, Integer revisionNo) {
         var sql = revisionNo == null ? jdbc.sql(CURRENT) : jdbc.sql(NUMBERED).param("no", revisionNo);
-        return sql.param("id", documentId).query((rs, n) -> new PublishedContent(
-                rs.getObject("id", UUID.class), DocumentType.valueOf(rs.getString("doc_type")), rs.getString("slug"),
-                rs.getObject("revision_id", UUID.class), rs.getInt("revision_no"), ContentJson.parse(rs.getString("content"))))
-                .optional();
+        return sql.param("id", documentId).query((rs, n) -> content(rs)).optional();
     }
 
     @Override
@@ -69,8 +78,6 @@ class JdbcPublishedContents implements PublishedContents {
 
     @Override
     public List<Positioned> allPublished() {
-        return jdbc.sql(ALL_CONTENTS).query((rs, n) -> new Positioned(new PublishedContent(rs.getObject("id", UUID.class),
-                DocumentType.valueOf(rs.getString("doc_type")), rs.getString("slug"), rs.getObject("revision_id", UUID.class),
-                rs.getInt("revision_no"), ContentJson.parse(rs.getString("content"))), (Integer) rs.getObject("position"))).list();
+        return jdbc.sql(ALL_CONTENTS).query((rs, n) -> new Positioned(content(rs), (Integer) rs.getObject("position"))).list();
     }
 }

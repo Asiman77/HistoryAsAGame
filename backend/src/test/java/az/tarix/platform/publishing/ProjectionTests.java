@@ -316,6 +316,50 @@ class ProjectionTests {
     }
 
     @Test
+    void aRenamedDocumentKeepsItsOldLinkUntilRepublishedAndThenRedirects() {
+        String id = publishViaApi(DocumentType.PLACE, DataDocuments.find(DocumentType.PLACE, "tebriz").content());
+        await().atMost(Duration.ofSeconds(10)).until(() -> count("SELECT count(*) FROM place WHERE slug = 'tebriz'") == 1);
+
+        assertThat(call("reviewer", HttpMethod.POST, DOCS + "/" + id + "/rename", Map.of("slug", "tabriz"), null)
+                .getStatusCode().value()).isEqualTo(403);
+        ResponseEntity<JsonNode> renamed = call("admin", HttpMethod.POST, DOCS + "/" + id + "/rename", Map.of("slug", "tabriz"), null);
+        assertThat(renamed.getStatusCode().value()).as(renamed.getBody().toString()).isEqualTo(200);
+        assertThat(renamed.getBody().path("slug").asString()).isEqualTo("tabriz");
+        assertThat(renamed.getBody().path("status").asString()).isEqualTo("DRAFT");
+        assertThat(renamed.getBody().path("content").path("place").path("id").asString()).isEqualTo("tabriz");
+        assertThat(renamed.getBody().path("revision").path("changeNote").asString()).isEqualTo("slug: tebriz → tabriz");
+        assertThat(jdbc.sql("SELECT new_slug FROM slug_redirect WHERE doc_type = 'PLACE' AND old_slug = 'tebriz'")
+                .query(String.class).single()).isEqualTo("tabriz");
+        // The renamed revision is valid as it stands (its id is the new slug).
+        assertThat(call("admin", HttpMethod.GET, DOCS + "/" + id + "/validation", null, null).getBody().path("publishable").asBoolean())
+                .isTrue();
+
+        // Until it is published again, the public revision keeps the old slug; a rebuild agrees.
+        call("admin", HttpMethod.POST, "/api/v1/admin/projections/rebuild", null, null);
+        assertThat(count("SELECT count(*) FROM place WHERE slug = 'tebriz'")).isEqualTo(1);
+        assertThat(call("admin", HttpMethod.GET, "/api/v1/places/tebriz", null, null).getBody().path("slug").asString()).isEqualTo("tebriz");
+
+        transition(id, "author", "submit");
+        transition(id, "reviewer", "approve");
+        transition(id, "admin", "publish");
+        await().atMost(Duration.ofSeconds(10)).until(() -> count("SELECT count(*) FROM place WHERE slug = 'tabriz'") == 1);
+        assertThat(count("SELECT count(*) FROM place WHERE slug = 'tebriz'")).isZero();
+        // The old link answers 301 to the new one (the client follows it).
+        assertThat(call("admin", HttpMethod.GET, "/api/v1/places/tebriz", null, null).getBody().path("slug").asString()).isEqualTo("tabriz");
+
+        // The old name cannot be taken by a new document, but this one may get it back.
+        assertThat(call("author", HttpMethod.POST, DOCS, Map.of("type", "PLACE",
+                "content", DataDocuments.find(DocumentType.PLACE, "tebriz").content()), null).getStatusCode().value()).isEqualTo(409);
+        assertThat(call("admin", HttpMethod.POST, DOCS + "/" + id + "/rename", Map.of("slug", "tebriz"), null)
+                .getStatusCode().value()).isEqualTo(200);
+        assertThat(count("SELECT count(*) FROM slug_redirect WHERE doc_type = 'PLACE' AND old_slug = 'tebriz'")).isZero();
+        assertThat(jdbc.sql("SELECT new_slug FROM slug_redirect WHERE doc_type = 'PLACE' AND old_slug = 'tabriz'")
+                .query(String.class).single()).isEqualTo("tebriz");
+        assertThat(call("admin", HttpMethod.POST, DOCS + "/" + id + "/rename", Map.of("slug", "Bad Slug"), null)
+                .getStatusCode().value()).isEqualTo(400);
+    }
+
+    @Test
     void aFailedProjectionIsRetriedOnceItsDependencyIsThere() {
         // The parent theme exists but is not published yet (a WARNING only), so the variant can be published
         // first: its projection fails (MissingDependencyException) and stays in the registry.

@@ -8,6 +8,7 @@ import az.tarix.platform.editorial.internal.service.CommentService;
 import az.tarix.platform.editorial.internal.service.DocumentService;
 import az.tarix.platform.editorial.internal.service.DocumentService.DocumentView;
 import az.tarix.platform.editorial.internal.web.EditorialDtos.AssignRequest;
+import az.tarix.platform.editorial.internal.web.EditorialDtos.RenameRequest;
 import az.tarix.platform.editorial.internal.web.EditorialDtos.CommentResponse;
 import az.tarix.platform.editorial.internal.web.EditorialDtos.CreateComment;
 import az.tarix.platform.editorial.internal.web.EditorialDtos.CreateDocument;
@@ -132,6 +133,14 @@ class EditorialController {
     @GetMapping("/{id}/validation")
     ResponseEntity<ValidationResponse> validation(@PathVariable UUID id, @RequestParam(required = false) Integer revision) {
         return ok(ValidationResponse.of(documents.validate(user(), id, revision)));
+    }
+
+    /** Rename (admins): a new revision with the new id; the old slug redirects (BACKEND_SPEC.md §5.5). */
+    @PostMapping("/{id}/rename")
+    ResponseEntity<DocumentResponse> rename(@PathVariable UUID id,
+                                            @RequestHeader(value = HttpHeaders.IF_MATCH, required = false) String ifMatch,
+                                            @Valid @RequestBody RenameRequest body) {
+        return document(documents.rename(user(), id, version(ifMatch), body.slug(), body.changeNote()));
     }
 
     /** Review assignment (reviewers and admins); {@code If-Match} optional, as for transitions. */

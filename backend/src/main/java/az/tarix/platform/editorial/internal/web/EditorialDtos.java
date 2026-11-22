@@ -38,6 +38,8 @@ final class EditorialDtos {
     /** {@code assigneeId}: an active reviewer or admin, or null to take the assignment away. */
     record AssignRequest(UUID assigneeId) {}
 
+    record RenameRequest(@NotBlank @Size(max = 120) String slug, @Size(max = 10_000) String changeNote) {}
+
     record CreateComment(Integer revisionNo, @Size(max = ReviewComment.MAX_PATH) String fieldPath,
                          @NotBlank @Size(max = ReviewComment.MAX_BODY) String body) {}
 

@@ -97,6 +97,7 @@ class PermissionMatrixTests {
             new Rule(HttpMethod.GET, "/api/v1/editorial/documents/{id}/validation", DOC + "/validation", null, EDITORS),
             new Rule(HttpMethod.GET, "/api/v1/editorial/documents/{id}/preview", DOC + "/preview", null, EDITORS),
             new Rule(HttpMethod.PUT, "/api/v1/editorial/documents/{id}/assignee", DOC + "/assignee", Map.of(), EDITORS),
+            new Rule(HttpMethod.POST, "/api/v1/editorial/documents/{id}/rename", DOC + "/rename", Map.of("slug", "x"), EDITORS),
             new Rule(HttpMethod.POST, "/api/v1/editorial/documents/{id}/transitions", DOC + "/transitions",
                     Map.of("action", "submit"), EDITORS),
             new Rule(HttpMethod.GET, "/api/v1/editorial/documents/{id}/transitions", DOC + "/transitions", null, EDITORS),
