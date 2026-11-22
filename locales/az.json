@@ -523,5 +523,14 @@
     "noneToday": "{date} tarixində baş vermiş hadisəmiz yoxdur, bu ayın hadisələrinə bax.",
     "none": "Bu ay üçün hadisə tapılmadı.",
     "yearsAgo": "{n} il əvvəl"
+  },
+  "ui": {
+    "comingSoon": "tezliklə",
+    "preparing": "Məlumat hazırlanır",
+    "sample": "Nümunə məzmun",
+    "progress": "{value}% tamamlanıb",
+    "stepOf": "{current} / {total}",
+    "close": "Bağla",
+    "claim": { "fact": "Fakt", "disputed": "Mübahisəli", "legend": "Rəvayət", "literary": "Ədəbi", "why": "Bu niyə {type} sayılır?" }
   }
 }
