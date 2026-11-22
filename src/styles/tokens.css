@@ -1,0 +1,101 @@
+/*
+ * Design tokens (docs/FRONTEND_SPEC.md §3.1). Components never write hex: they
+ * use these variables, through the Tailwind names in design-system.css.
+ * src/theme/tokens.ts mirrors the values; tests/unit/designTokens.test.ts keeps them equal.
+ *
+ * Period themes override the colour tokens with [data-theme="…"] blocks
+ * generated from theme data (src/theme/resolve.ts). The tokens are registered
+ * so a change of theme is a crossfade (600–900 ms), not a cut.
+ */
+
+@property --bg-base { syntax: "<color>"; inherits: true; initial-value: #0B1222; }
+@property --bg-raised { syntax: "<color>"; inherits: true; initial-value: #101A31; }
+@property --bg-panel { syntax: "<color>"; inherits: true; initial-value: #0E1730; }
+@property --text-primary { syntax: "<color>"; inherits: true; initial-value: #F3E9D2; }
+@property --text-secondary { syntax: "<color>"; inherits: true; initial-value: #CFC3A8; }
+@property --text-muted { syntax: "<color>"; inherits: true; initial-value: #A99D84; }
+@property --accent { syntax: "<color>"; inherits: true; initial-value: #E2C27A; }
+@property --accent-ink { syntax: "<color>"; inherits: true; initial-value: #1A1408; }
+@property --eyebrow { syntax: "<color>"; inherits: true; initial-value: #E2C27A; }
+@property --secondary { syntax: "<color>"; inherits: true; initial-value: #2A4A8C; }
+@property --secondary-2 { syntax: "<color>"; inherits: true; initial-value: #4FB3AE; }
+
+:root {
+  /* zəmin */
+  --bg-base: #0B1222;
+  --bg-raised: #101A31;
+  --bg-panel: #0E1730;
+  /* mətn */
+  --text-primary: #F3E9D2;
+  --text-secondary: #CFC3A8;
+  --text-muted: #A99D84;
+  /* vurğu */
+  --accent: #E2C27A;
+  --accent-ink: #1A1408;
+  --eyebrow: #E2C27A;
+  --secondary: #2A4A8C;
+  --secondary-2: #4FB3AE;
+  /* törəmə: vurğunun payı (BORDER_*_SHARE) */
+  --border-subtle: color-mix(in srgb, var(--accent) 16%, transparent);
+  --border-strong: color-mix(in srgb, var(--accent) 40%, transparent);
+  --accent-hover: color-mix(in srgb, var(--accent) 65%, #ffffff);
+  /* semantik */
+  --claim-fact: #4FB3AE;
+  --claim-disputed: #E2A04A;
+  --claim-legend: #B9A8D6;
+  --claim-literary: #A99D84;
+  --negative: #E86A5C;
+  /* xəritə */
+  --map-parchment-center: #E9D7AE;
+  --map-parchment-mid: #CFB37C;
+  --map-parchment-edge: #6E4A2A;
+  --map-water: #7FA3A1;
+  --map-ink: #3A2414;
+  /* bayraq */
+  --flag-blue: #00B5E2;
+  --flag-red: #EF3340;
+  --flag-green: #509E2F;
+  /* atmosfer: gecədən şəfəqə səma (müharibə girişi) */
+  --sky-night: #050E1A;
+  --sky-dusk: #0A1F36;
+  --sky-horizon: #183048;
+  --dawn-glow: #FFAA5A;
+
+  --theme-duration: 750ms;
+}
+
+/* Root of every page of the new design (src/components/layout/ThemeRoot). */
+.ds-root {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  /* --font-ui lives in @theme inline (not emitted as a variable), so name the fonts here. */
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition:
+    --bg-base var(--theme-duration) ease,
+    --bg-raised var(--theme-duration) ease,
+    --bg-panel var(--theme-duration) ease,
+    --text-primary var(--theme-duration) ease,
+    --text-secondary var(--theme-duration) ease,
+    --text-muted var(--theme-duration) ease,
+    --accent var(--theme-duration) ease,
+    --accent-ink var(--theme-duration) ease,
+    --eyebrow var(--theme-duration) ease,
+    --secondary var(--theme-duration) ease,
+    --secondary-2 var(--theme-duration) ease;
+}
+
+.ds-root :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-root {
+    transition: none;
+  }
+}
+.lite .ds-root,
+.ds-root.lite {
+  transition: none;
+}

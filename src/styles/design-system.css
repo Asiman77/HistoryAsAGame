@@ -1,0 +1,131 @@
+/*
+ * Tailwind names of the design tokens (tokens.css). `inline` makes every
+ * utility read the token itself, so a [data-theme] block or a ThemeScope
+ * changes the colours of everything inside it.
+ *
+ * Names avoid the legacy palette in globals.css (parchment, ink, gold…),
+ * which keeps working until the old pages are removed (ADR-0022).
+ */
+@import "./tokens.css";
+
+@theme inline {
+  --color-surface: var(--bg-base);
+  --color-surface-raised: var(--bg-raised);
+  --color-surface-panel: var(--bg-panel);
+  --color-fg: var(--text-primary);
+  --color-fg-secondary: var(--text-secondary);
+  --color-fg-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-hover: var(--accent-hover);
+  --color-eyebrow: var(--eyebrow);
+  --color-line: var(--border-subtle);
+  --color-line-strong: var(--border-strong);
+  --color-secondary: var(--secondary);
+  --color-secondary-2: var(--secondary-2);
+  --color-claim-fact: var(--claim-fact);
+  --color-claim-disputed: var(--claim-disputed);
+  --color-claim-legend: var(--claim-legend);
+  --color-claim-literary: var(--claim-literary);
+  --color-negative: var(--negative);
+  --color-map-parchment-center: var(--map-parchment-center);
+  --color-map-parchment-mid: var(--map-parchment-mid);
+  --color-map-parchment-edge: var(--map-parchment-edge);
+  --color-map-water: var(--map-water);
+  --color-map-ink: var(--map-ink);
+  --color-flag-blue: var(--flag-blue);
+  --color-flag-red: var(--flag-red);
+  --color-flag-green: var(--flag-green);
+  --color-sky-night: var(--sky-night);
+  --color-sky-dusk: var(--sky-dusk);
+  --color-sky-horizon: var(--sky-horizon);
+  --color-dawn-glow: var(--dawn-glow);
+
+  --font-heading: var(--font-noto-serif-display), "Georgia", serif;
+  --font-ui: var(--font-inter), system-ui, sans-serif;
+}
+
+@theme {
+  /* §3.3 font size scale: text-12 … text-88 */
+  --text-12: 12px;
+  --text-12--line-height: 1.5;
+  --text-13: 13px;
+  --text-13--line-height: 1.5;
+  --text-14: 14px;
+  --text-14--line-height: 1.55;
+  --text-15: 15px;
+  --text-15--line-height: 1.6;
+  --text-16: 16px;
+  --text-16--line-height: 1.6;
+  --text-19: 19px;
+  --text-19--line-height: 1.45;
+  --text-22: 22px;
+  --text-22--line-height: 1.3;
+  --text-26: 26px;
+  --text-26--line-height: 1.25;
+  --text-30: 30px;
+  --text-30--line-height: 1.2;
+  --text-34: 34px;
+  --text-34--line-height: 1.15;
+  --text-38: 38px;
+  --text-38--line-height: 1.12;
+  --text-44: 44px;
+  --text-44--line-height: 1.1;
+  --text-48: 48px;
+  --text-48--line-height: 1.05;
+  --text-60: 60px;
+  --text-60--line-height: 1.05;
+  --text-76: 76px;
+  --text-76--line-height: 1;
+  --text-88: 88px;
+  --text-88--line-height: 1;
+
+  /* §3.4 shapes */
+  --radius-button: 12px;
+  --radius-button-lg: 14px;
+  --radius-panel: 18px;
+  --radius-card: 20px;
+  --radius-card-lg: 22px;
+
+  --shadow-deep: 0 30px 80px -30px rgb(0 0 0 / 0.8);
+  --shadow-panel: 0 20px 50px -24px rgb(0 0 0 / 0.65);
+
+  --tracking-eyebrow: 0.2em;
+  --tracking-eyebrow-wide: 0.22em;
+
+  --container-content: 1280px;
+
+  --ease-step: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Grain (§3.5, layer 5) as a reusable background. */
+.ds-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.lite .ds-grain {
+  background-image: none;
+}
+
+@keyframes ds-twinkle {
+  0%, 100% { opacity: var(--star-min, 0.35); }
+  50% { opacity: var(--star-max, 1); }
+}
+@keyframes ds-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+@keyframes ds-drift {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -60; }
+}
+.ds-animate-twinkle { animation: ds-twinkle 4.8s ease-in-out infinite; }
+.ds-animate-pulse { animation: ds-pulse 3.2s ease-in-out infinite; }
+.ds-animate-drift { animation: ds-drift 6s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .ds-animate-twinkle,
+  .ds-animate-pulse,
+  .ds-animate-drift { animation: none; }
+}
+.lite .ds-animate-twinkle,
+.lite .ds-animate-pulse,
+.lite .ds-animate-drift { animation: none; }
