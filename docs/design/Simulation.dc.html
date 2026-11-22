@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<title>Simulyasiya — Şah İsmayıl, 1501</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,500;0,700;1,500&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#140A0C}
+a{color:#E2C27A;text-decoration:none}a:hover{color:#F3DFA8}
+@keyframes draw{from{stroke-dashoffset:420}to{stroke-dashoffset:0}}
+@keyframes ring{0%{r:8;opacity:.9}100%{r:34;opacity:0}}
+.active-route{stroke-dasharray:420;animation:draw 2.4s cubic-bezier(.65,0,.35,1) forwards}
+.ring{animation:ring 2.2s ease-out infinite}
+@media (prefers-reduced-motion: reduce){.active-route,.ring{animation:none}.active-route{stroke-dasharray:none}}
+</style>
+</helmet>
+
+<div style="font-family: Inter, system-ui, sans-serif; color: #F3E9D2; background: #140A0C; width: 100%; height: 900px; display: grid; grid-template-rows: 72px minmax(0, 1fr) 132px; overflow: hidden">
+
+  <!-- TOP BAR -->
+  <header style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 28px; background: linear-gradient(180deg, #1E0E11 0%, #170A0D 100%); border-bottom: 1px solid rgba(226,194,122,0.18); flex-wrap: wrap">
+    <div style="display: flex; align-items: center; gap: 16px">
+      <a href="Main.dc.html" aria-label="Ana səhifəyə qayıt" style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(243,233,210,0.18); color: #F3E9D2">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+      </a>
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-family: 'Noto Serif Display', serif; font-size: 20px; font-weight: 500">Şah İsmayıl Xətai</span>
+        <span style="font-size: 12px; color: #B8A493; letter-spacing: 0.12em; text-transform: uppercase">Səfəvilər · 1487 — 1524</span>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+      <div role="group" aria-label="Rejim" style="display: flex; padding: 4px; border-radius: 999px; background: rgba(0,0,0,0.35); border: 1px solid rgba(243,233,210,0.12)">
+        <button style="font: inherit; font-size: 14px; font-weight: 600; padding: 9px 16px; border: 0; border-radius: 999px; background: #E2C27A; color: #1A1408; cursor: pointer">Hekayə</button>
+        <button style="font: inherit; font-size: 14px; font-weight: 500; padding: 9px 16px; border: 0; border-radius: 999px; background: transparent; color: #D8C6BC; cursor: pointer">Öyrənmə</button>
+      </div>
+      <button style="font: inherit; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; min-height: 44px; border-radius: 999px; background: transparent; color: #D8C6BC; border: 1px solid rgba(243,233,210,0.18); cursor: pointer">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 15.6 7.1 18.2l.9-5.5-4-3.9 5.5-.8z"></path></svg>
+        Rəvayətlər
+      </button>
+      <button aria-label="Səs" style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: transparent; color: #D8C6BC; border: 1px solid rgba(243,233,210,0.18); cursor: pointer">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9z"></path><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAP + PANELS -->
+  <main style="position: relative; min-height: 0">
+
+    <!-- parchment map -->
+    <svg role="img" aria-label="Stilizə edilmiş xəritə: Şərurdan Təbrizə marşrut" viewBox="0 0 1440 696" preserveAspectRatio="xMidYMid slice" style="position: absolute; inset: 0; width: 100%; height: 100%">
+      <defs>
+        <radialGradient id="parch" cx="42%" cy="45%" r="75%">
+          <stop offset="0%" stop-color="#E9D7AE"></stop>
+          <stop offset="55%" stop-color="#CFB37C"></stop>
+          <stop offset="100%" stop-color="#6E4A2A"></stop>
+        </radialGradient>
+        <radialGradient id="vig" cx="42%" cy="46%" r="72%">
+          <stop offset="55%" stop-color="#140A0C" stop-opacity="0"></stop>
+          <stop offset="100%" stop-color="#140A0C" stop-opacity="0.92"></stop>
+        </radialGradient>
+        <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix values="0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 0 0.1  0 0 0 0.22 0"></feColorMatrix></filter>
+        <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0 V8" stroke="#8A6236" stroke-width="1" opacity="0.35"></path></pattern>
+      </defs>
+      <rect width="1440" height="696" fill="url(#parch)"></rect>
+
+      <!-- territory of the new state (approximate) -->
+      <path d="M240 210 C330 150, 470 140, 560 180 C640 150, 720 190, 740 260 C760 340, 700 430, 610 470 C520 520, 400 510, 320 460 C250 420, 200 320, 240 210 Z" fill="#9E2A2B" fill-opacity="0.16" stroke="#9E2A2B" stroke-width="1.6" stroke-dasharray="6 5"></path>
+
+      <!-- Caspian -->
+      <path d="M760 40 C800 90, 790 170, 760 230 C735 290, 770 360, 800 430 C830 500, 840 580, 900 640 L1440 640 L1440 0 L780 0 Z" fill="#7FA3A1" fill-opacity="0.55" stroke="#5E7F7C" stroke-width="1.5"></path>
+      <path d="M770 60 C805 110, 798 175, 772 232 C748 292, 782 360, 812 428" fill="none" stroke="#5E7F7C" stroke-width="0.8" opacity="0.6"></path>
+      <text x="1020" y="300" fill="#3E5C5A" font-family="Noto Serif Display, serif" font-size="30" font-style="italic" letter-spacing="10" opacity="0.75">Xəzər dənizi</text>
+
+      <!-- mountains -->
+      <g fill="url(#hatch)" stroke="#7A5530" stroke-width="1.2" opacity="0.85">
+        <path d="M300 120 l18 -30 l18 30 z M330 118 l22 -38 l22 38 z M366 122 l16 -26 l16 26 z"></path>
+        <path d="M520 560 l20 -34 l20 34 z M552 562 l24 -40 l24 40 z M590 560 l18 -30 l18 30 z"></path>
+        <path d="M150 380 l18 -30 l18 30 z M180 384 l22 -36 l22 36 z"></path>
+      </g>
+
+      <!-- rivers -->
+      <path d="M120 300 C220 330, 300 290, 380 320 S 520 300, 600 330 S 700 300, 770 320" fill="none" stroke="#5E7F7C" stroke-width="2" opacity="0.7"></path>
+      <text x="420" y="345" fill="#5E4A30" font-family="Noto Serif Display, serif" font-size="14" font-style="italic">Araz</text>
+
+      <!-- past routes (faded) -->
+      <path d="M690 240 C720 300, 760 380, 770 470" fill="none" stroke="#5B2A1C" stroke-width="2" stroke-dasharray="3 7" opacity="0.5"></path>
+      <path d="M770 470 C640 420, 420 260, 210 250" fill="none" stroke="#5B2A1C" stroke-width="2" stroke-dasharray="3 7" opacity="0.5"></path>
+
+      <!-- active route: Şərur → Təbriz -->
+      <path d="M300 270 C360 330, 420 380, 470 400" fill="none" stroke="#2A0E0A" stroke-width="7" stroke-linecap="round" opacity="0.25"></path>
+      <path class="active-route" d="M300 270 C360 330, 420 380, 470 400" fill="none" stroke="#9E2A2B" stroke-width="4" stroke-linecap="round"></path>
+
+      <!-- cities -->
+      <g font-family="Noto Serif Display, serif" fill="#3A2414">
+        <circle cx="690" cy="240" r="6" fill="#3A2414"></circle>
+        <text x="702" y="234" font-size="17">Ərdəbil</text>
+        <circle cx="770" cy="470" r="5" fill="#3A2414"></circle>
+        <text x="700" y="500" font-size="16">Lahican</text>
+        <circle cx="300" cy="270" r="5" fill="#3A2414"></circle>
+        <text x="236" y="262" font-size="16">Şərur</text>
+        <circle cx="610" cy="120" r="5" fill="#3A2414"></circle>
+        <text x="622" y="114" font-size="16">Şamaxı</text>
+      </g>
+
+      <!-- Təbriz: active capital -->
+      <circle class="ring" cx="470" cy="400" r="8" fill="none" stroke="#9E2A2B" stroke-width="2"></circle>
+      <circle cx="470" cy="400" r="11" fill="#9E2A2B" stroke="#F3E9D2" stroke-width="3"></circle>
+      <path d="M462 392 l4 -9 l4 6 l4 -6 l4 9 z" fill="#E2C27A" transform="translate(-4 -22)"></path>
+      <text x="492" y="408" font-family="Noto Serif Display, serif" font-size="24" font-weight="700" fill="#2A1208">Təbriz</text>
+      <text x="492" y="430" font-family="Inter, sans-serif" font-size="13" fill="#5A3A22">paytaxt · 1501</text>
+
+      <rect width="1440" height="696" filter="url(#grain)"></rect>
+      <rect width="1440" height="696" fill="url(#vig)"></rect>
+
+      <!-- compass -->
+      <g transform="translate(90 600)" opacity="0.8">
+        <circle r="30" fill="none" stroke="#E2C27A" stroke-width="1"></circle>
+        <path d="M0 -36 L6 0 L0 36 L-6 0 Z" fill="#E2C27A"></path>
+        <text y="-42" text-anchor="middle" fill="#E2C27A" font-family="Inter, sans-serif" font-size="11">Ş</text>
+      </g>
+    </svg>
+
+    <!-- coronation mood tint -->
+    <div aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(ellipse at 33% 58%, rgba(226,194,122,0.18), rgba(0,0,0,0) 50%); pointer-events: none"></div>
+
+    <!-- portrait + age -->
+    <div style="position: absolute; left: 28px; top: 28px; width: 236px; display: flex; flex-direction: column; gap: 0; border-radius: 20px; overflow: hidden; background: rgba(20,10,12,0.82); border: 1px solid rgba(226,194,122,0.35); box-shadow: 0 24px 60px -20px rgba(0,0,0,0.7)">
+      <div style="position: relative; height: 210px; background: radial-gradient(circle at 50% 40%, #8E2A2C 0%, #3A1014 70%)">
+        <svg aria-hidden="true" viewBox="0 0 236 210" style="position: absolute; inset: 0; width: 100%; height: 100%">
+          <path d="M118 62 c18 0 30 14 30 33 c0 22-13 36-30 36 s-30-14-30-36 c0-19 12-33 30-33 z M66 210 c6-40 26-62 52-62 s46 22 52 62" fill="#22090C" stroke="#E2C27A" stroke-width="1.2"></path>
+          <path d="M118 14 V62 M107 32 L118 14 L129 32 M96 64 q22-30 44 0" fill="none" stroke="#E86A5C" stroke-width="2"></path>
+        </svg>
+        <span style="position: absolute; left: 10px; bottom: 10px; font-size: 11px; padding: 4px 8px; border-radius: 6px; background: rgba(0,0,0,0.55); color: #D8C6BC">Rəssam təsəvvürü (AI illüstrasiya)</span>
+      </div>
+      <div style="display: flex; align-items: end; justify-content: space-between; padding: 16px 18px">
+        <div style="display: flex; align-items: baseline; gap: 6px">
+          <span style="font-family: 'Noto Serif Display', serif; font-size: 52px; line-height: 1; color: #E2C27A">14</span>
+          <span style="font-size: 14px; color: #B8A493">yaş</span>
+        </div>
+        <span style="font-family: 'Noto Serif Display', serif; font-size: 26px; color: #F3E9D2">1501</span>
+      </div>
+    </div>
+
+    <!-- story panel -->
+    <aside style="position: absolute; right: 24px; top: 24px; bottom: 24px; width: 420px; max-width: calc(100% - 48px); display: flex; flex-direction: column; border-radius: 22px; overflow: hidden; background: linear-gradient(180deg, rgba(30,12,15,0.94) 0%, rgba(20,8,10,0.96) 100%); border: 1px solid rgba(226,194,122,0.3); box-shadow: 0 30px 80px -30px rgba(0,0,0,0.8)">
+      <div aria-hidden="true" style="height: 6px; background: linear-gradient(90deg, #9E2A2B, #E2C27A, #4FB3AE)"></div>
+      <div style="flex: 1; min-height: 0; overflow: auto; padding: 26px 28px; display: flex; flex-direction: column; gap: 18px">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+          <span style="font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #E2C27A">Mərhələ 7 / 14 · Taclanma</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 999px; background: rgba(79,179,174,0.16); color: #8FD6D1; border: 1px solid rgba(79,179,174,0.4)">
+            <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5L20 7"></path></svg>
+            Fakt
+          </span>
+        </div>
+        <h2 style="margin: 0; font-family: 'Noto Serif Display', serif; font-weight: 500; font-size: 38px; line-height: 1.1">Təbrizdə taclanma</h2>
+        <p style="margin: 0; font-family: 'Noto Serif Display', serif; font-style: italic; font-size: 19px; line-height: 1.55; color: #F0DEC8">“Şərurda Əlvənd Mirzənin ordusunu geridə qoyduq. İndi Təbrizin darvazaları önümdə açılır. On dörd yaşım var, amma bu gün məni şah adlandıracaqlar.”</p>
+        <div style="height: 1px; background: rgba(226,194,122,0.2)"></div>
+        <p style="margin: 0; font-size: 15px; line-height: 1.65; color: #D8C6BC">1501-ci ildə Şərur döyüşündə Ağqoyunlu hökmdarı Əlvənd Mirzə üzərində qələbədən sonra İsmayıl Təbrizə daxil oldu və şah elan edildi. Təbriz yeni Səfəvi dövlətinin paytaxtı oldu.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <a href="#" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; padding: 8px 12px; border-radius: 10px; background: rgba(42,74,140,0.35); border: 1px solid rgba(201,161,74,0.4); color: #F3E9D2">Uzun Həsən — ana babası →</a>
+          <span style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; padding: 8px 12px; border-radius: 10px; border: 1px dashed rgba(243,233,210,0.25); color: #A8968A">Şərur döyüşü · tezliklə</span>
+          <span style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; padding: 8px 12px; border-radius: 10px; border: 1px dashed rgba(243,233,210,0.25); color: #A8968A">Səfəvi dövləti · tezliklə</span>
+        </div>
+
+        <div style="margin-top: 4px; padding: 18px; border-radius: 16px; background: rgba(226,194,122,0.08); border: 1px solid rgba(226,194,122,0.28); display: flex; flex-direction: column; gap: 12px">
+          <span style="font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #E2C27A">Sən olsaydın?</span>
+          <p style="margin: 0; font-size: 16px; line-height: 1.5">Yeni dövlətin paytaxtını harada qurardın?</p>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+            <button style="font: inherit; font-size: 15px; font-weight: 500; min-height: 48px; border-radius: 12px; border: 1px solid rgba(243,233,210,0.25); background: rgba(0,0,0,0.25); color: #F3E9D2; cursor: pointer">Təbriz</button>
+            <button style="font: inherit; font-size: 15px; font-weight: 500; min-height: 48px; border-radius: 12px; border: 1px solid rgba(243,233,210,0.25); background: rgba(0,0,0,0.25); color: #F3E9D2; cursor: pointer">Ərdəbil</button>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; padding: 16px 20px; border-top: 1px solid rgba(226,194,122,0.18)">
+        <button style="font: inherit; flex: 1; font-size: 15px; font-weight: 500; min-height: 50px; border-radius: 14px; background: transparent; color: #D8C6BC; border: 1px solid rgba(243,233,210,0.2); cursor: pointer">← Şərur döyüşü</button>
+        <button style="font: inherit; flex: 1.4; font-size: 15px; font-weight: 600; min-height: 50px; border-radius: 14px; background: #E2C27A; color: #1A1408; border: 0; cursor: pointer">Həmədan, 1503 →</button>
+      </div>
+    </aside>
+  </main>
+
+  <!-- TIMELINE -->
+  <footer style="position: relative; padding: 18px 28px 20px; background: linear-gradient(180deg, #170A0D 0%, #110608 100%); border-top: 1px solid rgba(226,194,122,0.18); display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; justify-content: space-between; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #9C8A7C">
+      <span>Həyat yolu</span><span>← → düymələri ilə keç</span>
+    </div>
+    <div style="position: relative">
+      <div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 9px; height: 2px; background: rgba(243,233,210,0.14)"></div>
+      <div aria-hidden="true" style="position: absolute; left: 0; width: 55%; top: 9px; height: 2px; background: linear-gradient(90deg, #4FB3AE, #E2C27A)"></div>
+      <div style="position: relative; display: grid; grid-template-columns: repeat(11, minmax(0, 1fr)); font-size: 12px; color: #B8A493">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; margin-top: 2px; border-radius: 50%; background: #4FB3AE"></span><span>1487</span><span style="color: #8E7E72">Doğuluş</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; margin-top: 2px; border-radius: 50%; background: #6E7C8E"></span><span>1488</span><span style="color: #8E7E72">Atasının ölümü</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; margin-top: 2px; border-radius: 50%; background: #6E7C8E"></span><span>1494</span><span style="color: #8E7E72">Lahican</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; margin-top: 2px; border-radius: 50%; background: #C9A14A"></span><span>1500</span><span style="color: #8E7E72">Ərzincan</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; margin-top: 2px; border-radius: 50%; background: #9E2A2B"></span><span>1500</span><span style="color: #8E7E72">Cabanı</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; margin-top: 2px; border-radius: 50%; background: #9E2A2B"></span><span>1501</span><span style="color: #8E7E72">Şərur</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 20px; height: 20px; margin-top: -1px; border-radius: 50%; background: #E2C27A; box-shadow: 0 0 0 5px rgba(226,194,122,0.25)"></span><span style="color: #F3E9D2; font-weight: 600">1501</span><span style="color: #E2C27A">Taclanma</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; margin-top: 2px; border-radius: 50%; border: 2px solid #5A4A40; box-sizing: border-box"></span><span>1503</span><span style="color: #6E6058">Həmədan</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; margin-top: 2px; border-radius: 50%; border: 2px solid #5A4A40; box-sizing: border-box"></span><span>1510</span><span style="color: #6E6058">Mərv</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; margin-top: 2px; border-radius: 50%; border: 2px solid #5A4A40; box-sizing: border-box"></span><span>1514</span><span style="color: #6E6058">Çaldıran</span></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; margin-top: 2px; border-radius: 50%; border: 2px solid #5A4A40; box-sizing: border-box"></span><span>1524</span><span style="color: #6E6058">Vəfat</span></div>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

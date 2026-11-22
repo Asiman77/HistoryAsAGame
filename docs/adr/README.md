@@ -26,3 +26,4 @@ Qəbul olunmuş ADR dəyişdirilmir; yeni qərar köhnəni `Superseded by` ilə 
 | [0019](0019-static-export.md) | Statik eksport: idxalın tərsi, sənədin mövqeyi, versiyalı bucket + manifest, debounce | Qəbul |
 | [0020](0020-frontend-integration.md) | Frontend inteqrasiyası: `api` rejimi statik eksportdan, OpenAPI tipləri, analitika klienti (ADR-0006-nın bir bəndini əvəz edir) | Qəbul |
 | [0021](0021-preview-assignment-rename.md) | Önizləmə geri alınan tranzaksiyada, rəyçi təyinatı, ad dəyişmədə ictimai slug dərc olunmuş revision-dan | Qəbul |
+| [0022](0022-frontend-redesign.md) | Frontend-in yeni dizaynı: statik export qalır, yeni route-lar köhnələrin yanında, backend əlavələri mərhələlərlə | Qəbul |

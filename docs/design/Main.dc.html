@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<title>Tarixin İçində — Ana səhifə</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,500;0,700;1,500&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0B1222}
+a{color:#E2C27A;text-decoration:none}a:hover{color:#F3DFA8}
+@keyframes drift{from{stroke-dashoffset:0}to{stroke-dashoffset:-60}}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+.route{animation:drift 6s linear infinite}
+.glow{animation:pulse 3.2s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.route,.glow{animation:none}}
+</style>
+</helmet>
+
+<div style="font-family: Inter, system-ui, sans-serif; color: #F3E9D2; background: #0B1222; min-height: 100vh; width: 100%">
+
+  <!-- HERO -->
+  <section style="position: relative; overflow: hidden; min-height: 780px; background: radial-gradient(ellipse 60% 55% at 70% 18%, rgba(201,161,74,0.22), rgba(11,18,34,0) 70%), linear-gradient(180deg, #0E1730 0%, #0B1222 72%)">
+
+    <!-- girih pattern -->
+    <svg aria-hidden="true" width="100%" height="100%" style="position: absolute; inset: 0; opacity: 0.09">
+      <defs>
+        <pattern id="girih" width="96" height="96" patternUnits="userSpaceOnUse">
+          <polygon points="48,10 57,33 82,24 69,46 86,62 62,63 58,88 48,66 38,88 34,63 10,62 27,46 14,24 39,33" fill="none" stroke="#C9A14A" stroke-width="1.2"></polygon>
+          <circle cx="48" cy="48" r="9" fill="none" stroke="#C9A14A" stroke-width="1"></circle>
+          <path d="M0 0 L14 14 M96 0 L82 14 M0 96 L14 82 M96 96 L82 82" stroke="#C9A14A" stroke-width="1"></path>
+        </pattern>
+        <radialGradient id="fade" cx="50%" cy="35%" r="70%">
+          <stop offset="0%" stop-color="#fff" stop-opacity="1"></stop>
+          <stop offset="100%" stop-color="#fff" stop-opacity="0"></stop>
+        </radialGradient>
+        <mask id="patmask"><rect width="100%" height="100%" fill="url(#fade)"></rect></mask>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#girih)" mask="url(#patmask)"></rect>
+    </svg>
+
+    <!-- route across the sky -->
+    <svg aria-hidden="true" viewBox="0 0 1440 780" preserveAspectRatio="xMidYMid slice" style="position: absolute; inset: 0; width: 100%; height: 100%">
+      <path class="route" d="M 820 430 C 940 300, 1080 260, 1190 300 S 1330 210, 1400 160" fill="none" stroke="#E2C27A" stroke-width="2" stroke-dasharray="2 10" stroke-linecap="round" opacity="0.8"></path>
+      <circle cx="820" cy="430" r="5" fill="#E2C27A"></circle>
+      <circle class="glow" cx="820" cy="430" r="16" fill="none" stroke="#E2C27A" stroke-width="1"></circle>
+      <circle cx="1190" cy="300" r="5" fill="#E2C27A"></circle>
+      <circle class="glow" cx="1190" cy="300" r="16" fill="none" stroke="#E2C27A" stroke-width="1"></circle>
+      <circle cx="1400" cy="160" r="4" fill="#E2C27A" opacity="0.7"></circle>
+      <text x="836" y="456" fill="#E2C27A" font-family="Noto Serif Display, serif" font-size="15" font-style="italic">Ərdəbil · 1487</text>
+      <text x="1206" y="326" fill="#E2C27A" font-family="Noto Serif Display, serif" font-size="15" font-style="italic">Təbriz · 1501</text>
+    </svg>
+
+    <!-- mountain ridges -->
+    <svg aria-hidden="true" viewBox="0 0 1440 320" preserveAspectRatio="none" style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 300px">
+      <path d="M0 210 L120 150 L210 185 L330 110 L450 175 L560 120 L690 190 L800 130 L930 180 L1060 100 L1180 170 L1300 125 L1440 170 L1440 320 L0 320 Z" fill="#16223F" opacity="0.9"></path>
+      <path d="M0 250 L140 205 L260 240 L400 190 L520 235 L660 200 L790 245 L930 205 L1080 248 L1220 210 L1340 240 L1440 220 L1440 320 L0 320 Z" fill="#111B33"></path>
+      <path d="M0 290 L180 262 L360 285 L540 258 L720 288 L900 262 L1080 286 L1260 264 L1440 284 L1440 320 L0 320 Z" fill="#0B1222"></path>
+    </svg>
+
+    <!-- nav -->
+    <header style="position: relative; max-width: 1280px; margin: 0 auto; padding: 28px 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap">
+      <a href="#" style="display: flex; align-items: center; gap: 12px; color: #F3E9D2">
+        <svg aria-hidden="true" width="34" height="34" viewBox="0 0 34 34"><polygon points="17,1 21,10 31,7 26,16 33,23 23,24 21,33 17,25 13,33 11,24 1,23 8,16 3,7 13,10" fill="none" stroke="#E2C27A" stroke-width="1.5"></polygon><circle cx="17" cy="17" r="4" fill="#E2C27A"></circle></svg>
+        <span style="font-family: 'Noto Serif Display', serif; font-size: 22px; font-weight: 700; letter-spacing: 0.02em">Tarixin İçində</span>
+      </a>
+      <nav aria-label="Əsas menyu" style="display: flex; gap: 28px; flex-wrap: wrap; font-size: 15px">
+        <a href="Curriculum.dc.html" style="color: #D9CDB2">Dərsliklə öyrən</a>
+        <a href="Timeline.dc.html" style="color: #D9CDB2">Zaman şkalası</a>
+        <a href="#persons" style="color: #D9CDB2">Şəxsiyyətlər</a>
+        <a href="#conflicts" style="color: #D9CDB2">Döyüşlər</a>
+        <a href="StateSim.dc.html" style="color: #D9CDB2">Dövlətlər</a>
+        <a href="Place.dc.html" style="color: #D9CDB2">Məkanlar</a>
+      </nav>
+      <a href="#" style="font-size: 14px; font-weight: 600; padding: 11px 18px; border: 1px solid rgba(226,194,122,0.5); border-radius: 999px; color: #E2C27A">Müəllim rejimi</a>
+    </header>
+
+    <!-- hero copy -->
+    <div style="position: relative; max-width: 1280px; margin: 0 auto; padding: 96px 40px 220px">
+      <div style="max-width: 640px; display: flex; flex-direction: column; gap: 26px">
+        <p style="margin: 0; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #E2C27A">Azərbaycan tarixi · interaktiv simulyasiya</p>
+        <h1 style="margin: 0; font-family: 'Noto Serif Display', serif; font-weight: 500; font-size: 76px; line-height: 1.02; letter-spacing: -0.01em">Gözünü <em style="color: #E2C27A; font-style: italic">tarixin içində</em> aç</h1>
+        <p style="margin: 0; font-size: 19px; line-height: 1.6; color: #CFC3A8; max-width: 540px">Bir şəxsiyyət seç və onun həyatını doğumundan son nəfəsinə qədər yaşa. Səfərlər, döyüşlər, taclanmalar — hamısı xəritə üzərində, öz səsi və rəngi ilə.</p>
+        <div style="display: flex; gap: 14px; flex-wrap: wrap; padding-top: 6px">
+          <a href="#persons" style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 26px; background: #E2C27A; color: #1A1408; border-radius: 999px; font-weight: 600; font-size: 16px">Səyahətə başla
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+          </a>
+          <a href="#" style="display: inline-flex; align-items: center; padding: 16px 24px; border: 1px solid rgba(243,233,210,0.28); color: #F3E9D2; border-radius: 999px; font-weight: 500; font-size: 16px">Necə işləyir?</a>
+        </div>
+        <div style="display: flex; gap: 28px; flex-wrap: wrap; padding-top: 18px; font-size: 14px; color: #A99D84">
+          <span><strong style="color: #F3E9D2; font-weight: 600">3</strong> şəxsiyyət</span>
+          <span><strong style="color: #F3E9D2; font-weight: 600">1</strong> müharibə</span>
+          <span><strong style="color: #F3E9D2; font-weight: 600">1</strong> dövlət</span>
+          <span>Yeniləri yoldadır</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERSONS -->
+  <section id="persons" style="max-width: 1280px; margin: 0 auto; padding: 40px 40px 80px">
+    <div style="display: flex; align-items: end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 36px">
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <p style="margin: 0; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #E2C27A">I · Şəxsiyyətlər</p>
+        <h2 style="margin: 0; font-family: 'Noto Serif Display', serif; font-weight: 500; font-size: 44px">Kimin gözü ilə baxacaqsan?</h2>
+      </div>
+      <a href="#" style="font-size: 15px">Hamısına bax →</a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px">
+
+      <!-- Uzun Həsən -->
+      <a href="#" style="position: relative; display: flex; flex-direction: column; justify-content: end; min-height: 520px; border-radius: 22px; overflow: hidden; color: #F3E9D2; background: linear-gradient(180deg, rgba(10,22,58,0) 30%, rgba(8,14,34,0.96) 78%), radial-gradient(circle at 50% 30%, #2A4A8C 0%, #14234A 55%, #0C1630 100%); border: 1px solid rgba(201,161,74,0.28)">
+        <svg aria-hidden="true" viewBox="0 0 300 300" style="position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 260px; opacity: 0.9">
+          <circle cx="150" cy="150" r="128" fill="none" stroke="#C9A14A" stroke-width="1" opacity="0.5"></circle>
+          <circle cx="150" cy="150" r="112" fill="none" stroke="#C9A14A" stroke-width="0.6" stroke-dasharray="3 6" opacity="0.6"></circle>
+          <path d="M150 70 c22 0 36 18 36 40 c0 26-16 42-36 42 s-36-16-36-42 c0-22 14-40 36-40 z M92 238 c6-42 30-66 58-66 s52 24 58 66" fill="#0C1630" stroke="#C9A14A" stroke-width="1.2"></path>
+          <path d="M120 74 q30-28 60 0" fill="none" stroke="#C9A14A" stroke-width="1.2"></path>
+        </svg>
+        <span style="position: absolute; top: 18px; left: 18px; font-size: 12px; padding: 6px 12px; border-radius: 999px; background: rgba(11,18,34,0.6); border: 1px solid rgba(201,161,74,0.4); color: #E2C27A">Ağqoyunlu · XV əsr</span>
+        <div style="position: relative; padding: 28px; display: flex; flex-direction: column; gap: 10px">
+          <span style="font-size: 14px; color: #B9AE95">t. 1423 — 1478</span>
+          <h3 style="margin: 0; font-family: 'Noto Serif Display', serif; font-weight: 500; font-size: 34px">Uzun Həsən</h3>
+          <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #CFC3A8">Diyarbəkirdən Təbrizə: Qaraqoyunlu və Teymurilər üzərində qələbələr, Venesiya ilə diplomatiya.</p>
+          <span style="margin-top: 8px; font-size: 15px; font-weight: 600; color: #E2C27A">Həyatını yaşa →</span>
+        </div>
+      </a>
+
+      <!-- Şah İsmayıl -->
+      <a href="Simulation.dc.html" style="position: relative; display: flex; flex-direction: column; justify-content: end; min-height: 520px; border-radius: 22px; overflow: hidden; color: #F3E9D2; background: linear-gradient(180deg, rgba(60,10,14,0) 30%, rgba(26,8,10,0.96) 78%), radial-gradient(circle at 50% 30%, #8E2A2C 0%, #4A1418 55%, #22090C 100%); border: 1px solid rgba(64,170,166,0.4); box-shadow: 0 30px 80px -30px rgba(158,42,43,0.6)">
+        <svg aria-hidden="true" viewBox="0 0 300 300" style="position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 260px">
+          <circle cx="150" cy="150" r="128" fill="none" stroke="#4FB3AE" stroke-width="1" opacity="0.6"></circle>
+          <circle cx="150" cy="150" r="112" fill="none" stroke="#E2C27A" stroke-width="0.6" stroke-dasharray="3 6" opacity="0.6"></circle>
+          <path d="M150 84 c20 0 33 16 33 37 c0 24-15 39-33 39 s-33-15-33-39 c0-21 13-37 33-37 z M94 238 c6-40 28-62 56-62 s50 22 56 62" fill="#22090C" stroke="#E2C27A" stroke-width="1.2"></path>
+          <path d="M150 30 L150 84 M138 50 L150 30 L162 50 M126 84 q24-34 48 0" fill="none" stroke="#E86A5C" stroke-width="2"></path>
+        </svg>
+        <span style="position: absolute; top: 18px; left: 18px; font-size: 12px; padding: 6px 12px; border-radius: 999px; background: rgba(26,8,10,0.6); border: 1px solid rgba(79,179,174,0.5); color: #8FD6D1">Səfəvilər · XVI əsr</span>
+        <span style="position: absolute; top: 18px; right: 18px; font-size: 12px; padding: 6px 12px; border-radius: 999px; background: #E2C27A; color: #1A1408; font-weight: 600">Davam et · 7/14</span>
+        <div style="position: relative; padding: 28px; display: flex; flex-direction: column; gap: 10px">
+          <span style="font-size: 14px; color: #C9B5A8">1487 — 1524</span>
+          <h3 style="margin: 0; font-family: 'Noto Serif Display', serif; font-weight: 500; font-size: 34px">Şah İsmayıl Xətai</h3>
+          <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #D8C6BC">Ərdəbildə doğulan, on dörd yaşında Təbrizdə şah elan olunan sərkərdə və şair.</p>
+          <span style="margin-top: 8px; font-size: 15px; font-weight: 600; color: #8FD6D1">Həyatını yaşa →</span>
+        </div>
+      </a>
+
+      <!-- Nadir Şah -->
+      <a href="#" style="position: relative; display: flex; flex-direction: column; justify-content: end; min-height: 520px; border-radius: 22px; overflow: hidden; color: #F3E9D2; background: linear-gradient(180deg, rgba(40,24,10,0) 30%, rgba(22,14,8,0.96) 78%), radial-gradient(circle at 50% 30%, #7A5A2E 0%, #3E2A14 55%, #1C120A 100%); border: 1px solid rgba(196,140,80,0.4)">
+        <svg aria-hidden="true" viewBox="0 0 300 300" style="position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 260px">
+          <circle cx="150" cy="150" r="128" fill="none" stroke="#C48C50" stroke-width="1" opacity="0.6"></circle>
+          <circle cx="150" cy="150" r="112" fill="none" stroke="#C48C50" stroke-width="0.6" stroke-dasharray="3 6" opacity="0.6"></circle>
+          <path d="M150 80 c22 0 36 18 36 40 c0 26-16 42-36 42 s-36-16-36-42 c0-22 14-40 36-40 z M88 238 c8-44 32-68 62-68 s54 24 62 68" fill="#1C120A" stroke="#C48C50" stroke-width="1.2"></path>
+          <path d="M112 86 q38-40 76 0 M150 46 v20" fill="none" stroke="#C48C50" stroke-width="2"></path>
+          <path d="M70 120 L230 200 M230 120 L70 200" stroke="#C48C50" stroke-width="1" opacity="0.4"></path>
+        </svg>
+        <span style="position: absolute; top: 18px; left: 18px; font-size: 12px; padding: 6px 12px; border-radius: 999px; background: rgba(28,18,10,0.6); border: 1px solid rgba(196,140,80,0.5); color: #E0B07A">Əfşarlar · XVIII əsr</span>
+        <div style="position: relative; padding: 28px; display: flex; flex-direction: column; gap: 10px">
+          <span style="font-size: 14px; color: #BFAE96">1688 — 1747</span>
+          <h3 style="margin: 0; font-family: 'Noto Serif Display', serif; font-weight: 500; font-size: 34px">Nadir Şah Əfşar</h3>
+          <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #D2C2AA">Xorasandan Muğan qurultayına, oradan Dehliyə uzanan bir sərkərdə yolu.</p>
+          <span style="margin-top: 8px; font-size: 15px; font-weight: 600; color: #E0B07A">Həyatını yaşa →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- CONFLICT + STATE -->
+  <section id="conflicts" style="max-width: 1280px; margin: 0 auto; padding: 40px 40px 80px">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 24px">
+
+      <a href="Victory.dc.html" style="position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-height: 360px; padding: 36px; border-radius: 22px; color: #FFFFFF; background: linear-gradient(160deg, #06243A 0%, #0A1A2E 60%, #160A12 100%); border: 1px solid rgba(0,181,226,0.35)">
+        <div aria-hidden="true" style="position: absolute; left: -10%; right: -10%; top: 46%; height: 84px; transform: rotate(-6deg); display: flex; flex-direction: column; opacity: 0.85">
+          <div style="flex: 1; background: #00B5E2"></div>
+          <div style="flex: 1; background: #EF3340"></div>
+          <div style="flex: 1; background: #509E2F"></div>
+        </div>
+        <svg aria-hidden="true" viewBox="0 0 60 60" style="position: absolute; right: 36px; top: 30px; width: 72px; opacity: 0.95">
+          <circle cx="26" cy="30" r="15" fill="#FFFFFF"></circle>
+          <circle cx="31" cy="30" r="12.5" fill="#0A1A2E"></circle>
+          <polygon points="46,22 47.9,26.4 52.6,25.4 50.4,29.6 54,32.7 49.3,33.3 48.9,38 46,34.4 43.1,38 42.7,33.3 38,32.7 41.6,29.6 39.4,25.4 44.1,26.4" fill="#FFFFFF"></polygon>
+        </svg>
+        <div style="position: relative; display: flex; flex-direction: column; gap: 10px">
+          <p style="margin: 0; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #7FD9F2">II · Döyüşlər</p>
+          <h3 style="margin: 0; font-family: 'Noto Serif Display', serif; font-weight: 700; font-size: 42px; letter-spacing: 0.01em">Şanlı Zəfər tariximiz</h3>
+          <p style="margin: 0; font-size: 16px; color: #C8D6E0">44 günlük Vətən müharibəsi · 27 sentyabr — 10 noyabr 2020</p>
+        </div>
+        <div style="position: relative; display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap">
+          <span style="font-size: 15px; color: #C8D6E0; max-width: 300px; line-height: 1.5">Gün-gün irəlilə: azad olunan torpaqlar, sərkərdələr və qəhrəmanlar.</span>
+          <span style="padding: 13px 20px; border-radius: 999px; background: #FFFFFF; color: #06243A; font-weight: 600; font-size: 15px">Başla →</span>
+        </div>
+      </a>
+
+      <a id="states" href="#" style="position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-height: 360px; padding: 36px; border-radius: 22px; color: #F3E9D2; background: radial-gradient(circle at 85% 20%, rgba(196,140,80,0.35), rgba(0,0,0,0) 55%), linear-gradient(160deg, #2A1A0E 0%, #1A110A 100%); border: 1px solid rgba(196,140,80,0.35)">
+        <svg aria-hidden="true" viewBox="0 0 400 200" style="position: absolute; right: -20px; bottom: 30px; width: 380px; opacity: 0.55">
+          <path d="M40 120 C80 70, 140 60, 190 80 C240 40, 300 50, 350 90 C370 120, 340 160, 290 150 C240 175, 170 170, 120 155 C80 165, 30 150, 40 120 Z" fill="rgba(196,140,80,0.18)" stroke="#C48C50" stroke-width="1.2"></path>
+          <path d="M80 125 C110 100, 150 95, 185 105 C220 85, 260 90, 300 112 C290 135, 240 140, 200 136 C160 145, 110 142, 80 125 Z" fill="rgba(196,140,80,0.28)" stroke="#E0B07A" stroke-width="1" stroke-dasharray="4 4"></path>
+          <circle cx="245" cy="98" r="5" fill="#E0B07A"></circle>
+        </svg>
+        <div style="position: relative; display: flex; flex-direction: column; gap: 10px">
+          <p style="margin: 0; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #E0B07A">III · Dövlətlər</p>
+          <h3 style="margin: 0; font-family: 'Noto Serif Display', serif; font-weight: 500; font-size: 42px">Əfşarlar dövləti</h3>
+          <p style="margin: 0; font-size: 16px; color: #CDBFA8">1736 — 1796 · Muğan qurultayından süquta</p>
+        </div>
+        <div style="position: relative; display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap">
+          <span style="font-size: 15px; color: #CDBFA8; max-width: 300px; line-height: 1.5">Sərhədlərin genişlənməsini və parçalanmasını xəritədə izlə.</span>
+          <span style="padding: 13px 20px; border-radius: 999px; background: #E0B07A; color: #1A110A; font-weight: 600; font-size: 15px">Başla →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- TIMELINE + ON THIS DAY -->
+  <section id="timeline" style="max-width: 1280px; margin: 0 auto; padding: 40px 40px 100px">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px">
+
+      <div style="grid-column: span 2; min-width: 0; padding: 32px; border-radius: 22px; background: #101A31; border: 1px solid rgba(226,194,122,0.18); display: flex; flex-direction: column; gap: 26px">
+        <div style="display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap">
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <p style="margin: 0; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #E2C27A">Zaman xətti</p>
+            <h3 style="margin: 0; font-family: 'Noto Serif Display', serif; font-weight: 500; font-size: 30px">İli seç, dünyanı gör</h3>
+          </div>
+          <span style="font-family: 'Noto Serif Display', serif; font-size: 56px; line-height: 1; color: #E2C27A">1501</span>
+        </div>
+        <div style="position: relative; padding-top: 6px">
+          <div style="display: flex; height: 10px; border-radius: 999px; overflow: hidden">
+            <div style="flex: 10; background: #2A4A8C"></div>
+            <div style="flex: 24; background: #8E2A2C"></div>
+            <div style="flex: 6; background: #7A5A2E"></div>
+            <div style="flex: 10; background: #3A4A5E"></div>
+            <div style="flex: 12; background: #26324A"></div>
+            <div style="flex: 3; background: #00B5E2"></div>
+          </div>
+          <div aria-hidden="true" style="position: absolute; left: 17%; top: -2px; width: 26px; height: 26px; border-radius: 50%; background: #E2C27A; border: 4px solid #101A31; box-shadow: 0 0 0 2px #E2C27A"></div>
+          <div style="display: flex; justify-content: space-between; margin-top: 14px; font-size: 13px; color: #A99D84; gap: 8px; flex-wrap: wrap">
+            <span>1400</span><span>Ağqoyunlu</span><span>Səfəvilər</span><span>Əfşarlar</span><span>Xanlıqlar</span><span>XX əsr</span><span>2020</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; font-size: 14px">
+          <span style="padding: 9px 14px; border-radius: 999px; background: rgba(142,42,44,0.25); border: 1px solid rgba(232,106,92,0.4)">Səfəvilər · Şah İsmayıl I</span>
+          <span style="padding: 9px 14px; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14)">Osmanlı · Bayazid II</span>
+          <span style="padding: 9px 14px; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14)">Şirvanşahlar</span>
+          <span style="padding: 9px 14px; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14)">+ 4 dövlət</span>
+        </div>
+      </div>
+
+      <div style="padding: 32px; border-radius: 22px; background: linear-gradient(180deg, #172440 0%, #101A31 100%); border: 1px solid rgba(226,194,122,0.18); display: flex; flex-direction: column; gap: 16px">
+        <p style="margin: 0; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #E2C27A">Tarixdə bu gün</p>
+        <span style="font-family: 'Noto Serif Display', serif; font-size: 22px; color: #B9AE95">[Gün, ay]</span>
+        <h3 style="margin: 0; font-family: 'Noto Serif Display', serif; font-weight: 500; font-size: 26px; line-height: 1.25">[Bu tarixə düşən hadisə avtomatik göstərilir]</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #B9AE95">Hadisəyə klik edən şagird birbaşa simulyasiyanın həmin mərhələsinə keçir.</p>
+        <a href="#" style="margin-top: auto; font-size: 15px; font-weight: 600">Mərhələyə keç →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top: 1px solid rgba(226,194,122,0.14)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 28px 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px; color: #8E8470">
+      <span>Tarixin İçində · Azərbaycan tarixi üzrə təhsil layihəsi</span>
+      <span>Mənbələr · Lisenziyalar · Məxfilik</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2280}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

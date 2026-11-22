@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<title>Zaman şkalası — qədim dövrdən bu günə</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,500;0,700;1,500&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0B1222}
+a{color:#E2C27A;text-decoration:none}a:hover{color:#F3DFA8}
+</style>
+</helmet>
+
+<div style="font-family: Inter, system-ui, sans-serif; color: #F3E9D2; background: #0B1222; width: 100%; height: 1000px; display: grid; grid-template-rows: 68px minmax(0, 1fr) 360px; overflow: hidden">
+
+  <header style="display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 28px; border-bottom: 1px solid rgba(226,194,122,0.16); background: #0E1730; flex-wrap: wrap">
+    <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; color: #F3E9D2">
+      <svg aria-hidden="true" width="28" height="28" viewBox="0 0 34 34"><polygon points="17,1 21,10 31,7 26,16 33,23 23,24 21,33 17,25 13,33 11,24 1,23 8,16 3,7 13,10" fill="none" stroke="#E2C27A" stroke-width="1.6"></polygon><circle cx="17" cy="17" r="4" fill="#E2C27A"></circle></svg>
+      <span style="font-family: 'Noto Serif Display', serif; font-size: 19px; font-weight: 700">Tarixin İçində</span>
+    </a>
+    <nav aria-label="Əsas menyu" style="display: flex; gap: 24px; font-size: 14px; flex-wrap: wrap">
+      <a href="Curriculum.dc.html" style="color: #D9CDB2">Dərsliklə öyrən</a>
+      <a href="Timeline.dc.html" style="color: #E2C27A; font-weight: 600">Zaman şkalası</a>
+      <a href="Main.dc.html#persons" style="color: #D9CDB2">Şəxsiyyətlər</a>
+      <a href="Main.dc.html#conflicts" style="color: #D9CDB2">Döyüşlər</a>
+      <a href="StateSim.dc.html" style="color: #D9CDB2">Dövlətlər</a>
+    </nav>
+    <div style="display: flex; gap: 8px; align-items: center">
+      <span style="font-size: 13px; color: #A99D84">Fənn:</span>
+      <div role="group" aria-label="Fənn" style="display: flex; padding: 4px; border-radius: 999px; background: rgba(0,0,0,0.3); border: 1px solid rgba(243,233,210,0.12)">
+        <button style="font: inherit; font-size: 13px; font-weight: 600; padding: 8px 14px; border: 0; border-radius: 999px; background: #E2C27A; color: #1A1408">Azərbaycan tarixi</button>
+        <button style="font: inherit; font-size: 13px; padding: 8px 14px; border: 0; border-radius: 999px; background: transparent; color: #8E8470">Ümumi tarix · tezliklə</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAP -->
+  <main style="position: relative; min-height: 0; overflow: hidden">
+    <svg role="img" aria-label="1501-ci ilin siyasi xəritəsi (stilizə)" viewBox="0 0 1440 572" preserveAspectRatio="xMidYMid slice" style="position: absolute; inset: 0; width: 100%; height: 100%">
+      <defs>
+        <radialGradient id="tl-parch" cx="45%" cy="50%" r="75%"><stop offset="0%" stop-color="#E4D1A6"></stop><stop offset="60%" stop-color="#C5A770"></stop><stop offset="100%" stop-color="#4E3520"></stop></radialGradient>
+        <radialGradient id="tl-vig" cx="45%" cy="50%" r="70%"><stop offset="55%" stop-color="#0B1222" stop-opacity="0"></stop><stop offset="100%" stop-color="#0B1222" stop-opacity="0.95"></stop></radialGradient>
+      </defs>
+      <rect width="1440" height="572" fill="url(#tl-parch)"></rect>
+      <path d="M840 0 C870 80, 860 160, 830 230 C805 300, 840 380, 870 450 C900 520, 910 560, 940 572 L1440 572 L1440 0 Z" fill="#7FA3A1" fill-opacity="0.55" stroke="#5E7F7C" stroke-width="1.4"></path>
+      <path d="M0 0 L240 0 C260 60, 230 140, 260 200 C280 260, 230 320, 160 360 C100 400, 40 380, 0 400 Z" fill="#6F7A86" fill-opacity="0.38" stroke="#4E5864" stroke-width="1.4"></path>
+      <text x="40" y="190" fill="#2E3640" font-family="Noto Serif Display, serif" font-size="22" font-style="italic">Osmanlı</text>
+      <path d="M560 40 C620 30, 700 50, 740 90 C760 130, 720 170, 670 175 C620 180, 560 150, 545 110 C535 80, 540 55, 560 40 Z" fill="#3E7C5A" fill-opacity="0.32" stroke="#2F5E44" stroke-width="1.4"></path>
+      <text x="588" y="118" fill="#1F3E2D" font-family="Noto Serif Display, serif" font-size="18" font-style="italic">Şirvanşahlar</text>
+      <path d="M300 200 C390 150, 520 170, 600 210 C690 190, 770 240, 790 310 C810 390, 740 470, 640 500 C540 530, 410 520, 330 470 C260 420, 240 290, 300 200 Z" fill="#9E2A2B" fill-opacity="0.28" stroke="#9E2A2B" stroke-width="2.5"></path>
+      <text x="430" y="330" fill="#5A1414" font-family="Noto Serif Display, serif" font-size="30" font-weight="700" letter-spacing="2">SƏFƏVİLƏR</text>
+      <circle cx="470" cy="380" r="9" fill="#9E2A2B" stroke="#F3E9D2" stroke-width="3"></circle>
+      <text x="488" y="386" fill="#2A1208" font-family="Noto Serif Display, serif" font-size="17">Təbriz</text>
+      <path d="M840 470 C900 440, 1000 450, 1060 500 L1080 572 L860 572 Z" fill="#8A6A3A" fill-opacity="0.25" stroke="#6E5230" stroke-width="1.2" stroke-dasharray="5 5"></path>
+      <text x="900" y="540" fill="#4A3418" font-family="Noto Serif Display, serif" font-size="16" font-style="italic">Ağqoyunlu qalıqları</text>
+      <rect width="1440" height="572" fill="url(#tl-vig)"></rect>
+    </svg>
+
+    <!-- year + layers -->
+    <div style="position: absolute; left: 28px; top: 24px; display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; align-items: baseline; gap: 14px; padding: 16px 22px; border-radius: 18px; background: rgba(11,18,34,0.82); border: 1px solid rgba(226,194,122,0.3)">
+        <span style="font-family: 'Noto Serif Display', serif; font-size: 64px; line-height: 1; color: #E2C27A">1501</span>
+        <div style="display: flex; flex-direction: column; gap: 2px">
+          <span style="font-size: 13px; color: #A99D84">Dövr</span>
+          <span style="font-size: 16px; font-weight: 600">Səfəvilər dövləti</span>
+        </div>
+      </div>
+      <div role="group" aria-label="Xəritə qatları" style="display: flex; flex-direction: column; gap: 6px; padding: 14px; border-radius: 16px; background: rgba(11,18,34,0.82); border: 1px solid rgba(243,233,210,0.12); font-size: 14px">
+        <label style="display: flex; align-items: center; gap: 10px; min-height: 32px"><input type="checkbox" checked="checked"> Sərhədlər</label>
+        <label style="display: flex; align-items: center; gap: 10px; min-height: 32px"><input type="checkbox" checked="checked"> Paytaxtlar</label>
+        <label style="display: flex; align-items: center; gap: 10px; min-height: 32px"><input type="checkbox" checked="checked"> Hadisələr</label>
+        <label style="display: flex; align-items: center; gap: 10px; min-height: 32px"><input type="checkbox"> Rəvayətlər</label>
+      </div>
+    </div>
+
+    <!-- ruler panel -->
+    <aside aria-label="Hökmdar paneli" style="position: absolute; right: 28px; top: 24px; width: 360px; border-radius: 20px; overflow: hidden; background: rgba(20,10,12,0.92); border: 1px solid rgba(226,194,122,0.35); box-shadow: 0 30px 70px -30px rgba(0,0,0,0.8)">
+      <div style="display: flex; gap: 16px; padding: 20px; background: linear-gradient(135deg, rgba(158,42,43,0.45), rgba(20,10,12,0))">
+        <div role="img" aria-label="Hökmdar portreti üçün yer" style="flex: none; width: 76px; height: 92px; border-radius: 12px; background: radial-gradient(circle at 50% 40%, #8E2A2C, #3A1014); border: 1px solid rgba(226,194,122,0.4)"></div>
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <span style="font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #E8A39C">Səfəvilər · 1501-ci il</span>
+          <span style="font-family: 'Noto Serif Display', serif; font-size: 24px">Şah İsmayıl I</span>
+          <span style="font-size: 13px; color: #C9B5A8">Hakimiyyəti: 1501 — 1524</span>
+        </div>
+      </div>
+      <dl style="margin: 0; padding: 4px 20px 16px; display: grid; grid-template-columns: auto 1fr; gap: 10px 16px; font-size: 14px">
+        <dt style="color: #A8968A">Paytaxt</dt><dd style="margin: 0">Təbriz</dd>
+        <dt style="color: #A8968A">Vəziyyət</dt><dd style="margin: 0">Yaranma və yüksəliş</dd>
+        <dt style="color: #A8968A">Rəqiblər</dt><dd style="margin: 0">Ağqoyunlu, Osmanlı, Şeybanilər</dd>
+      </dl>
+      <div style="display: flex; gap: 8px; padding: 0 20px 20px">
+        <a href="Simulation.dc.html" style="flex: 1; text-align: center; padding: 12px; border-radius: 12px; background: #E2C27A; color: #1A1408; font-weight: 600; font-size: 14px">Həyatını yaşa</a>
+        <a href="#" style="flex: 1; text-align: center; padding: 12px; border-radius: 12px; border: 1px dashed rgba(243,233,210,0.25); color: #A8968A; font-size: 14px">Dövlət · tezliklə</a>
+      </div>
+    </aside>
+
+    <!-- zoom -->
+    <div style="position: absolute; right: 28px; bottom: 24px; display: flex; flex-direction: column; gap: 6px">
+      <button aria-label="Yaxınlaşdır" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(243,233,210,0.2); background: rgba(11,18,34,0.85); color: #F3E9D2; font-size: 20px; cursor: pointer">+</button>
+      <button aria-label="Uzaqlaşdır" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(243,233,210,0.2); background: rgba(11,18,34,0.85); color: #F3E9D2; font-size: 20px; cursor: pointer">−</button>
+    </div>
+  </main>
+
+  <!-- TIMELINE -->
+  <section aria-label="Zaman şkalası" style="padding: 18px 28px 22px; background: linear-gradient(180deg, #0E1730 0%, #0A1020 100%); border-top: 1px solid rgba(226,194,122,0.2); display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; font-size: 13px">
+        <button style="font: inherit; padding: 8px 14px; border-radius: 999px; background: #E2C27A; color: #1A1408; border: 0; font-weight: 600">Bütün dövrlər</button>
+        <button style="font: inherit; padding: 8px 14px; border-radius: 999px; background: transparent; color: #D9CDB2; border: 1px solid rgba(243,233,210,0.18)">6-cı sinif</button>
+        <button style="font: inherit; padding: 8px 14px; border-radius: 999px; background: transparent; color: #D9CDB2; border: 1px solid rgba(243,233,210,0.18)">7-ci sinif</button>
+        <button style="font: inherit; padding: 8px 14px; border-radius: 999px; background: transparent; color: #D9CDB2; border: 1px solid rgba(243,233,210,0.18)">8-ci sinif</button>
+        <button style="font: inherit; padding: 8px 14px; border-radius: 999px; background: transparent; color: #D9CDB2; border: 1px solid rgba(243,233,210,0.18)">9-cu sinif</button>
+        <button style="font: inherit; padding: 8px 14px; border-radius: 999px; background: transparent; color: #D9CDB2; border: 1px solid rgba(243,233,210,0.18)">10-cu sinif</button>
+        <button style="font: inherit; padding: 8px 14px; border-radius: 999px; background: transparent; color: #D9CDB2; border: 1px solid rgba(243,233,210,0.18)">11-ci sinif</button>
+      </div>
+      <span style="font-size: 12px; color: #8E8470">Miqyas dövrlərə görə sıxlaşdırılıb</span>
+    </div>
+
+    <!-- era bands -->
+    <div style="display: flex; height: 54px; border-radius: 12px; overflow: hidden; font-size: 11px; font-weight: 600; letter-spacing: 0.04em">
+      <div style="flex: 7; background: #3B3426; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">Daş dövrü</div>
+      <div style="flex: 5; background: #5A4428; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">Tunc və Dəmir</div>
+      <div style="flex: 8; background: #4E5A3A; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">Qədim dövlətlər</div>
+      <div style="flex: 4; background: #3E5E5A; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">Xilafət</div>
+      <div style="flex: 6; background: #2E4A6A; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">Feodal dövlətlər</div>
+      <div style="flex: 5; background: #3A3E6E; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">Səlcuqlar, Atabəylər</div>
+      <div style="flex: 4; background: #4A3A6A; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">Monqollar</div>
+      <div style="flex: 4; background: #2A4A8C; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">Qara- və Ağqoyunlu</div>
+      <div style="flex: 6; background: #8E2A2C; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px; box-shadow: inset 0 0 0 2px #E2C27A">Səfəvilər</div>
+      <div style="flex: 3; background: #7A5A2E; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">Əfşarlar</div>
+      <div style="flex: 4; background: #5E4A36; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">Xanlıqlar</div>
+      <div style="flex: 4; background: #3A4A5E; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">XIX əsr</div>
+      <div style="flex: 3; background: #00799A; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">AXC</div>
+      <div style="flex: 5; background: #6A2E34; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">Sovet dövrü</div>
+      <div style="flex: 6; background: #0B6E8E; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 4px">Müstəqillik</div>
+    </div>
+
+    <!-- polity lanes -->
+    <div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+      <div style="display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 12px; align-items: center; font-size: 12px; color: #A99D84">
+        <span>Dövlətlər</span>
+        <div style="position: relative; height: 18px">
+          <span style="position: absolute; left: 16%; width: 8%; height: 18px; border-radius: 6px; background: rgba(78,90,58,0.8)" title="Manna, Atropatena, Albaniya"></span>
+          <span style="position: absolute; left: 33%; width: 9%; height: 18px; border-radius: 6px; background: rgba(46,74,106,0.9)"></span>
+          <span style="position: absolute; left: 47%; width: 8%; height: 18px; border-radius: 6px; background: rgba(58,62,110,0.9)"></span>
+          <span style="position: absolute; left: 59%; width: 6%; height: 18px; border-radius: 6px; background: rgba(42,74,140,0.95)"></span>
+          <span style="position: absolute; left: 65%; width: 8%; height: 18px; border-radius: 6px; background: rgba(142,42,44,0.95)"></span>
+          <span style="position: absolute; left: 73%; width: 4%; height: 18px; border-radius: 6px; background: rgba(122,90,46,0.95)"></span>
+          <span style="position: absolute; left: 77%; width: 5%; height: 18px; border-radius: 6px; background: rgba(94,74,54,0.95)"></span>
+          <span style="position: absolute; left: 86%; width: 3%; height: 18px; border-radius: 6px; background: #00B5E2"></span>
+          <span style="position: absolute; left: 92%; width: 8%; height: 18px; border-radius: 6px; background: #0B6E8E"></span>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 12px; align-items: center; font-size: 12px; color: #A99D84">
+        <span>Hadisələr</span>
+        <div style="position: relative; height: 18px">
+          <span style="position: absolute; left: 4%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #C9A14A"></span>
+          <span style="position: absolute; left: 11%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #C9A14A"></span>
+          <span style="position: absolute; left: 20%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #C9A14A"></span>
+          <span style="position: absolute; left: 27%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #C9A14A"></span>
+          <span style="position: absolute; left: 36%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #C9A14A"></span>
+          <span style="position: absolute; left: 44%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #C9A14A"></span>
+          <span style="position: absolute; left: 52%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #C9A14A"></span>
+          <span style="position: absolute; left: 60%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #C9A14A"></span>
+          <span style="position: absolute; left: 66.4%; top: 0; width: 18px; height: 18px; border-radius: 50%; background: #F3E9D2; box-shadow: 0 0 0 4px rgba(226,194,122,0.4)"></span>
+          <span style="position: absolute; left: 70%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #C9A14A"></span>
+          <span style="position: absolute; left: 75%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #C9A14A"></span>
+          <span style="position: absolute; left: 83%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #C9A14A"></span>
+          <span style="position: absolute; left: 87%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #C9A14A"></span>
+          <span style="position: absolute; left: 95%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #C9A14A"></span>
+          <span style="position: absolute; left: 98.6%; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #00B5E2"></span>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 12px; align-items: center; font-size: 12px; color: #A99D84">
+        <span>Şəxsiyyətlər</span>
+        <div style="position: relative; height: 22px">
+          <span style="position: absolute; left: 60%; width: 3%; top: 4px; height: 14px; border-radius: 999px; border: 1px solid #5A7AC8"></span>
+          <span style="position: absolute; left: 64.6%; width: 2.6%; top: 4px; height: 14px; border-radius: 999px; background: rgba(232,106,92,0.5); border: 1px solid #E86A5C"></span>
+          <span style="position: absolute; left: 72.4%; width: 3%; top: 4px; height: 14px; border-radius: 999px; border: 1px solid #C48C50"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- axis + scrubber -->
+    <div style="position: relative; margin-left: 152px">
+      <div aria-hidden="true" style="height: 2px; background: rgba(243,233,210,0.18)"></div>
+      <div aria-hidden="true" style="position: absolute; left: 66.8%; top: -150px; width: 2px; height: 160px; background: linear-gradient(180deg, rgba(226,194,122,0), #E2C27A)"></div>
+      <div aria-hidden="true" style="position: absolute; left: 66.8%; top: -9px; margin-left: -10px; width: 20px; height: 20px; border-radius: 50%; background: #E2C27A; box-shadow: 0 0 0 5px rgba(226,194,122,0.25)"></div>
+      <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 12px; color: #8E8470">
+        <span>Daş dövrü</span><span>e.ə. 3000</span><span>e.ə. 1000</span><span>b.e. 1</span><span>600</span><span>1000</span><span>1300</span><span>1500</span><span>1700</span><span>1828</span><span>1918</span><span>1991</span><span>Bu gün</span>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

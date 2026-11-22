@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<title>Final — Şah İsmayılın irsi və quiz</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,500;0,700;1,500&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#140A0C}
+a{color:#E2C27A;text-decoration:none}a:hover{color:#F3DFA8}
+</style>
+</helmet>
+
+<div style="position: relative; font-family: Inter, system-ui, sans-serif; color: #F3E9D2; width: 100%; height: 900px; overflow: hidden; background: radial-gradient(ellipse 50% 60% at 30% 40%, rgba(158,42,43,0.4), rgba(20,10,12,0) 70%), #140A0C">
+
+  <svg aria-hidden="true" viewBox="0 0 760 900" preserveAspectRatio="xMidYMid slice" style="position: absolute; left: 0; top: 0; width: 55%; height: 900px; opacity: 0.9">
+    <path d="M520 360 C470 420, 420 470, 360 500 M520 360 C560 430, 580 520, 590 600 M590 600 C460 560, 300 420, 160 420 M160 420 C220 480, 280 520, 330 540 M330 540 C280 600, 240 660, 200 720" fill="none" stroke="#E2C27A" stroke-width="2.5" stroke-dasharray="2 8" stroke-linecap="round"></path>
+    <g fill="#E2C27A">
+      <circle cx="520" cy="360" r="7"></circle><circle cx="590" cy="600" r="6"></circle><circle cx="160" cy="420" r="6"></circle><circle cx="330" cy="540" r="9"></circle><circle cx="360" cy="500" r="5"></circle><circle cx="200" cy="720" r="6"></circle>
+    </g>
+    <g font-family="Noto Serif Display, serif" font-size="15" fill="#E2C27A" font-style="italic">
+      <text x="534" y="354">Ərdəbil</text><text x="604" y="606">Lahican</text><text x="80" y="412">Ərzincan</text><text x="346" y="566">Təbriz</text><text x="214" y="726">Çaldıran</text>
+    </g>
+  </svg>
+
+  <div style="position: absolute; left: 48px; top: 40px; display: flex; flex-direction: column; gap: 10px; max-width: 560px">
+    <span style="font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #E2C27A">Səyahət başa çatdı · 1487 — 1524</span>
+    <h1 style="margin: 0; font-family: 'Noto Serif Display', serif; font-weight: 500; font-size: 60px; line-height: 1.05">Şah İsmayıl Xətainin irsi</h1>
+    <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #D8C6BC; max-width: 500px">[Dövlət quruculuğu, poeziya və mədəniyyətə dair 2–3 cümləlik, mənbəyə əsaslanan yekun.]</p>
+  </div>
+
+  <div style="position: absolute; left: 48px; bottom: 40px; display: flex; gap: 12px; flex-wrap: wrap">
+    <div style="padding: 16px 20px; border-radius: 16px; background: rgba(20,10,12,0.8); border: 1px solid rgba(226,194,122,0.3)"><div style="font-size: 12px; color: #B8A493">Mərhələlər</div><div style="font-family: 'Noto Serif Display', serif; font-size: 34px">14</div></div>
+    <div style="padding: 16px 20px; border-radius: 16px; background: rgba(20,10,12,0.8); border: 1px solid rgba(226,194,122,0.3)"><div style="font-size: 12px; color: #B8A493">Döyüşlər</div><div style="font-family: 'Noto Serif Display', serif; font-size: 34px">5</div></div>
+    <div style="padding: 16px 20px; border-radius: 16px; background: rgba(20,10,12,0.8); border: 1px solid rgba(226,194,122,0.3)"><div style="font-size: 12px; color: #B8A493">Qət edilən yol</div><div style="font-family: 'Noto Serif Display', serif; font-size: 34px">[≈ km]</div></div>
+  </div>
+
+  <aside style="position: absolute; right: 40px; top: 40px; bottom: 40px; width: 520px; display: flex; flex-direction: column; gap: 18px">
+    <div style="flex: 1; padding: 26px; border-radius: 22px; background: rgba(30,12,15,0.95); border: 1px solid rgba(226,194,122,0.35); display: flex; flex-direction: column; gap: 16px">
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <span style="font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #E2C27A">Quiz · 3 / 5</span>
+        <span style="font-size: 13px; color: #B8A493">Fakt yoxsa rəvayət?</span>
+      </div>
+      <p style="margin: 0; font-family: 'Noto Serif Display', serif; font-size: 24px; line-height: 1.35">“İsmayıl Təbrizdə şah elan olunanda on dörd yaşında idi.”</p>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <button style="font: inherit; min-height: 56px; border-radius: 14px; border: 2px solid #4FB3AE; background: rgba(79,179,174,0.16); color: #F3E9D2; font-weight: 600; cursor: pointer">Fakt ✓</button>
+        <button style="font: inherit; min-height: 56px; border-radius: 14px; border: 1px solid rgba(243,233,210,0.25); background: transparent; color: #D8C6BC; cursor: pointer">Rəvayət</button>
+      </div>
+      <p style="margin: 0; padding: 14px 16px; border-radius: 12px; background: rgba(79,179,174,0.1); font-size: 14px; line-height: 1.55; color: #CDE8E6">Doğrudur. 1487-ci ildə doğulan İsmayıl 1501-ci ildə şah elan olundu. Mərhələ 7-yə qayıdıb mənbəyə bax.</p>
+      <div aria-hidden="true" style="display: flex; gap: 6px; margin-top: auto"><span style="flex: 1; height: 6px; border-radius: 999px; background: #4FB3AE"></span><span style="flex: 1; height: 6px; border-radius: 999px; background: #4FB3AE"></span><span style="flex: 1; height: 6px; border-radius: 999px; background: #E2C27A"></span><span style="flex: 1; height: 6px; border-radius: 999px; background: rgba(243,233,210,0.15)"></span><span style="flex: 1; height: 6px; border-radius: 999px; background: rgba(243,233,210,0.15)"></span></div>
+    </div>
+
+    <div style="padding: 20px 22px; border-radius: 22px; background: rgba(30,12,15,0.95); border: 1px solid rgba(226,194,122,0.25); display: flex; flex-direction: column; gap: 14px">
+      <span style="font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #E2C27A">Tarix pasportu · yeni möhürlər</span>
+      <div style="display: flex; gap: 12px">
+        <span style="width: 64px; height: 64px; border-radius: 50%; border: 2px dashed #E2C27A; display: flex; align-items: center; justify-content: center; font-size: 11px; text-align: center; color: #E2C27A; transform: rotate(-8deg)">Təbriz</span>
+        <span style="width: 64px; height: 64px; border-radius: 50%; border: 2px dashed #E86A5C; display: flex; align-items: center; justify-content: center; font-size: 11px; text-align: center; color: #E86A5C; transform: rotate(6deg)">Ərdəbil</span>
+        <span style="width: 64px; height: 64px; border-radius: 50%; border: 2px dashed #4FB3AE; display: flex; align-items: center; justify-content: center; font-size: 11px; text-align: center; color: #4FB3AE; transform: rotate(-3deg)">Lahican</span>
+        <span style="width: 64px; height: 64px; border-radius: 50%; border: 2px dashed rgba(243,233,210,0.25); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #8E7E72">+3</span>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 10px">
+      <a href="Main.dc.html" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 54px; border-radius: 14px; border: 1px solid rgba(243,233,210,0.25); color: #F3E9D2">Ana səhifə</a>
+      <a href="Compare.dc.html" style="flex: 1.5; display: flex; align-items: center; justify-content: center; min-height: 54px; border-radius: 14px; background: #E2C27A; color: #1A1408; font-weight: 600">Uzun Həsənlə müqayisə et →</a>
+    </div>
+  </aside>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
