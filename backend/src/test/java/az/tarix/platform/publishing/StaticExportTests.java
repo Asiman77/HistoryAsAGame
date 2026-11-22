@@ -102,7 +102,7 @@ class StaticExportTests {
     @Test
     void theExportIsTheDataMinusWhatMayNotBePublished() throws IOException {
         Set<String> drafts = drafts();
-        assertThat(drafts).isNotEmpty();      // today: the two tracks awaiting permission and one snapshot
+        assertThat(drafts).isNotEmpty();      // today: the two tracks awaiting permission
         Map<String, JsonNode> exported = exporter.build().files();
 
         Map<String, JsonNode> expected = new TreeMap<>();

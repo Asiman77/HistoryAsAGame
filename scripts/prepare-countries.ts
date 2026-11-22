@@ -7,7 +7,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { bboxClip, simplify, truncate } from "@turf/turf";
+import { area, bboxPolygon, featureCollection, intersect, multiPolygon, polygon, simplify, truncate, unkinkPolygon } from "@turf/turf";
 import type { Feature, MultiPolygon, Polygon } from "geojson";
 
 const ISO = ["AZE", "ARM", "GEO", "IRN", "TUR", "RUS"];
@@ -17,9 +17,19 @@ const out: Record<string, Polygon | MultiPolygon> = {};
 for (const iso of ISO) {
   const f = src.features.find((x) => x.properties?.ADM0_A3 === iso);
   if (!f) throw new Error(`missing ${iso}`);
-  const g = truncate(simplify(bboxClip(f, BBOX) as Feature<Polygon | MultiPolygon>, { tolerance: 0.01, highQuality: true }), { precision: 3 });
-  out[iso] = g.geometry;
+  // A polygon clip, not bboxClip: Sutherland–Hodgman leaves a concave country (Russia at 50° N)
+  // with edges running back along the clip line, a ring PostGIS rejects as self-intersecting.
+  const clipped = intersect(featureCollection([f, bboxPolygon(BBOX)]))!;
+  const g = truncate(simplify(clipped, { tolerance: 0.01, highQuality: true }), { precision: 3 });
+  out[iso] = valid(g.geometry);
 }
+/** Simplifying can make a ring touch itself: split it at the kinks and merge the parts again. */
+function valid(g: Polygon | MultiPolygon): Polygon | MultiPolygon {
+  const polys = (g.type === "Polygon" ? [g.coordinates] : g.coordinates).filter((p) => p.length);
+  const parts = polys.flatMap((p) => unkinkPolygon(polygon(p)).features.filter((x) => area(x) > 1e6).map((x) => x.geometry.coordinates));
+  return truncate(intersect(featureCollection([multiPolygon(parts), bboxPolygon(BBOX)]))!, { precision: 3 }).geometry;
+}
+
 const file = path.join("data", "territories", "countries.json");
 fs.writeFileSync(file, JSON.stringify({ source: "Natural Earth 1:50m admin-0 countries, public domain", countries: out }));
 console.log(`${file}: ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);

@@ -114,9 +114,10 @@ class ImportTests {
         assertThat(count("SELECT count(*) FROM editorial_document")).isEqualTo(expected);
         assertThat(report.path("published").asInt() + report.path("drafts").asInt()).isEqualTo(expected);
 
-        // Only content that may not go public stays a draft: tracks awaiting permission, and the one
-        // territory snapshot whose built polygon PostGIS rejects. Each draft lists its errors.
-        assertThat(drafts(report)).allMatch(d -> d.startsWith("SOUNDTRACK_TRACK:") || d.startsWith("TERRITORY_SNAPSHOT:"));
+        // Only content that may not go public stays a draft: the tracks awaiting permission. Every
+        // territory polygon passes PostGIS (y2020 was rejected until data/territories/countries.json
+        // was repaired). Each draft lists its errors.
+        assertThat(drafts(report)).isNotEmpty().allMatch(d -> d.startsWith("SOUNDTRACK_TRACK:"));
         assertThat(stream(report.path("results")).filter(r -> !r.path("status").asString().equals("PUBLISHED")))
                 .allMatch(r -> !r.path("errors").isEmpty());
         assertThat(stream(report.path("results")).filter(r -> r.path("type").asString().equals("SOUNDTRACK_TRACK")
