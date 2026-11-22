@@ -2,7 +2,8 @@
 
 > Mənbə: [`BACKEND_SPEC.md`](BACKEND_SPEC.md). Ondan fərqlər: [`adr/`](adr/README.md).
 > Bu sənəd hər mərhələdə yenilənir. Son yeniləmə: mərhələ 15 (sənədləşmə). BACKEND_SPEC-in bütün mərhələləri bitib.
-> Gündəlik iş üçün qısa bələdçi: §20 (konfiqurasiya, planlı işlər, miqrasiyalar), açıq məsələlər: §21.
+> Gündəlik iş üçün qısa bələdçi: §20 (konfiqurasiya, planlı işlər, miqrasiyalar), açıq məsələlər: §21,
+> mərhələlərdən sonra əlavə olunanlar (önizləmə, təyinat, ad dəyişmə, dünya hadisələri): §22.
 
 ## 1. Ümumi görünüş
 
@@ -241,7 +242,7 @@ src/domain/dataFiles.ts ────┴─► npm run schema:export ─► share
 
 - **Xətalar** (Problem Details, `…/problems/<type>`): `not-found` 404, `forbidden` 403, `conflict` 409 (`code`: `duplicate-slug`, `invalid-transition`, `archived`, `comment-required`…), `precondition-required` 428, `precondition-failed` 412, `validation-failed` 422, `content-too-large` 413 (> 5 MiB), `bad-request` 400. Bütün cavablar `Cache-Control: no-store`.
 - **Event-lər** (`editorial.api`): `ContentPublished(documentId, docType, slug, revisionId, revisionNo)`, `ContentArchived(…, wasPublished)`. Onları `publishing` dinləyir (§11).
-- **Sonraya qalanlar:** `GET /{id}/preview` (ictimai API formatı mərhələ 8-dədir), `assignedToMe` filtri (təyinat modeli yoxdur; hələlik `mine=true`), slug dəyişmə endpoint-i (`slug_redirect` cədvəli hazırdır), daxili naməlum açarlar üçün `WARNING` (hələlik yalnız yuxarı səviyyədəki bölmələr).
+- **Sonradan əlavə olunanlar (§22):** `GET /{id}/preview`, `PUT /{id}/assignee` + `assignedToMe`, `POST /{id}/rename`, istənilən dərinlikdə naməlum açarlar üçün `WARNING` (`unknown-key`).
 
 ## 11. Dərc və proyeksiya (mərhələ 6)
 
@@ -276,7 +277,7 @@ editorial ──ContentPublished / ContentArchived──► publishing.Projectio
   - rebuild iki dəfə eyni nəticəni verir;
   - API ilə dərc → asinxron proyeksiya → yeni draft ictimai sətirlərə toxunmur → arxiv sətirləri silir;
   - valideyni olmayan variantın proyeksiyası uğursuz olur, registry-də qalır və valideyn dərc olunandan sonra təkrar cəhddə keçir.
-- **Data qeydi:** qurulmuş `y2020` snapshot-unda `russian-federation` poliqonu PostGIS-ə görə etibarsızdır (halqa öz-özünü kəsir, (38.172, 50)). Validasiya onu `ERROR` sayır; proyeksiya onu təmir edir.
+- **Data qeydi (həll olunub, 2026-11-22):** `y2020` snapshot-unda `russian-federation` poliqonu öz-özünü kəsirdi ((38.172, 50)), çünki `prepare-countries.ts` onu `bboxClip` ilə kəsirdi. `countries.json` təmir olundu, skript poliqon kəsişməsinə keçdi, unit test heç bir poliqonda kəsişmə olmadığını yoxlayır. Proyeksiyadakı `ST_MakeValid` müdafiəsi qalır.
 
 ## 12. İdxal (mərhələ 7)
 
@@ -291,7 +292,8 @@ POST /api/v1/admin/import[?dryRun=true]  (ADMIN)
   4. ContentImported → publishing: bir rebuild (~6 san.)
 ```
 
-- **Bugünkü nəticə:** 432 sənəd. 429-u dərc olunur. 3-ü draft qalır: icazəsi gözlənilən 2 trek (`media-permission`) və `y2020` snapshot-u (`invalid-geometry`, §11-dəki data qeydi). İkinci idxal 432 `UNCHANGED` verir: yeni revision, jurnal sətri və dublikat yaranmır.
+- **Bugünkü nəticə:** 432 sənəd. 430-u dərc olunur. 2-si draft qalır: icazəsi gözlənilən 2 trek (`media-permission`). `y2020` snapshot-u poliqon təmirindən sonra dərc olunur (§11). İkinci idxal 432 `UNCHANGED` verir: yeni revision, jurnal sətri və dublikat yaranmır.
+- **CMS-də adı dəyişmiş sənəd** (§22): datadakı köhnə slug yönləndirmə ilə tanınır və `CONFLICT` olur, köhnə adla yenidən yaradılmır.
 - **Hesabat:** `{dryRun, documents, outcomes, published, drafts, results[{type, slug, outcome, status, revisionNo, files, errors}], sourceProblems, media{status: say}, mediaPending[]}`.
 - **Konfiqurasiya:** `platform.import.data-dir` (`IMPORT_DATA_DIR`, defolt `../data`), `platform.import.built-territories-dir` (`IMPORT_BUILT_TERRITORIES_DIR`, defolt `../public/data/territories`). Docker-də `/import/data` və `/import/territories` yalnız oxumaq üçün qoşulur.
 - **Rebuild:** catalog cədvəlləri `TRUNCATE` ilə yox, `DELETE` ilə təmizlənir. Belə olanda ictimai oxu rebuild bitənə qədər köhnə sətirləri görür (MVCC) və bloklanmır.
@@ -345,7 +347,7 @@ GET /api/v1/...  ──► PublicApiInterceptor: dil + content_version (1 sorğu
     - hər endpoint, dillər, `304`, keşin versiya ilə yenilənməsi, Problem Details, `301`;
     - `PENDING` media görünmür;
     - addım sorğusunun SQL sayı addımların sayından asılı deyil (`QueryCounter`, datasource-proxy).
-- **Sonraya qalan:** `GET /editorial/documents/{id}/preview`. Dərc olunmamış revision-ı bu formatda göstərmək üçün proyeksiyanı tranzaksiyada yazıb geri almaq lazımdır (§21). Frontend tiplərinin OpenAPI-dən generasiyası mərhələ 14-də edildi (§19).
+- **Önizləmə:** `GET /editorial/documents/{id}/preview` istənilən revision-ı bu formatda qaytarır (§22). Frontend tiplərinin OpenAPI-dən generasiyası mərhələ 14-də edildi (§19).
 
 ## 14. Coğrafi və xronoloji sorğular (mərhələ 9)
 
@@ -387,7 +389,7 @@ Qərarlar: [ADR-0015](adr/0015-geo-chronology-queries.md). Qaydalar frontend-də
     - hər endpoint, kənar hallar (boşluq, sıçrayış ili, mübahisəli ərazi, dərc olunmamış hökmdar, açıq hakimiyyət);
     - `400`/`404`, `304`, dil, OpenAPI;
     - `/timeline`-ın sorğu sayı ildən asılı deyil.
-- **Açıq sual:** dünya hadisələri (`world_event`) proyeksiya olunur, amma heç bir endpoint onları vermir. Frontend onları şəxsiyyət və dövlət səhifələrində "eyni vaxtda dünyada" bloku üçün işlədir (`pickWorldEvents`). Spesifikasiyanın §10.1 siyahısında belə endpoint yoxdur. Sürüşdürücü onları göstərmir.
+- **Dünya hadisələri:** `GET /world-events` (§22) frontend-in `pickWorldEvents` qaydası ilə eyni seçimi qaytarır; parity skripti hər ili yoxlayır.
 
 ## 15. Təhlükəsizliyin qalanı (mərhələ 10)
 
@@ -527,7 +529,7 @@ ADMIN ─► POST /api/v1/admin/export (dərhal)
   - `PermissionMatrixTests`: `POST /admin/export`.
 - **Frontend yoxlaması:** `npx tsx scripts/validate-data.ts backend/target/static-export/data`. Skript indi qovluq arqumenti qəbul edir. 2026-11-14 nəticəsi:
   - Zod sxem xətası yoxdur;
-  - 26 bütövlük xətası: müharibə günləri dərc olunmamış `y2020` snapshot-una istinad edir (§11-dəki data qeydi);
+  - 26 bütövlük xətası: müharibə günləri dərc olunmamış `y2020` snapshot-una istinad edirdi (§11-dəki data qeydi, 2026-11-22-də həll olunub);
   - qalanları eksport qovluğunun yanında olmayan şəkillər və `docs/*.md` faylları haqqındadır (mühitlə bağlıdır).
 
 ## 19. Frontend inteqrasiyası (mərhələ 14)
@@ -604,6 +606,7 @@ Brauzer (NEXT_PUBLIC_ANALYTICS_URL varsa, DNT/GPC yoxdursa) ─► sendBeacon te
 | `V013__media_registry` | 11 | `origin`, `updated_at` |
 | `V014__analytics` | 12 | partition-lı `learning_event`, `daily_aggregate` |
 | `V015__document_position` | 13 | eksport sırası |
+| `V016__document_assignee` | §22 | rəyçi təyinatı (`assignee_id`) |
 
 Tətbiq olunmuş miqrasiya heç vaxt dəyişdirilmir; düzəliş yeni `V0NN` faylı ilədir.
 
@@ -611,11 +614,11 @@ Tətbiq olunmuş miqrasiya heç vaxt dəyişdirilmir; düzəliş yeni `V0NN` fay
 
 | Prefiks | Kim | Bölmə |
 |---|---|---|
-| `GET /persons`, `/conflicts`, `/states`, `/battles`, `/heroes`, `/relations`, `/places`, `/eras`, `/polities`, `/rulers`, `/themes`, `/soundtracks` | hər kəs | §13, §16 |
+| `GET /persons`, `/conflicts`, `/states`, `/battles`, `/heroes`, `/relations`, `/places`, `/eras`, `/polities`, `/rulers`, `/themes`, `/soundtracks`, `/world-events` | hər kəs | §13, §16 |
 | `GET /territories`, `/polities/at`, `/polities/{slug}/ruler`, `/timeline`, `/on-this-day`, `/places/{slug}/timeline`, `/compare`, `/search` | hər kəs | §14 |
 | `POST /events` | hər kəs (anonim) | §17 |
 | `/auth/*` | `login`, `refresh`: hər kəs; qalanı token ilə | §9, §15 |
-| `/editorial/documents/*`, `/editorial/media/*` | AUTHOR, REVIEWER, ADMIN | §10, §16 |
+| `/editorial/documents/*`, `/editorial/media/*` | AUTHOR, REVIEWER, ADMIN (təyinat: REVIEWER, ADMIN; ad dəyişmə: ADMIN) | §10, §16, §22 |
 | `/teacher/classes/*` | TEACHER | §15 |
 | `/analytics/*` | ADMIN; `classes/{code}` TEACHER | §17 |
 | `/admin/import`, `/admin/projections/rebuild`, `/admin/broken-references`, `/admin/export`, `/admin/users`, `/admin/classes`, `/admin/analytics/aggregate` | ADMIN | §11–§18 |
@@ -627,7 +630,7 @@ Tam siyahı və sxemlər: `/swagger-ui.html`. İctimai hissənin təsviri repoda
 | Fayl | Kim yaradır | Nə vaxt yeniləmək lazımdır |
 |---|---|---|
 | `shared/schema/*.json` | `npm run schema:export` | `src/domain/schema.ts` dəyişəndə |
-| `docs/modules/*` | backend `ModularityTests` | modul asılılıqları və ya event-lər dəyişəndə. Yalnız sətir sırası dəyişibsə commit etməyin (§21) |
+| `docs/modules/*` | backend `ModularityTests` | modul asılılıqları və ya event-lər dəyişəndə. Test faylı yalnız məzmun dəyişəndə yazır (`StableFiles`: sətirlərin sırası nəzərə alınmır) |
 | `shared/openapi/public.json` | backend `OpenApiExportTests` | ictimai API dəyişəndə; sonra `npm run api:types` |
 | `src/data/api/openapi.ts` | `npm run api:types` | `public.json` dəyişəndə |
 
@@ -642,13 +645,49 @@ Mərhələlər bitəndən sonra qalanlar. Heç biri mövcud funksionallığı bl
 
 | Məsələ | Harada | Qeyd |
 |---|---|---|
-| `y2020` snapshot-unda `russian-federation` poliqonu etibarsızdır | data, §11 | snapshot dərc olunmur; eksportda 26 müharibə günü ona istinad edir. Poliqon `data/territories`-də düzəldilməlidir |
 | 2 soundtrack trekinin icazəsi gözlənilir | data, §16 | ADMIN icazə verənə qədər dərc olunmur, `/soundtracks` boşdur |
-| `world_event` üçün ictimai endpoint yoxdur | API, §14 | proyeksiya olunur; frontend onları şəxsiyyət və dövlət səhifələrində işlədir |
-| `GET /editorial/documents/{id}/preview` | editorial, §10, §13 | redaksiya UI-si gələndə lazım olacaq |
-| Slug dəyişmə endpoint-i, `assignedToMe` filtri | editorial, §10 | `slug_redirect` cədvəli hazırdır |
-| Zod sxemlərinin `shared/schema`-dan generasiyası | ADR-0005, 3-cü addım | hazırda istiqamət Zod → JSON Schema-dır |
-| Modulith `Documenter` diaqram sətirlərini hər dəfə başqa sırayla yazır | CI | yalnız sıra dəyişibsə, faylları geri qaytarın; CI-ın `git diff` addımı bu səbəbdən arabir düşə bilər |
-| `NVD_API_KEY` repo secret-i | CI, §15 | açar olmadan Dependency-Check işləmir |
+| Zod sxemlərinin `shared/schema`-dan generasiyası | ADR-0005, 3-cü addım | hazırda istiqamət Zod → JSON Schema-dır; ayrıca mərhələ kimi saxlanılıb |
+| `NVD_API_KEY` repo secret-i | CI, §15 | açar olmadan Dependency-Check işləmir; secret-i repo sahibi əlavə etməlidir |
 | Login limiti və planlı işlər bir instansiya üçündür | §15, §20 | üfüqi miqyaslamada paylaşılan vedrə və iş kilidi lazımdır |
 | Reverse proxy arxasında real ünvan | §15 | forward başlıqları yalnız etibarlı proxy ilə açılmalıdır |
+| Backend heç bir serverdə yerləşdirilməyib | §20 | canlı sayt (GitHub Pages) `data/`-dan build olunur; server seçimi qərar tələb edir |
+| Redaksiya UI-si (CMS frontend-i) | BACKEND_SPEC §22 | spesifikasiyaya görə ayrıca layihədir; API və OpenAPI hazırdır |
+
+**Həll olunanlar (2026-11-22, §22):** `y2020` poliqonu; `world_event` endpoint-i; `preview`; `assignedToMe` + təyinat; slug dəyişmə;
+daxili naməlum açarlar; `Documenter`-in qeyri-sabit sırası (CI-ın `git diff` addımı bundan düşürdü); `docker compose up`-ın CI-da həqiqətən
+qaldırılıb istifadə olunması.
+
+## 22. Mərhələlərdən sonra (2026-11-22)
+
+Spesifikasiyanın qalan bəndləri və §21-in açıq məsələləri. Qərarlar: [ADR-0021](adr/0021-preview-assignment-rename.md).
+
+**Önizləmə** (BACKEND_SPEC §11): `GET /api/v1/editorial/documents/{id}/preview[?revision=&lang=]`, AUTHOR/REVIEWER/ADMIN.
+- Kod `publishing`-dədir (`PreviewService`, `PreviewController`): ona proyeksiya writer-ləri lazımdır, `editorial → publishing` asılılığı isə dövr yaradardı.
+- Revision dərcdəki writer-lərlə həmişə geri alınan tranzaksiyada proyeksiya olunur. Sonra hər modulun `shared.read.PreviewSource`-u onu ictimai formatda oxuyur: `CatalogPreview`, `GeoPreview`, `ChronologyPreview`, `ThemePreview`, `MediaPreview`.
+- `ReadContext.asPreview()` `PublicCache`-dən keçmir: geri alınan sətirlər keşə düşmür. `content_version` dəyişmir.
+- Cavab: `{documentId, type, slug, revisionNo, parts}`. Hissələr: şəxsiyyət `profile` + `steps`, müharibə `conflict` + `days`, dövlət `state` + `steps`, `battle`, `hero`, məkan `place` + `timeline`, snapshot `territories` (öz ili), `eras`, `polity`, `ruler`, `theme`, səslənə bilən `track`.
+- Xətalar: `404` (sənəd/revision yoxdur), `400` (`revision < 1`), `422 preview-unavailable` (proyeksiya oluna bilmir).
+
+**Rəyçi təyinatı:** `PUT /documents/{id}/assignee {assigneeId | null}`, REVIEWER/ADMIN; `GET /documents?assignedToMe=true`.
+- Təyin olunan aktiv REVIEWER və ya ADMIN olmalıdır (`identity.api.Accounts.activeRoles`), əks halda `400`.
+- Status dəyişmir; jurnalda `assign`. Miqrasiya `V016__document_assignee`.
+
+**Ad dəyişmə** (BACKEND_SPEC §5.5): `POST /documents/{id}/rename {slug, changeNote?}`, yalnız ADMIN.
+- Yeni revision yeni `id`-ni və sənədə geri işarə edən sətirləri daşıyır: şəxsiyyətin `events[].personId`, `relations[].from`; dövlətin `reigns[].polityId`; snapshot-un `built.id`. Sənəd `DRAFT`-a qayıdır.
+- `slug_redirect`-ə köhnə → yeni yazılır. Köhnə adlar yenisinə yönəldilir, zəncir yaranmır. Əvvəlki ada qayıtmaq onun yönləndirməsini silir. Başqa sənədə yönləndirilən ad rədd olunur (`409 slug-redirected`).
+- İctimai slug dərc olunmuş revision-ın öz `id`-sidir (`PublishedContents`). Yeni ad dərc olunana qədər köhnə slug ilə verilir; rebuild da belə edir. Dərcdən sonra köhnə link `301` verir.
+- Başqa sənədlərin köhnə slug-a istinadları `/admin/broken-references`-də görünür.
+
+**Dünya hadisələri:** `GET /api/v1/world-events`.
+- `?year=&limit=` frontend-in `pickWorldEvents` qaydasıdır: ±12 il, ən yaxın əvvəl, hər regiondan biri, sonra xronoloji; `limit` 1–10, defolt 3.
+- `?from=&to=` aralıqla kəsişən bütün hadisələri qaytarır (ən çox 1000 il).
+
+**Naməlum açarlar:** `ContentSchemas.unknownKeys()` eyni sxemləri hər obyektə `unevaluatedProperties: false` əlavə edilmiş halda yoxlayır.
+- `anyOf`/`oneOf`/`allOf` budaqları açıq qalır.
+- `SchemaRule` tapılan açarları `WARNING unknown-key` kimi göstərir. Bugünkü `data/`-da belə açar yoxdur.
+
+**CI:**
+- `StableFiles` generasiya olunan faylı yalnız məzmun dəyişəndə yazır (`docs/modules`, `shared/openapi`).
+- Yeni `compose` job-u `docker compose up --build --wait` ilə sistemi qaldırır: login, `POST /admin/import`, `/persons`, `/places/tebriz`, `/compare`.
+
+**Testlər:** `PreviewTests`, `EditorialFlowTests` (təyinat), `ProjectionTests` (dərc → ad dəyişmə → köhnə link → yenidən dərc → `301` → əvvəlki ada qayıdış), `WorkflowTests`, `RenameInsideTests`, `WorldEventRulesTests`, `PublicApiTests` (dünya hadisələri), `ContentSchemasTests`, `DocumentValidatorTests`, `PublicCacheTests`, `PermissionMatrixTests` (3 yeni sətir).

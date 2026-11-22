@@ -63,8 +63,8 @@ Sayt backend-siz də işləyir: defolt olaraq `data/`-dan build olunur. Backend 
 
 | Sənəd | Nə var |
 |---|---|
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | modullar, ER modeli, hər mərhələnin təfsilatı; §20: mühit dəyişənləri, planlı işlər, API xəritəsi; §21: açıq məsələlər |
-| [`docs/adr/`](docs/adr/README.md) | memarlıq qərarları (20 ADR), spesifikasiyadan fərqlər |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | modullar, ER modeli, hər mərhələnin təfsilatı; §20: mühit dəyişənləri, planlı işlər, API xəritəsi; §21: açıq məsələlər; §22: önizləmə, təyinat, ad dəyişmə |
+| [`docs/adr/`](docs/adr/README.md) | memarlıq qərarları (21 ADR), spesifikasiyadan fərqlər |
 | [`docs/modules/`](docs/modules/) | modul diaqramları (Spring Modulith `Documenter`, testlər yaradır) |
 | [`docs/BACKEND_SPEC.md`](docs/BACKEND_SPEC.md) | ilkin spesifikasiya |
 | [`shared/schema/`](shared/schema/README.md), `shared/openapi/` | frontend və backend arasında paylaşılan JSON Schema və ictimai OpenAPI |
