@@ -352,7 +352,8 @@ Funksionallıq və refaktorinq ayrı commit-lərdə. `ARCHITECTURE.md` yerinə f
 |---|---|---|
 | 0 | Plan | ✅ 2026-11-22, ADR-0022 |
 | 1 | Dizayn sistemi | ✅ 2026-11-22 |
-| 2–15 | | gözləyir |
+| 2 | Layout və naviqasiya | ✅ 2026-11-23 |
+| 3–15 | | gözləyir |
 
 ### Mərhələ 1: dizayn sistemi
 
@@ -383,3 +384,27 @@ Funksionallıq və refaktorinq ayrı commit-lərdə. `ARCHITECTURE.md` yerinə f
 - `next-intl` komponentlər üçün indidən quraşdırılıb (`useTranslations("ui")`), routing mərhələ 2-də. UI mətnləri `locales/az.json`-un `ui` bölməsindədir.
 - Storybook telemetriyası söndürülüb. `@storybook/nextjs-vite`-in docgen plaqininin dev asılılığında (`glob` → `minimatch`) orta dərəcəli bir xəbərdarlıq qalır. Production bundle-a düşmür.
 - next-intl-in `@swc/core` və `@parcel/watcher` install skriptləri `allowScripts`-də rədd edilib: hazır Windows/Linux binary paketləri onsuz da quraşdırılır.
+
+### Mərhələ 2: layout və naviqasiya
+
+**Quruluş:**
+- `src/i18n/` (`routing`, `navigation`, `request`), `next.config.ts`-də next-intl plaqini. Yeni komponentlər mətnləri `useTranslations` ilə oxuyur, keçidlər locale-siz yazılır (`@/i18n/navigation` `Link`).
+- `app/[locale]/(ds)/layout.tsx`: mesajlar (yalnız client namespace-ləri), `Providers` (TanStack Query, `MotionConfig`), bütün temaların `[data-theme]` blokları, tək `ThemeRoot`. Altında `(site)` (header + footer) və `(immersive)` (tam ekran) qrupları.
+- `ThemeRoot`: default tema + `usePeriodTheme`/`PeriodTheme` ilə səhifə və addım səviyyəsində dəyişiklik, `<html>`-də güzgü (`ds`, `data-theme`, `lite`). Bütün yeni səhifələr bir kökü paylaşdığı üçün aralarında keçid crossfade olur.
+- Zustand: `lib/store.ts` indi Zustand + persist-dir, dəyəri xam formatda saxlayır (köhnə `tarix:settings`, `tarix:progress`, `tarix:navstack` dəyişmir, köhnə səhifələr eyni store-u oxuyur). Yeni: `stores/prefs.ts` (`tarix:prefs`: son sinif), `stores/theme.ts`.
+- `lib/ordinal.ts` (sıra sayları, 37 test), `lib/historicalDate.ts` ("1501-ci il", "e.ə. VII əsr"), `lib/routes.ts`, `lib/grades.ts`.
+
+**Ekranlar:**
+- Ana səhifə (yeni): hero (datadan nümunə marşrut), "Necə işləyir?" (üç yol + sinif seçimi), şəxsiyyət kartları (öz dövr temasında, irəliləyiş bayrağı), müharibə və dövlət kartları, zaman xətti önizləməsi (era zolaqları, il sürgüsü, həmin ilin hökmdarları), "Tarixdə bu gün" (gün → ay → gizlənir; 27 Sentyabr və 8 Noyabr 2020 temasında).
+- Kolleksiyalar: şəxsiyyətlər (köhnə siyahının dövr filtri saxlanılıb, `?dovr=`), döyüşlər, dövlətlər, məkanlar (tip üzrə qruplar). Köhnə siyahı route-ları yönləndirməyə çevrildi.
+- Kurikulum: sinif səhifələri 6–11 (boş vəziyyət), `/kurikulum/` son sinfi açır.
+- Skeletlər: simulyasiya, final, müharibə girişi və gün, dövlət, məkan, zaman, müqayisə, pasport, müəllim. Başlıq datadan, tema dövrdən, "Hazırkı versiyada aç" köhnə səhifəyə.
+
+**Qərarlar və qeydlər:**
+- Ana səhifə bu mərhələdə tam quruldu (heç bir mərhələyə bağlı deyildi). Simulyasiya keçidləri köhnə səhifələrə gedir, onların mərhələsində `entityPath()` yeni ünvanlara keçəcək.
+- "Necə işləyir?" düyməsi səhifədaxili bölməyə aparır: dizaynda ayrıca izah səhifəsi yoxdur. Spesifikasiyanın tələb etdiyi "Dərsliklə öyrən" bloku dizaynda yox idi, eyni dildə əlavə olundu.
+- Hero marşrutu: birinci şəxsiyyətin doğulduğu yer → taclandığı yer (datada `coronation` olan ilk şəxsiyyət). Hazırkı datada Uzun Həsən: Amid · 1425 → Amid · 1452.
+- Kartdakı dövr: şəxsiyyətin öldüyü ildəki dövrü (köhnə simulyasiyanın finalı ilə eyni qayda), əsr isə ömrün ortasından hesablanır.
+- Köhnə temaların fon şəkilləri (`backgroundArt`) yeni dizaynda istifadə olunmur: atmosfer SVG qatlarından qurulur (§3.5). Data dəyişməyib.
+- Footer yalnız mövcud səhifələrə keçid verir. Dizayndakı "Mənbələr · Lisenziyalar · Məxfilik" səhifələri hələ yoxdur (açıq sual).
+- "Tarixdə bu gün"-ün gizlənmə halı yalnız komponent testində yoxlanılır: hazırkı datada hər ayda hadisə var.

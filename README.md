@@ -36,6 +36,7 @@ npm run dev          # http://localhost:3000
 | `npm run storybook` | Komponent kataloqu (http://localhost:6006). Alət panelində dövr teması və yüngül rejim seçilir |
 | `npm run build-storybook` | Storybook-u `storybook-static/`-a statik build edir |
 | `npm run stories:shots -- <qovluq> [--axe] [story-id@tema …]` | Story-lərin ekran görüntüləri (mərhələ hesabatları üçün). `--axe` WCAG 2.2 AA yoxlaması da aparır |
+| `npm run pages:shots -- <qovluq> [--axe] [--mobile] /az/ …` | Build olunmuş səhifələrin ekran görüntüləri (1440 və 390 px), `--axe` ilə. Git Bash-də `MSYS_NO_PATHCONV=1` lazımdır |
 | `npm run build:api` | Saytı backend-in dərc olunmuş məzmunundan build edir: eksportu `.content/`-ə çəkir (`CONTENT_URL` və ya `CONTENT_DIR`), sonra `next build`. `NEXT_PUBLIC_DATA_SOURCE=api` ilə işlədin (aşağıya bax) |
 | `npm run content:pull` | Yalnız eksportu çəkir (`build:api`-nin birinci addımı) |
 | `npm run api:types` | `shared/openapi/public.json`-dan (backend testləri yazır) `src/data/api/openapi.ts` tiplərini generasiya edir |
@@ -219,10 +220,18 @@ keçidlər ani olur. Real GPU-da (Intel Iris Xe) marşrut animasiyası 60 fps g�
 
 | Route | Səhifə |
 |---|---|
-| `/az/` | Ana səhifə: üç bölmə və kolleksiya |
-| `/az/persons/`, `/az/persons/<id>/` | Tarixi şəxsiyyətlər |
-| `/az/conflicts/`, `/az/conflicts/<id>/` | Döyüşlər və müharibələr: "Şanlı Zəfər tariximiz", 44 günlük Vətən müharibəsi |
-| `/az/states/`, `/az/states/<id>/` | Dövlətlər (ilk olaraq Əfşarlar dövləti) |
+> **Yeni dizayn** (`docs/FRONTEND_SPEC.md`, [ADR-0022](docs/adr/0022-frontend-redesign.md)) mərhələ-mərhələ qurulur.
+> Yeni route-lar köhnələrin yanındadır. Ekran yeni dizaynda hazır olanda köhnə route yönləndirməyə çevrilir. Vəziyyət: `docs/FRONTEND_PLAN.md` §15.
+
+| Route | Səhifə |
+|---|---|
+| `/az/` | Ana səhifə (yeni dizayn) |
+| `/az/sexsiyyetler/`, `/az/doyusler/`, `/az/dovletler/`, `/az/mekanlar/` | Kolleksiyalar (yeni dizayn). Köhnə `/persons/`, `/conflicts/`, `/states/`, `/places/` siyahıları bura yönləndirir |
+| `/az/kurikulum/`, `/az/kurikulum/<sinif>/` | Dərsliklə öyrən (kurikulum datası hələ yoxdur, boş vəziyyət) |
+| `/az/sexsiyyetler/<id>/`, `…/final/`, `/az/doyusler/<id>/`, `…/gun/`, `/az/dovletler/<id>/`, `/az/mekanlar/<id>/`, `/az/zaman/`, `/az/muqayise/`, `/az/pasport/`, `/az/muellim/` | Yeni dizaynın skeletləri: ekran öz mərhələsində qurulur, o vaxta qədər köhnə səhifəyə keçid verir |
+| `/az/persons/<id>/` | Şəxsiyyət simulyasiyası (köhnə UI) |
+| `/az/conflicts/<id>/` | "Şanlı Zəfər tariximiz": 44 günlük Vətən müharibəsi (köhnə UI) |
+| `/az/states/<id>/` | Dövlət simulyasiyası, ilk olaraq Əfşarlar (köhnə UI) |
 | `/az/person/<id>/` | Köhnə ünvan, `?step=` saxlanmaqla `/persons/<id>/`-ə yönləndirir |
 
 Bütün kateqoriyalar eyni mühərriki işlədir: `src/features/engine/SimulationEngine.tsx`.
