@@ -1,9 +1,12 @@
 "use client";
 
+import { createStore } from "@/lib/store";
+
 /**
  * Return path for cross-links: before following a link into another
  * simulation we remember where we were (page + step), so the target can offer
- * "← back to Şah İsmayıl, Çaldıran". Kept in sessionStorage (per tab).
+ * "← back to Şah İsmayıl, Çaldıran". A Zustand store kept in sessionStorage
+ * (per tab, FRONTEND_SPEC §4), same key and format as before.
  */
 export interface ReturnEntry {
   /** Where to go back to, without locale, e.g. "/persons/shah-ismayil/?step=ismayil-chaldiran". */
@@ -14,38 +17,27 @@ export interface ReturnEntry {
   target: string;
 }
 
-const KEY = "tarix:navstack";
 const MAX = 20;
 
-function read(): ReturnEntry[] {
-  try {
-    const raw = sessionStorage.getItem(KEY);
-    return raw ? (JSON.parse(raw) as ReturnEntry[]) : [];
-  } catch {
-    return [];
-  }
-}
+const isEntry = (e: unknown): e is ReturnEntry =>
+  !!e && typeof e === "object" && ["href", "label", "target"].every((k) => typeof (e as Record<string, unknown>)[k] === "string");
 
-function write(stack: ReturnEntry[]) {
-  try {
-    sessionStorage.setItem(KEY, JSON.stringify(stack.slice(-MAX)));
-  } catch {}
-}
+export const navigationStack = createStore<ReturnEntry[]>("tarix:navstack", [], (raw) => (Array.isArray(raw) ? raw.filter(isEntry).slice(-MAX) : []), "session");
 
 export function pushReturn(entry: ReturnEntry) {
-  write([...read(), entry]);
+  navigationStack.set((stack) => [...stack, entry].slice(-MAX));
 }
 
 /** The return entry for this page, if we arrived here through a cross-link. */
 export function peekReturn(currentPath: string): ReturnEntry | null {
-  const top = read().at(-1);
+  const top = navigationStack.get().at(-1);
   return top && top.target === currentPath ? top : null;
 }
 
 export function popReturn(): ReturnEntry | null {
-  const stack = read();
-  const top = stack.pop() ?? null;
-  write(stack);
+  const stack = navigationStack.get();
+  const top = stack.at(-1) ?? null;
+  navigationStack.set(stack.slice(0, -1));
   return top;
 }
 

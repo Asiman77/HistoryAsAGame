@@ -1,52 +1,96 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { createStore as createZustandStore, useStore, type StoreApi } from "zustand";
+import { persist, type PersistStorage } from "zustand/middleware";
+
+export type StorageArea = "local" | "session";
 
 /**
- * Tiny localStorage-backed store with a stable snapshot for useSyncExternalStore.
- * Storage can be missing (private mode, blocked site data): the store then
- * keeps working in memory for the session.
+ * The Zustand state wraps the value, so any value (arrays included) survives
+ * the persist middleware, which spreads the state into an object.
  */
-export function createStore<T>(key: string, defaults: T, sanitize: (raw: unknown) => T) {
-  let cache: T | undefined;
-  const listeners = new Set<() => void>();
+export interface Boxed<T> {
+  value: T;
+}
 
-  const read = (): T => {
-    if (cache !== undefined) return cache;
-    try {
-      const raw = localStorage.getItem(key);
-      cache = raw ? sanitize(JSON.parse(raw)) : defaults;
-    } catch {
-      cache = defaults;
-    }
-    return cache;
+/**
+ * Storage that keeps the value itself under the key, without Zustand's
+ * `{state, version}` wrapper or our box, so the keys written before Zustand
+ * (tarix:settings, tarix:progress, tarix:navstack) keep their format and
+ * nobody loses progress. Storage can be missing (private mode, blocked site
+ * data): every access is guarded and the store then lives in memory.
+ */
+function rawStorage<T>(key: string, sanitize: (raw: unknown) => T, area: StorageArea): PersistStorage<Boxed<T>> {
+  const target = () => (area === "local" ? window.localStorage : window.sessionStorage);
+  return {
+    getItem: () => {
+      try {
+        const raw = target().getItem(key);
+        return raw ? { state: { value: sanitize(JSON.parse(raw)) }, version: 0 } : null;
+      } catch {
+        return null;
+      }
+    },
+    setItem: (_name, stored) => {
+      try {
+        target().setItem(key, JSON.stringify(stored.state.value));
+      } catch {}
+    },
+    removeItem: () => {
+      try {
+        target().removeItem(key);
+      } catch {}
+    },
   };
+}
 
+export interface PersistedStore<T> {
+  /** The Zustand store; new code reads it with `useStore(store, (s) => s.value…)`. */
+  store: StoreApi<Boxed<T>>;
+  get: () => T;
+  set: (next: T | ((prev: T) => T)) => void;
+  subscribe: (listener: () => void) => () => void;
+  /** The whole value; server render and hydration see the defaults. */
+  useValue: () => T;
+  defaults: T;
+}
+
+const pick = <T,>(s: Boxed<T>) => s.value;
+
+/**
+ * A Zustand store persisted under `key`. Other tabs' writes arrive through
+ * the `storage` event. The value is replaced as a whole on every `set`.
+ */
+export function createStore<T>(key: string, defaults: T, sanitize: (raw: unknown) => T, area: StorageArea = "local"): PersistedStore<T> {
+  const store = createZustandStore<Boxed<T>>()(
+    persist(() => ({ value: defaults }), {
+      name: key,
+      storage: rawStorage(key, sanitize, area),
+      // Hydrate in the browser only; the server renders the defaults.
+      skipHydration: typeof window === "undefined",
+    }),
+  );
+
+  if (typeof window !== "undefined" && area === "local") {
+    window.addEventListener("storage", (e) => {
+      if (e.key === key) void store.persist.rehydrate();
+    });
+  }
+
+  const get = () => store.getState().value;
   const set = (next: T | ((prev: T) => T)) => {
-    cache = typeof next === "function" ? (next as (p: T) => T)(read()) : next;
-    try {
-      localStorage.setItem(key, JSON.stringify(cache));
-    } catch {}
-    listeners.forEach((l) => l());
+    const value = typeof next === "function" ? (next as (p: T) => T)(get()) : next;
+    store.setState({ value }, true);
   };
 
-  const subscribe = (l: () => void) => {
-    listeners.add(l);
-    const onStorage = (e: StorageEvent) => {
-      if (e.key !== key) return;
-      cache = undefined;
-      l();
-    };
-    window.addEventListener("storage", onStorage);
-    return () => {
-      listeners.delete(l);
-      window.removeEventListener("storage", onStorage);
-    };
+  return {
+    store,
+    get,
+    set,
+    subscribe: (listener) => store.subscribe(() => listener()),
+    useValue: () => useStore(store, pick<T>),
+    defaults,
   };
-
-  const useValue = (): T => useSyncExternalStore(subscribe, read, () => defaults);
-
-  return { get: read, set, subscribe, useValue, defaults };
 }
 
 export const clamp01 = (v: unknown, fallback: number) =>
