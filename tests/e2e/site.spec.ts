@@ -109,8 +109,8 @@ test("the curriculum opens the grade chosen last", async ({ page }) => {
 });
 
 test("skeleton screens name their subject from data and link to the page that serves it today", async ({ page }) => {
-  await page.goto(`/az/sexsiyyetler/${persons[0]!.id}/`);
-  await expect(page.getByRole("heading", { level: 1, name: persons[0]!.name })).toBeVisible();
+  await page.goto("/az/dovletler/afshar/");
+  await expect(page.getByRole("heading", { level: 1, name: "Əfşarlar dövləti" })).toBeVisible();
   await page.getByRole("link", { name: /Hazırkı versiyada aç/ }).click();
-  await expect(page).toHaveURL(new RegExp(`/az/persons/${persons[0]!.id}/$`));
+  await expect(page).toHaveURL(/\/az\/states\/afshar\/$/);
 });
