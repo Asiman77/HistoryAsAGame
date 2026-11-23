@@ -353,7 +353,8 @@ Funksionallıq və refaktorinq ayrı commit-lərdə. `ARCHITECTURE.md` yerinə f
 | 0 | Plan | ✅ 2026-11-22, ADR-0022 |
 | 1 | Dizayn sistemi | ✅ 2026-11-22 |
 | 2 | Layout və naviqasiya | ✅ 2026-11-23 |
-| 3–15 | | gözləyir |
+| 3 | Simulyasiya mühərriki | ✅ 2026-11-23 |
+| 4–15 | | gözləyir |
 
 ### Mərhələ 1: dizayn sistemi
 
@@ -408,3 +409,28 @@ Funksionallıq və refaktorinq ayrı commit-lərdə. `ARCHITECTURE.md` yerinə f
 - Köhnə temaların fon şəkilləri (`backgroundArt`) yeni dizaynda istifadə olunmur: atmosfer SVG qatlarından qurulur (§3.5). Data dəyişməyib.
 - Footer yalnız mövcud səhifələrə keçid verir. Dizayndakı "Mənbələr · Lisenziyalar · Məxfilik" səhifələri hələ yoxdur (açıq sual).
 - "Tarixdə bu gün"-ün gizlənmə halı yalnız komponent testində yoxlanılır: hazırkı datada hər ayda hadisə var.
+
+### Mərhələ 3: simulyasiya mühərriki
+
+**Quruluş** (`src/features/simulation-shell/`):
+- `types.ts`: `ShellData` / `ShellStep` (build zamanı locale üçün həll olunmuş sətirlər) və `MapController` (`showStep`, `flyTo`, `drawRoute`).
+- `templates.ts`: `deriveTemplate`. Datada `template` yoxdur (B1), ona görə addımdan oxunur: müharibə günü → `liberation`, dövlət mərhələsi → `territory`, nəticəsi olan döyüş → `battle`, marşrut → `journey`, qalanı → `location`. Hələ qurulmamış şablonlar `location` kimi oynanır, marşrutu varsa yenə çəkilir.
+- `choreography.ts`: `planTransition` (§5.3 vaxtları) və `runTransition`. Hər ikisi xəritədən və React-dan asılı deyil, mock `MapController` və saxta taymerlərlə test olunur.
+- `map/SvgMap.tsx`: `MapController`-in SVG reallaşdırması: quru konturu (Urmiya və Xəzər boşluq kimi), dövrə görə açılan məkanlar, keçilmiş marşrutların solğun izi, cari marşrut və onu izləyən marker, pulsasiya edən marker, perqament vignette və grain (DOM qatı). Mərhələ 4-də MapLibre eyni interfeysi reallaşdıracaq, SVG isə WebGL olmayanda fallback kimi qalacaq (§7).
+- `SimulationShell.tsx`: top bar (geri, rejim, rəvayətlər, avtomatik oynatma, səs), portret kartı (yaş və il sayğacları), hekayə paneli (desktop 420 px), `BottomSheet` (telefon, 3 vəziyyət), "Həyat yolu" timeline-ı.
+- `stores/simulation.ts` (Zustand): addım, panelin göstərdiyi addım, sayğaclar, hazır olan addım, avtomatik oynatma, panel və sheet vəziyyəti, `aria-live` mətni.
+- `personAdapter.ts`: `buildJourney` → `ShellData`. Route: `/az/sexsiyyetler/<id>/`.
+
+**Xoreoqrafiya:** 0 ms panel çıxır (200 ms) → 100 ms tema (750 ms crossfade) → 150 ms kamera (900–1800 ms, məsafəyə görə, `cubic-bezier(.65,0,.35,1)`) və sayğaclar (600 ms) → kamera çatanda marşrut (1200–2000 ms) → kamera yerə oturarkən yeni mətn (40 ms stagger).
+Mətn kliklədən 0.9–2.0 s sonra oxunur, marşrut onunla paralel bitir. Spesifikasiyanın "1.6–2.4 s"-i belə oxunub: ayrı-ayrı aralıqların (900–1800 + 1200–2000) cəmi bu həddi aşır, ona görə marşrut mətni gözlətmir.
+Animasiya bitmədən "növbəti" basılanda cari animasiya dərhal sona çatır, növbəti başlayır. `prefers-reduced-motion`-da kamera tullanır, marşrut birdən çəkilir, mətn 150 ms-lik fade ilə gəlir.
+
+**İdarəetmə:** `←` `→` (və PageUp/PageDown pultu), `Space` avtomatik oynatma (düymə və linkin üstündə deyilsə), `Esc` paneli bağlayır (telefonda sheet-i yığır), `M` səs. Radio qrupunun içində oxlar rejimi dəyişir, addımı yox. Telefonda xəritənin üstündə sürüşdürmə ilə keçid. URL: `step`, `mode`, `legends` (`history.replaceState(null, …)`, Next `useSearchParams`-ı sinxronlaşdırır).
+
+**Qərarlar və qeydlər:**
+- Statik HTML-də qabığın yalnız çərçivəsi var (`ShellFallback`): qabıq `?step=`-i brauzerdə oxuyur, ona görə dərin linkdə ilk addım bir anlıq görünmür.
+- Mərhələ 3-də xəritə MapLibre deyil, SVG-dir: xoreoqrafiya xəritə kitabxanasından asılı olmasın deyə müvəqqəti adapter kimi plan edilmişdi. Sərhəd snapshot-ları, relyef və şəhər ikonları mərhələ 4-dədir.
+- Şəxsiyyət kartları hələ köhnə `/persons/<id>/`-ə aparır. Yeni route-a keçid (və köhnənin yönləndirməsi) final, quiz və pasportla birlikdə mərhələ 5-də olacaq.
+- Yaş portretinin faylı yoxdursa, şəxsiyyətin öz portreti göstərilir. "Rəssam təsəvvürü (AI illüstrasiya)" yazısı yalnız AI şəkli göstəriləndə çıxır.
+- Səs düyməsi `tarix:settings.muted`-i dəyişir, səs mühərrikinin qoşulması mərhələ 12-dədir.
+- `Ətraflı` bölməsi (qlossari, "Bu zaman dünyada", nəql, ilkin mənbə; Q6) mərhələ 5-də əlavə olunacaq.

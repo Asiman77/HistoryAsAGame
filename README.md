@@ -228,7 +228,8 @@ keçidlər ani olur. Real GPU-da (Intel Iris Xe) marşrut animasiyası 60 fps g�
 | `/az/` | Ana səhifə (yeni dizayn) |
 | `/az/sexsiyyetler/`, `/az/doyusler/`, `/az/dovletler/`, `/az/mekanlar/` | Kolleksiyalar (yeni dizayn). Köhnə `/persons/`, `/conflicts/`, `/states/`, `/places/` siyahıları bura yönləndirir |
 | `/az/kurikulum/`, `/az/kurikulum/<sinif>/` | Dərsliklə öyrən (kurikulum datası hələ yoxdur, boş vəziyyət) |
-| `/az/sexsiyyetler/<id>/`, `…/final/`, `/az/doyusler/<id>/`, `…/gun/`, `/az/dovletler/<id>/`, `/az/mekanlar/<id>/`, `/az/zaman/`, `/az/muqayise/`, `/az/pasport/`, `/az/muellim/` | Yeni dizaynın skeletləri: ekran öz mərhələsində qurulur, o vaxta qədər köhnə səhifəyə keçid verir |
+| `/az/sexsiyyetler/<id>/` | Şəxsiyyət simulyasiyası yeni `SimulationShell`-də (`?step=`, `?mode=story|learn`, `?legends=0`). Xəritə hələlik sxematik SVG-dir, MapLibre mərhələ 4-də |
+| `/az/sexsiyyetler/<id>/final/`, `/az/doyusler/<id>/`, `…/gun/`, `/az/dovletler/<id>/`, `/az/mekanlar/<id>/`, `/az/zaman/`, `/az/muqayise/`, `/az/pasport/`, `/az/muellim/` | Yeni dizaynın skeletləri: ekran öz mərhələsində qurulur, o vaxta qədər köhnə səhifəyə keçid verir |
 | `/az/persons/<id>/` | Şəxsiyyət simulyasiyası (köhnə UI) |
 | `/az/conflicts/<id>/` | "Şanlı Zəfər tariximiz": 44 günlük Vətən müharibəsi (köhnə UI) |
 | `/az/states/<id>/` | Dövlət simulyasiyası, ilk olaraq Əfşarlar (köhnə UI) |
