@@ -129,3 +129,28 @@
 .lite .ds-animate-twinkle,
 .lite .ds-animate-pulse,
 .lite .ds-animate-drift { animation: none; }
+
+/* Range input of the design: transparent track (bands are drawn under it), gold thumb. */
+.ds-range::-webkit-slider-runnable-track { height: 28px; background: transparent; }
+.ds-range::-moz-range-track { height: 28px; background: transparent; }
+.ds-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  margin-top: 1px;
+  border-radius: 999px;
+  background: var(--accent);
+  border: 4px solid var(--bg-raised);
+  box-shadow: 0 0 0 1.5px var(--accent);
+}
+.ds-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--accent);
+  border: 4px solid var(--bg-raised);
+  box-shadow: 0 0 0 1.5px var(--accent);
+}
+.ds-range:focus-visible { outline: none; }
+.ds-range:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--accent); outline-offset: 3px; }
+.ds-range:focus-visible::-moz-range-thumb { outline: 2px solid var(--accent); outline-offset: 3px; }

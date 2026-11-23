@@ -100,3 +100,13 @@ export function Compass(props: IconProps) {
     </Icon>
   );
 }
+
+/** Crescent and eight-pointed star of the flag (filled, white on the war theme). */
+export function CrescentStar({ size = 24, title, ...rest }: IconProps) {
+  return (
+    <Icon size={size} title={title} stroke="none" {...rest}>
+      <path fill="currentColor" fillRule="evenodd" d="M10.4 4.2a7.8 7.8 0 1 0 0 15.6 6.4 6.4 0 1 1 0-15.6z" />
+      <polygon fill="currentColor" points="18,8.3 18.75,10.1 20.6,9.7 19.7,11.4 21.2,12.6 19.3,12.85 19.15,14.75 18,13.3 16.85,14.75 16.7,12.85 14.8,12.6 16.3,11.4 15.4,9.7 17.25,10.1" />
+    </Icon>
+  );
+}
