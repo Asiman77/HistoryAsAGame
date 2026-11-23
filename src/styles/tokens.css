@@ -99,3 +99,10 @@
 .ds-root.lite {
   transition: none;
 }
+
+/* Pages of the new design paint the whole viewport, overscroll included. */
+html.ds,
+html.ds body {
+  background-color: var(--bg-base);
+  color-scheme: dark;
+}

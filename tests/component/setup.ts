@@ -5,9 +5,13 @@ import { afterEach, vi } from "vitest";
 
 afterEach(() => cleanup());
 
-// next/link needs the App Router; components only need a real <a>.
-vi.mock("next/link", () => ({
-  default: ({ href, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }) => createElement("a", { href, ...rest }),
+// next/link and the next-intl Link need the App Router; components only need a real <a>.
+const anchor = ({ href, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }) => createElement("a", { href, ...rest });
+vi.mock("next/link", () => ({ default: anchor }));
+vi.mock("@/i18n/navigation", () => ({
+  Link: anchor,
+  usePathname: () => "/",
+  useRouter: () => ({ push: vi.fn(), replace: vi.fn(), back: vi.fn(), prefetch: vi.fn() }),
 }));
 
 // jsdom has no matchMedia.

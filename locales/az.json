@@ -532,5 +532,160 @@
     "stepOf": "{current} / {total}",
     "close": "Bağla",
     "claim": { "fact": "Fakt", "disputed": "Mübahisəli", "legend": "Rəvayət", "literary": "Ədəbi", "why": "Bu niyə {type} sayılır?" }
+  },
+  "site": {
+    "brand": "Tarixin İçində",
+    "navLabel": "Əsas menyu",
+    "footerNav": "Əlavə keçidlər",
+    "skip": "Məzmuna keç",
+    "menuOpen": "Menyunu aç",
+    "menuClose": "Menyunu bağla",
+    "teacher": "Müəllim rejimi",
+    "home": "Ana səhifə",
+    "nav": {
+      "curriculum": "Dərsliklə öyrən",
+      "timeline": "Zaman şkalası",
+      "persons": "Şəxsiyyətlər",
+      "conflicts": "Döyüşlər",
+      "states": "Dövlətlər",
+      "places": "Məkanlar",
+      "compare": "Müqayisə",
+      "passport": "Tarix pasportu"
+    },
+    "footer": "Tarixin İçində · Azərbaycan tarixi üzrə təhsil layihəsi"
+  },
+  "home": {
+    "eyebrow": "Azərbaycan tarixi · interaktiv simulyasiya",
+    "title": "Gözünü <em>tarixin içində</em> aç",
+    "lead": "Bir şəxsiyyət seç və onun həyatını doğumundan son nəfəsinə qədər yaşa. Səfərlər, döyüşlər, taclanmalar — hamısı xəritə üzərində, öz səsi və rəngi ilə.",
+    "start": "Səyahətə başla",
+    "how": "Necə işləyir?",
+    "counts": {
+      "label": "Mövcud məzmun",
+      "persons": "<b>{n}</b> şəxsiyyət",
+      "conflicts": "<b>{n}</b> müharibə",
+      "states": "<b>{n}</b> dövlət",
+      "more": "Yeniləri yoldadır"
+    },
+    "ways": {
+      "eyebrow": "Tarixə üç yol",
+      "title": "Necə işləyir?",
+      "curriculum": {
+        "title": "Dərsliklə öyrən",
+        "text": "Sinif, bölmə və mövzu üzrə, məktəb proqramına uyğun."
+      },
+      "timeline": {
+        "title": "Zaman şkalası",
+        "text": "Qədim dövrdən bu günə: istənilən ilin xəritəsi."
+      },
+      "collections": {
+        "title": "Kolleksiyalar",
+        "text": "Şəxsiyyətlər, döyüşlər, dövlətlər və məkanlar."
+      },
+      "engine": "Hamısı eyni simulyasiyada açılır: xəritə, hekayə, zaman xətti, səs və rəng."
+    },
+    "curriculum": {
+      "eyebrow": "Dərsliklə öyrən · məktəb proqramı üzrə",
+      "title": "Sinfini seç",
+      "pick": "Sinif",
+      "preparing": "Mövzular hazırlanır. Təsdiqlənmiş dərsliklərin mündəricatı əlavə olunduqca burada görünəcək.",
+      "open": "{grade} sinfin mövzuları"
+    },
+    "persons": {
+      "eyebrow": "I · Şəxsiyyətlər",
+      "title": "Kimin gözü ilə baxacaqsan?",
+      "all": "Hamısına bax",
+      "live": "Həyatını yaşa",
+      "continue": "Davam et · {current}/{total}",
+      "done": "Tamamlandı"
+    },
+    "conflicts": {
+      "eyebrow": "II · Döyüşlər",
+      "start": "Başla"
+    },
+    "states": {
+      "eyebrow": "III · Dövlətlər",
+      "start": "Başla"
+    },
+    "timeline": {
+      "eyebrow": "Zaman xətti",
+      "title": "İli seç, dünyanı gör",
+      "open": "Zaman şkalasını aç",
+      "slider": "İl seçimi",
+      "year": "{year}-{suffix} il"
+    },
+    "onThisDay": {
+      "day": "Tarixdə bu gün",
+      "month": "Bu ay tarixdə",
+      "go": "Mərhələyə keç"
+    }
+  },
+  "collections": {
+    "steps": "{n} mərhələ",
+    "open": "Aç",
+    "empty": "Bu kolleksiyada hələ simulyasiya yoxdur.",
+    "persons": {
+      "title": "Tarixi şəxsiyyətlər",
+      "lead": "Hər şəxsiyyətin həyatı doğumdan ölümə qədər mərhələ-mərhələ, xəritə üzərində.",
+      "filter": "Dövr",
+      "allEras": "Bütün dövrlər"
+    },
+    "conflicts": {
+      "title": "Döyüşlər və müharibələr",
+      "lead": "Müharibələr gün-gün, döyüşlər meydanda: tərəflər, sərkərdələr və nəticələr."
+    },
+    "states": {
+      "title": "Dövlətlər",
+      "lead": "Sərhədlərin genişlənməsi və daralması, paytaxtlar və hökmdarlar."
+    },
+    "places": {
+      "title": "Məkanlar",
+      "lead": "Şəhərlər, qalalar, ziyarətgahlar, limanlar və döyüş meydanları. Hər birinin öz tarixçəsi var.",
+      "events": "{n} hadisə",
+      "types": {
+        "capital": "Paytaxtlar",
+        "city": "Şəhərlər",
+        "fortress": "Qalalar",
+        "shrine": "Ziyarətgahlar",
+        "battlefield": "Döyüş meydanları",
+        "port": "Limanlar"
+      }
+    }
+  },
+  "pages": {
+    "preparing": "Bu ekran yeni dizaynda hazırlanır.",
+    "openLegacy": "Hazırkı versiyada aç",
+    "curriculum": {
+      "eyebrow": "Azərbaycan tarixi · məktəb proqramı üzrə",
+      "title": "Dərsliklə öyrən",
+      "empty": "Kurikulum hazırlanır",
+      "emptyText": "Sinif, bölmə və mövzu bölgüsü təsdiqlənmiş dərsliklərin mündəricatından doldurulacaq. Hazır olmayan mövzular da siyahıda görünəcək.",
+      "grade": "{grade} sinif",
+      "pick": "Sinif seç"
+    },
+    "timeline": {
+      "title": "Zaman şkalası"
+    },
+    "compare": {
+      "title": "Müqayisə"
+    },
+    "passport": {
+      "eyebrow": "Ziyarət etdiyin şəhərlər",
+      "title": "Tarix pasportu",
+      "empty": "Pasport səyahət etdikcə dolacaq",
+      "emptyText": "Simulyasiyalarda keçdiyin şəhərlər üçün burada möhür vurulacaq. Hamısı yalnız bu cihazda saxlanılır."
+    },
+    "teacher": {
+      "title": "Müəllim paneli",
+      "empty": "Müəllim paneli hazırlanır",
+      "emptyText": "Siniflər, sinif kodu, mövzu təyini, proyektor rejimi və toplu nəticələr burada olacaq."
+    },
+    "final": {
+      "eyebrow": "Final",
+      "title": "İrs və nəticə"
+    },
+    "day": {
+      "eyebrow": "Gün görünüşü"
+    }
   }
 }
