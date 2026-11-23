@@ -42,7 +42,7 @@ async function main() {
   const { port } = server.address() as { port: number };
   fs.mkdirSync(outDir, { recursive: true });
   const browser = await chromium.launch();
-  const profiles = [{ name: "desktop", options: { viewport: { width: 1440, height: 900 } } }, ...(mobile ? [{ name: "mobile", options: { ...devices["iPhone 13"], viewport: { width: 390, height: 844 } } }] : [])];
+  const profiles = [{ name: "desktop", options: { viewport: { width: 1440, height: 900 } } }, ...(mobile ? [{ name: "mobile", options: { ...devices["iPhone 13"], viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 } }] : [])];
   let violations = 0;
   for (const profile of profiles) {
     const context = await browser.newContext({ ...profile.options, reducedMotion: "reduce" });
