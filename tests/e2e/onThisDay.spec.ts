@@ -7,16 +7,20 @@ test("today's events from every category, with deep links", async ({ page }) => 
   const block = page.getByTestId("on-this-day");
   await expect(block).toHaveAttribute("data-mode", "day");
   await expect(block).toContainText("Tarixdə bu gün");
+  await expect(block).toContainText("23 avqust");
   await block.getByTestId("otd-event").filter({ hasText: "Çaldıran döyüşü" }).click();
   await expect(page).toHaveURL(/\/persons\/shah-ismayil\/\?step=ismayil-chaldiran/);
   expect(errors).toEqual([]);
 });
 
 test("no event on the day: 'Bu ay tarixdə'", async ({ page }) => {
+  // Every month has dated steps today, so the hidden block (no event in the month)
+  // is covered by tests/component/home.test.tsx.
   await page.goto("/az/?today=03-02");
   const block = page.getByTestId("on-this-day");
-  await expect(block).toHaveAttribute("data-mode", /month|none/);
-  await expect(block).toContainText(/Bu ay tarixdə|Bu ay üçün hadisə tapılmadı/);
+  await expect(block).toHaveAttribute("data-mode", "month");
+  await expect(block).toContainText("Bu ay tarixdə");
+  await expect(block.getByTestId("otd-event").first()).toBeVisible();
 });
 
 test("27 Sentyabr and 8 Noyabr are shown with their own design", async ({ page }) => {

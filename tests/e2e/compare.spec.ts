@@ -55,9 +55,9 @@ test("a step deep-links into its simulation", async ({ page }) => {
   await expect(page).toHaveURL(/\/persons\/shah-ismayil\/\?step=ismayil-coronation/);
 });
 
-test("the hub links to the compare page", async ({ page }) => {
+test("the site footer links to the compare page", async ({ page }) => {
   await page.goto("/az/");
-  await page.getByTestId("hub-explore").getByRole("link", { name: /Müqayisə et/ }).click();
+  await page.getByRole("navigation", { name: "Əlavə keçidlər" }).getByRole("link", { name: "Müqayisə" }).click();
   await expect(page).toHaveURL(/\/az\/compare\/$/);
   await expect(page.getByTestId("compare-page")).toBeVisible();
 });

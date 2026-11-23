@@ -5,28 +5,43 @@ test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
 });
 
-test("home shows the three sections and each opens its own page", async ({ page }) => {
+test("the site menu opens each collection and the logo returns home", async ({ page, viewport }) => {
   const errors = collectErrors(page);
   await page.goto("/az/");
-  for (const [name, url] of [
-    ["Tarixi şəxsiyyətlər", "/az/persons/"],
-    ["Döyüşlər və müharibələr", "/az/conflicts/"],
-    ["Dövlətlər", "/az/states/"],
+  const narrow = (viewport?.width ?? 0) < 1024;
+  for (const [link, url, heading] of [
+    ["Şəxsiyyətlər", "/az/sexsiyyetler/", "Tarixi şəxsiyyətlər"],
+    ["Döyüşlər", "/az/doyusler/", "Döyüşlər və müharibələr"],
+    ["Dövlətlər", "/az/dovletler/", "Dövlətlər"],
   ] as const) {
-    await page.getByRole("link", { name: new RegExp(name) }).click();
+    if (narrow) await page.getByRole("button", { name: "Menyunu aç" }).click();
+    await page.getByRole("navigation", { name: "Əsas menyu" }).getByRole("link", { name: link, exact: true }).click();
     await expect(page).toHaveURL(new RegExp(`${url}$`));
-    await expect(page.getByRole("heading", { level: 1, name })).toBeVisible();
-    await page.getByRole("link", { name: /Ana səhifə/ }).click();
+    await expect(page.getByRole("heading", { level: 1, name: heading })).toBeVisible();
+    await page.getByTestId("site-header").getByRole("link", { name: "Tarixin İçində" }).click();
     await expect(page).toHaveURL(/\/az\/$/);
   }
   expect(errors).toEqual([]);
 });
 
-test("planned and built simulations are listed on their section pages", async ({ page }) => {
-  await page.goto("/az/conflicts/");
-  await expect(page.getByRole("link", { name: /44 günlük Vətən müharibəsi/ })).toHaveAttribute("href", /\/conflicts\/karabakh-war-2020\/$/);
-  await page.goto("/az/states/");
-  await expect(page.getByRole("link", { name: /Əfşarlar dövləti/ })).toBeVisible();
+test("built simulations are listed on their collection pages", async ({ page }) => {
+  await page.goto("/az/doyusler/");
+  await expect(page.getByTestId("war-card")).toHaveAttribute("href", /\/conflicts\/karabakh-war-2020\/$/);
+  await expect(page.getByTestId("war-card")).toContainText("Şanlı Zəfər tariximiz");
+  await page.goto("/az/dovletler/");
+  await expect(page.getByTestId("state-card")).toContainText("Əfşarlar dövləti");
+});
+
+test("legacy list URLs move to the new collections", async ({ page }) => {
+  for (const [from, to] of [
+    ["/az/persons/", "/az/sexsiyyetler/"],
+    ["/az/conflicts/", "/az/doyusler/"],
+    ["/az/states/", "/az/dovletler/"],
+    ["/az/places/", "/az/mekanlar/"],
+  ] as const) {
+    await page.goto(from);
+    await expect(page).toHaveURL(new RegExp(`${to}$`));
+  }
 });
 
 test("old person URLs redirect and keep the deep link", async ({ page }) => {
@@ -159,8 +174,8 @@ test("war section plays its own music: march, anthem on Şuşa, lament on memori
 test("war section: flag intro, day counter, liberated settlements, Şuşa and the memorial", async ({ page }) => {
   test.slow();
   const errors = collectErrors(page);
-  await page.goto("/az/conflicts/");
-  await page.getByRole("link", { name: /44 günlük Vətən müharibəsi/ }).click();
+  await page.goto("/az/doyusler/");
+  await page.getByTestId("war-card").click();
   await expect(page.getByTestId("war-intro")).toBeVisible();
   await expect(page.getByTestId("war-intro")).toContainText("27 sentyabr 2020");
   await startJourney(page);

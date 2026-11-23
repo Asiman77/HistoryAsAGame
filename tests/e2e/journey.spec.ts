@@ -7,9 +7,9 @@ const stageHeading = (page: import("@playwright/test").Page, name: string) =>
 
 test("landing lists every person in data/ and links to their journey", async ({ page }) => {
   const errors = collectErrors(page);
-  await page.goto("/az/persons/");
+  await page.goto("/az/sexsiyyetler/");
   for (const p of persons) await expect(page.getByRole("heading", { name: p.name })).toBeVisible();
-  await page.getByRole("link", { name: new RegExp(persons[0]!.name) }).click();
+  await page.getByTestId("person-card").filter({ hasText: persons[0]!.name }).click();
   await expect(page).toHaveURL(new RegExp(`/az/persons/${persons[0]!.id}/`));
   expect(errors).toEqual([]);
 });
@@ -97,7 +97,7 @@ test("legacy quiz can be completed", async ({ page }) => {
 });
 
 test("no horizontal page scroll", async ({ page }) => {
-  for (const url of ["/az/", "/az/persons/", "/az/conflicts/", "/az/states/", `/az/persons/${persons[0]!.id}/`]) {
+  for (const url of ["/az/", "/az/sexsiyyetler/", "/az/doyusler/", "/az/dovletler/", "/az/mekanlar/", "/az/kurikulum/8/", `/az/sexsiyyetler/${persons[0]!.id}/`, `/az/persons/${persons[0]!.id}/`]) {
     await page.goto(url);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(overflow, url).toBeLessThanOrEqual(0);

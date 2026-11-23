@@ -39,13 +39,14 @@ test("a ruler opens the ruler panel for the chosen year", async ({ page }) => {
   await expect(page.getByRole("dialog").filter({ hasText: "Səfəvi dövləti" }).first()).toBeVisible();
 });
 
-test("the home page carries a compact slider linking to the full timeline", async ({ page }) => {
+test("the home page carries a year slider linking to the full timeline", async ({ page }) => {
   await page.goto("/az/");
-  const box = page.locator("[data-testid=time-explorer][data-compact=true]");
+  const box = page.getByTestId("timeline-preview");
   await expect(box).toBeVisible();
-  await box.locator("#year-input").fill("1736");
-  // The link follows the slider once it has rested (debounced); clicking earlier would race it.
-  const full = box.getByRole("link", { name: /Tam zaman xətti/ });
+  await box.getByRole("slider", { name: "İl seçimi" }).fill("1736");
+  await expect(box.getByTestId("preview-year")).toHaveText("1736");
+  await expect(box.getByTestId("preview-rulers").getByRole("listitem").first()).toBeVisible();
+  const full = box.getByTestId("preview-open");
   await expect(full).toHaveAttribute("href", /year=1736/);
   await full.click();
   await expect(page).toHaveURL(/\/az\/timeline\/\?year=1736/);
