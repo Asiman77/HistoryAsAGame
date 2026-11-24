@@ -35,6 +35,8 @@ function step(index: number, center: LngLat, extra: Partial<ShellStep> = {}): Sh
     approximatePlace: false,
     route: null,
     distanceKm: 0,
+    snapshotId: null,
+    mapVariant: "manuscript",
     narrative: null,
     summary: "",
     sources: [],

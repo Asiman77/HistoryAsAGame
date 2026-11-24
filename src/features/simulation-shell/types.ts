@@ -1,4 +1,7 @@
-import type { ClaimType, Mood } from "@/domain/schema";
+import type { ClaimType, MAP_STYLE_VARIANTS, Mood, PlaceType } from "@/domain/schema";
+
+/** Base-map look of a period (data/themes: mapStyleVariant). */
+export type MapVariant = (typeof MAP_STYLE_VARIANTS)[number];
 
 /** [lng, lat] */
 export type LngLat = [number, number];
@@ -56,6 +59,9 @@ export interface ShellStep {
   /** Smoothed movement path ending at `center`; null when nothing moves. */
   route: LngLat[] | null;
   distanceKm: number;
+  /** Political map of the step (public/data/territories/<id>.json), null when none covers the year. */
+  snapshotId: string | null;
+  mapVariant: MapVariant;
   /** First-person literary text (story mode); null when the step has none. */
   narrative: string | null;
   /** Verified facts only. */
@@ -75,6 +81,18 @@ export interface ShellPlace {
   firstStep: number;
 }
 
+/** A catalogue place drawn on the map in the years it existed (§7: markers by importance). */
+export interface ShellLandmark {
+  id: string;
+  type: PlaceType;
+  /** 1 always visible, 2 regional, 3 only zoomed in. */
+  importance: 1 | 2 | 3;
+  center: LngLat;
+  /** Name per period: the name of the step year is used, the modern one shows on hover. */
+  periods: { from: number; to: number; name: string }[];
+  modern: string | null;
+}
+
 export interface ShellData {
   /** Progress key ("shah-ismayil", "state:afshar"…). */
   key: string;
@@ -89,6 +107,9 @@ export interface ShellData {
   places: ShellPlace[];
   /** Projected land outline for the schematic map (src/features/simulation-shell/map/projection.ts). */
   land: string;
+  landmarks: ShellLandmark[];
+  /** Capitals (place ids) of each snapshot the steps use. */
+  capitals: Record<string, string[]>;
 }
 
 export interface CameraView {

@@ -54,6 +54,8 @@ export function personShell(journey: Journey, eras: Era[], locale: Locale, label
       approximatePlace: !!e.location.approximate,
       route: s.route,
       distanceKm: s.distanceKm,
+      snapshotId: s.snapshotId,
+      mapVariant: journey.themes[s.themeId]?.mapStyleVariant ?? "manuscript",
       narrative: tr(e.narrative),
       summary: tr(e.factualSummary),
       sources: e.sources.map((src) => ({ title: src.title, ...(src.author ? { author: src.author } : {}), ...(src.url ? { url: src.url } : {}), ...(src.note ? { note: src.note } : {}) })),
@@ -86,5 +88,18 @@ export function personShell(journey: Journey, eras: Era[], locale: Locale, label
     steps,
     places: journey.places.map((p) => ({ key: p.key, name: shortPlace(tr(p.place.name)), center: [p.place.lng, p.place.lat], firstStep: p.firstStep })),
     land: landPath,
+    landmarks: journey.landmarks.map((p) => ({
+      id: p.id,
+      type: p.type,
+      importance: p.importance,
+      center: [p.lng, p.lat],
+      periods: p.periods.map((r) => ({ from: r.from, to: r.to, name: tr(r.name ?? p.names.historical) })),
+      modern: p.names.modern ? tr(p.names.modern) : null,
+    })),
+    capitals: Object.fromEntries(
+      journey.snapshots
+        .filter((sn) => steps.some((st) => st.snapshotId === sn.id))
+        .map((sn) => [sn.id, sn.polities.flatMap((po) => (po.capitalId ? [po.capitalId] : []))]),
+    ),
   };
 }
