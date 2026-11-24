@@ -8,6 +8,8 @@ export interface PersonFixture {
   id: string;
   name: string;
   titles: string[];
+  /** Step ids in order, for ?step= deep links. */
+  stepIds: string[];
   hasQuiz: boolean;
   hasChoice: boolean;
   /** Index of the first stage with a choice moment, -1 if none. */
@@ -17,6 +19,7 @@ export interface PersonFixture {
 }
 
 interface RawEvent {
+  id: string;
   order: number;
   title: { az: string };
   quiz?: unknown[];
@@ -37,6 +40,7 @@ export function loadPersons(): PersonFixture[] {
         id: person.id,
         name: person.name.az,
         titles: events.map((e) => e.title.az),
+        stepIds: events.map((e) => e.id),
         hasQuiz: events.some((e) => e.quiz?.length),
         hasChoice: events.some((e) => e.choice),
         firstChoice: events.findIndex((e) => e.choice),

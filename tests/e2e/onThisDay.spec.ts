@@ -9,7 +9,7 @@ test("today's events from every category, with deep links", async ({ page }) => 
   await expect(block).toContainText("Tarixdə bu gün");
   await expect(block).toContainText("23 avqust");
   await block.getByTestId("otd-event").filter({ hasText: "Çaldıran döyüşü" }).click();
-  await expect(page).toHaveURL(/\/persons\/shah-ismayil\/\?step=ismayil-chaldiran/);
+  await expect(page).toHaveURL(/\/sexsiyyetler\/shah-ismayil\/\?step=ismayil-chaldiran/);
   expect(errors).toEqual([]);
 });
 

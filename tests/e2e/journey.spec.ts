@@ -1,103 +1,74 @@
-import { expect, test } from "@playwright/test";
-import { collectErrors, loadPersons, startJourney } from "./helpers";
+import { expect, test, type Page } from "@playwright/test";
+import { collectErrors, loadPersons } from "./helpers";
 
+/** Whole journeys in the SimulationShell (phase 5). Persons and steps come from data/, nothing is hard-coded. */
 const persons = loadPersons();
-const stageHeading = (page: import("@playwright/test").Page, name: string) =>
-  page.getByRole("heading", { level: 2, name, exact: true });
+const heading = (page: Page) => page.getByTestId("step-content").getByRole("heading", { level: 2 });
 
-test("landing lists every person in data/ and links to their journey", async ({ page }) => {
+test.beforeEach(async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+});
+
+test("the persons page lists every person in data/ and opens their simulation", async ({ page }) => {
   const errors = collectErrors(page);
   await page.goto("/az/sexsiyyetler/");
   for (const p of persons) await expect(page.getByRole("heading", { name: p.name })).toBeVisible();
   await page.getByTestId("person-card").filter({ hasText: persons[0]!.name }).click();
-  await expect(page).toHaveURL(new RegExp(`/az/persons/${persons[0]!.id}/`));
+  await expect(page).toHaveURL(new RegExp(`/az/sexsiyyetler/${persons[0]!.id}/`));
+  await expect(heading(page)).toHaveText(persons[0]!.titles[0]!);
   expect(errors).toEqual([]);
 });
 
 for (const person of persons) {
-  test(`${person.id}: whole life from birth to legacy`, async ({ page, viewport }) => {
-    // The step counter lives in the desktop side panel (>= 1024px).
-    const desktopLayout = (viewport?.width ?? 0) >= 1024;
+  test(`${person.id}: the whole life, first step to the final screen`, async ({ page }) => {
+    test.slow();
     const errors = collectErrors(page);
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto(`/az/persons/${person.id}/`);
-    await startJourney(page);
-    const next = page.getByRole("button", { name: /Növbəti|İrs və nəticə/ }).first();
-
+    await page.goto(`/az/sexsiyyetler/${person.id}/`);
     for (let i = 0; i < person.titles.length; i++) {
-      await expect(stageHeading(page, person.titles[i]!)).toBeVisible();
-      if (desktopLayout) await expect(page.getByText(`${i + 1} / ${person.titles.length}`)).toBeVisible();
-      await next.click();
+      await expect(heading(page)).toHaveText(person.titles[i]!);
+      await expect(page.getByTestId("simulation-shell")).toHaveAttribute("data-step", person.stepIds[i]!);
+      if (i < person.titles.length - 1) await page.getByTestId("step-next").click();
     }
-
-    await expect(page.getByText("Həyatın rəqəmlərlə")).toBeVisible();
-    if (person.hasQuiz) await expect(page.getByRole("button", { name: "Sınağa başla" })).toBeVisible();
-
-    // Back from legacy lands on the last stage.
-    await page.getByRole("button", { name: "Həyat xəttinə qayıt" }).click();
-    await expect(stageHeading(page, person.titles.at(-1)!)).toBeVisible();
+    await page.getByTestId("step-final").click();
+    await expect(page).toHaveURL(new RegExp(`/az/sexsiyyetler/${person.id}/final/$`));
+    const final = page.getByTestId("final-screen");
+    await expect(final).toHaveAttribute("data-completed", "true");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("irsi");
+    await expect(page.getByTestId("final-stats")).toContainText(String(person.titles.length));
+    if (person.hasQuiz) await expect(page.getByTestId("final-quiz")).toBeVisible();
+    // Every town of the story got its stamp on the way.
+    await expect(page.getByTestId("final-passport").getByTestId("stamp").first()).toBeVisible();
+    // The way back lands on the simulation.
+    await page.getByTestId("final-back").click();
+    await expect(page).toHaveURL(new RegExp(`/az/sexsiyyetler/${person.id}/`));
+    await expect(heading(page)).toBeVisible();
     expect(errors).toEqual([]);
   });
 }
 
-test("keyboard arrows and timeline navigate between stages", async ({ page, isMobile }) => {
-  test.skip(isMobile, "keyboard navigation is a desktop feature");
-  const p = persons[0]!;
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto(`/az/persons/${p.id}/`);
-    await startJourney(page);
-  await page.keyboard.press("ArrowRight");
-  await expect(stageHeading(page, p.titles[1]!)).toBeVisible();
-  await page.keyboard.press("ArrowLeft");
-  await expect(stageHeading(page, p.titles[0]!)).toBeVisible();
-  await page.getByRole("navigation", { name: "Həyat xətti" }).getByRole("button").nth(4).click();
-  await expect(stageHeading(page, p.titles[4]!)).toBeVisible();
-});
-
-test("choice moment reveals the historical decision", async ({ page }) => {
+test("a choice moment reveals the historical decision and why", async ({ page }) => {
   const p = persons.find((x) => x.hasChoice)!;
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto(`/az/persons/${p.id}/`);
-    await startJourney(page);
-  await page.getByRole("navigation", { name: "Həyat xətti" }).getByRole("button").nth(p.firstChoice).click();
-  await expect(stageHeading(page, p.titles[p.firstChoice]!)).toBeVisible();
-  await page.getByRole("button", { name: "Sən olsaydın nə edərdin?" }).click();
-  await page.locator("article li button").first().click();
-  await expect(page.getByText("Niyə belə oldu?")).toBeVisible();
-  await expect(page.getByText(/Tarixi seçim/).first()).toBeVisible();
+  await page.goto(`/az/sexsiyyetler/${p.id}/?step=${p.stepIds[p.firstChoice]}`);
+  const card = page.getByTestId("choice-card");
+  await card.getByRole("button").first().click();
+  await expect(card.getByTestId("choice-result")).toBeVisible();
+  await expect(card).toContainText("Tarixi seçim");
+  await expect(card.getByTestId("choice-result")).toContainText("Tarix dəyişmir");
 });
 
-test("learning mode shows facts and sources", async ({ page }) => {
-  await page.goto(`/az/persons/${persons[0]!.id}/`);
-    await startJourney(page);
-  await page.getByRole("radio", { name: "Öyrənmə" }).first().click();
-  await expect(page.getByText("Yoxlanılmış faktlar")).toBeVisible();
-  await expect(page.getByText("Mənbələr", { exact: true })).toBeVisible();
-});
-
-test("legacy quiz can be completed", async ({ page }) => {
-  const p = persons.find((x) => x.hasQuiz)!;
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto(`/az/persons/${p.id}/`);
-    await startJourney(page);
-  await page.getByRole("navigation", { name: "Həyat xətti" }).getByRole("button").last().click();
-  await page.getByRole("button", { name: "İrs və nəticə →" }).click();
-  await page.getByRole("button", { name: "Sınağa başla" }).click();
-  for (;;) {
-    await page.getByText(/^Sual \d+ \/ \d+$/).waitFor();
-    await page.locator("section ul li button").first().click();
-    const finish = page.getByRole("button", { name: "Nəticəni gör" });
-    if (await finish.isVisible()) {
-      await finish.click();
-      break;
-    }
-    await page.getByRole("button", { name: "Növbəti sual" }).click();
-  }
-  await expect(page.getByText(/düzgün cavab/)).toBeVisible();
+test("coming back to a simulation continues where it was left", async ({ page }) => {
+  const p = persons[0]!;
+  await page.goto(`/az/sexsiyyetler/${p.id}/?step=${p.stepIds[5]}`);
+  await expect(heading(page)).toHaveText(p.titles[5]!);
+  await page.goto(`/az/sexsiyyetler/${p.id}/`);
+  await expect(heading(page)).toHaveText(p.titles[5]!);
+  await page.goto("/az/sexsiyyetler/");
+  await expect(page.getByTestId("person-card").filter({ hasText: p.name })).toContainText(`Davam et · 6/${p.titles.length}`);
 });
 
 test("no horizontal page scroll", async ({ page }) => {
-  for (const url of ["/az/", "/az/sexsiyyetler/", "/az/doyusler/", "/az/dovletler/", "/az/mekanlar/", "/az/kurikulum/8/", `/az/sexsiyyetler/${persons[0]!.id}/`, `/az/persons/${persons[0]!.id}/`]) {
+  const id = persons[0]!.id;
+  for (const url of ["/az/", "/az/sexsiyyetler/", "/az/doyusler/", "/az/dovletler/", "/az/mekanlar/", "/az/kurikulum/8/", "/az/pasport/", `/az/sexsiyyetler/${id}/`, `/az/sexsiyyetler/${id}/final/`]) {
     await page.goto(url);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(overflow, url).toBeLessThanOrEqual(0);

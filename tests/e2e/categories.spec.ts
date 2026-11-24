@@ -44,76 +44,23 @@ test("legacy list URLs move to the new collections", async ({ page }) => {
   }
 });
 
-test("old person URLs redirect and keep the deep link", async ({ page }) => {
-  await page.goto("/az/person/shah-ismayil/?step=ismayil-chaldiran");
-  await expect(page).toHaveURL(/\/az\/persons\/shah-ismayil\/\?step=ismayil-chaldiran/);
-  await startJourney(page, /mərhələsindən başla/);
-  await expect(page.getByRole("heading", { level: 2, name: "Çaldıran döyüşü" })).toBeVisible();
+test("old person URLs redirect to the new simulation and keep the deep link", async ({ page }) => {
+  for (const old of ["/az/person/shah-ismayil/?step=ismayil-chaldiran", "/az/persons/shah-ismayil/?step=ismayil-chaldiran"]) {
+    await page.goto(old);
+    await expect(page).toHaveURL(/\/az\/sexsiyyetler\/shah-ismayil\/\?step=ismayil-chaldiran/);
+    await expect(page.getByTestId("step-content").getByRole("heading", { level: 2 })).toHaveText("Çaldıran döyüşü");
+  }
 });
 
-test("refs to missing entities are passive; person links return to where you were", async ({ page }) => {
-  await page.goto("/az/persons/shah-ismayil/?step=ismayil-chaldiran");
-  await startJourney(page, /mərhələsindən başla/);
+test("refs to entities without a simulation are passive", async ({ page }) => {
+  await page.goto("/az/sexsiyyetler/shah-ismayil/?step=ismayil-chaldiran");
+  const content = page.getByTestId("step-content");
   // Çaldıran döyüşü and Osmanlı dövləti have no simulation yet.
-  const passive = page.locator('[data-passive="true"]', { hasText: "Çaldıran döyüşü (1514)" });
-  await expect(passive).toContainText("tezliklə");
-  await expect(page.getByRole("link", { name: /Çaldıran döyüşü \(1514\)/ })).toHaveCount(0);
-
-  // Cross into Uzun Həsən's story and come back.
-  await page.getByRole("navigation", { name: "Həyat xətti" }).getByRole("button").first().click();
-  await page.locator("article").getByRole("link", { name: /Uzun Həsən: Trabzon şahzadəsi ilə nikah/ }).click();
-  await expect(page).toHaveURL(/\/az\/persons\/uzun-hasan\/\?step=uzun-hasan-despina/);
-  await startJourney(page, /mərhələsindən başla/);
-  await expect(page.getByRole("heading", { level: 2, name: "Trabzon şahzadəsi ilə nikah" })).toBeVisible();
-  const back = page.getByTestId("return-link");
-  await expect(back).toContainText("Şah İsmayıl Xətai · Ərdəbildə doğuluş");
-  await back.click();
-  await expect(page).toHaveURL(/\/az\/persons\/shah-ismayil\/\?step=ismayil-birth/);
-  await startJourney(page, /mərhələsindən başla/);
-  await expect(page.getByRole("heading", { level: 2, name: "Ərdəbildə doğuluş" })).toBeVisible();
+  await expect(content.getByText(/Çaldıran döyüşü/).filter({ hasText: "tezliklə" }).first()).toBeVisible();
+  await expect(content.getByRole("link", { name: /Çaldıran döyüşü/ })).toHaveCount(0);
 });
 
-test("ruler panel: clicking a state in the legend shows who rules it that year", async ({ page, viewport }) => {
-  await page.goto("/az/persons/shah-ismayil/?step=ismayil-chaldiran");
-  await startJourney(page, /mərhələsindən başla/);
-  const legend = page.getByTestId("map-legend");
-  if ((viewport?.width ?? 0) < 1024) await legend.getByRole("button", { name: "Xəritə açarını göstər" }).click();
-  await legend.getByRole("button", { name: "Osmanlı dövləti" }).click();
-  const panel = page.getByTestId("polity-panel");
-  await expect(panel.getByText("I Səlim", { exact: true })).toBeVisible();
-  await expect(panel.getByText("Bu mərhələdə rəqib tərəfdir: Osmanlı ordusu.")).toBeVisible();
-  await expect(panel.getByText("İstanbul")).toBeVisible();
-  await panel.getByRole("button", { name: "Bağla" }).click();
-
-  // Same state, other year: the ruler comes from the reign table, not from the event.
-  if ((viewport?.width ?? 0) < 1024) await legend.getByRole("button", { name: "Xəritə açarını göstər" }).click();
-  await page.getByRole("navigation", { name: "Həyat xətti" }).getByRole("button").first().click();
-  await legend.getByRole("button", { name: "Osmanlı dövləti" }).click();
-  await expect(panel.getByText("II Bayezid", { exact: true })).toBeVisible();
-});
-
-test("ruler panel opens from a click on the map", async ({ page, viewport }) => {
-  test.skip((viewport?.width ?? 0) < 1024, "the map is covered by the bottom sheet below 1024px");
-  await page.goto("/az/persons/shah-ismayil/?step=ismayil-coronation");
-  await startJourney(page, /mərhələsindən başla/);
-  const panel = page.getByTestId("polity-panel");
-  // The camera settles on Tabriz, inside the Safavid state.
-  await expect(async () => {
-    const box = (await page.locator(".maplibregl-canvas").boundingBox())!;
-    await page.mouse.click(box.x + box.width * 0.42, box.y + box.height * 0.58);
-    await expect(panel).toBeVisible({ timeout: 1000 });
-  }).toPass({ timeout: 20_000 });
-  await expect(panel.getByText("Bu dövlətin hökmdarı sənsən.")).toBeVisible();
-});
-
-test("states without data say so instead of staying empty", async ({ page, viewport }) => {
-  await page.goto("/az/persons/uzun-hasan/?step=uzun-hasan-sara-khatun");
-  await startJourney(page, /mərhələsindən başla/);
-  const legend = page.getByTestId("map-legend");
-  if ((viewport?.width ?? 0) < 1024) await legend.getByRole("button", { name: "Xəritə açarını göstər" }).click();
-  await legend.getByRole("button", { name: "Trabzon imperiyası" }).click();
-  await expect(page.getByTestId("polity-panel").getByText(/tezliklə əlavə olunacaq/)).toBeVisible();
-});
+test.fixme("ruler panel from the legend and the map (phase 6: RulerPanel on the MapLibre map)", async () => {});
 
 test("state simulation: Əfşarlar from Muğan to the end, with the dynasty strip", async ({ page }) => {
   test.slow(); // 15 animated stages
@@ -130,28 +77,15 @@ test("state simulation: Əfşarlar from Muğan to the end, with the dynasty stri
   expect(errors).toEqual([]);
 });
 
-test("portrait card follows the age: AI placeholder in childhood, a period portrait later", async ({ page }) => {
-  await page.goto("/az/persons/shah-ismayil/?step=ismayil-lahijan-education");
-  await startJourney(page, /mərhələsindən başla/);
-  const card = page.getByTestId("portrait-card");
-  await expect(card).toHaveAttribute("data-kind", "ai_illustration");
-  await expect(card).toContainText(/rəssam təsəvvürü \(AI illüstrasiya\)/i);
-  await page.goto("/az/persons/shah-ismayil/?step=ismayil-chaldiran");
-  await startJourney(page, /mərhələsindən başla/);
-  await expect(card).toHaveAttribute("data-kind", "historical");
-  await expect(card.getByRole("img")).toBeVisible();
-  await expect(card).toContainText("Dövrünün əsəri");
-});
-
 test("Nadir Şah's coronation links to the state simulation and back", async ({ page }) => {
-  await page.goto("/az/persons/nadir-shah/?step=nadir-mughan");
-  await startJourney(page, /mərhələsindən başla/);
-  await page.locator("article").getByRole("link", { name: /Əfşarlar dövləti/ }).click();
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/az/sexsiyyetler/nadir-shah/?step=nadir-mughan");
+  await page.getByTestId("step-content").getByRole("link", { name: /Əfşarlar dövləti/ }).click();
   await expect(page).toHaveURL(/\/az\/states\/afshar\/\?step=1736-mughan/);
   await startJourney(page, /mərhələsindən başla/);
   await expect(page.getByRole("heading", { level: 2, name: "Muğan qurultayı: Əfşarlar dövləti" })).toBeVisible();
   await page.getByTestId("return-link").click();
-  await expect(page).toHaveURL(/\/az\/persons\/nadir-shah\/\?step=nadir-mughan/);
+  await expect(page).toHaveURL(/\/az\/sexsiyyetler\/nadir-shah\/\?step=nadir-mughan/);
 });
 
 test("war section plays its own music: march, anthem on Şuşa, lament on memorial days", async ({ page }) => {

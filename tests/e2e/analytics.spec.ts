@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { loadPersons, startJourney } from "./helpers";
+import { loadPersons } from "./helpers";
 
 /**
  * Learning events leave the browser only when the build sets NEXT_PUBLIC_ANALYTICS_URL
@@ -29,9 +29,9 @@ test("a journey sends anonymous learning events in batches", async ({ page }) =>
 
   const person = loadPersons()[0]!;
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto(`/az/persons/${person.id}/`);
-  await startJourney(page);
-  await page.getByRole("button", { name: /Növbəti/ }).first().click();
+  await page.goto(`/az/sexsiyyetler/${person.id}/`);
+  await page.getByTestId("step-next").click();
+  await expect(page.getByTestId("simulation-shell")).toHaveAttribute("data-step", person.stepIds[1]!);
   // Closing the page sends what is queued, including that the simulation was left half-way.
   await page.evaluate(() => window.dispatchEvent(new Event("pagehide")));
 

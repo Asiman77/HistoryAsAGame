@@ -52,7 +52,7 @@ test("an unknown owner in the link falls back with a notice", async ({ page }) =
 test("a step deep-links into its simulation", async ({ page }) => {
   await page.goto("/az/compare/");
   await page.getByTestId("compare-list-b").getByTestId("compare-step").filter({ hasText: "Təbrizdə taxta çıxma" }).click();
-  await expect(page).toHaveURL(/\/persons\/shah-ismayil\/\?step=ismayil-coronation/);
+  await expect(page).toHaveURL(/\/sexsiyyetler\/shah-ismayil\/\?step=ismayil-coronation/);
 });
 
 test("the site footer links to the compare page", async ({ page }) => {

@@ -28,15 +28,13 @@ test("scrolling the timeline moves the page from century to century", async ({ p
 test("a timeline item deep-links into the simulation step", async ({ page }) => {
   await page.goto("/az/places/tebriz/");
   await page.getByTestId("place-event").filter({ hasText: "Təbrizdə taxta çıxma" }).getByRole("link").click();
-  await expect(page).toHaveURL(/\/persons\/shah-ismayil\/\?step=ismayil-coronation/);
+  await expect(page).toHaveURL(/\/sexsiyyetler\/shah-ismayil\/\?step=ismayil-coronation/);
 });
 
-test("the city card on the map opens the place page", async ({ page }) => {
+test("the city card in the simulation opens the place page", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/az/persons/shah-ismayil/?step=ismayil-coronation");
-  await startJourney(page, /mərhələsindən başla/);
-  // The current step's city is drawn as a journey marker; its name opens the city card.
-  await page.locator(".place-marker button.label").filter({ hasText: /^Təbriz$/ }).first().click();
+  await page.goto("/az/sexsiyyetler/shah-ismayil/?step=ismayil-coronation");
+  await page.getByTestId("place-link").click();
   await page.getByTestId("place-history-link").click();
   await expect(page).toHaveURL(/\/az\/places\/tebriz\/$/);
   await expect(page.getByTestId("place-page")).toBeVisible();

@@ -1,107 +1,82 @@
-import { expect, test } from "@playwright/test";
-import { collectErrors, startJourney } from "./helpers";
+import { expect, test, type Page } from "@playwright/test";
+import { collectErrors } from "./helpers";
 
-const ISMAYIL = "/az/persons/shah-ismayil/";
-const timeline = (page: import("@playwright/test").Page) => page.getByRole("navigation", { name: "Həyat xətti" }).getByRole("button");
-const stage = (page: import("@playwright/test").Page, name: string) => page.getByRole("heading", { level: 2, name, exact: true });
+/** What the legacy story panel offered, in the SimulationShell (Q6: "Ətraflı", city card, battle card). */
+const ISMAYIL = "/az/sexsiyyetler/shah-ismayil/";
+const heading = (page: Page) => page.getByTestId("step-content").getByRole("heading", { level: 2 });
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
 });
 
-test("start gate unlocks the story; the mute choice is remembered", async ({ page }) => {
+test("the sound choice is remembered", async ({ page, viewport }) => {
   const errors = collectErrors(page);
   await page.goto(ISMAYIL);
-  await expect(page.getByRole("dialog", { name: "Şah İsmayıl Xətai" })).toBeVisible();
-  await page.getByRole("button", { name: /Səsi söndür/ }).click();
-  await startJourney(page);
-  await expect(page.getByRole("button", { name: "Səsi aç" }).first()).toBeVisible();
+  const sound = page.getByRole("button", { name: "Səsi söndür" });
+  await sound.click();
+  await expect(page.getByRole("button", { name: "Səsi aç" })).toBeVisible();
   await page.reload();
-  await expect(page.getByText("Səs söndürülüb")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Səsi aç" })).toBeVisible();
   expect(errors).toEqual([]);
+  void viewport;
 });
 
-test("progress is saved and can be resumed", async ({ page }) => {
-  await page.goto(ISMAYIL);
-  await startJourney(page);
-  await timeline(page).nth(5).click();
-  await expect(stage(page, "Lahicanda təhsil")).toBeVisible();
-  await page.reload();
-  await startJourney(page, /Qaldığın yerdən davam et/);
-  await expect(stage(page, "Lahicanda təhsil")).toBeVisible();
-});
-
-test("political map legend follows the year and marks borders as approximate", async ({ page, viewport }) => {
-  await page.goto(ISMAYIL);
-  await startJourney(page);
-  const legend = page.getByTestId("map-legend");
-  // Below 1024px the legend starts collapsed.
-  if ((viewport?.width ?? 0) < 1024) await legend.getByRole("button", { name: "Xəritə açarını göstər" }).click();
-  await expect(legend.getByText("Sərhədlər təxminidir")).toBeVisible();
-  await timeline(page).nth(10).click();
-  await expect(legend.getByText("Səfəvi dövlətinin yaranması")).toBeVisible();
-  await expect(legend.getByText("Səfəvi dövləti", { exact: true })).toBeVisible();
-});
+test.fixme("political map legend and ruler panel (phase 6: RulerPanel on the MapLibre map)", async () => {});
 
 test("battle card names sides, commanders and forces with a source", async ({ page }) => {
-  await page.goto(ISMAYIL);
-  await startJourney(page);
-  await timeline(page).nth(14).click();
-  await expect(stage(page, "Çaldıran döyüşü")).toBeVisible();
-  const card = page.getByRole("region", { name: /Döyüş/ });
+  await page.goto(`${ISMAYIL}?step=ismayil-chaldiran`);
+  await expect(heading(page)).toHaveText("Çaldıran döyüşü");
+  const card = page.getByTestId("battle-card");
   await expect(card.getByText("Osmanlı ordusu")).toBeVisible();
   await expect(card.getByText("Məhəmməd xan Ustaclu (həlak oldu)")).toBeVisible();
   await expect(card.getByText(/60 000–100 000/)).toBeVisible();
   await expect(card.getByRole("link", { name: "Battle of Chaldiran" })).toBeVisible();
   await expect(card.getByText("Tarixi əhəmiyyəti")).toBeVisible();
+  await expect(card.getByTestId("battle-result")).toHaveText("Məğlubiyyət");
 });
 
-test("glossary terms explain themselves", async ({ page }) => {
-  await page.goto(ISMAYIL);
-  await startJourney(page);
-  await timeline(page).nth(7).click();
-  await page.getByRole("radio", { name: "Öyrənmə" }).first().click();
-  await page.locator(".glossary-term", { hasText: /^qızılbaş$/i }).first().click();
-  await expect(page.getByRole("tooltip")).toContainText("qırmızı baş");
+test("glossary terms of the step are explained in Ətraflı", async ({ page }) => {
+  await page.goto(`${ISMAYIL}?step=ismayil-erzincan&mode=learn`);
+  const terms = page.getByTestId("more-terms");
+  await expect(terms.getByText(/^qızılbaş/i).first()).toBeVisible();
+  await expect(terms).toContainText("qırmızı baş");
 });
 
-test("meanwhile in the world and the link to another person's story", async ({ page }) => {
-  await page.goto(ISMAYIL);
-  await startJourney(page);
-  await expect(page.getByText(/Bu zaman dünyada · 1487/)).toBeVisible();
-  await page.locator("article").getByRole("link", { name: /Uzun Həsən: Trabzon şahzadəsi ilə nikah/ }).click();
-  await expect(page).toHaveURL(/\/az\/persons\/uzun-hasan\/\?step=uzun-hasan-despina/);
-  await startJourney(page, /mərhələsindən başla/);
-  await expect(stage(page, "Trabzon şahzadəsi ilə nikah")).toBeVisible();
+test("meanwhile in the world, and the link to another person's story and back", async ({ page }) => {
+  await page.goto(`${ISMAYIL}?step=ismayil-birth`);
+  await page.getByTestId("more").locator("summary").click();
+  await expect(page.getByTestId("more-world")).toContainText("Bu zaman dünyada · 1487");
+  await page.getByTestId("step-content").getByRole("link", { name: /Uzun Həsən · Trabzon şahzadəsi ilə nikah/ }).click();
+  await expect(page).toHaveURL(/\/az\/sexsiyyetler\/uzun-hasan\/\?step=uzun-hasan-despina/);
+  await expect(heading(page)).toHaveText("Trabzon şahzadəsi ilə nikah");
+  const back = page.getByTestId("return-link");
+  await expect(back).toContainText("Şah İsmayıl Xətai · Ərdəbildə doğuluş");
+  await back.click();
+  await expect(page).toHaveURL(/\/az\/sexsiyyetler\/shah-ismayil\/\?step=ismayil-birth/);
+  await expect(heading(page)).toHaveText("Ərdəbildə doğuluş");
 });
 
-test("city card opens from the map and jumps to a stage", async ({ page, isMobile }) => {
-  test.skip(isMobile, "map markers are tested on larger screens");
-  await page.goto(ISMAYIL);
-  await startJourney(page);
-  await timeline(page).nth(10).click();
-  const tabriz = page.locator(".place-marker .label", { hasText: /^Təbriz$/ });
-  await expect(tabriz).toBeVisible({ timeout: 20_000 });
-  await tabriz.click();
+test("city card opens from the place name and jumps to a stage", async ({ page }) => {
+  await page.goto(`${ISMAYIL}?step=ismayil-coronation`);
+  await page.getByTestId("place-link").click();
   const card = page.getByRole("dialog", { name: "Təbriz" });
-  await expect(card.getByText("Bu həyatda burada")).toBeVisible();
+  await expect(card.getByText("Bu hekayədə burada")).toBeVisible();
   await card.getByRole("button", { name: /Mərhələyə keç: Xətai/ }).click();
-  await expect(stage(page, "Xətai: şair şah")).toBeVisible();
+  await expect(heading(page)).toHaveText("Xətai: şair şah");
+  await expect(card).toHaveCount(0);
 });
 
-test("teacher mode enlarges the UI and follows presentation clickers", async ({ page, isMobile }) => {
-  test.skip(isMobile, "projector setup");
-  await page.goto(ISMAYIL);
-  await startJourney(page);
-  await page.getByRole("button", { name: "Səs və ayarlar" }).click();
-  await page.getByRole("switch", { name: "Müəllim rejimi" }).click();
-  await expect(page.locator("html")).toHaveClass(/teacher-mode/);
+test("city card opens from a marker on the map", async ({ page, viewport }) => {
+  test.skip((viewport?.width ?? 0) < 1024, "markers are tested where the map is not under the sheet");
+  await page.goto(`${ISMAYIL}?step=ismayil-coronation`);
+  await expect(page.getByTestId("gl-map")).toHaveAttribute("data-ready", "true", { timeout: 20_000 });
+  await page.locator(".gl-current[data-clickable=true]").click();
+  await expect(page.getByTestId("place-card")).toHaveAttribute("data-place", "tebriz");
   await page.keyboard.press("Escape");
-  await page.keyboard.press("PageDown");
-  await expect(stage(page, "Atanın ölüm xəbəri")).toBeVisible();
-  await page.keyboard.press("PageUp");
-  await expect(stage(page, "Ərdəbildə doğuluş")).toBeVisible();
+  await expect(page.getByTestId("place-card")).toHaveCount(0);
 });
+
+test.fixme("teacher mode in the shell (phase 13: projector mode)", async () => {});
 
 test("audio files are served in both formats", async ({ request }) => {
   for (const f of ["music-base", "music-battle", "amb-wind", "sfx-sprite"])

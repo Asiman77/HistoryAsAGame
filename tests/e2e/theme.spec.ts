@@ -24,11 +24,11 @@ test("picking an era narrows the persons and puts the page into that period", as
 
 test("a simulation follows the period of each step", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/az/persons/shah-ismayil/");
-  // Childhood is still in the Ağqoyunlu period, with its art behind the start card.
-  await expect(page.getByTestId("theme-art")).toHaveAttribute("data-theme-id", "turkman-tebriz");
-  await startJourney(page);
+  // Childhood is still in the Ağqoyunlu period; the coronation brings the Safavid one.
+  await page.goto("/az/sexsiyyetler/shah-ismayil/?step=ismayil-birth");
   await expect.poll(() => themeOf(page)).toBe("turkman-tebriz");
+  await page.goto("/az/sexsiyyetler/shah-ismayil/?step=ismayil-coronation");
+  await expect.poll(() => themeOf(page)).toBe("sefevi");
 
   await page.goto("/az/states/afshar/?step=1739-india");
   await page.getByRole("dialog").getByRole("button").first().click();
