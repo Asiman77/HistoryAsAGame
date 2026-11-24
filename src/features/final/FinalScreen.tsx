@@ -113,7 +113,7 @@ export function FinalScreen({ data }: { data: FinalData }) {
           <p className="m-0 max-w-[500px] text-16 leading-relaxed text-fg-secondary">{data.legacy}</p>
         </div>
 
-        <LifeRoute route={data.route} title={t("route")} className="h-[300px] w-full sm:h-[380px] lg:absolute lg:left-0 lg:top-[36%] lg:h-[40%] lg:w-[55%] lg:opacity-90" />
+        <LifeRoute route={data.route} title={t("route")} className="h-[300px] w-full sm:h-[380px] lg:absolute lg:left-0 lg:top-[43%] lg:h-[36%] lg:w-[55%] lg:opacity-90" />
 
         <div className="flex flex-col gap-3 lg:absolute lg:bottom-10 lg:left-12 lg:z-10 lg:max-w-[calc(100%-640px)]">
           <dl className="m-0 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap" data-testid="final-stats">
