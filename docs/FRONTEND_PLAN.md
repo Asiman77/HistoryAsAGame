@@ -356,6 +356,7 @@ Funksionallıq və refaktorinq ayrı commit-lərdə. `ARCHITECTURE.md` yerinə f
 | 3 | Simulyasiya mühərriki | ✅ 2026-11-23 |
 | 4 | Xəritə | ✅ 2026-11-24 |
 | 5 | Şəxsiyyət simulyasiyası + final | ✅ 2026-11-24 |
+| B1 | Backend: şablon, era çəkisi və fənni, tema `ui` | ✅ 2026-11-24, [ARCHITECTURE §23](ARCHITECTURE.md) |
 | 6–15 | | gözləyir |
 
 ### Mərhələ 1: dizayn sistemi

@@ -563,7 +563,7 @@ Qayda: **heç kim öz yazdığı revision-ı təsdiqləyə bilməz.** Bütün ke
 | `GET /on-this-day?month=&day=` | "Tarixdə bu gün" (boşdursa, həmin ay üzrə fallback) |
 | `GET /compare?a=person:shah-ismail&b=person:uzun-hasan` | paralel timeline və kəsişmələr |
 | `GET /search?q=&types=` | axtarış (`az_fold` + trigram) |
-| `GET /eras`, `/themes/{slug}` | dövrlər, temalar |
+| `GET /eras[?subject=]`, `/themes/{slug}` | dövrlər (zaman şkalası çəkisi `weight` və fənn `subject` ilə), temalar (yeni dizaynın `ui` palitrası ilə) |
 | `GET /soundtracks?mood=` | icazəli treklər |
 
 ### 10.2. Nümunə cavab: `GET /api/v1/persons/shah-ismail/steps?lang=az`

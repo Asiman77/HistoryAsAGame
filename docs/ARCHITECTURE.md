@@ -72,7 +72,7 @@ Konvensiyalar:
 ### chronology
 | Cədvəl | Sütunlar | İndekslər |
 |---|---|---|
-| `era` | `id`, `slug`, `name LT`, `start_year`, `end_year`, `description LT`, `theme_slug`, `sort_order` | `UNIQUE (slug)`, `INDEX (start_year, end_year)` |
+| `era` | `id`, `slug`, `name LT`, `start_year`, `end_year`, `description LT`, `theme_slug`, `weight` (defolt 1), `subject` (defolt `azerbaijan-history`), `sort_order` | `UNIQUE (slug)`, `INDEX (start_year, end_year)`, `INDEX (subject, start_year)` |
 | `polity` | `id`, `slug`, `name LT`, `short_name LT`, `color`, `emblem_media_id`, `start_year`, `end_year` (periodlardan törəmə), `state_slug`, `description LT` | `UNIQUE (slug)` |
 | `polity_period` | `id`, `polity_id → polity`, `from_year`, `to_year` | `INDEX (polity_id, from_year, to_year)` |
 | `polity_fact` | `id`, `polity_id → polity`, `from_year`, `to_year`, `status`, `status_note LT`, `religion LT`, `languages LT`, `rivals text[]`, `allies text[]`, `sources jsonb` | `INDEX (polity_id, from_year, to_year)` |
@@ -98,7 +98,7 @@ Konvensiyalar:
 | `battle` | `id`, `slug`, `name LT`, `conflict_slug`, `step_key`, `dates`, `HD(date) NULL`, `place_slug NULL`, `summary LT`, `sides/commanders/forces/outcome/significance jsonb NULL`, `sources jsonb` | `UNIQUE (slug)` |
 | `state_profile` | `id`, `slug`, `polity_slug`, `name LT`, `years`, `start_year`, `end_year`, `summary LT`, `legacy LT`, `image jsonb`, `era_slugs text[]`, `dynasty text[]`, `theme_slug`, `sources jsonb` | `UNIQUE (slug)` |
 | `hero` | `id`, `slug`, `conflict_slug`, `full_name LT`, `rank LT`, `posthumous`, `birth_place LT`, `birth_year NULL`, `HD(death) NULL`, `awards jsonb`, `bio LT`, `photo_media_id NULL`, `is_real_modern_person` | `UNIQUE (slug)`, trigram ad |
-| `simulation_step` | `id`, `owner_type`, `owner_slug`, `step_key`, `sequence`, `step_kind`, `HD(date)`, `title LT`, `factual_summary LT`, `narrative LT`, `mood`, `claim_type`, `location_name LT`, `location_modern_name LT`, `location_point geometry(Point)`, `location_approximate`, `location_place_slug`, `from_location_*` (eyni), `route geometry(LineString)`, `territory_snapshot_slug`, `theme_slug`, `age_at_event`, `details jsonb` | `UNIQUE (owner_type, owner_slug, step_key)`, `UNIQUE (owner_type, owner_slug, sequence)`, `INDEX (date_sort_key)`, `INDEX (date_month, date_day) WHERE date_precision='DAY'`, `INDEX (location_place_slug)`, `GIST (location_point)`, `GIST (route)` |
+| `simulation_step` | `id`, `owner_type`, `owner_slug`, `step_key`, `sequence`, `step_kind`, `HD(date)`, `title LT`, `factual_summary LT`, `narrative LT`, `mood`, `claim_type`, `location_name LT`, `location_modern_name LT`, `location_point geometry(Point)`, `location_approximate`, `location_place_slug`, `from_location_*` (eyni), `route geometry(LineString)`, `territory_snapshot_slug`, `theme_slug`, `age_at_event`, `template` (null ola bilər), `details jsonb` | `UNIQUE (owner_type, owner_slug, step_key)`, `UNIQUE (owner_type, owner_slug, sequence)`, `INDEX (date_sort_key)`, `INDEX (date_month, date_day) WHERE date_precision='DAY'`, `INDEX (location_place_slug)`, `GIST (location_point)`, `GIST (route)` |
 | `step_claim` | `id`, `step_id → simulation_step`, `claim_key`, `claim_type`, `text LT`, `why LT`, `versions jsonb`, `first_recorded jsonb`, `sort_order` | `UNIQUE (step_id, claim_key)` |
 | `source` | `id`, `slug` (hash-dan), `title`, `authors`, `url`, `source_type`, `reliability_note LT`, `content_hash` | `UNIQUE (content_hash)` — paylaşılan, `document_id` yoxdur; istinadsız qalanlar dərcdən sonra təmizlənir |
 | `step_source` | `step_id → simulation_step`, `source_id → source`, `locator`, `sort_order` | `PK (step_id, source_id, sort_order)` |
@@ -110,7 +110,7 @@ Konvensiyalar:
 | `planned_entity` | `id`, `entity_type`, `slug`, `title LT`, `description LT`, `years` | `UNIQUE (entity_type, slug)` |
 
 ### theming
-| `theme` | `id`, `slug`, `name LT`, `extends_slug`, `raw jsonb` (sənəddəki kimi), `palette`, `fonts`, `textures`, `ornaments`, `background_art`, `mood_overrides jsonb` (birləşdirilmiş), `ambient_effect`, `map_style_variant`, `music_theme_slug` | `UNIQUE (slug)` |
+| `theme` | `id`, `slug`, `name LT`, `extends_slug`, `raw jsonb` (sənəddəki kimi), `palette`, `fonts`, `textures`, `ornaments`, `background_art`, `mood_overrides jsonb` (birləşdirilmiş), `ambient_effect`, `map_style_variant`, `music_theme_slug`, `ui jsonb` (null ola bilər) | `UNIQUE (slug)` |
 |---|---|---|
 
 ### media
@@ -333,7 +333,7 @@ GET /api/v1/...  ──► PublicApiInterceptor: dil + content_version (1 sorğu
 | `GET /battles/{slug}`, `/heroes/{slug}` | catalog | qəhrəman fotosu yalnız ictimai lisenziya ilə |
 | `GET /relations?type=&slug=` | catalog | öz və addımlarının keçidləri (`OUTGOING`) + ona gələnlər (`INCOMING`) |
 | `GET /places?bbox=&minImportance=`, `/places/{slug}` | geo | `minImportance=k` → vaciblik ≤ k (1 = ən vacib); dövrlərə görə adlar, gələcək məzmun |
-| `GET /eras` | chronology | hamısı, səhifələnmir |
+| `GET /eras` | chronology | hamısı və ya `?subject=` ilə bir fənnin dövrləri, səhifələnmir |
 | `GET /polities/{slug}`, `/rulers/{slug}` | chronology | dövrlər, faktlar, hakimiyyətlər; hökmdarın şəxsiyyət səhifəsi varsa `personAvailable` |
 | `GET /themes/{slug}` | theming | miras birləşdirilmiş; `moodOverrides` açarları böyük hərflə |
 
@@ -607,6 +607,7 @@ Brauzer (NEXT_PUBLIC_ANALYTICS_URL varsa, DNT/GPC yoxdursa) ─► sendBeacon te
 | `V014__analytics` | 12 | partition-lı `learning_event`, `daily_aggregate` |
 | `V015__document_position` | 13 | eksport sırası |
 | `V016__document_assignee` | §22 | rəyçi təyinatı (`assignee_id`) |
+| `V017__step_template_era_weight_theme_ui` | §23 | addım şablonu, era çəkisi və fənni, temanın tünd UI palitrası |
 
 Tətbiq olunmuş miqrasiya heç vaxt dəyişdirilmir; düzəliş yeni `V0NN` faylı ilədir.
 
@@ -691,3 +692,20 @@ Spesifikasiyanın qalan bəndləri və §21-in açıq məsələləri. Qərarlar:
 - Yeni `compose` job-u `docker compose up --build --wait` ilə sistemi qaldırır: login, `POST /admin/import`, `/persons`, `/places/tebriz`, `/compare`.
 
 **Testlər:** `PreviewTests`, `EditorialFlowTests` (təyinat), `ProjectionTests` (dərc → ad dəyişmə → köhnə link → yenidən dərc → `301` → əvvəlki ada qayıdış), `WorkflowTests`, `RenameInsideTests`, `WorldEventRulesTests`, `PublicApiTests` (dünya hadisələri), `ContentSchemasTests`, `DocumentValidatorTests`, `PublicCacheTests`, `PermissionMatrixTests` (3 yeni sətir).
+
+## 23. Yeni dizayn üçün sahələr: paket B1 (2026-11-24)
+
+Frontend-in yenidən qurulması üçün ([ADR-0022](adr/0022-frontend-redesign.md), [FRONTEND_PLAN §11](FRONTEND_PLAN.md)) üç isteğe bağlı sahə.
+Hamısı məzmunda optional-dır: indiki `data/` dəyişmir, köhnə sətirlər yenidən dərc olunmadan mənasını saxlayır.
+
+| Sahə | Məzmun (Zod → `shared/schema`) | Proyeksiya | API |
+|---|---|---|---|
+| Addım şablonu | `LifeEvent`, `WarDay`, `StateStep`: `template?: StepTemplate` (`location`, `journey`, `battle`, `territory`, `liberation`, `infographic`, `monument`, `artifact`, `migration`, `treaty`) | `simulation_step.template` (`details`-ə düşmür) | addım cavablarında `template` (`BATTLE`…), yoxdursa `null`: frontend addımdan törədir |
+| Era çəkisi və fənni | `Era`: `weight?` (0 < w ≤ 100), `subject?` (slug) | `era.weight` (defolt 1), `era.subject` (defolt `azerbaijan-history`) | `GET /eras` hər erada `weight`, `subject`; `?subject=` süzgəci (slug deyilsə `400`) |
+| Temanın UI palitrası | `Theme`, `ThemeVariant`: `ui?: ThemeUi` (`bg`, `accent` məcburi; `bgRaised`, `bgPanel`, `accentInk`, `secondary[]`, `text`, `eyebrow`) | `theme.ui`; variantın öz `ui`-si valideyninkini bütövlükdə əvəz edir, yoxdursa irs alınır (`backgroundArt` kimi) | `GET /themes/{slug}` cavabında `ui` (yoxdursa `null`) |
+
+- **Miqrasiya:** `V017__step_template_era_weight_theme_ui`.
+- **Eksport:** sənəd hissələri olduğu kimi yazılır, yeni sahələr `data/` fayllarına özü keçir.
+- **Frontend:** `deriveTemplate` datadakı `template`-i üstün tutur, yüklənən temanın `ui`-si kod fallback-larından (`src/theme/fallbacks.ts`) üstündür. Kontrast həmişə kodda yoxlanılır və lazım olsa düzəldilir.
+- **Testlər:** `ProjectionTests.redesignFieldsAreProjected`, `PublicApiTests` (`/eras?subject=`, `template` və `ui` null), frontend-də `sharedSchema.test.ts` və `theme.test.ts`.
+
