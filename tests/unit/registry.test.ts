@@ -19,7 +19,7 @@ describe("registry", () => {
 
   it("resolves an existing ref to an active link with the step title", () => {
     const r = resolveRef({ type: "person", id: "nadir-shah", stepId: "nadir-mughan" }, reg);
-    expect(r.href).toBe("/persons/nadir-shah/?step=nadir-mughan");
+    expect(r.href).toBe("/sexsiyyetler/nadir-shah/?step=nadir-mughan");
     expect(r.stepTitle?.az).toBe("Muğan");
   });
 

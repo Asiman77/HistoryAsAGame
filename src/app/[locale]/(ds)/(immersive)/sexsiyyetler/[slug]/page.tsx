@@ -26,8 +26,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 /**
- * Person simulation in the new SimulationShell (phase 3). The legacy page
- * (/persons/<id>/) stays until phase 5 completes portraits, final and quiz.
+ * Person simulation in the new SimulationShell (phases 3–5). The old
+ * /persons/<id>/ and /person/<id>/ addresses redirect here with ?step=.
  */
 export default async function PersonSimulationPage({ params }: { params: Params }) {
   const { locale, slug } = await params;

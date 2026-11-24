@@ -118,7 +118,7 @@ export function buildJourney(person: Person, events: LifeEvent[], allEras: Era[]
   const y = (d: Person["birth"]["date"]) => (d.certainty === "exact" ? String(d.year) : `~${d.year}`);
   return {
     key: person.id,
-    path: `/persons/${person.id}/`,
+    path: `/sexsiyyetler/${person.id}/`,
     title: person.name,
     subtitle: `${y(person.birth.date)} – ${y(person.death.date)}`,
     ...(person.portrait ? { image: person.portrait } : {}),

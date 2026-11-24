@@ -10,8 +10,8 @@ export async function generateStaticParams() {
   return persons.map((p) => ({ id: p.id }));
 }
 
-/** Old URL (/az/person/<id>/) kept for shared links; ?step= is carried over. */
+/** Old URL (/az/person/<id>/) kept for shared links; ?step= is carried over to the simulation. */
 export default async function OldPersonPage({ params }: { params: Params }) {
   const { locale, id } = await params;
-  return <RootRedirect to={`/${locale}/persons/${id}/`} keepQuery />;
+  return <RootRedirect to={`/${locale}/sexsiyyetler/${id}/`} keepQuery />;
 }

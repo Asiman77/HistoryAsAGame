@@ -17,8 +17,8 @@ export type Registry = Record<string, RegistryEntry>;
 
 export const refKey = (type: EntityType, id: string) => `${type}:${id}`;
 
-/** Simulation types that have their own pages. */
-const ROUTES: Partial<Record<EntityType, string>> = { person: "persons", conflict: "conflicts", state: "states", place: "places" };
+/** Simulation types that have their own pages. Persons moved to the new design in phase 5 (ADR-0022). */
+const ROUTES: Partial<Record<EntityType, string>> = { person: "sexsiyyetler", conflict: "conflicts", state: "states", place: "places" };
 
 export function entityPath(type: EntityType, id: string, stepId?: string): string | null {
   const base = ROUTES[type];
