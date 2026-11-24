@@ -11,7 +11,7 @@ import { BASE_THEME_TOKENS } from "@/theme/tokens";
 export const viewport: Viewport = { themeColor: BASE_THEME_TOKENS["bg-base"] };
 
 /** Message namespaces the client components of the new design read. */
-const CLIENT_NAMESPACES = ["ui", "claims", "site", "home", "collections", "pages", "onThisDay", "shell"] as const;
+const CLIENT_NAMESPACES = ["ui", "claims", "site", "home", "collections", "pages", "onThisDay", "shell", "final", "passport", "months"] as const;
 
 /**
  * Root of the new design (ADR-0022): messages, client providers, the

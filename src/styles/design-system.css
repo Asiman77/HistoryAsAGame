@@ -130,6 +130,24 @@
 .lite .ds-animate-pulse,
 .lite .ds-animate-drift { animation: none; }
 
+/* Final screen: the life route draws itself step by step, places appear as it reaches them. */
+@keyframes ds-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes ds-appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.ds-draw { stroke-dasharray: 1 1; stroke-dashoffset: 1; animation: ds-draw var(--dur, 700ms) cubic-bezier(.65, 0, .35, 1) var(--delay, 0ms) forwards; }
+.ds-appear { opacity: 0; animation: ds-appear 400ms ease var(--delay, 0ms) forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .ds-draw { animation: none; stroke-dashoffset: 0; }
+  .ds-appear { animation: none; opacity: 1; }
+}
+.lite .ds-draw { animation: none; stroke-dashoffset: 0; }
+.lite .ds-appear { animation: none; opacity: 1; }
+
 /* Range input of the design: transparent track (bands are drawn under it), gold thumb. */
 .ds-range::-webkit-slider-runnable-track { height: 28px; background: transparent; }
 .ds-range::-moz-range-track { height: 28px; background: transparent; }

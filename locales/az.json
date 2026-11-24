@@ -689,6 +689,68 @@
       "eyebrow": "Gün görünüşü"
     }
   },
+  "final": {
+    "eyebrow": "Səyahət başa çatdı · {years}",
+    "title": "{nameGen} irsi",
+    "back": "Həyat yoluna qayıt",
+    "route": "Bütün həyat yolu xəritədə",
+    "stats": {
+      "steps": "Mərhələlər",
+      "battles": "Döyüşlər",
+      "battlesDetail": "{victories} qələbə · {defeats} məğlubiyyət",
+      "places": "Məkanlar",
+      "distance": "Qət edilən yol",
+      "km": "≈ {km} km",
+      "distanceNote": "Marşrutların xəritə üzrə uzunluğu, təxmini",
+      "choices": "Seçim anları: {match} / {total} tarixdəki qərarla eyni"
+    },
+    "quiz": {
+      "label": "Quiz · {n} / {total}",
+      "kinds": {
+        "choice": "Çoxseçimli",
+        "claim": "Fakt yoxsa rəvayət?",
+        "order": "Xronoloji sıra",
+        "map": "Xəritədə tap"
+      },
+      "orderLead": "Hadisələri baş verdiyi ardıcıllıqla düz.",
+      "up": "Yuxarı apar: {title}",
+      "down": "Aşağı apar: {title}",
+      "check": "Yoxla",
+      "orderWrong": "Düzgün sıra:",
+      "mapLead": "Xəritədə tap: {place}",
+      "point": "{letter} nöqtəsi",
+      "pointAnswered": "{letter} nöqtəsi: {name}",
+      "correct": "Düzdür.",
+      "wrong": "Düz deyil.",
+      "claimWrong": "Əslində: {type}.",
+      "seeStep": "Mənbəyə bax: Mərhələ {n} · {title}",
+      "next": "Növbəti sual",
+      "finish": "Nəticəni gör",
+      "resultTitle": "Quizin nəticəsi",
+      "score": "{score} / {total}",
+      "great": "Əla! Bu həyatı yaxşı tanıyırsan.",
+      "good": "Yaxşı nəticədir, bəzi mərhələlərə yenidən baxa bilərsən.",
+      "low": "Həyat yolunu yenidən keçməyə dəyər, cavablar mərhələlərdədir.",
+      "badge": "Sınaq nişanı: bütün suallara düz cavab",
+      "again": "Yenidən",
+      "empty": "Bu səyahət üçün suallar hələ hazırlanmayıb."
+    },
+    "stamps": {
+      "title": "Tarix pasportu",
+      "titleNew": "Tarix pasportu · yeni möhürlər",
+      "more": "daha {n} möhür, pasportda",
+      "empty": "Bu səyahətdə keçdiyin şəhərlərə burada möhür vurulacaq.",
+      "open": "Pasporta bax"
+    },
+    "home": "Ana səhifə",
+    "compare": "{nameWith} müqayisə et"
+  },
+  "passport": {
+    "count": "{n} / {total} möhür",
+    "from": "{sim} · {date}",
+    "start": "Şəxsiyyət seç və səyahətə başla",
+    "local": "Möhürlər yalnız bu cihazda saxlanılır."
+  },
   "shell": {
     "back": "Geri: {label}",
     "modeLabel": "Rejim",
