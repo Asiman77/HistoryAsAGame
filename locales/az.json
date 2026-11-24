@@ -523,7 +523,8 @@
     "noneToday": "{date} tarixində baş vermiş hadisəmiz yoxdur, bu ayın hadisələrinə bax.",
     "none": "Bu ay üçün hadisə tapılmadı.",
     "yearsAgo": "{n} il əvvəl"
-  },
+  }
+,
   "ui": {
     "comingSoon": "tezliklə",
     "preparing": "Məlumat hazırlanır",
@@ -721,8 +722,6 @@
       "yours": "Sənin seçimin",
       "match": "Tarixdəki qərarla eyni yolu seçdin."
     },
-    "aiPortrait": "Rəssam təsəvvürü (AI illüstrasiya)",
-    "noPortrait": "Portret yoxdur",
     "mapNote": "Stilizə xəritə · sərhədlər təxminidir",
     "compass": "Şimal",
     "announce": "Mərhələ {current} / {total}: {title}, {date}",
@@ -732,6 +731,17 @@
       "expand": "Paneli böyüt",
       "collapse": "Paneli kiçilt"
     },
-    "swipeHint": "Sürüşdürərək keç"
+    "swipeHint": "Sürüşdürərək keç",
+    "portrait": {
+      "historical": "Dövrünün əsəri",
+      "artwork": "Sonrakı dövr rəssamının əsəri",
+      "ai_illustration": "Rəssam təsəvvürü (AI illüstrasiya)",
+      "pending": "Portret hazırlanır",
+      "pendingAi": "Bu yaş üçün rəssam təsəvvürü hazırlanır",
+      "ages": "{from}–{to} yaş",
+      "about": "Portret haqqında",
+      "license": "Lisenziya: {license}",
+      "source": "Mənbəyə bax"
+    }
   }
 }

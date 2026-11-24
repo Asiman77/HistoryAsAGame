@@ -24,11 +24,21 @@ export interface ShellChoice {
   why: string;
 }
 
+/**
+ * The portrait for the age of a step (spec 2): a work of the person's time,
+ * a later artwork or an AI illustration. Without a file the card shows a
+ * respectful silhouette and says the portrait is being prepared.
+ */
 export interface ShellPortrait {
+  /** Stable key of the age range ("23-37"): the card crossfades when it changes. */
+  key: string;
   src: string | null;
   alt: string;
-  /** AI illustration: always captioned "Rəssam təsəvvürü (AI illüstrasiya)". */
-  ai: boolean;
+  /** null: the person's single portrait (no age portraits in the data), kind unknown. */
+  kind: "historical" | "artwork" | "ai_illustration" | null;
+  ages: { from: number; to: number } | null;
+  caption: string | null;
+  credit: { author: string | null; license: string | null; url: string | null };
 }
 
 /**

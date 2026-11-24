@@ -67,11 +67,27 @@ export function personShell(journey: Journey, eras: Era[], locale: Locale, label
         ? { prompt: tr(e.choice.prompt), options: e.choice.options.map((o) => ({ text: tr(o.text), explanation: tr(o.explanation) })), historical: e.choice.historicalOptionIndex, why: tr(e.choice.why) }
         : null,
       age: { years: s.age.years, approximate: s.age.approximate },
-      // The age portrait when its file exists, else the person's own portrait; an AI caption only with an AI image.
-      portrait: portrait?.src
-        ? { src: withBasePath(portrait.src), alt: tr(portrait.alt), ai: portrait.kind === "ai_illustration" }
+      // The portrait of this age; without its file a placeholder, never another age's portrait.
+      portrait: portrait
+        ? {
+            key: `${portrait.ageFrom}-${portrait.ageTo}`,
+            src: portrait.src ? withBasePath(portrait.src) : null,
+            alt: tr(portrait.alt),
+            kind: portrait.kind,
+            ages: { from: portrait.ageFrom, to: portrait.ageTo },
+            caption: portrait.caption ? tr(portrait.caption) : null,
+            credit: { author: portrait.author ?? null, license: portrait.license ?? null, url: portrait.sourceUrl ?? null },
+          }
         : person.portrait
-          ? { src: withBasePath(person.portrait.src), alt: tr(person.portrait.alt), ai: false }
+          ? {
+              key: "person",
+              src: withBasePath(person.portrait.src),
+              alt: tr(person.portrait.alt),
+              kind: null,
+              ages: null,
+              caption: null,
+              credit: { author: person.portrait.author ?? null, license: person.portrait.license, url: person.portrait.sourceUrl ?? null },
+            }
           : null,
     };
   });
