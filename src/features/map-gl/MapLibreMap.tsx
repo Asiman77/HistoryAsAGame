@@ -100,6 +100,12 @@ export function MapLibreMap({ data, locale, padding, lite, reduced, onReady, onF
         });
         map.addControl(new lib.AttributionControl({ compact: true }), "bottom-left");
         const m = map;
+        // A lost context (GPU reset, too many contexts) leaves a dead canvas: the SVG map takes over.
+        m.on("webglcontextlost", () => {
+          if (cancelled) return;
+          live.current = null;
+          callbacks.current.onFail();
+        });
         m.once("load", () => {
           if (cancelled) return;
           const palette = MAP_PALETTES[first.mapVariant];
@@ -155,7 +161,7 @@ export function MapLibreMap({ data, locale, padding, lite, reduced, onReady, onF
       showStep(i) {
         const l = live.current;
         const s = data.steps[i];
-        if (!l || !s) return;
+        if (!l || !s || !l.map.getSource("trails")) return;
         l.index = i;
         (l.map.getSource("trails") as GeoJSONSource).setData(lines(data.steps.filter((x) => x.index < i && x.route && x.route.length > 1).map((x) => x.route!)));
         (l.map.getSource("route") as GeoJSONSource).setData(s.route && s.route.length > 1 ? lines([s.route]) : EMPTY);

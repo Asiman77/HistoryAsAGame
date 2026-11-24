@@ -210,3 +210,24 @@ describe("runTransition", () => {
     expect(done).toBe(true);
   });
 });
+
+describe("runTransition when a part fails", () => {
+  it("still brings the new text in and resolves", async () => {
+    vi.useRealTimers();
+    const error = vi.spyOn(console, "error").mockImplementation(() => {});
+    const to = step(1, [46, 38]);
+    const contentIn = vi.fn();
+    const map: MapController = {
+      showStep: () => {
+        throw new Error("context lost");
+      },
+      flyTo: () => Promise.reject(new Error("context lost")),
+      drawRoute: () => Promise.resolve(),
+    };
+    const actors: TransitionActors = { map, panelOut: () => {}, setTheme: () => {}, counters: () => {}, portrait: () => {}, contentIn };
+    await runTransition(planTransition(null, to, { reduced: true }), to, actors, new AbortController().signal);
+    expect(contentIn).toHaveBeenCalledTimes(1);
+    expect(error).toHaveBeenCalled();
+    error.mockRestore();
+  });
+});

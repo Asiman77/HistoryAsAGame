@@ -11,14 +11,25 @@ const MapLibreMap = dynamic(() => import("@/features/map-gl/MapLibreMap").then((
 
 const noop = () => () => {};
 
-/** WebGL is there (MapLibre needs it); unknown on the server. */
+let glSupport: boolean | null = null;
+
+/**
+ * WebGL is there (MapLibre needs it); unknown on the server. Checked once per
+ * page and the probe context is released at once: useSyncExternalStore asks
+ * on every render, and each new context counts against the browser's limit
+ * (about 16), after which it drops the oldest one, the map's.
+ */
 function webglAvailable(): boolean {
+  if (glSupport !== null) return glSupport;
   try {
     const canvas = document.createElement("canvas");
-    return !!(canvas.getContext("webgl2") ?? canvas.getContext("webgl"));
+    const gl = canvas.getContext("webgl2") ?? canvas.getContext("webgl");
+    glSupport = !!gl;
+    gl?.getExtension("WEBGL_lose_context")?.loseContext();
   } catch {
-    return false;
+    glSupport = false;
   }
+  return glSupport;
 }
 
 interface Props {

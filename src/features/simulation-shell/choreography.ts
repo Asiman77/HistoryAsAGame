@@ -113,6 +113,8 @@ export interface TransitionActors {
 
 export const cameraOf = (s: Pick<ShellStep, "center" | "zoom">): CameraView => ({ center: s.center, zoom: s.zoom });
 
+const report = (e: unknown) => console.error("transition part failed", e);
+
 /**
  * Runs a planned transition. Each part starts at its time; when `signal`
  * aborts, parts not started yet run at once with zero duration and running
@@ -141,7 +143,16 @@ export function runTransition(plan: TransitionPlan, to: ShellStep, actors: Trans
     const timers: ReturnType<typeof setTimeout>[] = [];
     const start = (part: Part, instant: boolean) => {
       if (!pending.delete(part)) return;
-      running.push(Promise.resolve(part.run(instant)).then(() => undefined));
+      // One failing part (a map that lost its context) must not keep the text from coming in.
+      const done = (() => {
+        try {
+          return Promise.resolve(part.run(instant)).catch(report);
+        } catch (e) {
+          report(e);
+          return Promise.resolve();
+        }
+      })();
+      running.push(done.then(() => undefined));
       if (pending.size === 0) void Promise.all(running).then(() => resolve());
     };
     const abort = () => {
