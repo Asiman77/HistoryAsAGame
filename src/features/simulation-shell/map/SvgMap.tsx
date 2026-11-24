@@ -25,6 +25,8 @@ interface Props {
   land: string;
   /** Screen space covered by the story panel; the target is centred in the rest. */
   padding: MapPadding;
+  /** Called once the map can take commands (right after mount). */
+  onReady?: () => void;
   ref?: Ref<MapController>;
 }
 
@@ -40,7 +42,7 @@ const toView = (v: CameraView, widthPx: number): View => {
  * MapLibre now (phase 3) and stays as the no-WebGL fallback (§7).
  * Camera and route frames are written to the DOM directly, not through React.
  */
-export function SvgMap({ steps, places, land, padding, ref }: Props) {
+export function SvgMap({ steps, places, land, padding, onReady, ref }: Props) {
   const wrap = useRef<HTMLDivElement>(null);
   const svg = useRef<SVGSVGElement>(null);
   const routeEl = useRef<SVGPathElement>(null);
@@ -87,6 +89,12 @@ export function SvgMap({ steps, places, land, padding, ref }: Props) {
     pad.current = padding;
     apply();
   }, [padding]);
+
+  // The imperative handle is set before effects run, so the shell can replay its state now.
+  useEffect(() => {
+    onReady?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const el = wrap.current;

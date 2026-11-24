@@ -154,3 +154,50 @@
 .ds-range:focus-visible { outline: none; }
 .ds-range:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--accent); outline-offset: 3px; }
 .ds-range:focus-visible::-moz-range-thumb { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ---------- Simulation map markers (src/features/map-gl/markers.ts) ---------- */
+.gl-label {
+  font-family: var(--font-noto-serif-display), Georgia, serif;
+  font-size: 15px;
+  color: var(--map-ink);
+  white-space: nowrap;
+  text-shadow: 0 0 3px var(--map-parchment-center), 0 0 3px var(--map-parchment-center), 0 0 6px var(--map-parchment-center);
+}
+.gl-place { display: flex; align-items: center; gap: 6px; pointer-events: none; transition: opacity 400ms ease; }
+.gl-place[data-visible="false"] { opacity: 0; }
+.gl-dot { width: 9px; height: 9px; border-radius: 999px; background: var(--map-ink); }
+.gl-landmark { display: flex; flex-direction: column; align-items: center; gap: 1px; transition: opacity 400ms ease; cursor: default; }
+.gl-landmark[data-visible="false"] { opacity: 0; pointer-events: none; }
+.gl-landmark .gl-label { font-size: 13px; opacity: 0.85; }
+.gl-current { position: relative; width: 22px; height: 22px; pointer-events: none; }
+.gl-pulse { position: absolute; inset: -11px; border-radius: 999px; border: 1.5px solid var(--secondary); animation: ds-pulse 3.2s ease-in-out infinite; }
+.gl-core { position: absolute; inset: 0; border-radius: 999px; background: var(--secondary); box-shadow: 0 0 0 4px var(--map-parchment-center); }
+.gl-current-label {
+  position: absolute;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-noto-serif-display), Georgia, serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--map-ink);
+  white-space: nowrap;
+  text-shadow: 0 0 4px var(--map-parchment-center), 0 0 8px var(--map-parchment-center);
+}
+.gl-rider { width: 12px; height: 12px; border-radius: 999px; background: var(--accent); border: 1.5px solid var(--map-ink); pointer-events: none; }
+.gl-polity {
+  font-family: var(--font-noto-serif-display), Georgia, serif;
+  font-size: 13px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  transition: opacity 600ms ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.gl-polity[data-state="out"] { opacity: 0; }
+.gl-polity[data-vassal="true"] { font-size: 11px; opacity: 0.6; }
+@media (prefers-reduced-motion: reduce) {
+  .gl-pulse { animation: none; }
+}
+.lite .gl-pulse { animation: none; }

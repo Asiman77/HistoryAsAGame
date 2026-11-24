@@ -2,7 +2,7 @@
 
 import { ArrowLeft, Volume2, VolumeX } from "lucide-react";
 import { AnimatePresence, useReducedMotion } from "motion/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { BottomSheet, sheetHeight } from "@/components/ui/BottomSheet";
@@ -15,13 +15,13 @@ import { ownerOf, track } from "@/lib/analytics/client";
 import { cx } from "@/lib/cx";
 import { progressStore, saveProgress, useProgress } from "@/lib/progress";
 import { Link } from "@/i18n/navigation";
-import { updateSettings, useSettings } from "@/lib/settings";
+import { deviceLooksWeak, updateSettings, useSettings } from "@/lib/settings";
 import { useMediaQuery, useViewportHeight } from "@/lib/useMediaQuery";
 import { useSimulationStore } from "@/stores/simulation";
 import { useThemeStore } from "@/stores/theme";
 import { planTransition, runTransition, type TransitionActors } from "./choreography";
 import { useAutoplay, useShellKeys, useSwipe } from "./hooks";
-import { SvgMap } from "./map/SvgMap";
+import { ShellMap } from "./map/ShellMap";
 import { PortraitCard } from "./parts/PortraitCard";
 import { ShellTimeline } from "./parts/ShellTimeline";
 import { StepContent } from "./parts/StepContent";
@@ -57,6 +57,8 @@ export function SimulationShell({ data }: { data: ShellData }) {
   const desktop = useMediaQuery("(min-width: 1024px)", true);
   const vh = useViewportHeight();
   const settings = useSettings();
+  const lite = settings.lightMode ?? deviceLooksWeak();
+  const locale = useLocale() as import("@/domain/schema").Locale;
   const [storedMode, setStoredMode] = useStoredMode();
 
   const modeParam = params.get("mode");
@@ -209,7 +211,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
       ) : null}
 
       <div ref={mapArea} className="relative min-h-0 flex-1" data-testid="map-stage">
-        <SvgMap ref={map} steps={data.steps} places={data.places} land={data.land} padding={padding} />
+        <ShellMap ref={map} data={data} locale={locale} padding={padding} lite={lite} reduced={reduced} />
 
         {!desktop ? (
           <MobileBar data={data} step={counterStep} muted={settings.muted} onMute={toggleMute} />
@@ -221,7 +223,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
           </div>
         ) : null}
 
-        <div className={cx("pointer-events-none absolute left-7 z-10 flex items-end gap-4", desktop ? "bottom-6" : "hidden")}>
+        <div className={cx("pointer-events-none absolute left-7 z-10 flex items-end gap-4", desktop ? "bottom-12" : "hidden")}>
           <Compass size={56} title={t("compass")} className="text-map-ink" />
           <span className="rounded-full bg-map-parchment-center/80 px-3 py-1 text-12 text-map-ink" data-testid="map-note">
             {t("mapNote")}
