@@ -35,6 +35,7 @@ export function resolveThemes(files: ThemeFile[]): ThemeMap {
       mapStyleVariant: f.mapStyleVariant ?? parent.mapStyleVariant,
       musicThemeId: f.musicThemeId ?? parent.musicThemeId,
       ...(parent.moodTones || f.moodTones ? { moodTones: { ...parent.moodTones, ...f.moodTones } } : {}),
+      ...((f.ui ?? parent.ui) ? { ui: f.ui ?? parent.ui } : {}),
     };
     return (out[id] = theme);
   };

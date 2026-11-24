@@ -114,6 +114,9 @@
         "date"
       ]
     },
+    "template": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/StepTemplate.schema.json"
+    },
     "related": {
       "type": "array",
       "items": {

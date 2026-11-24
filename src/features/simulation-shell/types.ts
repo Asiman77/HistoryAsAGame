@@ -1,4 +1,4 @@
-import type { ClaimType, MAP_STYLE_VARIANTS, Mood, PlaceType } from "@/domain/schema";
+import type { ClaimType, MAP_STYLE_VARIANTS, Mood, PlaceType, StepTemplate } from "@/domain/schema";
 
 /** Base-map look of a period (data/themes: mapStyleVariant). */
 export type MapVariant = (typeof MAP_STYLE_VARIANTS)[number];
@@ -6,9 +6,9 @@ export type MapVariant = (typeof MAP_STYLE_VARIANTS)[number];
 /** [lng, lat] */
 export type LngLat = [number, number];
 
-/** Step templates (FRONTEND_SPEC §5.2): how the map behaves for a step. */
-export const TEMPLATES = ["location", "journey", "battle", "territory", "liberation", "infographic", "monument", "artifact", "migration", "treaty"] as const;
-export type Template = (typeof TEMPLATES)[number];
+/** Step templates (FRONTEND_SPEC §5.2): how the map behaves for a step. Defined with the data (B1). */
+export { STEP_TEMPLATES as TEMPLATES } from "@/domain/schema";
+export type Template = StepTemplate;
 
 export interface ShellSource {
   title: string;

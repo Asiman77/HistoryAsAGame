@@ -251,6 +251,9 @@
           "brightness"
         ]
       }
+    },
+    "ui": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/ThemeUi.schema.json"
     }
   },
   "required": [

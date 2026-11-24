@@ -27,6 +27,15 @@
     "themeId": {
       "type": "string",
       "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "weight": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 100
+    },
+    "subject": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
     }
   },
   "required": [

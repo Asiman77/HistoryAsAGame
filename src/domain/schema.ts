@@ -240,6 +240,14 @@ export const QuizQuestion = z
   });
 export type QuizQuestion = z.infer<typeof QuizQuestion>;
 
+/**
+ * How the simulation shows a step on the map (FRONTEND_SPEC §5.2). Optional: without it
+ * the frontend derives one from the step (a route → journey, an outcome → battle…).
+ */
+export const STEP_TEMPLATES = ["location", "journey", "battle", "territory", "liberation", "infographic", "monument", "artifact", "migration", "treaty"] as const;
+export const StepTemplate = z.enum(STEP_TEMPLATES);
+export type StepTemplate = z.infer<typeof StepTemplate>;
+
 /** A timed subtitle line for narration audio, in seconds. */
 export const NarrationCue = z
   .object({ start: z.number().min(0), end: z.number().min(0), text: LocalizedText })
@@ -294,6 +302,8 @@ export const LifeEvent = z.object({
   /** First-person literary text. Dramatisation, never presented as fact. */
   narrative: LocalizedText,
   outcome: BattleOutcome.optional(),
+  /** Map behaviour of the step; derived from the step when absent. */
+  template: StepTemplate.optional(),
   sources: z.array(Source).min(1),
   choice: Choice.optional(),
   quiz: z.array(QuizQuestion).min(1).max(3).optional(),
@@ -382,8 +392,16 @@ export const Era = z.object({
   description: LocalizedText,
   /** Visual theme (data/themes/<id>.json). Persons, states and wars of the era inherit it. */
   themeId: Slug,
+  /**
+   * Share of the timeline's width per year relative to other eras (non-linear axis,
+   * FRONTEND_SPEC §6.2); 1 when absent. 0.2 squeezes a long prehistory, 3 widens a busy century.
+   */
+  weight: z.number().positive().max(100).optional(),
+  /** School subject the era belongs to; "azerbaijan-history" when absent. */
+  subject: Slug.optional(),
 });
 export type Era = z.infer<typeof Era>;
+export const DEFAULT_SUBJECT = "azerbaijan-history";
 
 // ---------------------------------------------------------------------------
 // Themes: the look and feel of a period, kept in data, never in components
@@ -461,6 +479,26 @@ const Palette = z.object({
   link: HexColor.optional(),
 });
 
+/**
+ * Dark palette of the new design for the theme (FRONTEND_SPEC §3.2). Optional: without it
+ * the frontend uses its design fallbacks (src/theme/fallbacks.ts) or derives one from the
+ * primary colour. Contrast is checked and corrected in code, never trusted blindly.
+ */
+export const ThemeUi = z.object({
+  bg: HexColor,
+  bgRaised: HexColor.optional(),
+  bgPanel: HexColor.optional(),
+  accent: HexColor,
+  /** Text on the accent (buttons). */
+  accentInk: HexColor.optional(),
+  /** Second and third colour of the period: card tints, silhouettes, tiles. */
+  secondary: z.array(HexColor).min(1).max(3).optional(),
+  text: z.object({ primary: HexColor.optional(), secondary: HexColor.optional(), muted: HexColor.optional() }).optional(),
+  /** Eyebrow labels when they differ from the accent (2020: light blue). */
+  eyebrow: HexColor.optional(),
+});
+export type ThemeUi = z.infer<typeof ThemeUi>;
+
 export const Theme = z.object({
   id: Slug,
   name: LocalizedText,
@@ -478,12 +516,13 @@ export const Theme = z.object({
   /** Key in MUSIC_THEMES (src/features/audio/manifest.ts). */
   musicThemeId: Slug,
   moodTones: z.partialRecord(Mood, MoodTone).optional(),
+  ui: ThemeUi.optional(),
 });
 export type Theme = z.infer<typeof Theme>;
 
 /**
  * A variant of another theme (e.g. Əfşar → Hind yürüşü): only the parts that
- * differ, merged section by section over the parent.
+ * differ, merged section by section over the parent (art, effects, music and ui replace).
  */
 export const ThemeVariant = z.object({
   id: Slug,
@@ -498,6 +537,8 @@ export const ThemeVariant = z.object({
   mapStyleVariant: Theme.shape.mapStyleVariant.optional(),
   musicThemeId: Slug.optional(),
   moodTones: Theme.shape.moodTones,
+  /** Replaces the parent's `ui` as a whole (like backgroundArt); inherited when absent. */
+  ui: ThemeUi.optional(),
 });
 export type ThemeVariant = z.infer<typeof ThemeVariant>;
 
@@ -801,6 +842,8 @@ export const StateStep = z.object({
   /** Short dated items inside the stage. */
   events: z.array(z.object({ date: z.string().min(1), text: LocalizedText })).optional(),
   keyFacts: KeyFacts.optional(),
+  /** Map behaviour of the step; a state stage is "territory" when absent. */
+  template: StepTemplate.optional(),
   related: z.array(EntityRef).optional(),
   /** Theme variant for this step only, e.g. the Indian campaign (data/themes). */
   themeId: Slug.optional(),
@@ -875,6 +918,8 @@ export const WarDay = z.object({
   /** Heroes who fell on this day; only when an official source gives the date. */
   fallenHeroes: z.array(Slug).optional(),
   officialStatement: OfficialStatement.optional(),
+  /** Map behaviour of the day; a war day is "liberation" when absent. */
+  template: StepTemplate.optional(),
   related: z.array(EntityRef).optional(),
   /** Theme variant for this step only, e.g. the Indian campaign (data/themes). */
   themeId: Slug.optional(),

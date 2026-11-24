@@ -82,6 +82,9 @@
     "outcome": {
       "$ref": "https://tarixin-icinde.az/schema/v1/BattleOutcome.schema.json"
     },
+    "template": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/StepTemplate.schema.json"
+    },
     "sources": {
       "minItems": 1,
       "type": "array",

@@ -47,3 +47,25 @@ describe("shared/schema", () => {
     expect(matchesPattern("erasXsefevi.json", "eras/*.json")).toBe(false);
   });
 });
+
+describe("redesign fields (B1), optional in content", () => {
+  it("a step may name its template; unknown names are refused", async () => {
+    const { StepTemplate } = await import("@/domain/schema");
+    expect(StepTemplate.parse("battle")).toBe("battle");
+    expect(() => StepTemplate.parse("cutscene")).toThrow();
+  });
+  it("an era weight is positive; subject is a slug", async () => {
+    const { Era } = await import("@/domain/schema");
+    const era = { id: "e", name: { az: "E" }, startYear: 1500, endYear: 1600, description: { az: "d" }, themeId: "default" };
+    expect(Era.parse(era).weight).toBeUndefined();
+    expect(Era.parse({ ...era, weight: 0.2, subject: "world-history" }).weight).toBe(0.2);
+    expect(() => Era.parse({ ...era, weight: 0 })).toThrow();
+    expect(() => Era.parse({ ...era, subject: "World History" })).toThrow();
+  });
+  it("a theme ui needs at least the ground and the accent", async () => {
+    const { ThemeUi } = await import("@/domain/schema");
+    expect(ThemeUi.parse({ bg: "#140E08", accent: "#E0B07A" })).toEqual({ bg: "#140E08", accent: "#E0B07A" });
+    expect(() => ThemeUi.parse({ bg: "#140E08" })).toThrow();
+    expect(() => ThemeUi.parse({ bg: "dark", accent: "#E0B07A" })).toThrow();
+  });
+});

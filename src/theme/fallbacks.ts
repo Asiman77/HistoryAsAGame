@@ -1,6 +1,6 @@
 /**
  * Dark UI palettes of the period themes (docs/FRONTEND_SPEC.md §3.2). Theme
- * data will carry its own `ui` block (backend B1); until then, and whenever
+ * data may carry its own `ui` block (ThemeUi, backend B1), which wins; when
  * the data leaves it out, these values apply. Keys are the theme ids in
  * data/themes (ADR-0022): the spec's `aq-qoyunlu` is `turkman-tebriz`,
  * `safavid` is `sefevi`, `afsharid` is `efshar`, `victory-2020` is `muasir-zefer`.

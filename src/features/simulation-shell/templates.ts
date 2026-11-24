@@ -20,9 +20,10 @@ export const IMPLEMENTED: readonly Template[] = ["location", "journey"];
 const isTemplate = (v: string | undefined): v is Template => !!v && (TEMPLATES as readonly string[]).includes(v);
 
 /**
- * Template of a step (§5.2). Data does not carry one yet, so it is read from
- * the step: a war day frees settlements, a state stage changes borders, a
- * battle has an outcome, a movement draws a route, anything else is a place.
+ * Template of a step (§5.2). An explicit `template` in the data wins (B1);
+ * otherwise it is read from the step: a war day frees settlements, a state
+ * stage changes borders, a battle has an outcome, a movement draws a route,
+ * anything else is a place.
  */
 export function deriveTemplate(h: TemplateHints): Template {
   if (isTemplate(h.template)) return h.template;

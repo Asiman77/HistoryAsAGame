@@ -23,7 +23,7 @@ export default async function DesignLayout({ children, params }: { children: Rea
   setRequestLocale(locale);
   const [messages, themes] = await Promise.all([getMessages(), getRepository().listThemes()]);
   const clientMessages = Object.fromEntries(CLIENT_NAMESPACES.map((ns) => [ns, messages[ns]]));
-  const tokens = Object.fromEntries(Object.values(themes).map((th) => [th.id, tokensForTheme(th.id, undefined, th.palette.primary)]));
+  const tokens = Object.fromEntries(Object.values(themes).map((th) => [th.id, tokensForTheme(th.id, th.ui, th.palette.primary)]));
   return (
     <NextIntlClientProvider locale={locale} messages={clientMessages}>
       <ThemeStyles themes={tokens} />

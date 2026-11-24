@@ -38,6 +38,15 @@ describe("resolveThemes", () => {
     expect(t.v!.fonts).toEqual(base.fonts);
     expect(t.v!.moodTones?.battle?.brightness).toBe(0.55);
   });
+  it("passes the dark UI palette down whole; a variant's own ui replaces it", () => {
+    const withUi: Theme = { ...base, ui: { bg: "#140E08", accent: "#E0B07A", secondary: ["#7A3A16"] } };
+    const inherits: ThemeFile = { id: "v1", name: { az: "V1" }, extends: "base" };
+    const own: ThemeFile = { id: "v2", name: { az: "V2" }, extends: "base", ui: { bg: "#0B1222", accent: "#E2C27A" } };
+    const t = resolveThemes([withUi, inherits, own]);
+    expect(t.v1!.ui).toEqual(withUi.ui);
+    expect(t.v2!.ui).toEqual({ bg: "#0B1222", accent: "#E2C27A" });
+    expect(resolveThemes([base, inherits]).v1!.ui).toBeUndefined();
+  });
   it("rejects unknown parents and cycles", () => {
     expect(() => resolveThemes([{ id: "x", name: { az: "x" }, extends: "nope" }])).toThrow(/tapılmadı/);
     expect(() =>

@@ -60,7 +60,7 @@ export function personShell(journey: Journey, eras: Era[], locale: Locale, label
       title: tr(e.title),
       kind,
       nodeLabel: KIND_AS_LABEL.has(e.type) ? kind : shortPlace(place),
-      template: deriveTemplate({ hasRoute: !!s.route, battle: !!e.outcome }),
+      template: deriveTemplate({ ...(e.template ? { template: e.template } : {}), hasRoute: !!s.route, battle: !!e.outcome }),
       mood: s.mood,
       themeId: s.themeId,
       claimType: s.claimType,
