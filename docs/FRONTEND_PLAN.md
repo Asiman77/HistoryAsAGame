@@ -354,7 +354,8 @@ Funksionallıq və refaktorinq ayrı commit-lərdə. `ARCHITECTURE.md` yerinə f
 | 1 | Dizayn sistemi | ✅ 2026-11-22 |
 | 2 | Layout və naviqasiya | ✅ 2026-11-23 |
 | 3 | Simulyasiya mühərriki | ✅ 2026-11-23 |
-| 4–15 | | gözləyir |
+| 4 | Xəritə | ✅ 2026-11-24 |
+| 5–15 | | gözləyir |
 
 ### Mərhələ 1: dizayn sistemi
 
@@ -434,3 +435,24 @@ Animasiya bitmədən "növbəti" basılanda cari animasiya dərhal sona çatır,
 - Yaş portretinin faylı yoxdursa, şəxsiyyətin öz portreti göstərilir. "Rəssam təsəvvürü (AI illüstrasiya)" yazısı yalnız AI şəkli göstəriləndə çıxır.
 - Səs düyməsi `tarix:settings.muted`-i dəyişir, səs mühərrikinin qoşulması mərhələ 12-dədir.
 - `Ətraflı` bölməsi (qlossari, "Bu zaman dünyada", nəql, ilkin mənbə; Q6) mərhələ 5-də əlavə olunacaq.
+
+### Mərhələ 4: xəritə
+
+**Quruluş:**
+- `src/theme/mapPalettes.ts`: dövr variantlarının (`manuscript`, `miniature`, `military`, `modern`) xəritə rəngləri, `--map-*` tokenlərindən törədilib. MapLibre CSS dəyişəni oxumadığı üçün konkret rəngdir.
+- `src/features/map-gl/style.ts`: öz stilimiz. Perqament zəmin, Natural Earth relyefi, hillshade, su və çaylar (OpenFreeMap). Müasir sərhəd, yol və ad yoxdur. `applyVariant` addım başqa dövrə keçəndə rəngləri 750 ms-də dəyişir.
+- `territories.ts`: iki qat yığını, snapshot-lar arasında 600 ms crossfade, təxmini sərhəd (yumşaq rəng zolağı + qırıq xətt), `feature-state` ilə hover konturu, dövlət adları HTML-dir (Azərbaycan hərfləri tətbiqin şrifti ilə).
+- `markers.ts`: kataloq məkanları (miniatür ikonlar, ilə görə ad, hover-də müasir ad, importance + zoom ilə görünmə, paytaxtlar snapshot-dan), hekayənin çatdığı məkanlar, pulsasiya edən cari marker, marşrutu izləyən marker.
+- `MapLibreMap.tsx`: `MapController`-in MapLibre reallaşdırması. Marşrut `line-gradient` + `lineMetrics` ilə, irəliləyiş rAF ilə, keçilmiş marşrutlar solğun qırıq iz kimi qalır. Kamera `flyTo` (curve 1.4, spesifikasiyanın easing-i), panel və sheet üçün padding.
+- `simulation-shell/map/ShellMap.tsx`: renderer seçimi. WebGL varsa MapLibre (`next/dynamic`, yalnız simulyasiya route-larında yüklənir), yoxdursa və ya xəritə başlaya bilməsə SVG xəritə. Xoreoqrafiyanın son istəklərini yadda saxlayır və xəritə hazır olanda təkrar oynadır.
+- `ShellStep`-ə `snapshotId`, `mapVariant`; `ShellData`-ya `landmarks`, `capitals` əlavə olundu.
+
+**Ölçmə:** route çəkilən keçid zamanı bu maşında (Playwright desktop, GPU bayraqları ilə) orta 51–56 fps, p95 kadr 16.8–33 ms (3 ölçüm, tək işləyəndə). Paralel e2e yükü altında 41 fps-ə düşür. Test həddi 20 fps-dir (proqram təminatlı WebGL üçün), rəqəm test çıxışında yazılır.
+
+**Qərarlar və qeydlər:**
+- **`maplibre-gl` birbaşa, `react-map-gl` olmadan** (spesifikasiyadan fərq, təsdiq gözləyir). Xəritə yalnız `MapController` vasitəsilə imperativ idarə olunur və hər kadr yeniləməsi React-dan kənardadır. `react-map-gl` burada əlavə asılılıqdan başqa bir şey vermir. Deklarativ qatlar lazım olsa (zaman şkalası, mərhələ 6), oraya əlavə etmək olar.
+- **Poliqon morph-u (flubber) istifadə olunmur**, yalnız crossfade var. Snapshot-lar region birləşmələridir, eyni dövlətin iki snapshot-da topologiyası və nöqtə sayı fərqlidir. Morph hər kadrda onlarla poliqonu yenidən hesablamaq deməkdir, zəif məktəb kompüterində 50 fps hədəfi ilə uyğun deyil.
+- Kataloq məkanlarının ikonları köhnə miniatür ikon dəstidir (`features/map/icons.ts`), xəritə üçün çəkilib və perqamentdə yaxşı oxunur.
+- MapLibre marker elementinə inline `opacity` yazır, ona görə hər markerin bir host elementi var, görünmə daxili elementdə idarə olunur.
+- Atribusiya (Natural Earth, Terrain Tiles, OpenFreeMap, OSM) sol aşağı küncdədir, lisenziya tələbidir.
+- Dövlətə klik (hökmdar paneli) mərhələ 6-da, döyüş oxları mərhələ 11-də (`battle`), azad olunan məntəqələr mərhələ 9-da (`liberation`) gəlir. Label declutter yoxdur, görünmə importance və zoom ilə idarə olunur.
