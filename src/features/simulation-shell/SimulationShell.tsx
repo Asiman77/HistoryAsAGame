@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowLeft, Volume2, VolumeX } from "lucide-react";
-import { AnimatePresence, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
@@ -74,7 +74,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
   const hasLegends = data.steps.some((s) => s.claimType === "legend");
   const visible = useMemo(() => (legends ? data.steps : data.steps.filter((s) => s.claimType !== "legend")), [data.steps, legends]);
 
-  const { index, contentIndex, counterIndex, stagger, readyKey, playing, panelOpen, sheet, announcement, set } = useSimulationStore();
+  const { index, contentIndex, leaving, started, counterIndex, stagger, readyKey, playing, panelOpen, sheet, announcement, set } = useSimulationStore();
   const map = useRef<MapController>(null);
   const mapArea = useRef<HTMLDivElement>(null);
   const previous = useRef<number | null>(null);
@@ -112,6 +112,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
     track({ type: "simulation_started", ...owner, mode });
     return () => {
       running.current?.abort();
+      useSimulationStore.getState().set({ started: false });
       useThemeStore.getState().setOverride(null);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -133,7 +134,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
   // The choreography of every step change (§5.3); a new change aborts the running one.
   useEffect(() => {
     const to = data.steps[index];
-    if (!to) return;
+    if (!to || !started) return;
     running.current?.abort();
     const ctrl = new AbortController();
     running.current = ctrl;
@@ -144,12 +145,12 @@ export function SimulationShell({ data }: { data: ShellData }) {
     const position = Math.max(0, visible.findIndex((s) => s.index === to.index));
     const actors: TransitionActors = {
       map: map.current ?? noopMap,
-      panelOut: () => set({ contentIndex: null, readyKey: null }),
+      panelOut: () => set({ leaving: true, readyKey: null }),
       setTheme: (id) => useThemeStore.getState().setOverride(id),
       counters: () => set({ counterIndex: to.index }),
       portrait: () => {},
       contentIn: (s) =>
-        set({ contentIndex: to.index, stagger: s, announcement: t("announce", { current: position + 1, total, title: to.title, date: to.dateLabel }) }),
+        set({ contentIndex: to.index, leaving: false, stagger: s, announcement: t("announce", { current: position + 1, total, title: to.title, date: to.dateLabel }) }),
     };
     void runTransition(plan, to, actors, ctrl.signal).then(() => {
       if (!ctrl.signal.aborted) set({ readyKey: to.id });
@@ -160,7 +161,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
     const saved = progressStore.get().persons[data.key];
     saveProgress(data.key, { index: to.index, phase: "journey", choices: saved?.choices ?? {} }, data.steps.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index]);
+  }, [index, started]);
 
   // Leaving before the last step is a learning signal (anonymous, ADR-0020); from the last step it is finishing.
   const whereNow = useRef({ stepKey: step.id, atEnd: !next });
@@ -224,8 +225,12 @@ export function SimulationShell({ data }: { data: ShellData }) {
   const shown = contentIndex === null ? null : data.steps[contentIndex];
   const counterStep = data.steps[counterIndex] ?? step;
   const content = shown ? (
+    // A new step remounts (key) and staggers in; the old one fades out with `leaving` and is simply
+    // replaced. No exit animation to wait for, so a slow frame can never leave the panel empty or doubled.
     <StepContent
+      key={shown.id}
       step={shown}
+      leaving={leaving}
       total={visible.length}
       position={Math.max(0, visible.findIndex((s) => s.index === shown.index))}
       mode={mode}
@@ -315,7 +320,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
           panelOpen ? (
             <Panel edge position="absolute" className="bottom-6 right-6 top-6 z-10 flex w-[420px] flex-col" data-testid="story-panel">
               <div className="min-h-0 flex-1 overflow-y-auto px-7 pb-6 pt-8">
-                <AnimatePresence initial={false}>{content}</AnimatePresence>
+                {content}
               </div>
               <div className="shrink-0 border-t border-line p-5">{nav}</div>
             </Panel>
@@ -348,7 +353,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
             </div>
           }
         >
-          <AnimatePresence initial={false}>{content}</AnimatePresence>
+          {content}
         </BottomSheet>
       )}
     </div>

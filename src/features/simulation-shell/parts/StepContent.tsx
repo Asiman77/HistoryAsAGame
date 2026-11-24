@@ -68,6 +68,8 @@ export interface StepContentProps {
   position: number;
   mode: ShellMode;
   stagger: number;
+  /** The text fades out (§5.3) while the next step is on its way. */
+  leaving?: boolean;
   picked: number | undefined;
   onPick: (i: number) => void;
   /** Rəvayətlər toggle: legend statements fold away when off. */
@@ -84,7 +86,7 @@ export interface StepContentProps {
  * the narrative first (story) or the facts and open sources first (learn).
  * Children come in one after another, `stagger` ms apart.
  */
-export function StepContent({ step, total, position, mode, stagger, picked, onPick, legends, onPlace, onFollow, compact }: StepContentProps) {
+export function StepContent({ step, total, position, mode, stagger, leaving = false, picked, onPick, legends, onPlace, onFollow, compact }: StepContentProps) {
   const t = useTranslations("shell");
   const disputed = step.claims.filter((c) => c.type === "disputed");
   const others = step.claims.filter((c) => c.type !== "disputed");
@@ -92,9 +94,13 @@ export function StepContent({ step, total, position, mode, stagger, picked, onPi
     <motion.article
       key={step.id}
       initial="hidden"
-      animate="show"
-      exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
-      variants={{ hidden: {}, show: { transition: { staggerChildren: stagger / 1000 } } }}
+      animate={leaving ? "out" : "show"}
+      variants={{
+        hidden: {},
+        show: { opacity: 1, y: 0, transition: { staggerChildren: stagger / 1000 } },
+        out: { opacity: 0, y: -8, transition: { duration: 0.2 } },
+      }}
+      aria-busy={leaving || undefined}
       className="flex flex-col gap-4"
       data-testid="step-content"
       data-step={step.id}
