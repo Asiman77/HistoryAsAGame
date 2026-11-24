@@ -35,13 +35,25 @@ export class ShellMarkers {
   readonly rider: Marker;
   private year = 0;
   private capitals = new Set<string>();
+  /** Catalogue place of the current step, for a click on the current marker. */
+  private currentPlaceId: string | null = null;
 
   constructor(
     private readonly map: MlMap,
     lib: MapLib,
     landmarks: ShellLandmark[],
     places: ShellPlace[],
+    /** City card (Q6). Keyboard users open it from the place name in the panel. */
+    onPlace: (placeId: string) => void,
   ) {
+    const clickable = (el: HTMLElement, id: () => string | null) => {
+      el.addEventListener("click", (e) => {
+        const placeId = id();
+        if (!placeId) return;
+        e.stopPropagation();
+        onPlace(placeId);
+      });
+    };
     for (const item of landmarks) {
       if (places.some((p) => close(p.center, item.center))) continue;
       const el = document.createElement("div");
@@ -52,6 +64,8 @@ export class ShellMarkers {
       const label = document.createElement("span");
       label.className = "gl-label";
       el.append(icon, label);
+      el.dataset.clickable = "true";
+      clickable(el, () => item.id);
       const marker = new lib.Marker({ element: hosted(el), anchor: "center" }).setLngLat(item.center).addTo(map);
       this.landmarks.push({ item, marker, el, label });
     }
@@ -61,6 +75,10 @@ export class ShellMarkers {
       el.dataset.visible = "false";
       el.innerHTML = `<span class="gl-dot"></span><span class="gl-label"></span>`;
       el.querySelector(".gl-label")!.textContent = item.name;
+      if (item.placeId) {
+        el.dataset.clickable = "true";
+        clickable(el, () => item.placeId);
+      }
       const marker = new lib.Marker({ element: hosted(el), anchor: "left", offset: [-5, 0] }).setLngLat(item.center).addTo(map);
       this.places.push({ item, marker, el });
     }
@@ -69,6 +87,7 @@ export class ShellMarkers {
     cur.setAttribute("data-testid", "map-current");
     cur.innerHTML = `<span class="gl-pulse"></span><span class="gl-core"></span><span class="gl-current-label"></span>`;
     this.currentLabel = cur.querySelector(".gl-current-label")!;
+    clickable(cur, () => this.currentPlaceId);
     this.current = new lib.Marker({ element: hosted(cur), anchor: "center" }).setLngLat([0, 0]);
     const rider = document.createElement("div");
     rider.className = "gl-rider";
@@ -77,8 +96,10 @@ export class ShellMarkers {
   }
 
   /** Places reached by step `index`, the current marker, and landmark names and icons for the step year. */
-  update(index: number, year: number, center: LngLat, placeName: string, capitals: string[]) {
+  update(index: number, year: number, center: LngLat, placeName: string, capitals: string[], placeId: string | null = null) {
     this.year = year;
+    this.currentPlaceId = placeId;
+    (this.current.getElement().firstElementChild as HTMLElement).dataset.clickable = String(!!placeId);
     this.capitals = new Set(capitals);
     for (const { item, el } of this.places) {
       const here = close(item.center, center);

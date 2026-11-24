@@ -184,6 +184,12 @@
   white-space: nowrap;
   text-shadow: 0 0 4px var(--map-parchment-center), 0 0 8px var(--map-parchment-center);
 }
+/* Markers that open the city card. */
+.gl-place[data-clickable="true"][data-visible="true"],
+.gl-landmark[data-clickable="true"][data-visible="true"],
+.gl-current[data-clickable="true"] { pointer-events: auto; cursor: pointer; }
+.gl-landmark[data-clickable="true"]:hover .gl-label,
+.gl-place[data-clickable="true"]:hover .gl-label { text-decoration: underline dotted; text-underline-offset: 3px; }
 .gl-rider { width: 12px; height: 12px; border-radius: 999px; background: var(--accent); border: 1.5px solid var(--map-ink); pointer-events: none; }
 .gl-polity {
   font-family: var(--font-noto-serif-display), Georgia, serif;

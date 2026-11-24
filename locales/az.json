@@ -720,7 +720,62 @@
       "reveal": "Tarixdə nə oldu?",
       "historical": "Tarixi seçim",
       "yours": "Sənin seçimin",
-      "match": "Tarixdəki qərarla eyni yolu seçdin."
+      "match": "Tarixdəki qərarla eyni yolu seçdin.",
+      "differ": "Tarix başqa yolla getdi, amma sənin seçimin də düşünülməyə dəyər.",
+      "note": "Tarix dəyişmir, bu, öyrənmə anıdır."
+    },
+    "distance": "{km} km yol",
+    "battle": {
+      "label": "Döyüşün nəticəsi",
+      "vs": "qarşı",
+      "own": "Sənin qoşunun",
+      "enemy": "Rəqib",
+      "commanders": "Komandanlar",
+      "forces": "Qüvvələr",
+      "forcesNote": "Rəqəmlər təxminidir, salnamələr onları çox vaxt şişirdir.",
+      "source": "Mənbə",
+      "significance": "Tarixi əhəmiyyəti",
+      "result": {
+        "victory": "Qələbə",
+        "defeat": "Məğlubiyyət",
+        "inconclusive": "Nəticəsiz"
+      }
+    },
+    "claims": {
+      "versions": "Alternativ versiya",
+      "versionsList": "Versiyalar",
+      "firstRecorded": "İlk qeyd",
+      "sources": "Mənbələr",
+      "hiddenLegends": "{n} rəvayət gizlədilib",
+      "show": "Göstər"
+    },
+    "more": {
+      "title": "Ətraflı",
+      "date": "Tarix haqqında",
+      "claims": "Fakt və rəvayət",
+      "primary": "İlkin mənbədən",
+      "original": "Orijinal",
+      "translation": "Tərcümə",
+      "translator": "tərcümə: {name}",
+      "license": "lisenziya: {license}",
+      "terms": "Terminlər",
+      "world": "Bu zaman dünyada · {year}"
+    },
+    "place": {
+      "open": "{name}: şəhər kartı",
+      "types": {
+        "capital": "Paytaxt",
+        "city": "Şəhər",
+        "fortress": "Qala",
+        "shrine": "Ziyarətgah",
+        "battlefield": "Döyüş meydanı",
+        "port": "Liman"
+      },
+      "here": "Bu hekayədə burada",
+      "goto": "Mərhələyə keç: {title}",
+      "nothing": "Bu hekayədə bu şəhər ayrıca mərhələ deyil.",
+      "history": "Bu şəhərin tarixi",
+      "close": "Şəhər kartını bağla"
     },
     "mapNote": "Stilizə xəritə · sərhədlər təxminidir",
     "compass": "Şimal",

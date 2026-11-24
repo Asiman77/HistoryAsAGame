@@ -17,6 +17,48 @@ export interface ShellSource {
   note?: string;
 }
 
+/** Result card of a battle step (sides, commanders, forces with their source, result, significance). */
+export interface ShellBattle {
+  own: string;
+  enemy: string;
+  commanders: { own: string[]; enemy: string[] };
+  /** Ranges as the sources give them; null when unknown. */
+  forces: { own: string | null; enemy: string | null };
+  forcesSource: ShellSource | null;
+  result: "victory" | "defeat" | "inconclusive";
+  context: string;
+}
+
+/** A classified statement of a step (§5.5): its kind, why, competing versions, first record, sources. */
+export interface ShellClaim {
+  id: string;
+  type: ClaimType;
+  text: string;
+  why: string | null;
+  versions: { text: string; sources: ShellSource[] }[];
+  firstRecorded: { source: ShellSource; year: number | null; note: string | null } | null;
+  sources: ShellSource[];
+}
+
+/** The "Ətraflı" section (Q6): what the legacy story panel had besides the main text. */
+export interface ShellMore {
+  /** Why the date is uncertain and the other dates the sources give; null when exact and plain. */
+  date: { help: string; note: string | null; alternatives: { date: string; note: string }[] } | null;
+  primary: {
+    original: string | null;
+    text: string;
+    attribution: string;
+    translator: string | null;
+    license: string;
+    note: string | null;
+    source: ShellSource;
+  } | null;
+  /** Glossary terms used in the step's text. */
+  terms: { id: string; term: string; definition: string }[];
+  /** "Bu zaman dünyada": a few events elsewhere around the step year. */
+  world: { id: string; years: string; title: string; description: string; region: string; when: string; source: ShellSource | null }[];
+}
+
 export interface ShellChoice {
   prompt: string;
   options: { text: string; explanation: string }[];
@@ -64,6 +106,12 @@ export interface ShellStep {
   center: LngLat;
   zoom: number;
   placeName: string;
+  /** Catalogue place (data/places.json) of the step, for the city card. */
+  placeId: string | null;
+  /** Passport stamp the step earns (src/features/passport/stamps.ts); null for battlefields. */
+  stampId: string | null;
+  /** Where the movement of the step starts ("Ərdəbil → Lahican"). */
+  from: string | null;
   modernName: string | null;
   approximatePlace: boolean;
   /** Smoothed movement path ending at `center`; null when nothing moves. */
@@ -79,6 +127,11 @@ export interface ShellStep {
   sources: ShellSource[];
   related: { label: string; href: string | null }[];
   choice: ShellChoice | null;
+  battle: ShellBattle | null;
+  claims: ShellClaim[];
+  more: ShellMore;
+  /** Music theme of the step's period (data/themes musicThemeId); null = the shared mood map. */
+  musicThemeId: string | null;
   age: { years: number; approximate: boolean } | null;
   portrait: ShellPortrait | null;
 }
@@ -89,6 +142,8 @@ export interface ShellPlace {
   center: LngLat;
   /** First step that reveals the place on the map. */
   firstStep: number;
+  /** Catalogue place it matches, for the city card. */
+  placeId: string | null;
 }
 
 /** A catalogue place drawn on the map in the years it existed (§7: markers by importance). */
@@ -101,6 +156,10 @@ export interface ShellLandmark {
   /** Name per period: the name of the step year is used, the modern one shows on hover. */
   periods: { from: number; to: number; name: string }[];
   modern: string | null;
+  /** City card (Q6): short description, first source, place page. */
+  description: string;
+  source: ShellSource | null;
+  href: string | null;
 }
 
 export interface ShellData {

@@ -4,30 +4,33 @@ import { ArrowLeft, Volume2, VolumeX } from "lucide-react";
 import { AnimatePresence, useReducedMotion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BottomSheet, sheetHeight } from "@/components/ui/BottomSheet";
 import { Compass } from "@/components/icons";
 import { LiveRegion } from "@/components/ui/LiveRegion";
 import { Panel } from "@/components/ui/Panel";
 import { ProgressSegments } from "@/components/ui/Progress";
 import { useStoredMode } from "@/features/simulation/useStoredMode";
-import { ownerOf, track } from "@/lib/analytics/client";
+import { flushAnalytics, ownerOf, track } from "@/lib/analytics/client";
 import { cx } from "@/lib/cx";
 import { progressStore, saveProgress, useProgress } from "@/lib/progress";
 import { Link } from "@/i18n/navigation";
 import { deviceLooksWeak, updateSettings, useSettings } from "@/lib/settings";
 import { useMediaQuery, useViewportHeight } from "@/lib/useMediaQuery";
 import { useSimulationStore } from "@/stores/simulation";
+import { stampPlaces } from "@/stores/passport";
 import { useThemeStore } from "@/stores/theme";
 import { planTransition, runTransition, type TransitionActors } from "./choreography";
 import { useAutoplay, useShellKeys, useSwipe } from "./hooks";
 import { ShellMap } from "./map/ShellMap";
+import { PlaceCard } from "./parts/PlaceCard";
 import { PortraitCard } from "./parts/PortraitCard";
 import { ShellTimeline } from "./parts/ShellTimeline";
 import { StepContent } from "./parts/StepContent";
 import { StepNav } from "./parts/StepNav";
 import { TopBar, type ShellMode } from "./parts/TopBar";
 import type { MapController, ShellData } from "./types";
+import { useShellAudio } from "./useShellAudio";
 
 /** Desktop story panel width plus its margins: the map centres its target in the rest. */
 const PANEL_SPACE = 468;
@@ -74,6 +77,8 @@ export function SimulationShell({ data }: { data: ShellData }) {
   const previous = useRef<number | null>(null);
   const running = useRef<AbortController | null>(null);
   const owner = useMemo(() => ownerOf(data.kind === "person" ? `person:${data.key}` : data.key), [data.kind, data.key]);
+  const [placeId, setPlaceId] = useState<string | null>(null);
+  const place = placeId ? (data.landmarks.find((l) => l.id === placeId) ?? null) : null;
 
   // First step: ?step= (a shared link), otherwise the beginning.
   const initial = useMemo(() => {
@@ -100,6 +105,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
 
   const go = useCallback((target: number | undefined) => {
     if (target === undefined) return;
+    setPlaceId(null);
     set({ index: target });
   }, [set]);
   const goNext = useCallback(() => go(next?.index), [go, next]);
@@ -130,16 +136,42 @@ export function SimulationShell({ data }: { data: ShellData }) {
       if (!ctrl.signal.aborted) set({ readyKey: to.id });
     });
     writeQuery({ step: to.id });
+    if (to.stampId) stampPlaces([to.stampId], data.key);
     track({ type: "step_viewed", ...owner, stepKey: to.id });
     const saved = progressStore.get().persons[data.key];
     saveProgress(data.key, { index: to.index, phase: "journey", choices: saved?.choices ?? {} }, data.steps.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index]);
 
+  // Leaving before the last step is a learning signal (anonymous, ADR-0020); from the last step it is finishing.
+  const whereNow = useRef({ stepKey: step.id, atEnd: !next });
+  useEffect(() => {
+    whereNow.current = { stepKey: step.id, atEnd: !next };
+  });
+  useEffect(() => {
+    let left = false;
+    const leave = () => {
+      if (left || whereNow.current.atEnd) return;
+      left = true;
+      track({ type: "simulation_abandoned", ...owner, stepKey: whereNow.current.stepKey });
+      flushAnalytics();
+    };
+    window.addEventListener("pagehide", leave);
+    return () => {
+      window.removeEventListener("pagehide", leave);
+      leave();
+    };
+  }, [owner]);
+
+  useShellAudio(step, next, settings);
+
   // A hidden legend step is left for the nearest visible one.
   useEffect(() => {
-    if (!legends && data.steps[index]?.claimType === "legend") go((visible.find((s) => s.index > index) ?? visible.at(-1))?.index);
-  }, [legends, index, data.steps, visible, go]);
+    if (!legends && data.steps[index]?.claimType === "legend") {
+      const target = (visible.find((s) => s.index > index) ?? visible.at(-1))?.index;
+      if (target !== undefined) set({ index: target });
+    }
+  }, [legends, index, data.steps, visible, set]);
 
   const choices = useProgress().persons[data.key]?.choices ?? {};
   const pick = (stepId: string, i: number) => {
@@ -181,6 +213,8 @@ export function SimulationShell({ data }: { data: ShellData }) {
       stagger={stagger}
       picked={choices[shown.id]}
       onPick={(i) => pick(shown.id, i)}
+      legends={legends}
+      onPlace={setPlaceId}
       compact={!desktop}
     />
   ) : null;
@@ -211,7 +245,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
       ) : null}
 
       <div ref={mapArea} className="relative min-h-0 flex-1" data-testid="map-stage">
-        <ShellMap ref={map} data={data} locale={locale} padding={padding} lite={lite} reduced={reduced} />
+        <ShellMap ref={map} data={data} locale={locale} padding={padding} lite={lite} reduced={reduced} onPlace={setPlaceId} />
 
         {!desktop ? (
           <MobileBar data={data} step={counterStep} muted={settings.muted} onMute={toggleMute} />
@@ -220,6 +254,19 @@ export function SimulationShell({ data }: { data: ShellData }) {
         {desktop && (counterStep.age || counterStep.portrait) ? (
           <div className="absolute left-7 top-7 z-10">
             <PortraitCard step={counterStep} crossfadeMs={reduced ? 0 : 500} />
+          </div>
+        ) : null}
+
+        {place ? (
+          <div className={cx("absolute z-20", desktop ? "bottom-28 left-7 w-[360px]" : "inset-x-3 top-[72px]")}>
+            <PlaceCard
+              place={place}
+              year={counterStep.year}
+              capital={!!counterStep.snapshotId && (data.capitals[counterStep.snapshotId] ?? []).includes(place.id)}
+              steps={visible}
+              onGoto={go}
+              onClose={() => setPlaceId(null)}
+            />
           </div>
         ) : null}
 

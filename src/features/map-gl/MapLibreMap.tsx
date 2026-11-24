@@ -45,6 +45,8 @@ interface Props {
   onReady: () => void;
   /** The map could not start (no WebGL, worker blocked): the shell falls back to the SVG map. */
   onFail: () => void;
+  /** A place marker was clicked (city card). */
+  onPlace: (placeId: string) => void;
   ref?: Ref<MapController>;
 }
 
@@ -63,15 +65,15 @@ interface Live {
  * trails of past routes, the current route drawn through line-gradient with
  * a rider, HTML markers. Loaded with a dynamic import on simulation routes only.
  */
-export function MapLibreMap({ data, locale, padding, lite, reduced, onReady, onFail, ref }: Props) {
+export function MapLibreMap({ data, locale, padding, lite, reduced, onReady, onFail, onPlace, ref }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const live = useRef<Live | null>(null);
   const routeCum = useRef<number[]>([]);
   const routeColor = useRef("");
-  const callbacks = useRef({ onReady, onFail });
+  const callbacks = useRef({ onReady, onFail, onPlace });
   const pad = useRef(padding);
   useEffect(() => {
-    callbacks.current = { onReady, onFail };
+    callbacks.current = { onReady, onFail, onPlace };
   });
 
   useEffect(() => {
@@ -108,7 +110,7 @@ export function MapLibreMap({ data, locale, padding, lite, reduced, onReady, onF
           m.addLayer({ id: "route-line", type: "line", source: "route", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-width": 3.5, "line-gradient": progressGradient(0, palette.ink) } });
           const terr = new TerritoryLayers(m, lib, locale, palette, "trails");
           terr.setInstant(lite || reduced);
-          const markers = new ShellMarkers(m, lib, data.landmarks, data.places);
+          const markers = new ShellMarkers(m, lib, data.landmarks, data.places, (id) => callbacks.current.onPlace(id));
           live.current = { map: m, lib, terr, markers, variant: first.mapVariant, index: -1 };
           // Padding given before the map existed (desktop panel, phone sheet) applies now.
           m.setPadding(pad.current);
@@ -168,7 +170,7 @@ export function MapLibreMap({ data, locale, padding, lite, reduced, onReady, onF
         }
         void l.terr.show(s.snapshotId);
         l.terr.prefetch(data.steps[i + 1]?.snapshotId ?? null);
-        l.markers.update(i, s.year, s.center, s.placeName, s.snapshotId ? (data.capitals[s.snapshotId] ?? []) : []);
+        l.markers.update(i, s.year, s.center, s.placeName, s.snapshotId ? (data.capitals[s.snapshotId] ?? []) : [], s.placeId);
       },
       flyTo(view, duration, signal) {
         const l = live.current;

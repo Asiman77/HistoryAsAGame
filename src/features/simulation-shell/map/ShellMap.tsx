@@ -27,6 +27,8 @@ interface Props {
   padding: MapPadding;
   lite: boolean;
   reduced: boolean;
+  /** City card from a marker click (MapLibre only; the panel's place name works everywhere). */
+  onPlace: (placeId: string) => void;
   ref?: Ref<MapController>;
 }
 
@@ -36,7 +38,7 @@ interface Props {
  * choreography asked for and replays it when a map becomes ready, so steps
  * shown before MapLibre has loaded (or before a fallback) are not lost.
  */
-export function ShellMap({ data, locale, padding, lite, reduced, ref }: Props) {
+export function ShellMap({ data, locale, padding, lite, reduced, onPlace, ref }: Props) {
   const gl = useSyncExternalStore(noop, webglAvailable, () => null);
   const [failed, setFailed] = useState(false);
   const renderer = gl === null ? null : gl && !failed ? "gl" : "svg";
@@ -86,6 +88,7 @@ export function ShellMap({ data, locale, padding, lite, reduced, ref }: Props) {
             lite={lite}
             reduced={reduced}
             onReady={replay}
+            onPlace={onPlace}
             onFail={() => {
               ready.current = false;
               setFailed(true);
