@@ -229,11 +229,12 @@ keçidlər ani olur. Real GPU-da (Intel Iris Xe) marşrut animasiyası 60 fps g�
 | `/az/sexsiyyetler/`, `/az/doyusler/`, `/az/dovletler/`, `/az/mekanlar/` | Kolleksiyalar (yeni dizayn). Köhnə `/persons/`, `/conflicts/`, `/states/`, `/places/` siyahıları bura yönləndirir |
 | `/az/kurikulum/`, `/az/kurikulum/<sinif>/` | Dərsliklə öyrən (kurikulum datası hələ yoxdur, boş vəziyyət) |
 | `/az/sexsiyyetler/<id>/` | Şəxsiyyət simulyasiyası yeni `SimulationShell`-də (`?step=`, `?mode=story|learn`, `?legends=0`). Xəritə MapLibre-dir (dövr stili, ərazi snapshot-ları, marşrut), WebGL olmayanda sxematik SVG |
-| `/az/sexsiyyetler/<id>/final/`, `/az/doyusler/<id>/`, `…/gun/`, `/az/dovletler/<id>/`, `/az/mekanlar/<id>/`, `/az/zaman/`, `/az/muqayise/`, `/az/pasport/`, `/az/muellim/` | Yeni dizaynın skeletləri: ekran öz mərhələsində qurulur, o vaxta qədər köhnə səhifəyə keçid verir |
-| `/az/persons/<id>/` | Şəxsiyyət simulyasiyası (köhnə UI) |
+| `/az/sexsiyyetler/<id>/final/` | Final: bütün həyat marşrutu, datadan hesablanan rəqəmlər, 4 növ quiz (çoxseçimli, fakt/rəvayət, xronoloji sıra, xəritədə tap), yeni pasport möhürləri |
+| `/az/pasport/` | Tarix pasportu: simulyasiyalarda keçilən şəhərlərin möhürləri (yalnız bu cihazda, `tarix:passport`) |
+| `/az/doyusler/<id>/`, `…/gun/`, `/az/dovletler/<id>/`, `/az/mekanlar/<id>/`, `/az/zaman/`, `/az/muqayise/`, `/az/muellim/` | Yeni dizaynın skeletləri: ekran öz mərhələsində qurulur, o vaxta qədər köhnə səhifəyə keçid verir |
 | `/az/conflicts/<id>/` | "Şanlı Zəfər tariximiz": 44 günlük Vətən müharibəsi (köhnə UI) |
 | `/az/states/<id>/` | Dövlət simulyasiyası, ilk olaraq Əfşarlar (köhnə UI) |
-| `/az/person/<id>/` | Köhnə ünvan, `?step=` saxlanmaqla `/persons/<id>/`-ə yönləndirir |
+| `/az/persons/<id>/`, `/az/person/<id>/` | Köhnə ünvanlar, `?step=` saxlanmaqla `/az/sexsiyyetler/<id>/`-ə yönləndirir |
 
 Bütün kateqoriyalar eyni mühərriki işlədir: `src/features/engine/SimulationEngine.tsx`.
 Mühərrik xəritəni, timeline-ı, mood və səsi, start ekranını, proqresi, dərin linkləri və geri qayıdışı idarə edir.
@@ -247,7 +248,7 @@ Hər step `EngineStep` sahələrinə malikdir (`src/features/engine/types.ts`): 
 `{ type: person | conflict | battle | state | place | ruler, id, stepId?, note?, label? }`. Hadisələrin `related[]` sahəsində saxlanır.
 
 - `src/domain/registry.ts` build zamanı bütün obyektlərin indeksini qurur: şəxsiyyətlər (mərhələləri ilə), məkanlar və `planned.json`.
-- **Obyekt mövcuddursa**, keçid aktiv chip və ya kart olur (`/az/persons/<id>/?step=<stepId>`).
+- **Obyekt mövcuddursa**, keçid aktiv chip və ya kart olur (`/az/sexsiyyetler/<id>/?step=<stepId>`).
 - **Mövcud deyilsə və ya yalnız planlaşdırılıbsa**, chip passiv "tezliklə" kimi göstərilir. Referans datada qalır və obyekt əlavə olunanda keçid avtomatik açılır.
 - `note` olan referans "Tarixi kəsişmə" kartı kimi, `note`-suz referans chip kimi göstərilir. Başqa şəxsiyyətə keçid xəritədə portret medalyonu və timeline-da qızılı nöqtə verir.
 - Şəxsiyyətin döyüş hadisəsi `{ type: "battle", id: "chaldiran-1514" }` kimi döyüşə istinad edir. Döyüş əlavə olunanda keçid aktivləşəcək.

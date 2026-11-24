@@ -355,7 +355,8 @@ Funksionallıq və refaktorinq ayrı commit-lərdə. `ARCHITECTURE.md` yerinə f
 | 2 | Layout və naviqasiya | ✅ 2026-11-23 |
 | 3 | Simulyasiya mühərriki | ✅ 2026-11-23 |
 | 4 | Xəritə | ✅ 2026-11-24 |
-| 5–15 | | gözləyir |
+| 5 | Şəxsiyyət simulyasiyası + final | ✅ 2026-11-24 |
+| 6–15 | | gözləyir |
 
 ### Mərhələ 1: dizayn sistemi
 
@@ -450,9 +451,38 @@ Animasiya bitmədən "növbəti" basılanda cari animasiya dərhal sona çatır,
 **Ölçmə:** route çəkilən keçid zamanı bu maşında (Playwright desktop, GPU bayraqları ilə) orta 51–56 fps, p95 kadr 16.8–33 ms (3 ölçüm, tək işləyəndə). Paralel e2e yükü altında 41 fps-ə düşür. Test həddi 20 fps-dir (proqram təminatlı WebGL üçün), rəqəm test çıxışında yazılır.
 
 **Qərarlar və qeydlər:**
-- **`maplibre-gl` birbaşa, `react-map-gl` olmadan** (spesifikasiyadan fərq, təsdiq gözləyir). Xəritə yalnız `MapController` vasitəsilə imperativ idarə olunur və hər kadr yeniləməsi React-dan kənardadır. `react-map-gl` burada əlavə asılılıqdan başqa bir şey vermir. Deklarativ qatlar lazım olsa (zaman şkalası, mərhələ 6), oraya əlavə etmək olar.
+- **`maplibre-gl` birbaşa, `react-map-gl` olmadan** (spesifikasiyadan fərq, 2026-11-24-də təsdiqlənib). Xəritə yalnız `MapController` vasitəsilə imperativ idarə olunur və hər kadr yeniləməsi React-dan kənardadır. `react-map-gl` burada əlavə asılılıqdan başqa bir şey vermir. Deklarativ qatlar lazım olsa (zaman şkalası, mərhələ 6), oraya əlavə etmək olar.
 - **Poliqon morph-u (flubber) istifadə olunmur**, yalnız crossfade var. Snapshot-lar region birləşmələridir, eyni dövlətin iki snapshot-da topologiyası və nöqtə sayı fərqlidir. Morph hər kadrda onlarla poliqonu yenidən hesablamaq deməkdir, zəif məktəb kompüterində 50 fps hədəfi ilə uyğun deyil.
 - Kataloq məkanlarının ikonları köhnə miniatür ikon dəstidir (`features/map/icons.ts`), xəritə üçün çəkilib və perqamentdə yaxşı oxunur.
 - MapLibre marker elementinə inline `opacity` yazır, ona görə hər markerin bir host elementi var, görünmə daxili elementdə idarə olunur.
 - Atribusiya (Natural Earth, Terrain Tiles, OpenFreeMap, OSM) sol aşağı küncdədir, lisenziya tələbidir.
 - Dövlətə klik (hökmdar paneli) mərhələ 6-da, döyüş oxları mərhələ 11-də (`battle`), azad olunan məntəqələr mərhələ 9-da (`liberation`) gəlir. Label declutter yoxdur, görünmə importance və zoom ilə idarə olunur.
+
+### Mərhələ 5: şəxsiyyət simulyasiyası və final
+
+**Şeldə:**
+- **Portret sistemi.** Kart addımın yaş aralığının portretini göstərir və onun nə olduğunu həmişə yazır: dövrünün əsəri, sonrakı rəssamın əsəri və ya AI illüstrasiya. Müəllif, lisenziya və mənbə info düyməsindən açılır. Yaş portretinin faylı yoxdursa, hörmətli siluet və "bu yaş üçün rəssam təsəvvürü hazırlanır" yazısı çıxır. Mərhələ 3-dəki "şəxsiyyətin öz portretini göstər" fallback-ı ləğv olundu: 37 yaşın portreti uşaqlıq addımında yanlış təsəvvür yaradırdı (sxemdəki qayda da belədir).
+- **Ətraflı** (Q6): default yığılmış, öyrənmə rejimində açıq. Tarix haqqında (qeyd və mənbələrdəki başqa tarixlər), fakt və rəvayətlər (ilk qeyd, versiyalar, mənbələr; Rəvayətlər söndürülübsə rəvayətlər gizlənir və istəyəndə açılır), ilkin mənbədən sitat, addımın mətnindəki qlossari terminləri, "Bu zaman dünyada".
+- **Döyüş kartı** (tərəflər, komandanlar, qüvvələr mənbəsi ilə, nəticə möhürü, tarixi əhəmiyyət) və mübahisəli iddialar üçün açıq **Alternativ versiya** (§5.5). Animasiyalı `battle` şablonu mərhələ 11-də qalır.
+- **Şəhər kartı:** xəritədə markerə klik və ya paneldəki məkan adı (klaviatura yolu). Dövrün adı, müasir ad, qısa təsvir, bu hekayədə burada baş verənlər (addıma keçid), məkan səhifəsinə keçid.
+- Meta sətirdə "Ərdəbil → Lahican · 320 km yol". Seçim kartında tarixdən fərqli seçim üçün mətn və "Tarix dəyişmir" qeydi.
+- **Səs:** mövcud səs mühərriki qoşuldu (ilk toxunuşdan sonra başlayır, mood ilə crossfade, növbəti addımın səsi əvvəlcədən yüklənir). Kanallar və tam mood xəritəsi mərhələ 12-də.
+- **Davam et:** `?step=` olmadan açılan simulyasiya qalınan addımdan davam edir (kartdakı "Davam et · 7/14" ilə uyğun). Tamamlanıbsa əvvəldən.
+- **Geri yol:** başqa simulyasiyaya keçiddən əvvəl yer yadda saxlanılır (`tarix:navstack`), hədəfdə "← Şah İsmayıl Xətai · Ərdəbildə doğuluş" çıxır. Köhnə dövlət və müharibə səhifələri ilə də işləyir.
+- Analitika: `simulation_abandoned` son addımdan əvvəl çıxanda, `simulation_completed` finalda.
+
+**Final** (`/sexsiyyetler/<id>/final/`, artboard "Final"):
+- Bütün həyat marşrutu SVG və CSS ilə hərəkət-hərəkət çəkilir (≈6 s), məkanlar marşrut onlara çatanda görünür. Yalnız datadakı marşrutlar çəkilir, ardıcıl məkanlar arasında uydurma xətt yoxdur. MapLibre burada yüklənmir. Reduced motion və yüngül rejimdə hazır şəkil.
+- Rəqəmlər yalnız datadan: mərhələ, döyüş (qələbə və məğlubiyyət), məkan, təxmini yol (turf ilə build zamanı). Seçim anlarında tarixə uyğunluq (varsa).
+- **Quiz** (`features/final/quiz.ts`, unit testli): 4 növ. Çoxseçimli (data `quiz`), fakt yoxsa rəvayət (data `claims`), xronoloji sıra (4 addım, fərqli illər), xəritədə tap (hekayənin ən çox qayıtdığı yer, 140 km-dən uzaq 3 başqa yer arasında). Növlər növbə ilə, 6 sual, seçim deterministikdir. Hər cavabdan sonra izah və "Mənbəyə bax: Mərhələ N" keçidi. Hamısı düzdürsə sınaq nişanı.
+- **Pasport:** hər addım öz məkanına möhür vurur (`tarix:passport`, yalnız bu cihazda). Kataloq məkanı id ilə (Təbriz iki hekayədə bir möhürdür), qalanı koordinatla. Döyüş meydanlarına möhür vurulmur. Finalda bu səyahətin yeni möhürləri vurulma animasiyası ilə düşür (səs mühərriki işləyirsə yüngül zərbə səsi), səhifədən çıxanda "görülmüş" sayılır. `/pasport/` bütün möhürləri göstərir.
+- Səyahət yalnız son addıma çatılıbsa tamamlanır (irəliləyiş, kolleksiya kartı). Finalı ünvanla açmaq tamamlamır.
+- Başlıq "Şah İsmayıl Xətainin irsi" və düymə "Uzun Həsənlə müqayisə et" üçün ad şəkilçiləri `lib/nameCase.ts`-dədir (ahəng qanunu, unit testli). Müqayisə ekranı mərhələ 10-da qurulana qədər düymə köhnə `/compare/`-ə aparır.
+
+**Yönləndirmə:** `entityPath("person")` artıq `/sexsiyyetler/<id>/`-dir. Köhnə `/persons/<id>/` və `/person/<id>/` `?step=`-i saxlayaraq yeni simulyasiyaya yönləndirir. Köhnə `PersonSimulation` silindi, köhnə mühərrik dövlət və müharibə üçün qalır.
+
+**Müvəqqəti boşluqlar** (köhnə şəxsiyyət səhifəsində olub, yeni şeldə öz mərhələsində gəlir):
+- Xəritə açarı (legend) və hökmdar paneli: mərhələ 6. E2E testləri `test.fixme` ilə qeyd olunub.
+- Müəllim rejimi (böyük şrift, pult): mərhələ 13. E2E testi `test.fixme`.
+- Səsli nəql pleyeri: datada hələ nəql faylı yoxdur, mərhələ 12-də.
+- Qlossari terminləri mətnin içində deyil, "Ətraflı"da siyahıdır.
