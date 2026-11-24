@@ -31,9 +31,12 @@ class ChronologyController {
     }
 
     @GetMapping("/eras")
-    @Operation(summary = "Dövrlər", description = "Hamısı, xronoloji sırada (az sayda olduğu üçün səhifələnmir).")
-    List<EraView> eras(ReadContext ctx) {
-        return chronology.eras(ctx);
+    @Operation(summary = "Dövrlər",
+            description = "Xronoloji sırada (az sayda olduğu üçün səhifələnmir). `subject` verilsə yalnız o fənnin dövrləri. "
+                    + "`weight`: zaman şkalasında bir ilin digər dövrlərə nisbətən payı (1 = bərabər).")
+    List<EraView> eras(ReadContext ctx,
+                       @Parameter(description = "Fənn, məs. `azerbaijan-history`") @RequestParam(required = false) String subject) {
+        return chronology.eras(ctx, PublicParams.slug("subject", subject));
     }
 
     @GetMapping("/polities/{slug}")

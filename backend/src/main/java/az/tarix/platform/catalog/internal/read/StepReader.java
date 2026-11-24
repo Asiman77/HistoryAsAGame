@@ -8,6 +8,7 @@ import az.tarix.platform.shared.domain.EntityType;
 import az.tarix.platform.shared.domain.Mood;
 import az.tarix.platform.shared.domain.PlaceType;
 import az.tarix.platform.shared.domain.StepKind;
+import az.tarix.platform.shared.domain.StepTemplate;
 import az.tarix.platform.shared.jdbc.JsonColumns;
 import az.tarix.platform.shared.read.ApiDate;
 import az.tarix.platform.shared.read.ApiLink;
@@ -56,10 +57,12 @@ public class StepReader {
      * @param ageAtEvent     age of the person at the event (persons only)
      * @param ageApproximate whether that age is only approximate
      * @param route          GeoJSON LineString from {@code fromLocation} through the waypoints to {@code location}, or null
+     * @param template       how the map shows the step (FRONTEND_SPEC §5.2); null when the content leaves it to the client
      * @param details        kind-specific fields (outcome, choice, quiz, liberated settlements, …)
      */
     public record StepView(String stepKey, int sequence, StepKind kind, ApiDate date, Integer ageAtEvent, Boolean ageApproximate,
-                    JsonNode title, JsonNode factualSummary, JsonNode narrative, Mood mood, ClaimType claimType,
+                    JsonNode title, JsonNode factualSummary, JsonNode narrative, Mood mood, StepTemplate template,
+                    ClaimType claimType,
                     List<ClaimView> claims, StepLocation location, StepLocation fromLocation, JsonNode route,
                     String territorySnapshot, String themeSlug, ApiPortrait portrait, List<ApiSource> sources,
                     List<ApiLink> related, JsonNode details) {}
@@ -76,7 +79,7 @@ public class StepReader {
                    s.from_location_name, s.from_location_modern_name, ST_Y(s.from_location_point) AS from_location_lat,
                    ST_X(s.from_location_point) AS from_location_lng, s.from_location_approximate, s.from_location_place_slug,
                    ST_AsGeoJSON(s.route) AS route, s.territory_snapshot_slug, s.theme_slug, s.age_at_event, s.age_approximate,
-                   s.details
+                   s.template, s.details
             FROM simulation_step s
             WHERE %s
             ORDER BY s.sequence""".formatted(FILTER);
@@ -121,7 +124,7 @@ public class StepReader {
 
     /** Raw step row, before places, links and portraits are attached. */
     private record Row(UUID id, String key, int sequence, StepKind kind, ApiDate date, Integer age, Boolean ageApproximate,
-                       JsonNode title, JsonNode summary, JsonNode narrative, Mood mood, ClaimType claimType,
+                       JsonNode title, JsonNode summary, JsonNode narrative, Mood mood, StepTemplate template, ClaimType claimType,
                        RawLocation location, RawLocation from, JsonNode route, String snapshot, String theme, JsonNode details) {}
 
     private record RawLocation(JsonNode name, JsonNode modernName, double lat, double lng, boolean approximate, String placeSlug) {}
@@ -157,7 +160,7 @@ public class StepReader {
         for (Row r : rows) {
             ApiPortrait portrait = r.age() == null ? null : ApiPortrait.pick(agePortraits, r.age());
             out.add(new StepView(r.key(), r.sequence(), r.kind(), r.date(), r.age(), r.ageApproximate(), r.title(), r.summary(),
-                    r.narrative(), r.mood(), r.claimType(), claims.getOrDefault(r.id(), List.of()),
+                    r.narrative(), r.mood(), r.template(), r.claimType(), claims.getOrDefault(r.id(), List.of()),
                     location(r.location(), matched, lang), location(r.from(), matched, lang), r.route(), r.snapshot(), r.theme(),
                     portrait, stepSources.getOrDefault(r.id(), List.of()), related.getOrDefault(r.key(), List.of()), r.details()));
         }
@@ -171,6 +174,7 @@ public class StepReader {
                 JsonColumns.integer(rs, "age_at_event"), JsonColumns.bool(rs, "age_approximate"),
                 lang.text(JsonColumns.json(rs, "title")), lang.text(JsonColumns.json(rs, "factual_summary")),
                 lang.text(JsonColumns.json(rs, "narrative")), Mood.valueOf(rs.getString("mood")),
+                rs.getString("template") == null ? null : StepTemplate.valueOf(rs.getString("template")),
                 ClaimType.valueOf(rs.getString("claim_type")), rawLocation(rs, "location"), rawLocation(rs, "from_location"),
                 route == null ? null : JsonMapper.shared().readTree(route), rs.getString("territory_snapshot_slug"),
                 rs.getString("theme_slug"), lang.localize(JsonColumns.json(rs, "details")));

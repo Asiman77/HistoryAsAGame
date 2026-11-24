@@ -124,7 +124,7 @@ export interface paths {
         };
         /**
          * Dövrlər
-         * @description Hamısı, xronoloji sırada (az sayda olduğu üçün səhifələnmir).
+         * @description Xronoloji sırada (az sayda olduğu üçün səhifələnmir). `subject` verilsə yalnız o fənnin dövrləri. `weight`: zaman şkalasında bir ilin digər dövrlərə nisbətən payı (1 = bərabər).
          */
         get: operations["eras"];
         put?: never;
@@ -875,7 +875,10 @@ export interface components {
             slug?: string;
             /** Format: int32 */
             startYear?: number;
+            subject?: string;
             themeSlug?: string;
+            /** Format: double */
+            weight?: number;
         };
         EventBatch: {
             classCode?: string;
@@ -1506,6 +1509,8 @@ export interface components {
             sequence?: number;
             sources?: components["schemas"]["ApiSource"][];
             stepKey?: string;
+            /** @enum {string} */
+            template?: "LOCATION" | "JOURNEY" | "BATTLE" | "TERRITORY" | "LIBERATION" | "INFOGRAPHIC" | "MONUMENT" | "ARTIFACT" | "MIGRATION" | "TREATY";
             territorySnapshot?: string;
             themeSlug?: string;
             title?: components["schemas"]["JsonNode"];
@@ -1541,6 +1546,7 @@ export interface components {
             palette?: components["schemas"]["JsonNode"];
             slug?: string;
             textures?: components["schemas"]["JsonNode"];
+            ui?: components["schemas"]["JsonNode"];
         };
         Upcoming: {
             ref?: components["schemas"]["ApiLink"];
@@ -1778,6 +1784,8 @@ export interface operations {
     eras: {
         parameters: {
             query?: {
+                /** @description Fənn, məs. `azerbaijan-history` */
+                subject?: string;
                 /** @description Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`. */
                 lang?: "az" | "en" | "ru" | "all";
             };

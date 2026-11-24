@@ -650,8 +650,15 @@
             "format" : "int32",
             "type" : "integer"
           },
+          "subject" : {
+            "type" : "string"
+          },
           "themeSlug" : {
             "type" : "string"
+          },
+          "weight" : {
+            "format" : "double",
+            "type" : "number"
           }
         },
         "type" : "object"
@@ -2408,6 +2415,10 @@
           "stepKey" : {
             "type" : "string"
           },
+          "template" : {
+            "enum" : [ "LOCATION", "JOURNEY", "BATTLE", "TERRITORY", "LIBERATION", "INFOGRAPHIC", "MONUMENT", "ARTIFACT", "MIGRATION", "TREATY" ],
+            "type" : "string"
+          },
           "territorySnapshot" : {
             "type" : "string"
           },
@@ -2509,6 +2520,9 @@
             "type" : "string"
           },
           "textures" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "ui" : {
             "$ref" : "#/components/schemas/JsonNode"
           }
         },
@@ -3003,9 +3017,17 @@
     },
     "/api/v1/eras" : {
       "get" : {
-        "description" : "Hamısı, xronoloji sırada (az sayda olduğu üçün səhifələnmir).",
+        "description" : "Xronoloji sırada (az sayda olduğu üçün səhifələnmir). `subject` verilsə yalnız o fənnin dövrləri. `weight`: zaman şkalasında bir ilin digər dövrlərə nisbətən payı (1 = bərabər).",
         "operationId" : "eras",
         "parameters" : [ {
+          "description" : "Fənn, məs. `azerbaijan-history`",
+          "in" : "query",
+          "name" : "subject",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
           "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
           "in" : "query",
           "name" : "lang",

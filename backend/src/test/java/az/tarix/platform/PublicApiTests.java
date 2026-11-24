@@ -420,6 +420,29 @@ class PublicApiTests {
     }
 
     @Test
+    void erasCarryTheirTimelineWeightAndSubjectAndFilterBySubject() {
+        JsonNode eras = ok("/api/v1/eras");
+        for (JsonNode e : eras) {
+            assertThat(e.path("weight").asDouble()).as(e.path("slug").asString()).isEqualTo(1.0);
+            assertThat(e.path("subject").asString()).isEqualTo("azerbaijan-history");
+        }
+        assertThat(ok("/api/v1/eras?subject=azerbaijan-history").size()).isEqualTo(eras.size());
+        assertThat(ok("/api/v1/eras?subject=world-history").size()).isZero();
+        assertThat(get("/api/v1/eras?subject=Not%20a%20slug").getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void stepsAndThemesCarryTheOptionalRedesignFields() {
+        // Today's data sets neither: null, so the client derives the template and uses its own palette.
+        JsonNode step = ok("/api/v1/persons/shah-ismayil/steps/ismayil-chaldiran");
+        assertThat(step.has("template")).isTrue();
+        assertThat(step.path("template").isNull()).isTrue();
+        JsonNode theme = ok("/api/v1/themes/efshar");
+        assertThat(theme.has("ui")).isTrue();
+        assertThat(theme.path("ui").isNull()).isTrue();
+    }
+
+    @Test
     void aThemeVariantIsMergedWithItsParent() {
         JsonNode variant = ok("/api/v1/themes/efshar-hind");
         JsonNode parent = ok("/api/v1/themes/efshar");

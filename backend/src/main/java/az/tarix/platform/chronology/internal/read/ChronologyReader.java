@@ -29,8 +29,12 @@ import tools.jackson.databind.JsonNode;
 @Service
 public class ChronologyReader {
 
+    /**
+     * @param weight  share of the timeline's width per year relative to other eras (1 = even)
+     * @param subject school subject the era belongs to ({@code azerbaijan-history})
+     */
     public record EraView(String slug, JsonNode name, int startYear, int endYear, JsonNode description, String themeSlug,
-                          String color) {}
+                          String color, double weight, String subject) {}
 
     /** A month-precise point of a reign ({@code month} null when only the year is known). */
     public record YearMonth(int year, Integer month) {}
@@ -100,7 +104,7 @@ public class ChronologyReader {
             ORDER BY g.start_year, g.start_month NULLS FIRST, g.sort_order""";
 
     static final String ERAS = """
-            SELECT slug, name, start_year, end_year, description, theme_slug, color
+            SELECT slug, name, start_year, end_year, description, theme_slug, color, weight, subject
             FROM era ORDER BY sort_order, start_year, slug""";
 
     static final String POLITY = """
@@ -142,11 +146,17 @@ public class ChronologyReader {
     }
 
     public List<EraView> eras(ReadContext ctx) {
-        return cache.get(ctx, "eras", "", () -> {
+        return eras(ctx, null);
+    }
+
+    /** Eras of one school subject, or all of them when {@code subject} is null. */
+    public List<EraView> eras(ReadContext ctx, String subject) {
+        return cache.get(ctx, "eras", subject == null ? "" : subject, () -> {
             Lang lang = ctx.lang();
             return jdbc.sql(ERAS).query((rs, n) -> new EraView(rs.getString("slug"), lang.text(JsonColumns.json(rs, "name")),
                     rs.getInt("start_year"), rs.getInt("end_year"), lang.text(JsonColumns.json(rs, "description")),
-                    rs.getString("theme_slug"), rs.getString("color"))).list();
+                    rs.getString("theme_slug"), rs.getString("color"), rs.getDouble("weight"), rs.getString("subject"))).list()
+                    .stream().filter(e -> subject == null || subject.equals(e.subject())).toList();
         });
     }
 

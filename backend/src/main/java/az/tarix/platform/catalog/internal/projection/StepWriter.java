@@ -28,7 +28,7 @@ class StepWriter {
     /** Step fields that have columns or rows of their own; everything else goes to {@code details}. */
     static final Set<String> MAPPED = Set.of("id", "order", "date", "title", "factualSummary", "summary", "narrative", "mood",
             "claimType", "claims", "sources", "location", "fromLocation", "route", "territorySnapshotId", "themeId",
-            "personId", "related");
+            "personId", "related", "template");
 
     static final String INSERT_STEP = """
             INSERT INTO simulation_step (
@@ -38,7 +38,7 @@ class StepWriter {
               location_name, location_modern_name, location_point, location_approximate, location_place_slug,
               from_location_name, from_location_modern_name, from_location_point, from_location_approximate,
               from_location_place_slug, route, territory_snapshot_slug, theme_slug, age_at_event, age_approximate,
-              details, document_id)
+              template, details, document_id)
             VALUES (
               :ownerType, :owner, :key, :sequence, :kind,
               :date_year, :date_month, :date_day, :date_precision, :date_certainty,
@@ -51,7 +51,7 @@ class StepWriter {
                    ELSE ST_SetSRID(ST_MakePoint(CAST(:fromLng AS double precision), CAST(:fromLat AS double precision)), 4326) END,
               CAST(:fromApprox AS boolean), :fromPlace,
               ST_SetSRID(ST_GeomFromGeoJSON(CAST(:route AS text)), 4326), :snapshot, :theme, :age, :ageApprox,
-              CAST(:details AS jsonb), :doc)
+              :template, CAST(:details AS jsonb), :doc)
             RETURNING id""";
 
     static final String INSERT_CLAIM = """
@@ -152,6 +152,7 @@ class StepWriter {
                 .param("route", route(step))
                 .param("snapshot", text(step.path("territorySnapshotId"))).param("theme", text(step.path("themeId")))
                 .param("age", age == null ? null : age.years()).param("ageApprox", age == null ? null : age.approximate())
+                .param("template", enumName(step.path("template")))
                 .param("details", json(details(step))).param("doc", owner.documentId())
                 .query(UUID.class).single();
     }

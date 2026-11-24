@@ -32,14 +32,15 @@ public class ThemeReader {
 
     /**
      * @param moodOverrides tint per mood ({@code BATTLE → {tint, strength, brightness}})
+     * @param ui            dark palette of the new design ({@code ThemeUi}); null when the theme has none
      */
     public record ThemeView(String slug, JsonNode name, String extendsSlug, JsonNode palette, JsonNode fonts, JsonNode textures,
                             JsonNode ornaments, List<BackgroundArt> backgroundArt, JsonNode moodOverrides, String ambientEffect,
-                            String mapStyleVariant, String musicThemeSlug) {}
+                            String mapStyleVariant, String musicThemeSlug, JsonNode ui) {}
 
     static final String ONE = """
             SELECT slug, name, extends_slug, palette, fonts, textures, ornaments, background_art, mood_overrides,
-                   ambient_effect, map_style_variant, music_theme_slug
+                   ambient_effect, map_style_variant, music_theme_slug, ui
             FROM theme WHERE slug = :slug""";
 
     private final JdbcClient jdbc;
@@ -59,7 +60,8 @@ public class ThemeReader {
                     lang.text(JsonColumns.json(rs, "name")), rs.getString("extends_slug"), JsonColumns.json(rs, "palette"),
                     JsonColumns.json(rs, "fonts"), JsonColumns.json(rs, "textures"), JsonColumns.json(rs, "ornaments"),
                     art(JsonColumns.json(rs, "background_art"), lang, media.at(ctx)), upperKeys(JsonColumns.json(rs, "mood_overrides")),
-                    rs.getString("ambient_effect"), rs.getString("map_style_variant"), rs.getString("music_theme_slug")))
+                    rs.getString("ambient_effect"), rs.getString("map_style_variant"), rs.getString("music_theme_slug"),
+                    JsonColumns.json(rs, "ui")))
                     .optional().orElseThrow(() -> new ResourceNotFoundException(DocumentType.THEME, slug));
         });
     }

@@ -4,6 +4,7 @@ import static az.tarix.platform.shared.content.ContentValues.enumName;
 import static az.tarix.platform.shared.content.ContentValues.integer;
 import static az.tarix.platform.shared.content.ContentValues.json;
 import static az.tarix.platform.shared.content.ContentValues.jsonArray;
+import static az.tarix.platform.shared.content.ContentValues.number;
 import static az.tarix.platform.shared.content.ContentValues.strings;
 import static az.tarix.platform.shared.content.ContentValues.text;
 
@@ -22,8 +23,9 @@ import tools.jackson.databind.JsonNode;
 class ChronologyProjectionWriter implements ProjectionWriter {
 
     static final String INSERT_ERA = """
-            INSERT INTO era (slug, name, start_year, end_year, description, theme_slug, sort_order, document_id)
-            VALUES (:slug, CAST(:name AS jsonb), :start, :end, CAST(:description AS jsonb), :theme, :start, :doc)""";
+            INSERT INTO era (slug, name, start_year, end_year, description, theme_slug, weight, subject, sort_order, document_id)
+            VALUES (:slug, CAST(:name AS jsonb), :start, :end, CAST(:description AS jsonb), :theme,
+                    coalesce(CAST(:weight AS numeric), 1), coalesce(CAST(:subject AS varchar), 'azerbaijan-history'), :start, :doc)""";
 
     static final String INSERT_POLITY = """
             INSERT INTO polity (slug, name, color, emblem, start_year, end_year, state_slug, document_id)
@@ -87,6 +89,7 @@ class ChronologyProjectionWriter implements ProjectionWriter {
         jdbc.sql(INSERT_ERA).param("slug", doc.slug()).param("name", json(e.path("name")))
                 .param("start", integer(e.path("startYear"))).param("end", integer(e.path("endYear")))
                 .param("description", json(e.path("description"))).param("theme", text(e.path("themeId")))
+                .param("weight", number(e.path("weight"))).param("subject", text(e.path("subject")))
                 .param("doc", doc.documentId()).update();
     }
 

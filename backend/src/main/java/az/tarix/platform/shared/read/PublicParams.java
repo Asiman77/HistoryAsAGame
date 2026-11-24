@@ -20,6 +20,15 @@ public final class PublicParams {
         return value;
     }
 
+    /** An optional slug filter: null or empty stays null, anything else must be a slug (lower-case words joined by "-"). */
+    public static String slug(String name, String value) {
+        if (value == null || value.isEmpty()) return null;
+        if (value.length() > 120 || !value.matches("[a-z0-9]+(?:-[a-z0-9]+)*")) {
+            throw new InvalidParameterException(name, "slug olmalıdır (kiçik hərf, rəqəm və \"-\")");
+        }
+        return value;
+    }
+
     public static double latitude(String name, Double value) {
         return coordinate(name, value, 90);
     }

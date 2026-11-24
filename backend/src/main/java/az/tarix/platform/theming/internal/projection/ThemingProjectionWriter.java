@@ -25,7 +25,7 @@ import tools.jackson.databind.node.ObjectNode;
  * Projects THEME documents (V007). A variant ({@code extends}) is stored as written in
  * {@code raw} and merged over its parent in the other columns, with the rules of the
  * frontend's {@code resolveThemes}: palette, fonts, textures, ornaments and mood tones merge
- * key by key; background art, ambient effect, map style and music replace. When a theme
+ * key by key; background art, ambient effect, map style, music and the dark UI palette replace. When a theme
  * changes, its variants are merged again.
  */
 @Component
@@ -33,20 +33,20 @@ class ThemingProjectionWriter implements ProjectionWriter {
 
     static final String UPSERT = """
             INSERT INTO theme (slug, name, extends_slug, raw, palette, fonts, textures, ornaments, background_art,
-                               mood_overrides, ambient_effect, map_style_variant, music_theme_slug, document_id)
+                               mood_overrides, ambient_effect, map_style_variant, music_theme_slug, ui, document_id)
             VALUES (:slug, CAST(:name AS jsonb), :extends, CAST(:raw AS jsonb), CAST(:palette AS jsonb), CAST(:fonts AS jsonb),
                     CAST(:textures AS jsonb), CAST(:ornaments AS jsonb), CAST(:art AS jsonb), CAST(:moods AS jsonb),
-                    :ambient, :map, :music, :doc)
+                    :ambient, :map, :music, CAST(:ui AS jsonb), :doc)
             ON CONFLICT (slug) DO UPDATE SET
               name = EXCLUDED.name, extends_slug = EXCLUDED.extends_slug, raw = EXCLUDED.raw, palette = EXCLUDED.palette,
               fonts = EXCLUDED.fonts, textures = EXCLUDED.textures, ornaments = EXCLUDED.ornaments,
               background_art = EXCLUDED.background_art, mood_overrides = EXCLUDED.mood_overrides,
               ambient_effect = EXCLUDED.ambient_effect, map_style_variant = EXCLUDED.map_style_variant,
-              music_theme_slug = EXCLUDED.music_theme_slug, document_id = EXCLUDED.document_id""";
+              music_theme_slug = EXCLUDED.music_theme_slug, ui = EXCLUDED.ui, document_id = EXCLUDED.document_id""";
 
     static final String RESOLVED = """
             SELECT palette, fonts, textures, ornaments, background_art, mood_overrides,
-                   lower(ambient_effect) AS ambient, lower(map_style_variant) AS map, music_theme_slug
+                   lower(ambient_effect) AS ambient, lower(map_style_variant) AS map, music_theme_slug, ui
             FROM theme WHERE slug = :slug""";
 
     static final String VARIANTS = "SELECT slug, raw, document_id FROM theme WHERE extends_slug = :slug";
@@ -55,7 +55,7 @@ class ThemingProjectionWriter implements ProjectionWriter {
 
     /** A theme with every field resolved, in the content spelling (lower-case enums). */
     record Resolved(JsonNode palette, JsonNode fonts, JsonNode textures, JsonNode ornaments, JsonNode backgroundArt,
-                    JsonNode moodTones, String ambientEffect, String mapStyleVariant, String musicThemeId) {}
+                    JsonNode moodTones, String ambientEffect, String mapStyleVariant, String musicThemeId, JsonNode ui) {}
 
     private final JdbcClient jdbc;
 
@@ -101,7 +101,7 @@ class ThemingProjectionWriter implements ProjectionWriter {
                 .param("textures", json(r.textures())).param("ornaments", json(r.ornaments()))
                 .param("art", json(r.backgroundArt())).param("moods", json(r.moodTones()))
                 .param("ambient", upper(r.ambientEffect())).param("map", upper(r.mapStyleVariant()))
-                .param("music", r.musicThemeId()).param("doc", documentId).update();
+                .param("music", r.musicThemeId()).param("ui", json(r.ui())).param("doc", documentId).update();
     }
 
     private Resolved resolve(String slug, JsonNode raw) {
@@ -109,7 +109,8 @@ class ThemingProjectionWriter implements ProjectionWriter {
         if (parentSlug == null) {
             return new Resolved(raw.path("palette"), raw.path("fonts"), raw.path("textures"), raw.path("ornaments"),
                     orEmptyArray(raw.path("backgroundArt")), orEmptyObject(raw.path("moodTones")),
-                    text(raw.path("ambientEffect")), text(raw.path("mapStyleVariant")), text(raw.path("musicThemeId")));
+                    text(raw.path("ambientEffect")), text(raw.path("mapStyleVariant")), text(raw.path("musicThemeId")),
+                    orNull(raw.path("ui")));
         }
         Resolved parent = parent(parentSlug).orElseThrow(() ->
                 new MissingDependencyException("tema '%s' əsas tema '%s' olmadan proyeksiya oluna bilməz".formatted(slug, parentSlug)));
@@ -122,7 +123,8 @@ class ThemingProjectionWriter implements ProjectionWriter {
                 merge(parent.moodTones(), raw.path("moodTones")),
                 raw.has("ambientEffect") ? text(raw.path("ambientEffect")) : parent.ambientEffect(),
                 raw.has("mapStyleVariant") ? text(raw.path("mapStyleVariant")) : parent.mapStyleVariant(),
-                raw.has("musicThemeId") ? text(raw.path("musicThemeId")) : parent.musicThemeId());
+                raw.has("musicThemeId") ? text(raw.path("musicThemeId")) : parent.musicThemeId(),
+                raw.has("ui") ? orNull(raw.path("ui")) : parent.ui());
     }
 
     private Optional<Resolved> parent(String slug) {
@@ -131,7 +133,8 @@ class ThemingProjectionWriter implements ProjectionWriter {
                 json.readTree(rs.getString("palette")), json.readTree(rs.getString("fonts")),
                 json.readTree(rs.getString("textures")), json.readTree(rs.getString("ornaments")),
                 json.readTree(rs.getString("background_art")), json.readTree(rs.getString("mood_overrides")),
-                rs.getString("ambient"), rs.getString("map"), rs.getString("music_theme_slug"))).optional();
+                rs.getString("ambient"), rs.getString("map"), rs.getString("music_theme_slug"),
+                rs.getString("ui") == null ? null : json.readTree(rs.getString("ui")))).optional();
     }
 
     /** {@code {...parent, ...child}}: one level, like the spread in the frontend. */
@@ -148,6 +151,10 @@ class ThemingProjectionWriter implements ProjectionWriter {
 
     private static JsonNode orEmptyArray(JsonNode n) {
         return n.isArray() ? n : JsonNodeFactory.instance.arrayNode();
+    }
+
+    private static JsonNode orNull(JsonNode n) {
+        return n.isObject() ? n : null;
     }
 
     private static JsonNode orEmptyObject(JsonNode n) {

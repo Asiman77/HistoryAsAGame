@@ -222,6 +222,41 @@ class ProjectionTests {
     }
 
     @Test
+    void redesignFieldsAreProjected() {
+        // Today's data, with the optional fields of the redesign (B1) set on a few documents.
+        Map<String, Doc> changed = new HashMap<>();
+        ObjectNode era = DataDocuments.find(DocumentType.ERA, "sefevi").content().deepCopy();
+        ((ObjectNode) era.path("era")).put("weight", 2.5).put("subject", "azerbaijan-history");
+        changed.put("ERA:sefevi", new Doc(DocumentType.ERA, "sefevi", era));
+        ObjectNode theme = DataDocuments.find(DocumentType.THEME, "efshar").content().deepCopy();
+        ObjectNode ui = ((ObjectNode) theme.path("theme")).putObject("ui");
+        ui.put("bg", "#140E08").put("accent", "#E0B07A").putArray("secondary").add("#7A3A16");
+        changed.put("THEME:efshar", new Doc(DocumentType.THEME, "efshar", theme));
+        ObjectNode person = DataDocuments.find(DocumentType.PERSON, "shah-ismayil").content().deepCopy();
+        for (JsonNode e : person.path("events")) {
+            if ("ismayil-chaldiran".equals(e.path("id").asString())) ((ObjectNode) e).put("template", "battle");
+        }
+        changed.put("PERSON:shah-ismayil", new Doc(DocumentType.PERSON, "shah-ismayil", person));
+        for (Doc d : DATA) seedPublished(changed.getOrDefault(d.type() + ":" + d.slug(), d));
+        projector.rebuild();
+
+        // Template: a column, not a detail; absent stays null (the client derives it).
+        assertThat(jdbc.sql("SELECT template FROM simulation_step WHERE step_key = 'ismayil-chaldiran'").query(String.class).single())
+                .isEqualTo("BATTLE");
+        assertThat(count("SELECT count(*) FROM simulation_step WHERE template IS NOT NULL")).isOne();
+        assertThat(count("SELECT count(*) FROM simulation_step WHERE details -> 'template' IS NOT NULL")).isZero();
+
+        // Era weight and subject; the defaults where the content says nothing.
+        assertThat(jdbc.sql("SELECT weight FROM era WHERE slug = 'sefevi'").query(Double.class).single()).isEqualTo(2.5);
+        assertThat(jdbc.sql("SELECT weight FROM era WHERE slug = 'efshar'").query(Double.class).single()).isEqualTo(1.0);
+        assertThat(count("SELECT count(*) FROM era WHERE subject <> 'azerbaijan-history'")).isZero();
+
+        // The dark UI palette: the variant inherits it as a whole.
+        assertThat(jdbc.sql("SELECT ui ->> 'bg' FROM theme WHERE slug = 'efshar-hind'").query(String.class).single()).isEqualTo("#140E08");
+        assertThat(count("SELECT count(*) FROM theme WHERE slug = 'sefevi' AND ui IS NULL")).isOne();
+    }
+
+    @Test
     void rebuildIsIdempotent() {
         DATA.forEach(this::seedPublished);
         projector.rebuild();
