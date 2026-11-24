@@ -74,6 +74,8 @@ export interface StepContentProps {
   legends: boolean;
   /** Opens the city card of a catalogue place. */
   onPlace?: (placeId: string) => void;
+  /** A related link is about to be followed (the shell remembers the way back). */
+  onFollow?: (href: string) => void;
   compact?: boolean;
 }
 
@@ -82,7 +84,7 @@ export interface StepContentProps {
  * the narrative first (story) or the facts and open sources first (learn).
  * Children come in one after another, `stagger` ms apart.
  */
-export function StepContent({ step, total, position, mode, stagger, picked, onPick, legends, onPlace, compact }: StepContentProps) {
+export function StepContent({ step, total, position, mode, stagger, picked, onPick, legends, onPlace, onFollow, compact }: StepContentProps) {
   const t = useTranslations("shell");
   const disputed = step.claims.filter((c) => c.type === "disputed");
   const others = step.claims.filter((c) => c.type !== "disputed");
@@ -146,7 +148,7 @@ export function StepContent({ step, total, position, mode, stagger, picked, onPi
       {step.related.length ? (
         <motion.div variants={item} className="flex flex-wrap gap-2" aria-label={t("related")}>
           {step.related.map((r) => (
-            <Chip key={r.label} href={r.href ?? undefined}>
+            <Chip key={r.label} href={r.href ?? undefined} {...(r.href && onFollow ? { onClick: () => onFollow(r.href!) } : {})}>
               {r.label}
             </Chip>
           ))}

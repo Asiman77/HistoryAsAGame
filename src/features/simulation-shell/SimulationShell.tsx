@@ -3,18 +3,19 @@
 import { ArrowLeft, Volume2, VolumeX } from "lucide-react";
 import { AnimatePresence, useReducedMotion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
-import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { BottomSheet, sheetHeight } from "@/components/ui/BottomSheet";
 import { Compass } from "@/components/icons";
 import { LiveRegion } from "@/components/ui/LiveRegion";
 import { Panel } from "@/components/ui/Panel";
 import { ProgressSegments } from "@/components/ui/Progress";
+import { pathOf, peekReturn, popReturn, pushReturn } from "@/features/engine/navStack";
 import { useStoredMode } from "@/features/simulation/useStoredMode";
 import { flushAnalytics, ownerOf, track } from "@/lib/analytics/client";
 import { cx } from "@/lib/cx";
 import { progressStore, saveProgress, useProgress } from "@/lib/progress";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { deviceLooksWeak, updateSettings, useSettings } from "@/lib/settings";
 import { useMediaQuery, useViewportHeight } from "@/lib/useMediaQuery";
 import { useSimulationStore } from "@/stores/simulation";
@@ -35,6 +36,8 @@ import { useShellAudio } from "./useShellAudio";
 /** Desktop story panel width plus its margins: the map centres its target in the rest. */
 const PANEL_SPACE = 468;
 const AUTOPLAY_DWELL_MS = 7000;
+
+const noopSubscribe = () => () => {};
 
 const noopMap: MapController = { showStep: () => {}, flyTo: () => Promise.resolve(), drawRoute: () => Promise.resolve() };
 
@@ -78,12 +81,28 @@ export function SimulationShell({ data }: { data: ShellData }) {
   const running = useRef<AbortController | null>(null);
   const owner = useMemo(() => ownerOf(data.kind === "person" ? `person:${data.key}` : data.key), [data.kind, data.key]);
   const [placeId, setPlaceId] = useState<string | null>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+  // Arrived through a cross-link from another simulation: offer the way back (tarix:navstack, per tab).
+  const returnLabel = useSyncExternalStore(
+    noopSubscribe,
+    () => peekReturn(pathOf(pathname))?.label ?? "",
+    () => "",
+  );
+  const goBack = () => {
+    const entry = popReturn();
+    if (entry) router.push(entry.href);
+  };
   const place = placeId ? (data.landmarks.find((l) => l.id === placeId) ?? null) : null;
 
-  // First step: ?step= (a shared link), otherwise the beginning.
+  // First step: ?step= (a shared link), else where the viewer left off ("Davam et · 7/14"), else the beginning.
+  // The shell renders in the browser only (useSearchParams), so saved progress can be read here.
   const initial = useMemo(() => {
     const requested = data.steps.find((s) => s.id === params.get("step"));
-    return requested?.index ?? visible[0]?.index ?? 0;
+    if (requested) return requested.index;
+    const saved = progressStore.get().persons[data.key];
+    if (saved && !saved.completed && saved.index > 0 && data.steps[saved.index]) return saved.index;
+    return visible[0]?.index ?? 0;
     // Only on mount: later changes come from the viewer, not the URL.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -215,6 +234,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
       onPick={(i) => pick(shown.id, i)}
       legends={legends}
       onPlace={setPlaceId}
+      onFollow={(href) => pushReturn({ href: `${pathOf(pathname)}?step=${shown.id}`, label: `${data.title} · ${shown.title}`, target: pathOf(href) })}
       compact={!desktop}
     />
   ) : null;
@@ -255,6 +275,20 @@ export function SimulationShell({ data }: { data: ShellData }) {
           <div className="absolute left-7 top-7 z-10">
             <PortraitCard step={counterStep} crossfadeMs={reduced ? 0 : 500} />
           </div>
+        ) : null}
+
+        {returnLabel ? (
+          <button
+            type="button"
+            onClick={goBack}
+            className={cx(
+              "absolute z-20 max-w-[min(26rem,calc(100%-2rem))] truncate rounded-full border border-line-strong bg-surface-panel/90 px-4 py-2 text-left text-13 font-medium text-fg shadow-deep backdrop-blur-sm hover:text-accent",
+              desktop ? "left-1/2 top-4 -translate-x-1/2" : "left-3 top-[68px]",
+            )}
+            data-testid="return-link"
+          >
+            ← {returnLabel}
+          </button>
         ) : null}
 
         {place ? (

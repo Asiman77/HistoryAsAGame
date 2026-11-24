@@ -8,6 +8,8 @@ export interface ChipProps {
   href?: string;
   /** Tint of an active chip; defaults to the period's second colour. */
   tone?: "secondary" | "accent";
+  /** Runs before the link is followed (e.g. to remember the way back). */
+  onClick?: () => void;
   className?: string;
 }
 
@@ -21,7 +23,7 @@ const TONE = {
  * Passive: dashed, muted, not focusable, labelled "tezliklə" so the reader
  * knows the link will open once the content exists.
  */
-export function Chip({ children, href, tone = "secondary", className }: ChipProps) {
+export function Chip({ children, href, tone = "secondary", onClick, className }: ChipProps) {
   const t = useTranslations("ui");
   if (!href) {
     return (
@@ -31,7 +33,7 @@ export function Chip({ children, href, tone = "secondary", className }: ChipProp
     );
   }
   return (
-    <Link href={href} className={cx("inline-flex min-h-9 items-center gap-1.5 rounded-button border px-3 text-13 font-medium text-fg transition-colors", TONE[tone], className)}>
+    <Link href={href} onClick={onClick} className={cx("inline-flex min-h-9 items-center gap-1.5 rounded-button border px-3 text-13 font-medium text-fg transition-colors", TONE[tone], className)}>
       {children} <span aria-hidden>→</span>
     </Link>
   );
