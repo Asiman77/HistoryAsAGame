@@ -10,6 +10,7 @@ interface RawEvent {
   order: number;
   title: { az: string };
   date: { year: number };
+  location: { name: { az: string } };
   narrative: { az: string };
   factualSummary: { az: string };
   route?: unknown;
@@ -22,6 +23,8 @@ const PERSON = "shah-ismayil";
 const steps = events(PERSON);
 const url = (query = "") => `/az/sexsiyyetler/${PERSON}/${query}`;
 const shell = (page: Page) => page.getByTestId("simulation-shell");
+/** Place name as the map marker writes it ("Lahican (Gilan)" → "Lahican"). */
+const placeOf = (e: RawEvent) => e.location.name.az.replace(/\s*\(.*\)\s*$/, "");
 const content = (page: Page) => page.getByTestId("step-content");
 
 test.beforeEach(async ({ page }) => {
@@ -34,8 +37,8 @@ test("a shared ?step= opens that step, with its title, theme and map", async ({ 
   await page.goto(url(`?step=${target.id}`));
   await expect(shell(page)).toHaveAttribute("data-step", target.id);
   await expect(content(page).getByRole("heading", { level: 2 })).toHaveText(target.title.az);
-  await expect(page.getByTestId("svg-map")).toHaveAttribute("data-step", "5");
-  await expect(page.getByTestId("map-current")).toBeVisible();
+  await expect(page.getByTestId("map")).toHaveAttribute("data-renderer", /gl|svg/);
+  await expect(page.getByTestId("map-current")).toContainText(placeOf(target));
   await expect(page.getByTestId("theme-root")).not.toHaveAttribute("data-theme", "default");
   expect(errors).toEqual([]);
 });
@@ -78,7 +81,7 @@ test("clicking next mid-transition skips it: the scene ends complete and the nex
   await next.click();
   await expect(shell(page)).toHaveAttribute("data-step", steps[6]!.id);
   await expect(content(page).getByRole("heading", { level: 2 })).toHaveText(steps[6]!.title.az, { timeout: 5000 });
-  await expect(page.getByTestId("svg-map")).toHaveAttribute("data-step", "6");
+  await expect(page.getByTestId("map-current")).toContainText(placeOf(steps[6]!));
 });
 
 test("story mode leads with the narrative, learning mode with facts and open sources", async ({ page, viewport }) => {
@@ -141,4 +144,60 @@ test("progress is saved for the home cards", async ({ page }) => {
   await expect
     .poll(() => page.evaluate((id) => JSON.parse(localStorage.getItem("tarix:progress") ?? "{}").persons?.[id]?.index, PERSON))
     .toBe(6);
+});
+
+test("MapLibre draws the map when WebGL works; without WebGL the SVG map takes over and the story goes on", async ({ page, browser }, info) => {
+  test.skip(info.project.name !== "desktop", "renderer choice is the same on every viewport");
+  await page.goto(url(`?step=${steps[2]!.id}`));
+  await expect(page.getByTestId("map")).toHaveAttribute("data-renderer", "gl");
+  await expect(page.getByTestId("gl-map")).toHaveAttribute("data-ready", "true", { timeout: 20_000 });
+  await expect(page.getByTestId("map-current")).toContainText(placeOf(steps[2]!));
+
+  const context = await browser.newContext({ viewport: { width: 1366, height: 800 }, reducedMotion: "reduce" });
+  const noGl = await context.newPage();
+  await noGl.addInitScript(() => {
+    const original = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, type: string, ...rest: unknown[]) {
+      if (/webgl/.test(type)) return null;
+      return (original as (...a: unknown[]) => RenderingContext | null).call(this, type, ...rest);
+    } as typeof HTMLCanvasElement.prototype.getContext;
+  });
+  await noGl.goto(url(`?step=${steps[2]!.id}`));
+  await expect(noGl.getByTestId("map")).toHaveAttribute("data-renderer", "svg");
+  await expect(noGl.getByTestId("svg-map")).toBeVisible();
+  await noGl.getByTestId("step-next").click();
+  await expect(noGl.getByTestId("simulation-shell")).toHaveAttribute("data-step", steps[3]!.id);
+  await expect(noGl.getByTestId("map-current")).toContainText(placeOf(steps[3]!));
+  await context.close();
+});
+
+test("frame pacing while the camera flies and a route is drawn", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop", "measured once, on the GPU-enabled desktop project");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  // The step before the first movement, so "next" flies and draws a route.
+  const firstMove = steps.findIndex((e, i) => i > 0 && (e.route || e.fromLocation));
+  await page.goto(url(`?step=${steps[firstMove - 1]!.id}`));
+  await expect(page.getByTestId("gl-map")).toHaveAttribute("data-ready", "true", { timeout: 20_000 });
+  await page.waitForTimeout(2500);
+  const stats = await page.evaluate(async () => {
+    const frames: number[] = [];
+    let last = performance.now();
+    const until = last + 3500;
+    (document.querySelector('[data-testid="step-next"]') as HTMLButtonElement).click();
+    await new Promise<void>((resolve) => {
+      const tick = (now: number) => {
+        frames.push(now - last);
+        last = now;
+        if (now < until) requestAnimationFrame(tick);
+        else resolve();
+      };
+      requestAnimationFrame(tick);
+    });
+    frames.sort((a, b) => a - b);
+    const avg = frames.reduce((s, f) => s + f, 0) / frames.length;
+    return { fps: 1000 / avg, p95: frames[Math.floor(frames.length * 0.95)]!, count: frames.length };
+  });
+  console.log(`shell transition: ${stats.fps.toFixed(1)} fps avg, p95 frame ${stats.p95.toFixed(1)} ms, ${stats.count} frames`);
+  await info.attach("frame-pacing", { body: JSON.stringify(stats), contentType: "application/json" });
+  expect(stats.fps).toBeGreaterThan(20);
 });
