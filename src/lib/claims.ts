@@ -39,13 +39,13 @@ export function classifyItems(steps: { title: LocalizedText; claims: Claim[] }[]
  * A short round: up to `n` items, mixing kinds so the answer is not always the
  * same. Deterministic for a given seed, so a class sees the same order.
  */
-export function pickRound(items: ClassifyItem[], n = 6, seed = 1): ClassifyItem[] {
+export function pickRound<T extends { answer: string }>(items: T[], n = 6, seed = 1): T[] {
   let x = seed;
   const rand = () => ((x = (x * 9301 + 49297) % 233280) / 233280);
-  const byKind = new Map<string, ClassifyItem[]>();
+  const byKind = new Map<string, T[]>();
   for (const it of items) byKind.set(it.answer, [...(byKind.get(it.answer) ?? []), it]);
   for (const list of byKind.values()) list.sort(() => rand() - 0.5);
-  const out: ClassifyItem[] = [];
+  const out: T[] = [];
   while (out.length < n && [...byKind.values()].some((l) => l.length)) {
     for (const list of byKind.values()) {
       const it = list.shift();
