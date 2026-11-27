@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tarixin-icinde.az/schema/v1/CurriculumTopic.schema.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "title": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "paragraph": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20
+    },
+    "summary": {
+      "$ref": "https://tarixin-icinde.az/schema/v1/LocalizedText.schema.json"
+    },
+    "minutes": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 240
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "$ref": "https://tarixin-icinde.az/schema/v1/TopicStepRef.schema.json"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "steps"
+  ]
+}

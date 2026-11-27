@@ -64,6 +64,7 @@ export const DATA_FILES: DataFileSpec[] = [
   { pattern: "commemorations.json", schema: "CommemorationsFile", zod: S.CommemorationsFile },
   { pattern: "world-events.json", schema: "WorldEventsFile", zod: S.WorldEventsFile },
   { pattern: "planned.json", schema: "PlannedFile", zod: S.PlannedFile },
+  { pattern: "curriculum/*/*.json", schema: "CurriculumGrade", zod: S.CurriculumGrade },
 ];
 
 /** Files under data/ that are documentation, not content. */
@@ -100,6 +101,9 @@ export const SHARED_SCHEMAS: Record<string, z.ZodType> = {
   Reign: S.Reign,
   Relation: S.Relation,
   ThemeUi: S.ThemeUi,
+  TopicStepRef: S.TopicStepRef,
+  CurriculumTopic: S.CurriculumTopic,
+  Textbook: S.Textbook,
   Theme: S.Theme,
   ThemeVariant: S.ThemeVariant,
   Settlement: S.Settlement,

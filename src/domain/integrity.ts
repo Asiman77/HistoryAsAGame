@@ -1,4 +1,4 @@
-import type { Era, LifeEvent, Person, Relation } from "./schema";
+import type { CurriculumGrade, Era, LifeEvent, Person, Relation } from "./schema";
 import { compareDates } from "@/lib/dates";
 
 export interface Issue {
@@ -127,3 +127,29 @@ export function checkPortraits(person: Person, file: string): Issue[] {
   });
   return issues;
 }
+
+/** Step ids of every simulation, by "<type>:<id>" ("person:shah-ismayil"). */
+export type StepCatalogue = Map<string, Set<string>>;
+
+/**
+ * A curriculum grade: every topic step names an existing step of an existing
+ * simulation; topic ids are unique across all grades (they are addresses).
+ */
+export function checkCurriculum(grade: CurriculumGrade, steps: StepCatalogue, seenTopics: Map<string, string>, file: string): Issue[] {
+  const issues: Issue[] = [];
+  const add = (message: string) => issues.push({ file, message });
+  for (const section of grade.sections) {
+    for (const topic of section.topics) {
+      const before = seenTopics.get(topic.id);
+      if (before && before !== file) add(`${topic.id}: mövzu id-si başqa sinifdə də var (${before})`);
+      seenTopics.set(topic.id, file);
+      topic.steps.forEach((ref, i) => {
+        const known = steps.get(`${ref.type}:${ref.id}`);
+        if (!known) add(`${topic.id}.steps[${i}]: naməlum simulyasiya ${ref.type}:${ref.id}`);
+        else if (!known.has(ref.stepId)) add(`${topic.id}.steps[${i}]: ${ref.type}:${ref.id} simulyasiyasında ${ref.stepId} addımı yoxdur`);
+      });
+    }
+  }
+  return issues;
+}
+

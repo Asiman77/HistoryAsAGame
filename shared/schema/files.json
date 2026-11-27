@@ -106,6 +106,10 @@
     {
       "pattern": "planned.json",
       "schema": "PlannedFile"
+    },
+    {
+      "pattern": "curriculum/*/*.json",
+      "schema": "CurriculumGrade"
     }
   ]
 }

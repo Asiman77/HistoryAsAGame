@@ -545,6 +545,69 @@ export type ThemeVariant = z.infer<typeof ThemeVariant>;
 export const ThemeFile = z.union([ThemeVariant, Theme]);
 export type ThemeFile = z.infer<typeof ThemeFile>;
 
+// ---------------------------------------------------------------------------
+// Curriculum: subject → grade → section → topic → steps (FRONTEND_SPEC §9, backend B2)
+// ---------------------------------------------------------------------------
+
+/** A step of a simulation that a topic tells, in the topic's order. */
+export const TopicStepRef = z.object({
+  type: z.enum(["person", "conflict", "state"]),
+  id: Slug,
+  stepId: Slug,
+});
+export type TopicStepRef = z.infer<typeof TopicStepRef>;
+
+/** A lesson of the textbook. Without steps it is listed as "hazırlanır" and cannot be opened. */
+export const CurriculumTopic = z.object({
+  /** Unique across all grades: the address of the topic simulation. */
+  id: Slug,
+  title: LocalizedText,
+  /** Paragraph of the textbook, e.g. "§ 12". */
+  paragraph: z.string().min(1).max(20).optional(),
+  summary: LocalizedText.optional(),
+  /** Estimated time in minutes. */
+  minutes: z.number().int().positive().max(240).optional(),
+  steps: z.array(TopicStepRef),
+});
+export type CurriculumTopic = z.infer<typeof CurriculumTopic>;
+
+export const CurriculumSection = z.object({
+  id: Slug,
+  title: LocalizedText,
+  topics: z.array(CurriculumTopic).min(1),
+});
+export type CurriculumSection = z.infer<typeof CurriculumSection>;
+
+/** The approved textbook a grade follows; only the reference, never its text (FRONTEND_SPEC §14). */
+export const Textbook = z.object({
+  title: LocalizedText,
+  /** Author collective as printed. */
+  authors: z.string().min(1),
+  year: z.number().int().min(1900).max(2100),
+  publisher: z.string().min(1).optional(),
+  url: z.url().optional(),
+});
+export type Textbook = z.infer<typeof Textbook>;
+
+/** data/curriculum/<subject>/<grade>.json: one grade of one school subject. */
+export const CurriculumGrade = z
+  .object({
+    /** "<subject>-<grade>", e.g. "azerbaijan-history-8". */
+    id: Slug,
+    subject: Slug,
+    grade: z.number().int().min(1).max(11),
+    title: LocalizedText,
+    textbook: Textbook.optional(),
+    sections: z.array(CurriculumSection),
+    /** Sample content for tests and Storybook (fixtures/), shown as "Nümunə məzmun". */
+    sample: z.boolean().optional(),
+  })
+  .refine((g) => g.id === `${g.subject}-${g.grade}`, { message: "id <subject>-<grade> olmalıdır" })
+  .refine((g) => new Set(g.sections.flatMap((s) => s.topics.map((t) => t.id))).size === g.sections.reduce((n, s) => n + s.topics.length, 0), {
+    message: "mövzu id-ləri təkrarlanmamalıdır",
+  });
+export type CurriculumGrade = z.infer<typeof CurriculumGrade>;
+
 export const RELATION_TYPES = [
   "parent",
   "grandparent",

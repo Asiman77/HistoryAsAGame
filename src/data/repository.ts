@@ -2,9 +2,14 @@ import type { Registry } from "@/domain/registry";
 import type { ThemeMap } from "@/lib/theme";
 import type { IndexedEvent } from "@/lib/historyIndex";
 import type {
+  Battle,
+  Commander,
+  Commemoration,
+  Conflict,
+  CurriculumGrade,
   Era,
   GlossaryEntry,
-  Commemoration,
+  Hero,
   LifeEvent,
   Person,
   Place,
@@ -13,17 +18,13 @@ import type {
   Reign,
   Relation,
   Ruler,
+  Settlement,
   State,
   StateStep,
-  Battle,
-  Commander,
-  Conflict,
-  Hero,
-  Settlement,
+  TerritorySnapshot,
+  TerritorySnapshotMeta,
   Track,
   WarDay,
-  TerritorySnapshotMeta,
-  TerritorySnapshot,
   WorldEvent,
 } from "@/domain/schema";
 
@@ -69,6 +70,8 @@ export interface HistoryRepository {
   listBattles(): Promise<Battle[]>;
   /** Entities announced but not built yet (data/planned.json). */
   listPlanned(): Promise<PlannedEntity[]>;
+  /** Grades of a school subject (data/curriculum/<subject>/<grade>.json), by grade; empty until the curriculum exists. */
+  listCurriculum(subject?: string): Promise<CurriculumGrade[]>;
   /** Index of every entity, used to resolve cross-links. */
   getRegistry(): Promise<Registry>;
   /** Every dated step of every simulation, chronological (places, time slider, "Tarixdə bu gün", compare). */

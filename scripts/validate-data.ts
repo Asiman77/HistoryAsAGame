@@ -35,6 +35,7 @@ import {
   ThemeFile,
   MOODS,
   CommemorationsFile,
+  CurriculumGrade,
   type LifeEvent,
   type Person as PersonT,
 } from "../src/domain/schema";
@@ -43,6 +44,7 @@ import { compareDates } from "../src/lib/dates";
 import { resolveThemes, themeContrastIssues, type ThemeMap } from "../src/lib/theme";
 import { MUSIC_THEMES } from "../src/features/audio/manifest";
 import {
+  checkCurriculum,
   checkEra,
   checkEventReferences,
   checkPerson,
@@ -455,6 +457,30 @@ if (pending.size) {
   for (const [k, from] of [...pending].sort()) console.warn(`   ${k}  ←  ${from.join(", ")}`);
 }
 
+// Curriculum (data/curriculum/<subject>/<grade>.json): topics point at existing steps.
+const stepCatalogue = new Map<string, Set<string>>([
+  ...loaded.map(({ person, events }) => [`person:${person.id}`, new Set(events.map((e) => e.id))] as const),
+  ...loadedStates.map(({ id, steps }) => [`state:${id}`, new Set(steps.map((s) => s.id))] as const),
+  ...loadedConflicts.map(({ id, days }) => [`conflict:${id}`, new Set(days.map((d) => d.id))] as const),
+]);
+const curriculumDir = path.join(root, "curriculum");
+const seenTopics = new Map<string, string>();
+let gradeCount = 0;
+if (fs.existsSync(curriculumDir)) {
+  for (const subject of fs.readdirSync(curriculumDir, { withFileTypes: true }).filter((d) => d.isDirectory())) {
+    for (const f of fs.readdirSync(path.join(curriculumDir, subject.name)).filter((x) => x.endsWith(".json"))) {
+      const file = path.join(curriculumDir, subject.name, f);
+      const grade = load(file, CurriculumGrade);
+      if (!grade) continue;
+      gradeCount++;
+      if (grade.subject !== subject.name) add(file, `subject (${grade.subject}) qovluqla (${subject.name}) üst-üstə düşmür`);
+      if (f !== `${grade.grade}.json`) add(file, `fayl adı ${grade.grade}.json olmalıdır`);
+      if (grade.sample) add(file, "nümunə (sample) məzmun data/-ya düşməməlidir, yalnız fixtures/-da olur");
+      issues.push(...checkCurriculum(grade, stepCatalogue, seenTopics, rel(file)));
+    }
+  }
+}
+
 if (issues.length) {
   console.error(`✗ ${issues.length} problem tapıldı:\n`);
   for (const i of issues) console.error(`  ${i.file}\n    ${i.message}`);
@@ -462,5 +488,5 @@ if (issues.length) {
 }
 console.log(
   `✓ Data etibarlıdır: ${eras.length} dövr, ${personIds.size} şəxsiyyət, ${eventCount} hadisə, ` +
-    `${loadedStates.length} dövlət simulyasiyası, ${loadedConflicts.length} müharibə, ${places.length} məkan, ${polities.length} dövlət, ${rulers.length} hökmdar, ${snapshotIds.size} xəritə snapshot-u, ${world.length} dünya hadisəsi, ${glossary.length} termin, ${refCount} çarpaz keçid, ${Object.keys(themes).length} tema, iddialar: ${claimCounts.fact} fakt, ${claimCounts.disputed} mübahisəli, ${claimCounts.legend} rəvayət.`,
+    `${loadedStates.length} dövlət simulyasiyası, ${loadedConflicts.length} müharibə, ${places.length} məkan, ${polities.length} dövlət, ${rulers.length} hökmdar, ${snapshotIds.size} xəritə snapshot-u, ${world.length} dünya hadisəsi, ${glossary.length} termin, ${refCount} çarpaz keçid, ${Object.keys(themes).length} tema, ${gradeCount} kurikulum sinfi, iddialar: ${claimCounts.fact} fakt, ${claimCounts.disputed} mübahisəli, ${claimCounts.legend} rəvayət.`,
 );

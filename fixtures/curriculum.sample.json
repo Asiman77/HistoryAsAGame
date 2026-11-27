@@ -1,0 +1,63 @@
+{
+  "id": "azerbaijan-history-8",
+  "subject": "azerbaijan-history",
+  "grade": 8,
+  "title": { "az": "Nümunə: Azərbaycan tarixi, 8-ci sinif" },
+  "sample": true,
+  "sections": [
+    {
+      "id": "sample-section-1",
+      "title": { "az": "Nümunə bölmə 1" },
+      "topics": [
+        {
+          "id": "sample-agqoyunlu",
+          "title": { "az": "Nümunə mövzu: Ağqoyunlu dövləti" },
+          "paragraph": "§ 1",
+          "minutes": 15,
+          "steps": [
+            { "type": "person", "id": "uzun-hasan", "stepId": "uzun-hasan-amid" },
+            { "type": "person", "id": "uzun-hasan", "stepId": "uzun-hasan-jahan-shah" },
+            { "type": "person", "id": "uzun-hasan", "stepId": "uzun-hasan-tabriz" },
+            { "type": "person", "id": "uzun-hasan", "stepId": "uzun-hasan-otlukbeli" }
+          ]
+        },
+        {
+          "id": "sample-sefevi",
+          "title": { "az": "Nümunə mövzu: Səfəvi dövlətinin yaranması" },
+          "paragraph": "§ 2",
+          "minutes": 15,
+          "steps": [
+            { "type": "person", "id": "shah-ismayil", "stepId": "ismayil-erzincan" },
+            { "type": "person", "id": "shah-ismayil", "stepId": "ismayil-sharur" },
+            { "type": "person", "id": "shah-ismayil", "stepId": "ismayil-coronation" },
+            { "type": "person", "id": "shah-ismayil", "stepId": "ismayil-chaldiran" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sample-section-2",
+      "title": { "az": "Nümunə bölmə 2" },
+      "topics": [
+        {
+          "id": "sample-efshar",
+          "title": { "az": "Nümunə mövzu: Əfşarlar dövləti" },
+          "paragraph": "§ 3",
+          "minutes": 20,
+          "steps": [
+            { "type": "person", "id": "nadir-shah", "stepId": "nadir-mughan" },
+            { "type": "state", "id": "afshar", "stepId": "1739-india" },
+            { "type": "state", "id": "afshar", "stepId": "1747-assassination" },
+            { "type": "state", "id": "afshar", "stepId": "1748-khanates" }
+          ]
+        },
+        {
+          "id": "sample-preparing",
+          "title": { "az": "Nümunə mövzu: hələ addımı olmayan mövzu" },
+          "paragraph": "§ 4",
+          "steps": []
+        }
+      ]
+    }
+  ]
+}

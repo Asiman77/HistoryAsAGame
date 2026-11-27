@@ -1,36 +1,38 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import {
+  Battle,
+  CommandersFile,
+  CommemorationsFile,
+  Conflict,
+  CurriculumGrade,
+  DEFAULT_SUBJECT,
   Era,
   EventsFile,
   GlossaryFile,
-  CommemorationsFile,
+  HeroesFile,
+  type LifeEvent,
   Person,
   PlacesFile,
   PlannedFile,
   Polity,
   ReignsFile,
+  type Relation,
+  RelationsFile,
   RulersFile,
-  State,
-  StateStepsFile,
-  Battle,
-  CommandersFile,
-  Conflict,
-  HeroesFile,
   Settlement,
   SoundtrackFile,
-  WarDaysFile,
-  type WarDay,
+  State,
   type StateStep,
-  RelationsFile,
+  StateStepsFile,
   TerritoryRegistryFile,
-  TerritorySnapshotSource,
   TerritorySnapshot,
-  ThemeFile,
-  WorldEventsFile,
-  type LifeEvent,
-  type Relation,
   type TerritorySnapshotMeta,
+  TerritorySnapshotSource,
+  ThemeFile,
+  type WarDay,
+  WarDaysFile,
+  WorldEventsFile,
 } from "@/domain/schema";
 import { buildRegistry, type Registry } from "@/domain/registry";
 import { resolveThemes, type ThemeMap } from "@/lib/theme";
@@ -279,6 +281,15 @@ export class FileSystemRepository implements HistoryRepository {
           out.push(Battle.parse(await this.readJson("conflicts", c.id, "battles", f)));
       }
       return out;
+    });
+  }
+
+  listCurriculum(subject = DEFAULT_SUBJECT): Promise<CurriculumGrade[]> {
+    return this.memo(`curriculum:${subject}`, async () => {
+      if (!(await this.exists("curriculum", subject))) return [];
+      const files = await this.jsonFiles(path.join("curriculum", subject));
+      const grades = await Promise.all(files.map(async (f) => CurriculumGrade.parse(await this.readJson("curriculum", subject, f))));
+      return grades.sort((a, b) => a.grade - b.grade);
     });
   }
 
