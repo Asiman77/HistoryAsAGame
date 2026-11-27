@@ -785,7 +785,17 @@ export interface TerritorySnapshotMeta {
   certainty: Certainty;
   note?: LocalizedText;
   sources: Source[];
-  polities: { id: string; name: LocalizedText; color: string; capitalId?: string; vassalOf?: string }[];
+  polities: {
+    id: string;
+    name: LocalizedText;
+    color: string;
+    capitalId?: string;
+    vassalOf?: string;
+    /** Registry regions the polity holds in the snapshot (hand-made borders). */
+    regions?: string[];
+    /** Present-day country (ISO 3166 alpha-3) for modern borders. */
+    iso?: string;
+  }[];
 }
 
 // ---------------------------------------------------------------------------

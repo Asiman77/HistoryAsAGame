@@ -200,6 +200,8 @@ export class FileSystemRepository implements HistoryRepository {
                 color: meta?.color ?? "#888888",
                 ...(p.capitalId ? { capitalId: p.capitalId } : {}),
                 ...(p.vassalOf ? { vassalOf: p.vassalOf } : {}),
+                ...(p.regions ? { regions: p.regions } : {}),
+                ...(p.iso ? { iso: p.iso } : {}),
               };
             }),
           };

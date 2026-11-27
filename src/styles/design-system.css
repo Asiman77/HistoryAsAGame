@@ -202,6 +202,12 @@
   white-space: nowrap;
   text-shadow: 0 0 4px var(--map-parchment-center), 0 0 8px var(--map-parchment-center);
 }
+/* Events of the year on the timeline map. */
+.gl-event { display: block; width: 14px; height: 14px; padding: 0; border-radius: 999px; border: 2px solid var(--map-parchment-center); background: var(--accent); box-shadow: 0 0 0 1px var(--map-ink); cursor: pointer; }
+.gl-event[data-category="battle"] { background: var(--negative); }
+.gl-event[data-category="state"] { background: var(--secondary); }
+.gl-event:hover, .gl-event:focus-visible { transform: scale(1.3); outline: 2px solid var(--map-ink); outline-offset: 2px; }
+
 /* Markers that open the city card. */
 .gl-place[data-clickable="true"][data-visible="true"],
 .gl-landmark[data-clickable="true"][data-visible="true"],
@@ -220,6 +226,11 @@
   white-space: nowrap;
 }
 .gl-polity[data-state="out"] { opacity: 0; }
+/* Names that open the ruler panel: a real button (keyboard), quiet until hovered or focused. */
+.gl-polity[data-clickable="true"] { pointer-events: auto; cursor: pointer; background: none; border: 0; padding: 2px 4px; font-family: var(--font-noto-serif-display), Georgia, serif; }
+.gl-polity[data-clickable="true"][data-state="out"] { pointer-events: none; }
+.gl-polity[data-clickable="true"]:hover { opacity: 1; text-decoration: underline dotted; text-underline-offset: 4px; }
+.gl-polity[data-clickable="true"]:focus-visible { opacity: 1; outline: 2px solid var(--map-ink); outline-offset: 2px; border-radius: 4px; }
 .gl-polity[data-vassal="true"] { font-size: 11px; opacity: 0.6; }
 @media (prefers-reduced-motion: reduce) {
   .gl-pulse { animation: none; }

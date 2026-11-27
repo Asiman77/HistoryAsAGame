@@ -34,6 +34,8 @@ export class TerritoryLayers {
     private readonly locale: Locale,
     private palette: MapPalette,
     beforeLayer: string,
+    /** A click on a polity or its name (ruler panel); names become buttons for the keyboard. */
+    private readonly onPolity?: (polityId: string) => void,
   ) {
     for (const slot of ["a", "b"] as const) {
       const src = `terr-${slot}`;
@@ -82,6 +84,16 @@ export class TerritoryLayers {
     map.on("mousemove", `terr-b-fill`, (e) => this.hover("b", e.features?.[0]?.id));
     map.on("mouseleave", `terr-a-fill`, () => this.hover("a", undefined));
     map.on("mouseleave", `terr-b-fill`, () => this.hover("b", undefined));
+    if (onPolity) {
+      for (const slot of ["a", "b"] as const) {
+        map.on("click", `terr-${slot}-fill`, (e) => {
+          const id = e.features?.[0]?.id;
+          if (slot === this.active && id !== undefined) onPolity(String(id));
+        });
+        map.on("mouseenter", `terr-${slot}-fill`, () => (map.getCanvas().style.cursor = "pointer"));
+        map.on("mouseleave", `terr-${slot}-fill`, () => (map.getCanvas().style.cursor = ""));
+      }
+    }
   }
 
   private hover(slot: Slot, id: string | number | undefined) {
@@ -134,7 +146,7 @@ export class TerritoryLayers {
     this.setOpacity(this.active, false);
     this.active = next;
     this.shownId = id;
-    this.swapLabels(snap.polities.map((p) => ({ name: t(p.name, this.locale), at: p.labelAt, color: mix(p.color, this.palette.ink, 0.5), vassal: !!p.vassalOf })));
+    this.swapLabels(snap.polities.map((p) => ({ id: p.id, name: t(p.name, this.locale), at: p.labelAt, color: mix(p.color, this.palette.ink, 0.5), vassal: !!p.vassalOf })));
   }
 
   prefetch(id: string | null) {
@@ -159,14 +171,23 @@ export class TerritoryLayers {
   }
 
   /** Polity names as HTML, so Azerbaijani letters use the app font (no glyph server). */
-  private swapLabels(items: { name: string; at: [number, number]; color: string; vassal: boolean }[]) {
+  private swapLabels(items: { id: string; name: string; at: [number, number]; color: string; vassal: boolean }[]) {
     for (const { el, marker } of this.labels) {
       el.dataset.state = "out";
       window.setTimeout(() => marker.remove(), this.fadeMs + 100);
     }
     this.labels = items.map((it) => {
-      const el = document.createElement("div");
+      const el = document.createElement(this.onPolity ? "button" : "div");
       el.className = "gl-polity";
+      if (this.onPolity) {
+        (el as HTMLButtonElement).type = "button";
+        el.dataset.clickable = "true";
+        el.dataset.polity = it.id;
+        el.addEventListener("click", (e) => {
+          e.stopPropagation();
+          this.onPolity!(it.id);
+        });
+      }
       el.dataset.vassal = String(it.vassal);
       el.style.color = it.color;
       el.textContent = it.name;
