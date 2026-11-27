@@ -1,54 +1,88 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+import fs from "node:fs";
 import { collectErrors } from "./helpers";
+
+/** Zaman şkalası (/az/zaman/, phase 6). Eras come from data/eras, nothing is hard-coded beyond what the data says. */
+const eras = fs
+  .readdirSync("data/eras")
+  .map((f) => JSON.parse(fs.readFileSync(`data/eras/${f}`, "utf8")) as { id: string; startYear: number; endYear: number; themeId: string })
+  .sort((a, b) => a.startYear - b.startYear);
+const theme = (page: Page) => page.evaluate(() => document.documentElement.getAttribute("data-theme"));
+const year = (page: Page) => page.getByTestId("timeline-year");
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
 });
 
-test("a shared ?year= opens the slider on that year with its rulers, persons and events", async ({ page }) => {
+test("a shared ?year= opens that year with its era, period theme and the persons alive", async ({ page }) => {
   const errors = collectErrors(page);
-  await page.goto("/az/timeline/?year=1514");
-  await expect(page.getByTestId("year-value")).toHaveText("1514");
-  await expect(page.getByTestId("year-rulers")).toContainText("I Səlim");
-  await expect(page.getByTestId("year-persons")).toContainText("27 yaşında");
-  await expect(page.getByTestId("year-events")).toContainText("Çaldıran döyüşü");
-  await expect.poll(() => page.evaluate(() => document.documentElement.getAttribute("data-theme"))).toBe("sefevi");
+  await page.goto("/az/zaman/?year=1514");
+  await expect(year(page)).toHaveText("1514");
+  await expect(page.getByTestId("timeline-era")).toHaveText("Səfəvi dövləti");
+  await expect.poll(() => theme(page)).toBe("sefevi");
+  await expect(page.getByTestId("timeline-persons")).toContainText("Şah İsmayıl · 27 yaş");
   expect(errors).toEqual([]);
 });
 
-test("moving the slider changes the year everywhere and keeps it in the address", async ({ page }) => {
-  await page.goto("/az/timeline/?year=1514");
-  await page.locator("#year-input").fill("1739");
-  await expect(page.getByTestId("year-events")).toContainText("Karnal");
-  await expect(page.getByTestId("year-persons")).toContainText("Nadir");
-  await expect(page).toHaveURL(/year=1739/);
-  await expect.poll(() => page.evaluate(() => document.documentElement.getAttribute("data-theme"))).toBe("efshar");
+test("the slider moves by year, decade and era from the keyboard and keeps the year in the address", async ({ page }) => {
+  await page.goto("/az/zaman/?year=1514");
+  const slider = page.getByTestId("year-slider");
+  await slider.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(year(page)).toHaveText("1515");
+  await page.keyboard.press("Shift+ArrowRight");
+  await expect(year(page)).toHaveText("1525");
+  await expect(slider).toHaveAttribute("aria-valuenow", "1525");
+  await expect(slider).toHaveAttribute("aria-valuetext", "1525, Səfəvi dövləti");
+  const next = eras.find((e) => e.startYear > 1525)!;
+  await page.keyboard.press("PageUp");
+  await expect(year(page)).toHaveText(String(next.startYear));
+  await expect(page).toHaveURL(new RegExp(`year=${next.startYear}`));
+  await expect.poll(() => theme(page)).toBe(next.themeId);
 });
 
-test("years without maps say so instead of an empty map; era bands jump to the era", async ({ page }) => {
-  await page.goto("/az/timeline/?year=1900");
-  await expect(page.getByTestId("coverage-gap")).toContainText("Bu dövr üçün məzmun hazırlanır");
-  await page.getByTestId("era-band").filter({ hasText: "Səfəvi" }).click();
-  await expect(page.getByTestId("year-value")).toHaveText("1501");
-  await expect(page.getByTestId("coverage-gap")).toHaveCount(0);
+test("years without a map say so; an era band zooms the axis into the era", async ({ page }) => {
+  await page.goto("/az/zaman/?year=1900");
+  await expect(page.getByTestId("map-gap")).toContainText("siyasi xəritə hazırlanır");
+  await expect(page.getByTestId("timeline-era")).toHaveText("Dövr məlumatı hazırlanır");
+  const sefevi = eras.find((e) => e.id === "sefevi")!;
+  await page.locator('[data-era="sefevi"]').click();
+  await expect(page.locator('[data-era="sefevi"]')).toHaveAttribute("aria-pressed", "true");
+  await expect(year(page)).toHaveText(String(sefevi.startYear));
+  await expect(page.getByTestId("year-slider")).toHaveAttribute("aria-valuemin", String(sefevi.startYear));
+  await expect(page.getByTestId("map-gap")).toHaveCount(0);
+  await page.getByTestId("all-eras").click();
+  await expect(page.getByTestId("year-slider")).toHaveAttribute("aria-valuemin", String(eras[0]!.startYear));
 });
 
-test("a ruler opens the ruler panel for the chosen year", async ({ page }) => {
-  await page.goto("/az/timeline/?year=1514");
-  await page.getByTestId("year-rulers").getByRole("button", { name: /I İsmayıl/ }).click();
-  await expect(page.getByRole("dialog").filter({ hasText: "Səfəvi dövləti" }).first()).toBeVisible();
+test("a state on the map opens the ruler panel of the year, with the way into the ruler's life", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop", "the map is checked where WebGL runs on the GPU");
+  await page.goto("/az/zaman/?year=1514");
+  await expect(page.getByTestId("gl-map")).toHaveAttribute("data-ready", "true", { timeout: 20_000 });
+  const label = page.locator('.gl-polity[data-polity="safavid"]');
+  await expect(label).toHaveCount(1, { timeout: 15_000 });
+  await label.dispatchEvent("click");
+  const panel = page.getByTestId("polity-panel");
+  await expect(panel.getByTestId("ruler-name")).toContainText("İsmayıl");
+  await expect(panel).toContainText("Təbriz");
+  await expect(panel.getByTestId("ruler-live")).toHaveAttribute("href", /\/az\/sexsiyyetler\/shah-ismayil\/$/);
+  await page.keyboard.press("Escape");
+  await expect(panel).toHaveCount(0);
+  // The year's events stand on the map.
+  await expect(page.locator('.gl-event[aria-label*="Çaldıran"]')).toHaveCount(1);
 });
 
-test("the home page carries a year slider linking to the full timeline", async ({ page }) => {
+test("the home page slider opens the timeline on its year; the old address redirects", async ({ page }) => {
   await page.goto("/az/");
   const box = page.getByTestId("timeline-preview");
-  await expect(box).toBeVisible();
   await box.getByRole("slider", { name: "İl seçimi" }).fill("1736");
-  await expect(box.getByTestId("preview-year")).toHaveText("1736");
-  await expect(box.getByTestId("preview-rulers").getByRole("listitem").first()).toBeVisible();
   const full = box.getByTestId("preview-open");
-  await expect(full).toHaveAttribute("href", /year=1736/);
+  await expect(full).toHaveAttribute("href", /\/az\/zaman\/\?year=1736/);
   await full.click();
-  await expect(page).toHaveURL(/\/az\/timeline\/\?year=1736/);
-  await expect(page.getByTestId("year-value")).toHaveText("1736");
+  await expect(page).toHaveURL(/\/az\/zaman\/\?year=1736/);
+  await expect(year(page)).toHaveText("1736");
+
+  await page.goto("/az/timeline/?year=1514");
+  await expect(page).toHaveURL(/\/az\/zaman\/\?year=1514/);
+  await expect(year(page)).toHaveText("1514");
 });

@@ -21,7 +21,6 @@ test("the sound choice is remembered", async ({ page, viewport }) => {
   void viewport;
 });
 
-test.fixme("political map legend and ruler panel (phase 6: RulerPanel on the MapLibre map)", async () => {});
 
 test("battle card names sides, commanders and forces with a source", async ({ page }) => {
   await page.goto(`${ISMAYIL}?step=ismayil-chaldiran`);

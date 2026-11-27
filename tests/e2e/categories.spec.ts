@@ -60,7 +60,31 @@ test("refs to entities without a simulation are passive", async ({ page }) => {
   await expect(content.getByRole("link", { name: /Çaldıran döyüşü/ })).toHaveCount(0);
 });
 
-test.fixme("ruler panel from the legend and the map (phase 6: RulerPanel on the MapLibre map)", async () => {});
+test("ruler panel on the simulation map: who rules the clicked state in the step's year", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop", "the map is checked where WebGL runs on the GPU");
+  await page.goto("/az/sexsiyyetler/shah-ismayil/?step=ismayil-coronation");
+  await expect(page.getByTestId("gl-map")).toHaveAttribute("data-ready", "true", { timeout: 20_000 });
+  const safavid = page.locator('.gl-polity[data-polity="safavid"]');
+  await expect(safavid).toHaveCount(1, { timeout: 15_000 });
+  await safavid.dispatchEvent("click");
+  const panel = page.getByTestId("polity-panel");
+  await expect(panel.getByTestId("ruler-name")).toContainText("İsmayıl");
+  await expect(panel).toContainText("Bu dövlətin hökmdarı sənsən.");
+  // The open simulation does not offer itself again.
+  await expect(panel.getByTestId("ruler-live")).toHaveCount(0);
+  await panel.getByRole("button", { name: "Hökmdar panelini bağla" }).click();
+  await expect(panel).toHaveCount(0);
+});
+
+test("states without data say so instead of staying empty", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop", "the map is checked where WebGL runs on the GPU");
+  await page.goto("/az/sexsiyyetler/uzun-hasan/?step=uzun-hasan-sara-khatun");
+  await expect(page.getByTestId("gl-map")).toHaveAttribute("data-ready", "true", { timeout: 20_000 });
+  const trebizond = page.locator('.gl-polity[data-polity="trebizond"]');
+  await expect(trebizond).toHaveCount(1, { timeout: 15_000 });
+  await trebizond.dispatchEvent("click");
+  await expect(page.getByTestId("polity-no-data")).toBeVisible();
+});
 
 test("state simulation: Əfşarlar from Muğan to the end, with the dynasty strip", async ({ page }) => {
   test.slow(); // 15 animated stages

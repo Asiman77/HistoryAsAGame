@@ -38,7 +38,8 @@ test("a shared ?step= opens that step, with its title, theme and map", async ({ 
   await expect(shell(page)).toHaveAttribute("data-step", target.id);
   await expect(content(page).getByRole("heading", { level: 2 })).toHaveText(target.title.az);
   await expect(page.getByTestId("map")).toHaveAttribute("data-renderer", /gl|svg/);
-  await expect(page.getByTestId("map-current")).toContainText(placeOf(target));
+  // The map may need a while under load (software WebGL on the tablet project), as the renderer test allows.
+  await expect(page.getByTestId("map-current")).toContainText(placeOf(target), { timeout: 20_000 });
   await expect(page.getByTestId("theme-root")).not.toHaveAttribute("data-theme", "default");
   expect(errors).toEqual([]);
 });
@@ -81,7 +82,7 @@ test("clicking next mid-transition skips it: the scene ends complete and the nex
   await next.click();
   await expect(shell(page)).toHaveAttribute("data-step", steps[6]!.id);
   await expect(content(page).getByRole("heading", { level: 2 })).toHaveText(steps[6]!.title.az, { timeout: 5000 });
-  await expect(page.getByTestId("map-current")).toContainText(placeOf(steps[6]!));
+  await expect(page.getByTestId("map-current")).toContainText(placeOf(steps[6]!), { timeout: 20_000 });
 });
 
 test("story mode leads with the narrative, learning mode with facts and open sources", async ({ page, viewport }) => {
