@@ -669,7 +669,6 @@
       "sections": "Bölmələr",
       "section": "Bölmə {n}",
       "topics": "{section}: mövzular",
-      "paragraphPreparing": "{paragraph} · hazırlanır",
       "preparing": "hazırlanır",
       "steps": "{n} mərhələ",
       "minutes": "≈ {n} dəqiqə",
@@ -677,12 +676,6 @@
       "with": "{count, plural, =1 {{names} simulyasiyası ilə} other {{names} simulyasiyaları ilə}}",
       "status": { "done": "Tamamlandı", "progress": "Davam edir", "new": "Yeni", "preparing": "Hazırlanır" },
       "action": { "done": "Təkrarla", "progress": "Davam et", "new": "Başla", "preparing": "Tezliklə" },
-      "assigned": {
-        "eyebrow": "Müəllimin bu həftə təyin etdiyi mövzu",
-        "meta": "Dərslik {paragraph} · ≈ {minutes} dəqiqə · {steps} mərhələ · sonda quiz",
-        "continue": "Davam et · {current}/{total}",
-        "start": "Başla"
-      },
       "classCode": {
         "open": "Sinif kodunu daxil et",
         "title": "Sinif kodu",
