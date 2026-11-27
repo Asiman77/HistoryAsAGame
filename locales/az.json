@@ -768,6 +768,11 @@
       "great": "Əla! Bu həyatı yaxşı tanıyırsan.",
       "good": "Yaxşı nəticədir, bəzi mərhələlərə yenidən baxa bilərsən.",
       "low": "Həyat yolunu yenidən keçməyə dəyər, cavablar mərhələlərdədir.",
+      "topic": {
+        "great": "Əla! Mövzunu yaxşı mənimsəmisən.",
+        "good": "Yaxşı nəticədir, bəzi mərhələlərə yenidən baxa bilərsən.",
+        "low": "Mövzunu yenidən keçməyə dəyər, cavablar mərhələlərdədir."
+      },
       "badge": "Sınaq nişanı: bütün suallara düz cavab",
       "again": "Yenidən",
       "empty": "Bu səyahət üçün suallar hələ hazırlanmayıb."

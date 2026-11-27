@@ -232,6 +232,8 @@ export interface FinalQuizProps {
   simHref: string;
   /** A perfect score earns the quiz badge (saved progress). */
   onFinish: (score: number, total: number) => void;
+  /** Whose quiz it is, for the result's words: a life (person) or a curriculum topic. */
+  about?: "life" | "topic";
 }
 
 /**
@@ -239,7 +241,7 @@ export interface FinalQuizProps {
  * After every answer an explanation and a link back to the step it comes
  * from; at the end the score, a badge for a perfect round and a new round.
  */
-export function FinalQuiz({ ownerKey, deck, land, simHref, onFinish }: FinalQuizProps) {
+export function FinalQuiz({ ownerKey, deck, land, simHref, onFinish, about = "life" }: FinalQuizProps) {
   const t = useTranslations("final.quiz");
   const claimT = useTranslations("ui.claim");
   const help = useTranslations("claims.help");
@@ -297,7 +299,7 @@ export function FinalQuiz({ ownerKey, deck, land, simHref, onFinish }: FinalQuiz
         <p className="m-0 font-heading text-60 font-medium leading-none text-fg" data-testid="quiz-score">
           {t("score", { score: s.score, total: s.total })}
         </p>
-        <p className="m-0 text-16 text-fg-secondary">{t(s.level)}</p>
+        <p className="m-0 text-16 text-fg-secondary">{about === "topic" ? t(`topic.${s.level}`) : t(s.level)}</p>
         {s.perfect ? (
           <p className="m-0 inline-flex items-center gap-2 self-start rounded-full border border-accent bg-accent/15 px-3 py-1.5 text-14 font-semibold text-accent" data-testid="quiz-badge">
             <Star size={14} aria-hidden fill="currentColor" /> {t("badge")}

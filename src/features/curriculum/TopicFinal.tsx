@@ -107,7 +107,7 @@ export function TopicFinal({ data }: { data: TopicFinalData }) {
         </div>
 
         <Panel className="flex min-h-[460px] flex-col p-6 lg:p-7" aria-label={t("quizTitle")}>
-          <FinalQuiz ownerKey={null} deck={data.deck} land={data.land} simHref={data.simHref} onFinish={(score, total) => recordQuiz(data.key, score, total)} />
+          <FinalQuiz about="topic" ownerKey={null} deck={data.deck} land={data.land} simHref={data.simHref} onFinish={(score, total) => recordQuiz(data.key, score, total)} />
         </Panel>
       </div>
     </main>
