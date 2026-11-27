@@ -2,88 +2,54 @@
  * Person journey → ShellData, at build time. Everything is resolved for the
  * page's locale; nothing is written by hand.
  */
-import land from "@data/territories/land.json";
-import { entityPath } from "@/domain/registry";
-import type { Era, Locale, Source } from "@/domain/schema";
+import type { Era, Locale } from "@/domain/schema";
 import type { Journey } from "@/features/simulation/model";
 import { withBasePath } from "@/lib/basePath";
 import { formatDate } from "@/lib/dates";
-import { tokenizeGlossary } from "@/lib/glossary";
-import { format, getMessages, t } from "@/lib/i18n";
 import { pickPortrait } from "@/lib/portraits";
 import { eraForYear } from "@/lib/theme";
-import { polygonPath } from "./map/projection";
 import { deriveTemplate } from "./templates";
-import { yearDelta } from "@/lib/worldContext";
 import { journeyStamps } from "@/features/passport/stamps";
-import { resolvePolitical } from "@/features/ruler-panel/data";
-import type { ShellData, ShellSource, ShellStep } from "./types";
+import {
+  adapterContext,
+  engineFields,
+  shellDateNote,
+  shellFrame,
+  shellPrimary,
+  shellSource,
+  shellTerms,
+  shellWorld,
+  shortPlace,
+} from "./stepAdapter";
+import type { ShellData, ShellStep } from "./types";
 
 /** Kinds that name the step better than its place on a timeline node. */
 const KIND_AS_LABEL = new Set(["birth", "death", "coronation", "marriage"]);
 
-/** "Lahican (Gilan)" → "Lahican" */
-const shortPlace = (name: string) => name.replace(/\s*\(.*\)\s*$/, "").trim();
-
-let landPath: string | undefined;
-
-export function personShell(journey: Journey, eras: Era[], locale: Locale, labels: { back: string; final: string }): ShellData {
-  const m = getMessages(locale);
+/** The shell steps of a journey, indexed from 0 in the journey's order. */
+export function personSteps(journey: Journey, locale: Locale): ShellStep[] {
+  const c = adapterContext(locale, journey.glossary, journey.themes);
+  const { m, tr } = c;
   const { person } = journey;
-  const tr = (x: Parameters<typeof t>[0]) => t(x, locale);
-  const year = (d: Parameters<typeof formatDate>[0]) => formatDate({ ...d, month: undefined, day: undefined }, m);
-  const own = eras.filter((e) => person.eraIds.includes(e.id));
-  const era = eraForYear(own, person.death.date.year) ?? own[0];
-
-  const source = (src: Source): ShellSource => ({
-    title: src.title,
-    ...(src.author ? { author: src.author } : {}),
-    ...(src.url ? { url: src.url } : {}),
-    ...(src.note ? { note: src.note } : {}),
-  });
-  const glossary = journey.glossary;
   const stamps = journeyStamps(journey, locale);
 
-  const steps: ShellStep[] = journey.steps.map((s, index) => {
+  return journey.steps.map((s, index) => {
     const e = s.event;
     const o = e.outcome;
-    // Terms of the glossary that the step's own text uses (first mention per step).
-    const seen = new Set<string>();
-    for (const text of [tr(e.narrative), tr(e.factualSummary), e.choice ? tr(e.choice.prompt) : ""]) tokenizeGlossary(text, glossary, seen);
     const kind = m.sim.types[e.type];
-    const place = tr(e.location.name);
+    const base = engineFields(s, index, c);
     const portrait = pickPortrait(person.portraits, s.age.years);
     return {
-      id: s.id,
-      index,
-      year: s.year,
+      ...base,
       dateLabel: formatDate(e.date, m),
-      title: tr(e.title),
       kind,
-      nodeLabel: KIND_AS_LABEL.has(e.type) ? kind : shortPlace(place),
+      nodeLabel: KIND_AS_LABEL.has(e.type) ? kind : shortPlace(base.placeName),
       template: deriveTemplate({ ...(e.template ? { template: e.template } : {}), hasRoute: !!s.route, battle: !!e.outcome }),
-      mood: s.mood,
-      themeId: s.themeId,
-      claimType: s.claimType,
-      center: [e.location.lng, e.location.lat],
-      zoom: s.zoom,
-      placeName: place,
-      placeId: s.placeId,
       stampId: stamps.find((st) => st.steps.includes(index))?.id ?? null,
       from: e.fromLocation ? shortPlace(tr(e.fromLocation.name)) : null,
-      modernName: e.location.modernName ? tr(e.location.modernName) : null,
-      approximatePlace: !!e.location.approximate,
-      route: s.route,
-      distanceKm: s.distanceKm,
-      snapshotId: s.snapshotId,
-      mapVariant: journey.themes[s.themeId]?.mapStyleVariant ?? "manuscript",
       narrative: tr(e.narrative),
       summary: tr(e.factualSummary),
-      sources: e.sources.map(source),
-      related: s.related.map((r) => ({
-        label: r.stepTitle ? `${tr(r.title)} · ${tr(r.stepTitle)}${r.stepYear ? ` (${r.stepYear})` : ""}` : tr(r.title),
-        href: r.href,
-      })),
+      sources: e.sources.map(shellSource),
       choice: e.choice
         ? { prompt: tr(e.choice.prompt), options: e.choice.options.map((o) => ({ text: tr(o.text), explanation: tr(o.explanation) })), historical: e.choice.historicalOptionIndex, why: tr(e.choice.why) }
         : null,
@@ -95,57 +61,17 @@ export function personShell(journey: Journey, eras: Era[], locale: Locale, label
             enemyPolityId: o.enemyPolityId ?? null,
             commanders: { own: o.commanders.own.map(tr), enemy: o.commanders.enemy.map(tr) },
             forces: { own: o.forces?.own ? tr(o.forces.own) : null, enemy: o.forces?.enemy ? tr(o.forces.enemy) : null },
-            forcesSource: o.forces && (o.forcesSource ?? e.sources[0]) ? source((o.forcesSource ?? e.sources[0])!) : null,
+            forcesSource: o.forces && (o.forcesSource ?? e.sources[0]) ? shellSource((o.forcesSource ?? e.sources[0])!) : null,
             result: o.result,
             context: tr(o.context),
           }
         : null,
-      claims: s.claims.map((c) => ({
-        id: c.id,
-        type: c.claimType,
-        text: tr(c.text),
-        why: c.why ? tr(c.why) : null,
-        versions: (c.versions ?? []).map((v) => ({ text: tr(v.text), sources: v.sources.map(source) })),
-        firstRecorded: c.firstRecorded
-          ? { source: source(c.firstRecorded.source), year: c.firstRecorded.year ?? null, note: c.firstRecorded.note ? tr(c.firstRecorded.note) : null }
-          : null,
-        sources: c.sources.map(source),
-      })),
       more: {
-        date:
-          e.date.note || e.date.alternatives?.length
-            ? {
-                help: m.sim.certaintyHelp[e.date.certainty],
-                note: e.date.note ? tr(e.date.note) : null,
-                alternatives: (e.date.alternatives ?? []).map((a) => ({ date: formatDate({ ...a, certainty: "exact" }, m), note: tr(a.note) })),
-              }
-            : null,
-        primary: e.primarySource
-          ? {
-              original: e.primarySource.original ?? null,
-              text: tr(e.primarySource.text),
-              attribution: tr(e.primarySource.attribution),
-              translator: e.primarySource.translator ?? null,
-              license: e.primarySource.license,
-              note: e.primarySource.note ? tr(e.primarySource.note) : null,
-              source: source(e.primarySource.source),
-            }
-          : null,
-        terms: glossary.filter((g) => seen.has(g.id)).map((g) => ({ id: g.id, term: tr(g.term), definition: tr(g.definition) })),
-        world: s.world.map((w) => {
-          const d = yearDelta(w, s.year);
-          return {
-            id: w.id,
-            years: w.endYear ? `${w.year}–${w.endYear}` : String(w.year),
-            title: tr(w.title),
-            description: tr(w.description),
-            region: m.world.regions[w.region],
-            when: d === 0 ? m.world.same : d < 0 ? format(m.world.before, { n: -d }) : format(m.world.after, { n: d }),
-            source: w.sources[0] ? source(w.sources[0]) : null,
-          };
-        }),
+        date: shellDateNote(e.date, c),
+        primary: shellPrimary(e.primarySource, c),
+        terms: shellTerms([tr(e.narrative), tr(e.factualSummary), e.choice ? tr(e.choice.prompt) : ""], c),
+        world: shellWorld(s.world, s.year, c),
       },
-      musicThemeId: journey.themes[s.themeId]?.musicThemeId ?? null,
       age: { years: s.age.years, approximate: s.age.approximate },
       // The portrait of this age; without its file a placeholder, never another age's portrait.
       portrait: portrait
@@ -171,8 +97,16 @@ export function personShell(journey: Journey, eras: Era[], locale: Locale, label
           : null,
     };
   });
+}
 
-  landPath ??= polygonPath(land.geometry as Parameters<typeof polygonPath>[0]);
+export function personShell(journey: Journey, eras: Era[], locale: Locale, labels: { back: string; final: string }): ShellData {
+  const c = adapterContext(locale, journey.glossary, journey.themes);
+  const { m, tr } = c;
+  const { person } = journey;
+  const year = (d: Parameters<typeof formatDate>[0]) => formatDate({ ...d, month: undefined, day: undefined }, m);
+  const own = eras.filter((e) => person.eraIds.includes(e.id));
+  const era = eraForYear(own, person.death.date.year) ?? own[0];
+  const steps = personSteps(journey, locale);
 
   return {
     key: person.id,
@@ -182,39 +116,6 @@ export function personShell(journey: Journey, eras: Era[], locale: Locale, label
     back: { href: "/sexsiyyetler/", label: labels.back },
     final: { href: `/sexsiyyetler/${person.id}/final/`, label: labels.final },
     steps,
-    places: journey.places.map((p) => ({ key: p.key, name: shortPlace(tr(p.place.name)), center: [p.place.lng, p.place.lat], firstStep: p.firstStep, placeId: p.placeId })),
-    land: landPath,
-    landmarks: journey.landmarks.map((p) => ({
-      id: p.id,
-      type: p.type,
-      importance: p.importance,
-      center: [p.lng, p.lat],
-      periods: p.periods.map((r) => ({ from: r.from, to: r.to, name: tr(r.name ?? p.names.historical) })),
-      modern: p.names.modern ? tr(p.names.modern) : null,
-      description: tr(p.description),
-      source: p.sources?.[0] ? source(p.sources[0]) : null,
-      href: entityPath("place", p.id),
-    })),
-    political: resolvePolitical(
-      journey.political,
-      journey.landmarks.filter((p) => journey.snapshots.some((sn) => sn.polities.some((po) => po.capitalId === p.id))),
-      locale,
-    ),
-    snapshots: journey.snapshots
-      .filter((sn) => steps.some((st) => st.snapshotId === sn.id))
-      .map((sn) => ({
-        id: sn.id,
-        polities: sn.polities.map((po) => ({
-          id: po.id,
-          name: tr(po.name),
-          ...(po.capitalId ? { capitalId: po.capitalId } : {}),
-          ...(po.vassalOf ? { vassalOf: po.vassalOf } : {}),
-        })),
-      })),
-    capitals: Object.fromEntries(
-      journey.snapshots
-        .filter((sn) => steps.some((st) => st.snapshotId === sn.id))
-        .map((sn) => [sn.id, sn.polities.flatMap((po) => (po.capitalId ? [po.capitalId] : []))]),
-    ),
+    ...shellFrame(journey, steps, c),
   };
 }
