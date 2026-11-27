@@ -23,6 +23,8 @@ const NEW_ROUTES = [
   "/az/muqayise/",
   "/az/pasport/",
   "/az/muellim/",
+  // Topic pages exist only with curriculum data: the sample build (CURRICULUM_SAMPLE=1) checks them.
+  ...(process.env.CURRICULUM_SAMPLE === "1" ? ["/az/kurikulum/8/sample-efshar/", "/az/kurikulum/8/sample-efshar/final/"] : []),
 ];
 
 test.beforeEach(async ({ page }) => {
@@ -101,11 +103,11 @@ test("cards wear their own period and person cards show the viewer's progress", 
 
 test("the curriculum opens the grade chosen last", async ({ page }) => {
   await page.goto("/az/kurikulum/9/");
-  await expect(page.getByRole("heading", { level: 1, name: "9-cu sinif" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Dərsliklə öyrən" })).toBeVisible();
   await expect(page.getByRole("link", { name: "9-cu sinfin mövzuları" })).toHaveAttribute("aria-current", "page");
   await page.goto("/az/kurikulum/");
   await expect(page).toHaveURL(/\/az\/kurikulum\/9\/$/);
-  expect(await page.evaluate(() => localStorage.getItem("tarix:prefs"))).toBe('{"lastGrade":9}');
+  expect(JSON.parse((await page.evaluate(() => localStorage.getItem("tarix:prefs")))!)).toEqual({ lastGrade: 9, classCode: null });
 });
 
 test("skeleton screens name their subject from data and link to the page that serves it today", async ({ page }) => {
