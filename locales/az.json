@@ -662,7 +662,51 @@
       "empty": "Kurikulum hazırlanır",
       "emptyText": "Sinif, bölmə və mövzu bölgüsü təsdiqlənmiş dərsliklərin mündəricatından doldurulacaq. Hazır olmayan mövzular da siyahıda görünəcək.",
       "grade": "{grade} sinif",
-      "pick": "Sinif seç"
+      "pick": "Sinif seç",
+      "pickLead": "Sinfini seç: mövzular dərsliyin bölmələri ilə sıralanıb.",
+      "sampleNotice": "Nümunə məzmun. Sinif, bölmə və mövzu bölgüsü TRİMS-dəki təsdiqlənmiş dərsliklərin mündəricatından doldurulacaq.",
+      "textbook": "Dərslik: {title} · {authors}, {year}",
+      "sections": "Bölmələr",
+      "section": "Bölmə {n}",
+      "topics": "{section}: mövzular",
+      "paragraphPreparing": "{paragraph} · hazırlanır",
+      "preparing": "hazırlanır",
+      "steps": "{n} mərhələ",
+      "minutes": "≈ {n} dəqiqə",
+      "quiz": "quiz: {score}/{total}",
+      "with": "{count, plural, =1 {{names} simulyasiyası ilə} other {{names} simulyasiyaları ilə}}",
+      "status": { "done": "Tamamlandı", "progress": "Davam edir", "new": "Yeni", "preparing": "Hazırlanır" },
+      "action": { "done": "Təkrarla", "progress": "Davam et", "new": "Başla", "preparing": "Tezliklə" },
+      "assigned": {
+        "eyebrow": "Müəllimin bu həftə təyin etdiyi mövzu",
+        "meta": "Dərslik {paragraph} · ≈ {minutes} dəqiqə · {steps} mərhələ · sonda quiz",
+        "continue": "Davam et · {current}/{total}",
+        "start": "Başla"
+      },
+      "classCode": {
+        "open": "Sinif kodunu daxil et",
+        "title": "Sinif kodu",
+        "lead": "Müəllimin verdiyi 6 simvollu kod. Ad və ya e-poçt soruşulmur: nəticələrin sinfin ümumi statistikasına adsız düşür.",
+        "label": "Kod",
+        "save": "Yadda saxla",
+        "cancel": "Bağla",
+        "invalid": "Kod 6 simvoldur: latın hərfləri və rəqəmlər (I, L, O, 0 və 1 olmadan).",
+        "current": "Sinif kodu: {code}",
+        "change": "Dəyiş",
+        "remove": "Sil",
+        "pending": "Müəllimin təyin etdiyi mövzu müəllim paneli işə düşəndə burada görünəcək."
+      }
+    },
+    "topicFinal": {
+      "eyebrow": "Mövzu başa çatdı · {grade}",
+      "back": "Mövzuya qayıt",
+      "quizTitle": "Mövzu üzrə quiz",
+      "next": "Növbəti mövzu",
+      "nextNone": "Bu sinfin hazır olan mövzuları bu qədərdir.",
+      "grade": "Sinfin mövzuları",
+      "sims": "Bu mövzunun simulyasiyaları",
+      "simsLead": "Addımlar bu simulyasiyalardan götürülüb: hər birini başdan sona keçə bilərsən.",
+      "final": "Yekun quiz"
     },
     "timeline": {
       "title": "Zaman şkalası"
@@ -843,7 +887,9 @@
     "autoplay": "Avtomatik oynat",
     "pause": "Dayandır",
     "stepHeader": "Mərhələ {current} / {total}",
+    "ownerLink": "{name}: bütün simulyasiya",
     "timeline": "Həyat yolu",
+    "timelineOf": { "person": "Həyat yolu", "topic": "Mövzunun mərhələləri", "state": "Dövlətin mərhələləri", "conflict": "Müharibənin günləri" },
     "timelineState": "Mərhələlər",
     "keyboardHint": "← → düymələri ilə keç",
     "prev": "Əvvəlki mərhələ",

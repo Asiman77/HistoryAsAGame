@@ -80,7 +80,16 @@ export function SimulationShell({ data }: { data: ShellData }) {
   const mapArea = useRef<HTMLDivElement>(null);
   const previous = useRef<number | null>(null);
   const running = useRef<AbortController | null>(null);
-  const owner = useMemo(() => ownerOf(data.kind === "person" ? `person:${data.key}` : data.key), [data.kind, data.key]);
+  // Learning events name a person, war or state (ADR-0018). A curriculum topic has no owner of its own:
+  // its steps report to the simulations they come from, and topic-level events are not sent.
+  const owner = useMemo(
+    () => (data.kind === "topic" ? null : ownerOf(data.kind === "person" ? `person:${data.key}` : data.key)),
+    [data.kind, data.key],
+  );
+  const ownerOfStep = useCallback(
+    (s: ShellData["steps"][number] | undefined) => (s?.owner ? ownerOf(`${s.owner.type}:${s.owner.id}`) : owner),
+    [owner],
+  );
   const [placeId, setPlaceId] = useState<string | null>(null);
   const [polityId, setPolityId] = useState<string | null>(null);
   const rt = useTranslations("rulerPanel");
@@ -112,7 +121,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
 
   useEffect(() => {
     useSimulationStore.getState().reset(initial);
-    track({ type: "simulation_started", ...owner, mode });
+    if (owner) track({ type: "simulation_started", ...owner, mode });
     return () => {
       running.current?.abort();
       useSimulationStore.getState().set({ started: false });
@@ -160,8 +169,9 @@ export function SimulationShell({ data }: { data: ShellData }) {
       if (!ctrl.signal.aborted) set({ readyKey: to.id });
     });
     writeQuery({ step: to.id });
-    if (to.stampId) stampPlaces([to.stampId], data.key);
-    track({ type: "step_viewed", ...owner, stepKey: to.id });
+    if (to.stampId) stampPlaces([to.stampId], to.owner?.id ?? data.key);
+    const stepOwner = ownerOfStep(to);
+    if (stepOwner) track({ type: "step_viewed", ...stepOwner, stepKey: to.owner?.stepKey ?? to.id });
     const saved = progressStore.get().persons[data.key];
     saveProgress(data.key, { index: to.index, phase: "journey", choices: saved?.choices ?? {} }, data.steps.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -175,7 +185,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
   useEffect(() => {
     let left = false;
     const leave = () => {
-      if (left || whereNow.current.atEnd) return;
+      if (left || whereNow.current.atEnd || !owner) return;
       left = true;
       track({ type: "simulation_abandoned", ...owner, stepKey: whereNow.current.stepKey });
       flushAnalytics();
@@ -201,11 +211,13 @@ export function SimulationShell({ data }: { data: ShellData }) {
   const pick = (stepId: string, i: number) => {
     const saved = progressStore.get().persons[data.key];
     saveProgress(data.key, { index, phase: "journey", choices: { ...(saved?.choices ?? {}), [stepId]: i } }, data.steps.length);
-    track({ type: "choice_made", ...owner, stepKey: stepId, optionIndex: i });
+    const s = data.steps.find((x) => x.id === stepId);
+    const stepOwner = ownerOfStep(s);
+    if (stepOwner) track({ type: "choice_made", ...stepOwner, stepKey: s?.owner?.stepKey ?? stepId, optionIndex: i });
   };
 
   const setMode = (m: ShellMode) => {
-    if (m !== mode) track({ type: "mode_switched", ...owner, mode: m });
+    if (m !== mode && owner) track({ type: "mode_switched", ...owner, mode: m });
     setStoredMode(m);
     writeQuery({ mode: m });
   };
@@ -382,7 +394,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
       </div>
 
       {desktop ? (
-        <ShellTimeline steps={visible} current={index} onSelect={go} />
+        <ShellTimeline steps={visible} current={index} onSelect={go} label={t(`timelineOf.${data.kind}`)} />
       ) : (
         <BottomSheet
           snap={sheet}

@@ -138,6 +138,22 @@ export interface ShellStep {
   musicThemeId: string | null;
   age: { years: number; approximate: boolean } | null;
   portrait: ShellPortrait | null;
+  /**
+   * The simulation the step belongs to, when the shell tells steps of several
+   * (a curriculum topic): its name in the step header, a link to the full
+   * simulation at this step, and the owner of the step's learning events.
+   */
+  owner?: ShellOwner;
+}
+
+export interface ShellOwner {
+  type: "person" | "state" | "conflict";
+  id: string;
+  name: string;
+  /** The step's id in that simulation (the topic may prefix it when two simulations clash). */
+  stepKey: string;
+  /** The full simulation at this step. */
+  href: string;
 }
 
 export interface ShellPlace {
@@ -167,9 +183,9 @@ export interface ShellLandmark {
 }
 
 export interface ShellData {
-  /** Progress key ("shah-ismayil", "state:afshar"…). */
+  /** Progress key ("shah-ismayil", "state:afshar", "topic:<slug>"…). */
   key: string;
-  kind: "person" | "state" | "conflict";
+  kind: "person" | "state" | "conflict" | "topic";
   title: string;
   /** "Səfəvi dövləti · 1487 — 1524" */
   subtitle: string;

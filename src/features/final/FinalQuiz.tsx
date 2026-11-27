@@ -225,7 +225,8 @@ function MapView({ q, answered, onAnswer, land }: QuestionProps<MapQuestion> & {
 }
 
 export interface FinalQuizProps {
-  personId: string;
+  /** Owner of the quiz's learning events ("person:shah-ismayil"); null when each question names its own (a curriculum topic). */
+  ownerKey: string | null;
   deck: QuizQuestion[];
   land: string;
   simHref: string;
@@ -238,12 +239,12 @@ export interface FinalQuizProps {
  * After every answer an explanation and a link back to the step it comes
  * from; at the end the score, a badge for a perfect round and a new round.
  */
-export function FinalQuiz({ personId, deck, land, simHref, onFinish }: FinalQuizProps) {
+export function FinalQuiz({ ownerKey, deck, land, simHref, onFinish }: FinalQuizProps) {
   const t = useTranslations("final.quiz");
   const claimT = useTranslations("ui.claim");
   const help = useTranslations("claims.help");
   const reduced = useReducedMotion();
-  const owner = useMemo(() => ownerOf(`person:${personId}`), [personId]);
+  const owner = useMemo(() => (ownerKey ? ownerOf(ownerKey) : null), [ownerKey]);
   const [round, setRound] = useState(0);
   const [qi, setQi] = useState(0);
   const [results, setResults] = useState<(Answered | null)[]>(() => deck.map(() => null));
@@ -257,7 +258,8 @@ export function FinalQuiz({ personId, deck, land, simHref, onFinish }: FinalQuiz
     if (!q || answered) return;
     const right = grade(q, a);
     setResults((r) => r.map((x, i) => (i === qi ? { answer: a, right } : x)));
-    if (q.kind === "choice") track({ type: "quiz_answered", ...owner, stepKey: q.stepKey, questionIndex: q.questionIndex, correct: right });
+    const by = q.kind === "choice" ? (q.owner ? ownerOf(q.owner) : owner) : null;
+    if (q.kind === "choice" && by) track({ type: "quiz_answered", ...by, stepKey: q.stepKey, questionIndex: q.questionIndex, correct: right });
     getAudioEngine().playSfx(right ? "chime" : "page");
   };
   const next = () => {

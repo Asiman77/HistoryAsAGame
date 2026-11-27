@@ -139,7 +139,7 @@ export function FinalScreen({ data }: { data: FinalData }) {
 
         <aside className="flex flex-col gap-6 lg:absolute lg:bottom-10 lg:right-10 lg:top-10 lg:z-10 lg:w-[520px] lg:gap-[18px]">
           <Panel className="flex min-h-[420px] flex-col overflow-y-auto p-6 lg:min-h-0 lg:flex-1 lg:p-7">
-            <FinalQuiz personId={data.key} deck={data.deck} land={data.route.land} simHref={data.simHref} onFinish={(score, total) => recordQuiz(data.key, score, total)} />
+            <FinalQuiz ownerKey={`person:${data.key}`} deck={data.deck} land={data.route.land} simHref={data.simHref} onFinish={(score, total) => recordQuiz(data.key, score, total)} />
           </Panel>
 
           <Panel className="flex shrink-0 flex-col gap-3.5 px-6 py-5" data-testid="final-passport">

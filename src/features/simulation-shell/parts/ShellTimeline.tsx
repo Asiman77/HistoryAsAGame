@@ -11,7 +11,7 @@ import { TONE_BG, TONE_BORDER, moodTone } from "./mood";
  * passed part of the line in the period gradient, the current node large.
  * Nodes are buttons; the strip scrolls sideways and keeps the current node in view.
  */
-export function ShellTimeline({ steps, current, onSelect }: { steps: ShellStep[]; current: number; onSelect: (index: number) => void }) {
+export function ShellTimeline({ steps, current, onSelect, label }: { steps: ShellStep[]; current: number; onSelect: (index: number) => void; label?: string }) {
   const t = useTranslations("shell");
   const list = useRef<HTMLOListElement>(null);
   const pos = Math.max(0, steps.findIndex((s) => s.index === current));
@@ -23,9 +23,9 @@ export function ShellTimeline({ steps, current, onSelect }: { steps: ShellStep[]
   }, [current]);
 
   return (
-    <nav aria-label={t("timeline")} className="relative z-10 shrink-0 border-t border-line bg-surface-panel/95 px-4 pb-4 pt-3 backdrop-blur-md md:px-7" data-testid="shell-timeline">
+    <nav aria-label={label ?? t("timeline")} className="relative z-10 shrink-0 border-t border-line bg-surface-panel/95 px-4 pb-4 pt-3 backdrop-blur-md md:px-7" data-testid="shell-timeline">
       <div className="flex items-center justify-between text-12 uppercase tracking-[0.18em] text-fg-secondary">
-        <span>{t("timeline")}</span>
+        <span>{label ?? t("timeline")}</span>
         <span className="hidden md:inline">{t("keyboardHint")}</span>
       </div>
       <div className="overflow-x-auto overscroll-x-contain [scrollbar-width:thin]">

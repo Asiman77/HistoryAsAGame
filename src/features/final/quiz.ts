@@ -40,6 +40,8 @@ export interface ChoiceQuestion extends Base {
   /** Analytics: which step quiz and which question in it (ADR-0020). */
   stepKey: string;
   questionIndex: number;
+  /** Simulation of the step ("person:shah-ismayil") when the deck mixes several (curriculum topics). */
+  owner?: string;
 }
 
 export interface ClaimQuestion extends Base {
@@ -93,7 +95,7 @@ export interface DeckStep {
 
 export interface DeckInput {
   steps: DeckStep[];
-  questions: { stepId: string; questionIndex: number; question: string; options: string[]; correct: number; explanation: string }[];
+  questions: { stepId: string; questionIndex: number; question: string; options: string[]; correct: number; explanation: string; owner?: string; stepKey?: string }[];
   claims: { id: string; stepId: string; statement: string; answer: ClaimAnswer; explanation: string | null; source: string | null }[];
 }
 
@@ -197,8 +199,9 @@ export function buildDeck(input: DeckInput, size = DECK_SIZE): QuizQuestion[] {
       options: q.options,
       correct: q.correct,
       explanation: q.explanation,
-      stepKey: q.stepId,
+      stepKey: q.stepKey ?? q.stepId,
       questionIndex: q.questionIndex,
+      ...(q.owner ? { owner: q.owner } : {}),
     })),
     claim: pickRound(input.claims, 2).map((c) => ({
       id: `claim:${c.id}`,

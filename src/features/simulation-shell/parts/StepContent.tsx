@@ -107,7 +107,8 @@ export function StepContent({ step, total, position, mode, stagger, leaving = fa
     >
       <motion.div variants={item} className="flex items-center justify-between gap-3">
         <Eyebrow as="p" className="text-12">
-          {t("stepHeader", { current: position + 1, total })} · {step.kind}
+          {t("stepHeader", { current: position + 1, total })} · {step.owner ? `${step.owner.name} · ` : ""}
+          {step.kind}
         </Eyebrow>
         <ClaimBadge type={step.claimType} />
       </motion.div>
@@ -158,6 +159,13 @@ export function StepContent({ step, total, position, mode, stagger, leaving = fa
               {r.label}
             </Chip>
           ))}
+        </motion.div>
+      ) : null}
+      {step.owner ? (
+        <motion.div variants={item} data-testid="owner-link">
+          <Chip tone="accent" href={step.owner.href} {...(onFollow ? { onClick: () => onFollow(step.owner!.href) } : {})}>
+            {t("ownerLink", { name: step.owner.name })}
+          </Chip>
         </motion.div>
       ) : null}
       {step.choice ? (
