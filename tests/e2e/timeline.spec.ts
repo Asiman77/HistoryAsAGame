@@ -75,9 +75,15 @@ test("a state on the map opens the ruler panel of the year, with the way into th
 test("the home page slider opens the timeline on its year; the old address redirects", async ({ page }) => {
   await page.goto("/az/");
   const box = page.getByTestId("timeline-preview");
-  await box.getByRole("slider", { name: "İl seçimi" }).fill("1736");
   const full = box.getByTestId("preview-open");
-  await expect(full).toHaveAttribute("href", /\/az\/zaman\/\?year=1736/);
+  // Input that lands before hydration is lost, and the same value again is no change for React:
+  // move away and back until the page answers.
+  const slider = box.getByRole("slider", { name: "İl seçimi" });
+  await expect(async () => {
+    await slider.fill("1600");
+    await slider.fill("1736");
+    await expect(full).toHaveAttribute("href", /\/az\/zaman\/\?year=1736/, { timeout: 1000 });
+  }).toPass();
   await full.click();
   await expect(page).toHaveURL(/\/az\/zaman\/\?year=1736/);
   await expect(year(page)).toHaveText("1736");
