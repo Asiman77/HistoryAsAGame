@@ -8,8 +8,7 @@ export const ROUTES = {
   home: "/",
   curriculum: "/kurikulum/",
   grade: (grade: number) => `/kurikulum/${grade}/`,
-  /** Phase 6 moves it to /zaman/. */
-  timeline: "/timeline/",
+  timeline: "/zaman/",
   persons: "/sexsiyyetler/",
   conflicts: "/doyusler/",
   states: "/dovletler/",
