@@ -608,6 +608,7 @@ Brauzer (NEXT_PUBLIC_ANALYTICS_URL varsa, DNT/GPC yoxdursa) ─► sendBeacon te
 | `V015__document_position` | 13 | eksport sırası |
 | `V016__document_assignee` | §22 | rəyçi təyinatı (`assignee_id`) |
 | `V017__step_template_era_weight_theme_ui` | §23 | addım şablonu, era çəkisi və fənni, temanın tünd UI palitrası |
+| `V018__curriculum` | §24 | kurikulum: sinif, bölmə, mövzu, mövzunun addımları; `CURRICULUM_GRADE` sənəd tipi |
 
 Tətbiq olunmuş miqrasiya heç vaxt dəyişdirilmir; düzəliş yeni `V0NN` faylı ilədir.
 
@@ -708,4 +709,33 @@ Hamısı məzmunda optional-dır: indiki `data/` dəyişmir, köhnə sətirlər 
 - **Eksport:** sənəd hissələri olduğu kimi yazılır, yeni sahələr `data/` fayllarına özü keçir.
 - **Frontend:** `deriveTemplate` datadakı `template`-i üstün tutur, yüklənən temanın `ui`-si kod fallback-larından (`src/theme/fallbacks.ts`) üstündür. Kontrast həmişə kodda yoxlanılır və lazım olsa düzəldilir.
 - **Testlər:** `ProjectionTests.redesignFieldsAreProjected`, `PublicApiTests` (`/eras?subject=`, `template` və `ui` null), frontend-də `sharedSchema.test.ts` və `theme.test.ts`.
+
+## 24. Kurikulum: paket B2 (2026-11-27)
+
+Məktəb proqramı: fənn → sinif → bölmə → mövzu → mövzunun danışdığı simulyasiya addımları ([FRONTEND_PLAN §11](FRONTEND_PLAN.md), FRONTEND_SPEC §6.3, §9).
+
+**Məzmun:** `data/curriculum/<fənn>/<sinif>.json`, Zod `CurriculumGrade` (`shared/schema`): `id` = `<fənn>-<sinif>`, `title`, isteğe bağlı `textbook` (ad, müəllif kollektivi, il, nəşriyyat, url; yalnız istinad, mətn köçürülmür), `sections[].topics[]`.
+- Mövzu: `id` (bütün siniflər üzrə unikal, mövzu simulyasiyasının ünvanıdır), `title`, `paragraph` ("§ 12"), `summary`, `minutes`, `steps[]` (`{type: person|conflict|state, id, stepId}`, mövzunun öz sırası ilə).
+- Addımı olmayan mövzu "hazırlanır"-dır. `sample: true` yalnız `fixtures/curriculum.sample.json`-dadır; `validate:data` onu `data/`-da qəbul etmir, addımların mövcudluğunu və mövzu id-lərinin unikallığını yoxlayır.
+- Hələ real kurikulum datası yoxdur, `data/curriculum/` boşdur (FRONTEND_SPEC §14 köməkçi aləti sonrakı mərhələdir).
+
+**Backend:**
+- Sənəd tipi `CURRICULUM_GRADE` (bir sinif bir sənəddir), idxal `data/curriculum/*/*.json`-dan, eksport eyni yola.
+- Redaksiya yoxlaması: mövzu addımlarının simulyasiyası mövcud olmalıdır (yoxdursa ERROR, dərc olunmayıbsa WARNING). Addım açarları addımların öz sənədində yoxlanılır; oxuyucu artıq olmayan açarı buraxır.
+- Proyeksiya `V018__curriculum`: `curriculum_grade`, `curriculum_section`, `curriculum_topic` (slug qlobal unikal), `curriculum_topic_step` (addım açarla, çarpaz keçidlər kimi: simulyasiyanı yenidən dərc etmək kurikuluma toxunmur).
+- Kod `catalog` modulundadır (`CurriculumProjectionWriter`, `CurriculumReader`, `CurriculumController`): mövzu katalog addımlarının ardıcıllığıdır. Ayrı modul katalogdan addım oxuma API-si tələb edərdi.
+
+**API:**
+
+| Endpoint | Cavab |
+|---|---|
+| `GET /curriculum/{subject}/grades` | siniflər: bölmə və mövzu sayı, açıla bilən (`readyTopics`) mövzu sayı, mövzuların əhatə etdiyi illər (`years`); data yoxdursa `[]` |
+| `GET /curriculum/{subject}/grades/{grade}` | dərslik, bölmələr, mövzular (`steps` sayı, `ready`: addımı var və hamısı dərc olunub, `years`); `404`, `grade` 1–11 deyilsə `400` |
+| `GET /curriculum/topics/{slug}/steps` | mövzu (sinif, bölmə, paraqraf, dərslik) və addımları öz sırası ilə, hər biri `ownerType`, `ownerSlug` və tam addım görünüşü ilə; dərc olunmamış addım düşmür |
+| addım cavabları | `curriculum[]`: addımı danışan mövzular (`subject`, `grade`, `sectionSlug`, `topicSlug`, `paragraph`), "Dərslik: 8-ci sinif, § 12" üçün |
+| `GET /timeline?year=&grade=[&subject=]` | sinif verilsə ilin hadisələri yalnız o sinfin mövzularındandır; xəritə, hökmdarlar və şəxsiyyətlər dəyişmir |
+
+**Frontend:** `HistoryRepository.listCurriculum(subject)`, `checkCurriculum` (integrity), `src/data/api/openapi.ts` yenidən generasiya olundu. Ekranlar mərhələ 7-dədir.
+
+**Testlər:** `CurriculumTests` (nümunə sinif + bugünkü data: siniflər, sinif, mövzu addımları, addımın kurikulum istinadları, sinfə görə timeline, `404`/`400`, idxal), `DocumentValidatorTests` (naməlum simulyasiya), frontend-də `curriculum.test.ts`.
 
