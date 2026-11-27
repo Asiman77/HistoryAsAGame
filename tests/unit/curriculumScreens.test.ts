@@ -3,6 +3,8 @@ import { FileSystemRepository } from "@/data/fileSystemRepository";
 import { allTopics, curriculumGrades, findTopic, loadGrade, loadSampleGrade, TOPIC_PLACEHOLDER, topicParams } from "@/features/curriculum/data";
 import { firstOpenSection, sectionShare, topicRow, topicShare, topicStatus } from "@/features/curriculum/status";
 import { buildTopic, nextTopic } from "@/features/curriculum/topic";
+import { loadZamanData } from "@/features/timeline/data";
+import { gradeView } from "@/features/timeline/gradeView";
 import { normalizeClassCode } from "@/lib/classCode";
 import type { PersonProgress } from "@/lib/progress";
 
@@ -72,6 +74,29 @@ describe("curriculum data (phase 7)", () => {
     expect((await nextTopic(repo, g, "sample-sefevi", "az"))?.id).toBe("sample-efshar");
     expect(await nextTopic(repo, g, "sample-efshar", "az")).toBeNull();
     expect((await allTopics(repo)).length).toBe(4);
+  });
+});
+
+describe("timeline grade filter", () => {
+  afterEach(() => vi.unstubAllEnvs());
+
+  it("knows the events and years of each grade with curriculum data, and nothing without it", async () => {
+    expect((await loadZamanData(repo, "az")).grades).toEqual([]);
+    vi.stubEnv("CURRICULUM_SAMPLE", "1");
+    const [g, ...rest] = (await loadZamanData(repo, "az")).grades;
+    expect(rest).toEqual([]);
+    expect(g!.grade).toBe(8);
+    expect(g!.keys).toContain("person:shah-ismayil:ismayil-coronation");
+    expect(g!.keys).toContain("state:afshar:1747-assassination");
+    expect(g!.keys).not.toContain("person:shah-ismayil:ismayil-birth");
+    expect(g!.from).toBeLessThan(1501);
+    expect(g!.to).toBe(1748);
+  });
+
+  it("zooms to the grade's years with some air, inside the axis", () => {
+    expect(gradeView({ from: 1736, to: 1748 }, 1000, 2025)).toEqual([1726, 1758]);
+    expect(gradeView({ from: 1450, to: 1750 }, 1000, 2025)).toEqual([1405, 1795]);
+    expect(gradeView({ from: 1995, to: 2020 }, 1000, 2025)).toEqual([1985, 2025]);
   });
 });
 

@@ -18,6 +18,7 @@ import { deviceLooksWeak, useSettings } from "@/lib/settings";
 import { createTimeScale } from "@/lib/timeScale";
 import { snapshotForYear } from "@/lib/timeSlider";
 import type { ZamanData, ZamanEvent } from "./data";
+import { gradeView } from "./gradeView";
 import { TimeAxis } from "./TimeAxis";
 import type { TimelineMapHandle } from "./TimelineMap";
 
@@ -120,6 +121,12 @@ export function TimelineScreen({ data }: { data: ZamanData }) {
     return raw.split(",").filter((l): l is Layer => (LAYERS as readonly string[]).includes(l));
   });
   const [zoomedEra, setZoomedEra] = useState<string | null>(null);
+  // ?grade=8: only the events the grade's topics tell, the axis zoomed to their years (curriculum, B2).
+  const [gradeNo, setGradeNo] = useState<number | null>(() => {
+    const g = Number(params.get("grade"));
+    return data.grades.some((x) => x.grade === g) ? g : null;
+  });
+  const grade = gradeNo === null ? null : (data.grades.find((g) => g.grade === gradeNo) ?? null);
   const [polityId, setPolityId] = useState<string | null>(null);
 
   const settled = useSettled(year, MAP_DEBOUNCE_MS);
@@ -127,8 +134,10 @@ export function TimelineScreen({ data }: { data: ZamanData }) {
   const full = useMemo<[number, number]>(() => [data.from, data.to], [data.from, data.to]);
   const zoomTarget = useMemo<[number, number]>(() => {
     const era = zoomedEra ? data.eras.find((e) => e.id === zoomedEra) : undefined;
-    return era ? [Math.max(era.from, data.from), Math.min(era.to, data.to)] : full;
-  }, [zoomedEra, data.eras, data.from, data.to, full]);
+    if (era) return [Math.max(era.from, data.from), Math.min(era.to, data.to)];
+    if (grade) return gradeView(grade, data.from, data.to);
+    return full;
+  }, [zoomedEra, grade, data.eras, data.from, data.to, full]);
   const view = useAnimatedView(zoomTarget, reduced);
   const scale = useMemo(() => createTimeScale(data.segments, view), [data.segments, view]);
 
@@ -141,15 +150,24 @@ export function TimelineScreen({ data }: { data: ZamanData }) {
   const capitalIds = useMemo(() => snapshot?.polities.flatMap((p) => (p.capitalId ? [p.capitalId] : [])) ?? [], [snapshot]);
   const on = (l: Layer) => layers.includes(l);
   const alive = data.persons.filter((p) => p.from <= year && year <= p.to);
+  const events = useMemo(() => {
+    if (!grade) return data.events;
+    const keys = new Set(grade.keys);
+    return data.events.filter((e) => keys.has(e.key));
+  }, [data.events, grade]);
   const yearEvents = useMemo(
-    () => data.events.filter((e) => e.year === settled && (!e.legend || layers.includes("legends"))),
-    [data.events, settled, layers],
+    () => events.filter((e) => e.year === settled && (!e.legend || layers.includes("legends"))),
+    [events, settled, layers],
   );
 
   // The year and the layers in the address (no navigation, Next keeps useSearchParams in sync).
   useEffect(() => {
-    writeQuery({ year: String(settled), layers: layers.join(",") === DEFAULT_LAYERS.join(",") ? null : layers.join(",") });
-  }, [settled, layers]);
+    writeQuery({
+      year: String(settled),
+      layers: layers.join(",") === DEFAULT_LAYERS.join(",") ? null : layers.join(","),
+      grade: gradeNo === null ? null : String(gradeNo),
+    });
+  }, [settled, layers, gradeNo]);
   // A learning event once the slider has rested on a year for a moment, not for every pixel of a drag.
   const rested = useSettled(year, 1500);
   const [openedOn] = useState(year);
@@ -272,16 +290,24 @@ export function TimelineScreen({ data }: { data: ZamanData }) {
       </div>
 
       <TimeAxis
-        data={data}
+        data={{ ...data, events }}
         scale={scale}
         year={year}
         eraName={era?.name ?? null}
         zoomedEra={zoomedEra}
+        grade={gradeNo}
         onYear={(y) => setYear(y)}
         onZoom={(id) => {
           setZoomedEra(id);
+          if (!id) setGradeNo(null);
           const e = id ? data.eras.find((x) => x.id === id) : undefined;
           if (e && (year < e.from || year > e.to)) setYear(e.from);
+        }}
+        onGrade={(g) => {
+          setZoomedEra(null);
+          setGradeNo(g);
+          const span = g === null ? undefined : data.grades.find((x) => x.grade === g);
+          if (span && (year < span.from || year > span.to)) setYear(span.from);
         }}
         onPolity={setPolityId}
       />

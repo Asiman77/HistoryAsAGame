@@ -7,6 +7,7 @@
 import { DEFAULT_SUBJECT, type Locale, type TerritorySnapshotMeta } from "@/domain/schema";
 import type { HistoryRepository } from "@/data/repository";
 import { loadPoliticalContext } from "@/data/political";
+import { curriculumGrades, stepKey } from "@/features/curriculum/data";
 import { resolvePolitical, type PanelPolitical } from "@/features/ruler-panel/data";
 import { t } from "@/lib/i18n";
 import { SNAPSHOT_REACH_YEARS } from "@/lib/placeHistory";
@@ -102,6 +103,16 @@ export interface ZamanData {
   political: PanelPolitical;
   /** Opened without ?year=: the year of the first event. */
   defaultYear: number;
+  /** Grades of the subject's curriculum (B2) whose topics tell events of the timeline: their events and years. */
+  grades: ZamanGrade[];
+}
+
+export interface ZamanGrade {
+  grade: number;
+  /** Keys of the events (`person:shah-ismayil:ismayil-coronation`) the grade's topics tell. */
+  keys: string[];
+  from: number;
+  to: number;
 }
 
 /**
@@ -245,5 +256,12 @@ export async function loadZamanData(repo: HistoryRepository, locale: Locale, sub
     })),
     political: resolvePolitical(political, capitalPlaces, locale),
     defaultYear: Math.min(...events.map((e) => e.year), to),
+    grades: (await curriculumGrades(repo, subject)).flatMap((g) => {
+      const told = new Set(g.sections.flatMap((s) => s.topics.flatMap((topic) => topic.steps.map(stepKey))));
+      const own = events.filter((e) => told.has(e.key));
+      if (!own.length) return [];
+      const years = own.map((e) => e.year);
+      return [{ grade: g.grade, keys: own.map((e) => e.key), from: Math.min(...years), to: Math.max(...years) }];
+    }),
   };
 }

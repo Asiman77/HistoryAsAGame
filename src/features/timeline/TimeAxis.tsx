@@ -11,15 +11,18 @@ import { axisTicks, nextYear, type TimeScale } from "@/lib/timeScale";
 import type { ZamanData } from "./data";
 
 export interface TimeAxisProps {
-  data: Pick<ZamanData, "eras" | "states" | "stateRows" | "events" | "persons">;
+  data: Pick<ZamanData, "eras" | "states" | "stateRows" | "events" | "persons" | "grades">;
   scale: TimeScale;
   year: number;
   /** Era name of the year, for the slider's spoken value. */
   eraName: string | null;
   /** Zoomed into an era (its id), or showing all of them. */
   zoomedEra: string | null;
+  /** Grade filter (curriculum); null shows every event. */
+  grade: number | null;
   onYear: (year: number) => void;
   onZoom: (eraId: string | null) => void;
+  onGrade: (grade: number | null) => void;
   onPolity: (polityId: string) => void;
 }
 
@@ -33,7 +36,7 @@ const LABEL_COL = "grid grid-cols-[72px_minmax(0,1fr)] items-center gap-3 sm:gri
  * Shift ten, PageUp/PageDown the next or previous era, Home/End the ends.
  * Lanes answer the mouse; the keyboard drives the year through the slider.
  */
-export function TimeAxis({ data, scale, year, eraName, zoomedEra, onYear, onZoom, onPolity }: TimeAxisProps) {
+export function TimeAxis({ data, scale, year, eraName, zoomedEra, grade, onYear, onZoom, onGrade, onPolity }: TimeAxisProps) {
   const t = useTranslations("zaman");
   const track = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
@@ -94,27 +97,47 @@ export function TimeAxis({ data, scale, year, eraName, zoomedEra, onYear, onZoom
           <button
             type="button"
             onClick={() => onZoom(null)}
-            aria-pressed={!zoomedEra}
+            aria-pressed={!zoomedEra && grade === null}
             className={cx(
               "min-h-9 rounded-full px-3.5 text-13 transition-colors",
-              !zoomedEra ? "bg-accent font-semibold text-accent-ink" : "border border-fg/20 text-fg-secondary hover:border-line-strong hover:text-fg",
+              !zoomedEra && grade === null ? "bg-accent font-semibold text-accent-ink" : "border border-fg/20 text-fg-secondary hover:border-line-strong hover:text-fg",
             )}
             data-testid="all-eras"
           >
             {t("allEras")}
           </button>
-          {GRADES.map((g) => (
-            <button
-              key={g}
-              type="button"
-              disabled
-              title={t("gradesSoon")}
-              className="hidden min-h-9 cursor-not-allowed rounded-full border border-dashed border-fg/20 px-3.5 text-13 text-fg-muted sm:inline-flex sm:items-center"
-            >
-              {t("grade", { grade: ordinal(g) })}
-            </button>
-          ))}
-          <span className="self-center text-12 text-fg-muted">{t("gradesSoon")}</span>
+          {/* A grade is active once the curriculum data has its topics; the others wait for it. */}
+          {GRADES.map((g) => {
+            const ready = data.grades.some((x) => x.grade === g);
+            const on = grade === g;
+            return ready ? (
+              <button
+                key={g}
+                type="button"
+                onClick={() => onGrade(on ? null : g)}
+                aria-pressed={on}
+                className={cx(
+                  "min-h-9 rounded-full px-3.5 text-13 transition-colors",
+                  on ? "bg-accent font-semibold text-accent-ink" : "border border-fg/20 text-fg-secondary hover:border-line-strong hover:text-fg",
+                )}
+                data-testid="grade-filter"
+                data-grade={g}
+              >
+                {t("grade", { grade: ordinal(g) })}
+              </button>
+            ) : (
+              <button
+                key={g}
+                type="button"
+                disabled
+                title={t("gradesSoon")}
+                className="hidden min-h-9 cursor-not-allowed rounded-full border border-dashed border-fg/20 px-3.5 text-13 text-fg-muted sm:inline-flex sm:items-center"
+              >
+                {t("grade", { grade: ordinal(g) })}
+              </button>
+            );
+          })}
+          {data.grades.length ? null : <span className="self-center text-12 text-fg-muted">{t("gradesSoon")}</span>}
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <span className="text-12 text-fg-muted">{t("scaleNote")}</span>
