@@ -1,11 +1,13 @@
 import type { components } from "@/data/api/openapi";
+import { normalizeClassCode } from "@/lib/classCode";
 
 /**
  * Anonymous learning events for the backend (BACKEND_SPEC.md §12, docs/adr/0018, 0020).
  *
  * Only what the event types allow is sent: no name, no account, no address. The session id is
  * a random UUID kept for this tab only (sessionStorage); a class code is sent only when the
- * student opened a teacher's link with `?class=…`. Off when NEXT_PUBLIC_ANALYTICS_URL is not
+ * student opened a teacher's link with `?class=…` (this tab) or typed the code in "Dərsliklə
+ * öyrən" (kept on the device, tarix:prefs). Off when NEXT_PUBLIC_ANALYTICS_URL is not
  * set (the static site without a backend) and when the browser asks not to be tracked.
  *
  * Events are batched (at most 50, the server's limit) and sent with `navigator.sendBeacon`
@@ -23,6 +25,8 @@ export interface AnalyticsEnv {
   storage: Pick<Storage, "getItem" | "setItem"> | null;
   /** The page's query string, for `?class=`. */
   search: string;
+  /** Class code the student typed on this device (tarix:prefs), or null. */
+  rememberedClass?: () => string | null;
   /** DNT or Global Privacy Control is on. */
   optedOut: boolean;
   send: (url: string, body: string) => void;
@@ -33,7 +37,6 @@ export const MAX_BATCH = 50;
 export const FLUSH_AFTER_MS = 10_000;
 const SESSION_KEY = "tarix.analytics.session";
 const CLASS_KEY = "tarix.analytics.class";
-const CLASS_CODE = /^[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{6}$/;
 
 export class AnalyticsClient {
   private queue: components["schemas"]["IncomingEvent"][] = [];
@@ -74,15 +77,15 @@ export class AnalyticsClient {
     return id;
   }
 
+  /** The code of this tab's teacher link wins; else the one the student typed on this device. */
   classCode(): string | null {
-    return this.env.storage?.getItem(CLASS_KEY) ?? null;
+    return this.env.storage?.getItem(CLASS_KEY) ?? this.env.rememberedClass?.() ?? null;
   }
 
   /** `?class=k7mq2x` on any page: this tab's events count for that class. */
   private rememberClass(): void {
-    const raw = new URLSearchParams(this.env.search).get("class");
-    const code = raw?.trim().toUpperCase();
-    if (code && CLASS_CODE.test(code)) this.env.storage?.setItem(CLASS_KEY, code);
+    const code = normalizeClassCode(new URLSearchParams(this.env.search).get("class"));
+    if (code) this.env.storage?.setItem(CLASS_KEY, code);
   }
 }
 
@@ -101,6 +104,13 @@ function browserEnv(): AnalyticsEnv {
     randomId: () => crypto.randomUUID(),
     storage,
     search: w?.location.search ?? "",
+    rememberedClass: () => {
+      try {
+        return normalizeClassCode(JSON.parse(w?.localStorage.getItem("tarix:prefs") ?? "null")?.classCode);
+      } catch {
+        return null;
+      }
+    },
     optedOut: !!nav && (nav.doNotTrack === "1" || nav.globalPrivacyControl === true),
     send: (url, body) => {
       const blob = new Blob([body], { type: "text/plain" });

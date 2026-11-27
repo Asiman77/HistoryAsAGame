@@ -19,12 +19,30 @@ export interface Collection {
   quizBadges: Record<string, { earnedAt: number; score: number; total: number }>;
 }
 
+/** Best result of a final quiz, per simulation or curriculum topic ("topic:<slug>"). */
+export interface QuizResult {
+  score: number;
+  total: number;
+  at: number;
+}
+
 interface ProgressState {
   persons: Record<string, PersonProgress>;
   collection: Collection;
+  quizzes: Record<string, QuizResult>;
 }
 
-const EMPTY: ProgressState = { persons: {}, collection: { cards: {}, quizBadges: {} } };
+const EMPTY: ProgressState = { persons: {}, collection: { cards: {}, quizBadges: {} }, quizzes: {} };
+
+function sanitizeQuizzes(raw: unknown): Record<string, QuizResult> {
+  const out: Record<string, QuizResult> = {};
+  if (!raw || typeof raw !== "object") return out;
+  for (const [key, q] of Object.entries(raw as Record<string, Partial<QuizResult>>)) {
+    if (!q || typeof q.score !== "number" || typeof q.total !== "number" || q.total <= 0) continue;
+    out[key] = { score: Math.max(0, Math.min(q.total, Math.floor(q.score))), total: Math.floor(q.total), at: typeof q.at === "number" ? q.at : 0 };
+  }
+  return out;
+}
 
 function sanitize(raw: unknown): ProgressState {
   const r = raw as Partial<ProgressState> | null;
@@ -47,6 +65,7 @@ function sanitize(raw: unknown): ProgressState {
       cards: r.collection?.cards ?? {},
       quizBadges: r.collection?.quizBadges ?? {},
     },
+    quizzes: sanitizeQuizzes(r.quizzes),
   };
 }
 
@@ -63,19 +82,26 @@ export function saveProgress(personId: string, patch: Omit<PersonProgress, "furt
       ? { ...s.collection.cards, [personId]: { earnedAt: Date.now() } }
       : s.collection.cards;
     return {
+      ...s,
       persons: { ...s.persons, [personId]: { ...patch, furthest, completed, updatedAt: Date.now() } },
       collection: { ...s.collection, cards },
     };
   });
 }
 
+/** Keeps the best result of a final quiz; a perfect score also earns the badge. */
 export function recordQuiz(personId: string, score: number, total: number) {
-  if (total === 0 || score < total) return;
-  progressStore.set((s) =>
-    s.collection.quizBadges[personId]
-      ? s
-      : { ...s, collection: { ...s.collection, quizBadges: { ...s.collection.quizBadges, [personId]: { earnedAt: Date.now(), score, total } } } },
-  );
+  if (total === 0) return;
+  progressStore.set((s) => {
+    const best = s.quizzes[personId];
+    const quizzes = !best || score / total > best.score / best.total ? { ...s.quizzes, [personId]: { score, total, at: Date.now() } } : s.quizzes;
+    const badge = score >= total && !s.collection.quizBadges[personId];
+    return {
+      ...s,
+      quizzes,
+      collection: badge ? { ...s.collection, quizBadges: { ...s.collection.quizBadges, [personId]: { earnedAt: Date.now(), score, total } } } : s.collection,
+    };
+  });
 }
 
 export function clearProgress(personId: string) {

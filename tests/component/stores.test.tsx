@@ -29,7 +29,7 @@ describe("persisted stores (Zustand, raw format)", () => {
   it("sanitises broken data instead of crashing", async () => {
     localStorage.setItem("tarix:progress", "{not json");
     const { progressStore } = await import("@/lib/progress");
-    expect(progressStore.get()).toEqual({ persons: {}, collection: { cards: {}, quizBadges: {} } });
+    expect(progressStore.get()).toEqual({ persons: {}, collection: { cards: {}, quizBadges: {} }, quizzes: {} });
   });
 
   it("keeps working in memory when storage throws", async () => {

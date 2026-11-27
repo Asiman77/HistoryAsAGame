@@ -65,6 +65,20 @@ describe("analytics client", () => {
     expect(bad.store.has("tarix.analytics.class")).toBe(false);
   });
 
+  it("sends the class code typed on this device when the tab has no teacher's link", () => {
+    const typed = env({ rememberedClass: () => "K7MQ2X" });
+    const c = new AnalyticsClient(typed.e);
+    c.track({ type: "legend_toggle", shown: false });
+    c.flush();
+    expect(typed.sent[0]!.body).toMatchObject({ classCode: "K7MQ2X" });
+
+    const both = env({ search: "?class=abcdef", rememberedClass: () => "K7MQ2X" });
+    const d = new AnalyticsClient(both.e);
+    d.track({ type: "legend_toggle", shown: false });
+    d.flush();
+    expect(both.sent[0]!.body).toMatchObject({ classCode: "ABCDEF" });
+  });
+
   it("is off without an endpoint or when the browser asks not to be tracked", () => {
     for (const o of [{ endpoint: undefined }, { optedOut: true }]) {
       const { e, sent, scheduled } = env(o);
