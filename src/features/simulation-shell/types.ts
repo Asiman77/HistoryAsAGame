@@ -1,4 +1,5 @@
 import type { ClaimType, MAP_STYLE_VARIANTS, Mood, PlaceType, StepTemplate } from "@/domain/schema";
+import type { PanelPolitical } from "@/features/ruler-panel/data";
 
 /** Base-map look of a period (data/themes: mapStyleVariant). */
 export type MapVariant = (typeof MAP_STYLE_VARIANTS)[number];
@@ -21,6 +22,9 @@ export interface ShellSource {
 export interface ShellBattle {
   own: string;
   enemy: string;
+  /** Polities of the sides, for the ruler panel ("the enemy in this step"). */
+  ownPolityId: string | null;
+  enemyPolityId: string | null;
   commanders: { own: string[]; enemy: string[] };
   /** Ranges as the sources give them; null when unknown. */
   forces: { own: string | null; enemy: string | null };
@@ -179,6 +183,10 @@ export interface ShellData {
   landmarks: ShellLandmark[];
   /** Capitals (place ids) of each snapshot the steps use. */
   capitals: Record<string, string[]>;
+  /** Ruler panel (a click on a state): polities, rulers and reigns of the years of the story. */
+  political: PanelPolitical;
+  /** The snapshots the steps use, with their polities' names, capitals and overlords. */
+  snapshots: { id: string; polities: { id: string; name: string; capitalId?: string; vassalOf?: string }[] }[];
 }
 
 export interface CameraView {

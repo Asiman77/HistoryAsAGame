@@ -24,6 +24,7 @@ import { useThemeStore } from "@/stores/theme";
 import { planTransition, runTransition, type TransitionActors } from "./choreography";
 import { useAutoplay, useShellKeys, useSwipe } from "./hooks";
 import { ShellMap } from "./map/ShellMap";
+import { RulerPanel } from "@/features/ruler-panel/RulerPanel";
 import { PlaceCard } from "./parts/PlaceCard";
 import { PortraitCard } from "./parts/PortraitCard";
 import { ShellTimeline } from "./parts/ShellTimeline";
@@ -81,6 +82,8 @@ export function SimulationShell({ data }: { data: ShellData }) {
   const running = useRef<AbortController | null>(null);
   const owner = useMemo(() => ownerOf(data.kind === "person" ? `person:${data.key}` : data.key), [data.kind, data.key]);
   const [placeId, setPlaceId] = useState<string | null>(null);
+  const [polityId, setPolityId] = useState<string | null>(null);
+  const rt = useTranslations("rulerPanel");
   const router = useRouter();
   const pathname = usePathname();
   // Arrived through a cross-link from another simulation: offer the way back (tarix:navstack, per tab).
@@ -126,6 +129,7 @@ export function SimulationShell({ data }: { data: ShellData }) {
   const go = useCallback((target: number | undefined) => {
     if (target === undefined) return;
     setPlaceId(null);
+    setPolityId(null);
     set({ index: target });
   }, [set]);
   const goNext = useCallback(() => go(next?.index), [go, next]);
@@ -222,6 +226,17 @@ export function SimulationShell({ data }: { data: ShellData }) {
   useSwipe(mapArea, { onLeft: goNext, onRight: goPrev });
   useAutoplay(playing, readyKey, AUTOPLAY_DWELL_MS, () => (next ? goNext() : set({ playing: false })));
 
+  // How a clicked state relates to the step on screen.
+  const polityNotes = (s: ShellData["steps"][number], id: string): string[] => {
+    const out: string[] = [];
+    const reigning = data.political.reigns.filter((r) => r.polityId === id && r.from <= s.year && s.year <= r.to);
+    const selfHref = data.kind === "person" ? `/sexsiyyetler/${data.key}/` : null;
+    if (selfHref && reigning.some((r) => data.political.rulers[r.rulerId]?.personHref === selfHref)) out.push(rt("youRule"));
+    if (s.battle?.ownPolityId === id) out.push(rt("ownSide", { side: s.battle.own }));
+    if (s.battle?.enemyPolityId === id) out.push(rt("enemySide", { side: s.battle.enemy }));
+    return out;
+  };
+
   const shown = contentIndex === null ? null : data.steps[contentIndex];
   const counterStep = data.steps[counterIndex] ?? step;
   const content = shown ? (
@@ -270,7 +285,22 @@ export function SimulationShell({ data }: { data: ShellData }) {
       ) : null}
 
       <div ref={mapArea} className="relative min-h-0 flex-1" data-testid="map-stage">
-        <ShellMap ref={map} data={data} locale={locale} padding={padding} lite={lite} reduced={reduced} onPlace={setPlaceId} />
+        <ShellMap
+          ref={map}
+          data={data}
+          locale={locale}
+          padding={padding}
+          lite={lite}
+          reduced={reduced}
+          onPlace={(id) => {
+            setPolityId(null);
+            setPlaceId(id);
+          }}
+          onPolity={(id) => {
+            setPlaceId(null);
+            setPolityId(id);
+          }}
+        />
 
         {!desktop ? (
           <MobileBar data={data} step={counterStep} muted={settings.muted} onMute={toggleMute} />
@@ -279,6 +309,21 @@ export function SimulationShell({ data }: { data: ShellData }) {
         {desktop && (counterStep.age || counterStep.portrait) ? (
           <div className="absolute left-7 top-7 z-10">
             <PortraitCard step={counterStep} crossfadeMs={reduced ? 0 : 500} />
+          </div>
+        ) : null}
+
+        {polityId ? (
+          <div className={cx("absolute z-20", desktop ? "bottom-28 left-7 top-7 flex w-[360px] items-start" : "inset-x-3 top-[72px] max-h-[calc(100%-90px)]")}>
+            <RulerPanel
+              political={data.political}
+              polityId={polityId}
+              year={counterStep.year}
+              snapshot={data.snapshots.find((sn) => sn.id === counterStep.snapshotId) ?? null}
+              notes={polityNotes(counterStep, polityId)}
+              currentPersonHref={data.kind === "person" ? `/sexsiyyetler/${data.key}/` : null}
+              onClose={() => setPolityId(null)}
+              className="max-h-full w-full"
+            />
           </div>
         ) : null}
 

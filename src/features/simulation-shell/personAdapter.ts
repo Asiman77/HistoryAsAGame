@@ -16,6 +16,7 @@ import { polygonPath } from "./map/projection";
 import { deriveTemplate } from "./templates";
 import { yearDelta } from "@/lib/worldContext";
 import { journeyStamps } from "@/features/passport/stamps";
+import { resolvePolitical } from "@/features/ruler-panel/data";
 import type { ShellData, ShellSource, ShellStep } from "./types";
 
 /** Kinds that name the step better than its place on a timeline node. */
@@ -90,6 +91,8 @@ export function personShell(journey: Journey, eras: Era[], locale: Locale, label
         ? {
             own: tr(o.ownSide),
             enemy: tr(o.enemySide),
+            ownPolityId: o.ownPolityId ?? null,
+            enemyPolityId: o.enemyPolityId ?? null,
             commanders: { own: o.commanders.own.map(tr), enemy: o.commanders.enemy.map(tr) },
             forces: { own: o.forces?.own ? tr(o.forces.own) : null, enemy: o.forces?.enemy ? tr(o.forces.enemy) : null },
             forcesSource: o.forces && (o.forcesSource ?? e.sources[0]) ? source((o.forcesSource ?? e.sources[0])!) : null,
@@ -192,6 +195,22 @@ export function personShell(journey: Journey, eras: Era[], locale: Locale, label
       source: p.sources?.[0] ? source(p.sources[0]) : null,
       href: entityPath("place", p.id),
     })),
+    political: resolvePolitical(
+      journey.political,
+      journey.landmarks.filter((p) => journey.snapshots.some((sn) => sn.polities.some((po) => po.capitalId === p.id))),
+      locale,
+    ),
+    snapshots: journey.snapshots
+      .filter((sn) => steps.some((st) => st.snapshotId === sn.id))
+      .map((sn) => ({
+        id: sn.id,
+        polities: sn.polities.map((po) => ({
+          id: po.id,
+          name: tr(po.name),
+          ...(po.capitalId ? { capitalId: po.capitalId } : {}),
+          ...(po.vassalOf ? { vassalOf: po.vassalOf } : {}),
+        })),
+      })),
     capitals: Object.fromEntries(
       journey.snapshots
         .filter((sn) => steps.some((st) => st.snapshotId === sn.id))

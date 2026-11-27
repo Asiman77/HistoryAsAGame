@@ -47,6 +47,8 @@ interface Props {
   onFail: () => void;
   /** A place marker was clicked (city card). */
   onPlace: (placeId: string) => void;
+  /** A state or its name was clicked (ruler panel). */
+  onPolity: (polityId: string) => void;
   ref?: Ref<MapController>;
 }
 
@@ -65,15 +67,15 @@ interface Live {
  * trails of past routes, the current route drawn through line-gradient with
  * a rider, HTML markers. Loaded with a dynamic import on simulation routes only.
  */
-export function MapLibreMap({ data, locale, padding, lite, reduced, onReady, onFail, onPlace, ref }: Props) {
+export function MapLibreMap({ data, locale, padding, lite, reduced, onReady, onFail, onPlace, onPolity, ref }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const live = useRef<Live | null>(null);
   const routeCum = useRef<number[]>([]);
   const routeColor = useRef("");
-  const callbacks = useRef({ onReady, onFail, onPlace });
+  const callbacks = useRef({ onReady, onFail, onPlace, onPolity });
   const pad = useRef(padding);
   useEffect(() => {
-    callbacks.current = { onReady, onFail, onPlace };
+    callbacks.current = { onReady, onFail, onPlace, onPolity };
   });
 
   useEffect(() => {
@@ -114,7 +116,7 @@ export function MapLibreMap({ data, locale, padding, lite, reduced, onReady, onF
           m.addSource("route", { type: "geojson", data: EMPTY, lineMetrics: true });
           m.addLayer({ id: "route-casing", type: "line", source: "route", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-width": 7, "line-gradient": progressGradient(0, palette.halo) } });
           m.addLayer({ id: "route-line", type: "line", source: "route", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-width": 3.5, "line-gradient": progressGradient(0, palette.ink) } });
-          const terr = new TerritoryLayers(m, lib, locale, palette, "trails");
+          const terr = new TerritoryLayers(m, lib, locale, palette, "trails", (id) => callbacks.current.onPolity(id));
           terr.setInstant(lite || reduced);
           const markers = new ShellMarkers(m, lib, data.landmarks, data.places, (id) => callbacks.current.onPlace(id));
           live.current = { map: m, lib, terr, markers, variant: first.mapVariant, index: -1 };
