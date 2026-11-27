@@ -236,6 +236,22 @@ class DocumentValidatorTests {
         assertThat(codes(errors(d))).doesNotContain("missing-target");
     }
 
+    @Test
+    void aCurriculumTopicMustNameExistingSimulations() throws java.io.IOException {
+        ObjectNode content = tools.jackson.databind.json.JsonMapper.shared().createObjectNode();
+        content.set("grade", tools.jackson.databind.json.JsonMapper.shared().readTree(
+                java.nio.file.Files.readString(java.nio.file.Path.of("..", "fixtures", "curriculum.sample.json"))));
+        Doc sample = new Doc(DocumentType.CURRICULUM_GRADE, "azerbaijan-history-8", content);
+        assertThat(errors(sample)).isEmpty();
+
+        ObjectNode broken = content.deepCopy();
+        ObjectNode step = (ObjectNode) broken.path("grade").path("sections").get(0).path("topics").get(0).path("steps").get(0);
+        step.put("id", "nobody");
+        List<ValidationIssue> issues = errors(new Doc(DocumentType.CURRICULUM_GRADE, "azerbaijan-history-8", broken));
+        assertThat(issues).extracting(ValidationIssue::code, ValidationIssue::pointer)
+                .containsExactly(tuple("unknown-reference", "/grade/sections/0/topics/0/steps/0/id"));
+    }
+
     // --- media and geometry -------------------------------------------------------------------
 
     @Test

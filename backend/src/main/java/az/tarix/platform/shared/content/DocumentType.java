@@ -42,7 +42,9 @@ public enum DocumentType {
     PLANNED_ENTITY("/entity/id", "/entity/title/az", wrappedItem("entity", "PlannedFile", "entities")),
     SOUNDTRACK_TRACK("/track/trackId", "/track/title/az", slug("conflictId"), object("track", "Track")),
     /** Region registry for the territory authoring tool; never projected (ADR-0007). */
-    TERRITORY_REGISTRY(null, null, object("registry", "TerritoryRegistryFile"));
+    TERRITORY_REGISTRY(null, null, object("registry", "TerritoryRegistryFile")),
+    /** One grade of a school subject: sections, topics and the steps they tell (B2, ARCHITECTURE.md §24). */
+    CURRICULUM_GRADE("/grade/id", "/grade/title/az", object("grade", "CurriculumGrade"));
 
     private final String idPointer;
     private final String titlePointer;

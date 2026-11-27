@@ -125,7 +125,23 @@ public class TimelineReader {
 
     /** One year of the slider; a fixed number of queries. */
     public YearView year(ReadContext ctx, int year) {
-        return cache.get(ctx, "timeline", year, () -> {
+        return year(ctx, year, null, null);
+    }
+
+    /** Steps a grade's topics tell (B2): the year's events of one grade. */
+    static final String IN_GRADE = """
+            AND EXISTS (SELECT 1 FROM curriculum_topic_step ts
+                         JOIN curriculum_topic t ON t.id = ts.topic_id
+                         JOIN curriculum_section sec ON sec.id = t.section_id
+                         JOIN curriculum_grade g ON g.id = sec.grade_id
+                         WHERE ts.owner_type = s.owner_type AND ts.owner_slug = s.owner_slug AND ts.step_key = s.step_key
+                           AND g.subject = :subject AND g.grade = :grade)""";
+
+    private record YearKey(int year, String subject, Integer grade) {}
+
+    /** The year; with a grade, only the events its topics tell (the map, rulers and persons stay the same). */
+    public YearView year(ReadContext ctx, int year, String subject, Integer grade) {
+        return cache.get(ctx, "timeline", new YearKey(year, subject, grade), () -> {
             Lang lang = ctx.lang();
             SnapshotPick pick = territories.pick(year);
             List<Capital> capitals = capitals(pick, lang);
@@ -138,7 +154,9 @@ public class TimelineReader {
                         year - born, !Certainty.EXACT.name().equals(rs.getString("birth_certainty")),
                         (Double) rs.getObject("lat"), (Double) rs.getObject("lng"));
             }).list();
-            List<IndexEvent> events = index.where(IN_YEAR, Map.of("year", year), ctx);
+            List<IndexEvent> events = grade == null
+                    ? index.where(IN_YEAR, Map.of("year", year), ctx)
+                    : index.where(IN_YEAR + " " + IN_GRADE, Map.of("year", year, "subject", subject, "grade", grade), ctx);
             NearestYears nearest = jdbc.sql(NEAREST_YEARS).param("year", year)
                     .query((rs, n) -> new NearestYears(JsonColumns.integer(rs, "prev"), JsonColumns.integer(rs, "next"))).single();
             Era era = Chronology.eraFor(chronology.eras(), year);

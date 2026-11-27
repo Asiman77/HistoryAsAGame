@@ -18,14 +18,16 @@ class CatalogPreview implements PreviewSource {
     private final StateReader states;
     private final WarEntityReader warEntities;
     private final PlaceTimelineReader places;
+    private final CurriculumReader curriculum;
 
     CatalogPreview(PersonReader persons, ConflictReader conflicts, StateReader states, WarEntityReader warEntities,
-                   PlaceTimelineReader places) {
+                   PlaceTimelineReader places, CurriculumReader curriculum) {
         this.persons = persons;
         this.conflicts = conflicts;
         this.states = states;
         this.warEntities = warEntities;
         this.places = places;
+        this.curriculum = curriculum;
     }
 
     @Override
@@ -47,6 +49,7 @@ class CatalogPreview implements PreviewSource {
             case BATTLE -> put(out, "battle", () -> warEntities.battle(ctx, slug));
             case HERO -> put(out, "hero", () -> warEntities.hero(ctx, slug));
             case PLACE -> put(out, "timeline", () -> places.timeline(ctx, slug));
+            case CURRICULUM_GRADE -> put(out, "grade", () -> curriculum.gradeBySlug(ctx, slug));
             default -> { }
         }
         return out;

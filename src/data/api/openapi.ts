@@ -115,6 +115,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/topics/{slug}/steps": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Mövzu simulyasiyası
+         * @description Mövzu (sinif, bölmə, dərslik paraqrafı) və onun danışdığı addımlar öz sırası ilə, hər biri öz simulyasiyasından (şəxsiyyət, müharibə, dövlət). Dərc olunmamış addım siyahıya düşmür.
+         */
+        get: operations["topic"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/{subject}/grades": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fənnin sinifləri
+         * @description Sinif sırası ilə: bölmə və mövzu sayı, açıla bilən (`ready`) mövzu sayı, mövzuların əhatə etdiyi illər. Kurikulum datası yoxdursa boş siyahı.
+         */
+        get: operations["grades"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/{subject}/grades/{grade}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Sinif
+         * @description Dərslik istinadı, bölmələr və mövzular. Addımı olmayan və ya addımları hələ dərc olunmamış mövzu `ready: false`-dur ("hazırlanır").
+         */
+        get: operations["grade"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/eras": {
         parameters: {
             query?: never;
@@ -856,6 +916,14 @@ export interface components {
             themeSlug?: string;
             years?: string;
         };
+        CurriculumRef: {
+            /** Format: int32 */
+            grade?: number;
+            paragraph?: string;
+            sectionSlug?: string;
+            subject?: string;
+            topicSlug?: string;
+        };
         EraRef: {
             color?: string;
             /** Format: int32 */
@@ -907,6 +975,32 @@ export interface components {
         FirstRecorded: {
             note?: components["schemas"]["JsonNode"];
             source?: components["schemas"]["ApiSource"];
+        };
+        GradeSummary: {
+            /** Format: int32 */
+            grade?: number;
+            /** Format: int32 */
+            readyTopics?: number;
+            sample?: boolean;
+            /** Format: int32 */
+            sections?: number;
+            slug?: string;
+            subject?: string;
+            textbook?: components["schemas"]["JsonNode"];
+            title?: components["schemas"]["JsonNode"];
+            /** Format: int32 */
+            topics?: number;
+            years?: components["schemas"]["YearSpan"];
+        };
+        GradeView: {
+            /** Format: int32 */
+            grade?: number;
+            sample?: boolean;
+            sections?: components["schemas"]["SectionView"][];
+            slug?: string;
+            subject?: string;
+            textbook?: components["schemas"]["JsonNode"];
+            title?: components["schemas"]["JsonNode"];
         };
         HeroCard: {
             fullName?: components["schemas"]["JsonNode"];
@@ -1401,6 +1495,11 @@ export interface components {
             query?: string;
             types?: ("PERSON" | "CONFLICT" | "BATTLE" | "STATE" | "PLACE" | "POLITY" | "RULER" | "ERA" | "HERO")[];
         };
+        SectionView: {
+            slug?: string;
+            title?: components["schemas"]["JsonNode"];
+            topics?: components["schemas"]["TopicSummary"][];
+        };
         SettlementView: {
             district?: components["schemas"]["JsonNode"];
             kind?: string;
@@ -1492,6 +1591,7 @@ export interface components {
             /** @enum {string} */
             claimType?: "FACT" | "DISPUTED" | "LEGEND" | "LITERARY";
             claims?: components["schemas"]["ClaimView"][];
+            curriculum?: components["schemas"]["CurriculumRef"][];
             date?: components["schemas"]["ApiDate"];
             details?: components["schemas"]["JsonNode"];
             factualSummary?: components["schemas"]["JsonNode"];
@@ -1548,6 +1648,42 @@ export interface components {
             textures?: components["schemas"]["JsonNode"];
             ui?: components["schemas"]["JsonNode"];
         };
+        TopicStep: {
+            ownerSlug?: string;
+            /** @enum {string} */
+            ownerType?: "PERSON" | "CONFLICT" | "BATTLE" | "STATE" | "PLACE" | "POLITY" | "RULER" | "ERA" | "HERO";
+            step?: components["schemas"]["StepView"];
+        };
+        TopicSummary: {
+            /** Format: int32 */
+            minutes?: number;
+            paragraph?: string;
+            ready?: boolean;
+            slug?: string;
+            /** Format: int32 */
+            steps?: number;
+            summary?: components["schemas"]["JsonNode"];
+            title?: components["schemas"]["JsonNode"];
+            years?: components["schemas"]["YearSpan"];
+        };
+        TopicView: {
+            /** Format: int32 */
+            grade?: number;
+            gradeSlug?: string;
+            gradeTitle?: components["schemas"]["JsonNode"];
+            /** Format: int32 */
+            minutes?: number;
+            paragraph?: string;
+            sample?: boolean;
+            sectionSlug?: string;
+            sectionTitle?: components["schemas"]["JsonNode"];
+            slug?: string;
+            steps?: components["schemas"]["TopicStep"][];
+            subject?: string;
+            summary?: components["schemas"]["JsonNode"];
+            textbook?: components["schemas"]["JsonNode"];
+            title?: components["schemas"]["JsonNode"];
+        };
         Upcoming: {
             ref?: components["schemas"]["ApiLink"];
             sources?: components["schemas"]["ApiSource"][];
@@ -1580,6 +1716,12 @@ export interface components {
             month?: number;
             /** Format: int32 */
             year?: number;
+        };
+        YearSpan: {
+            /** Format: int32 */
+            from?: number;
+            /** Format: int32 */
+            to?: number;
         };
         YearView: {
             capitals?: components["schemas"]["Capital"][];
@@ -1777,6 +1919,96 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["StepView"];
+                };
+            };
+        };
+    };
+    topic: {
+        parameters: {
+            query?: {
+                /** @description Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`. */
+                lang?: "az" | "en" | "ru" | "all";
+            };
+            header?: {
+                "Accept-Language"?: string;
+                /** @description Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`. */
+                "If-None-Match"?: string;
+            };
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TopicView"];
+                };
+            };
+        };
+    };
+    grades: {
+        parameters: {
+            query?: {
+                /** @description Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`. */
+                lang?: "az" | "en" | "ru" | "all";
+            };
+            header?: {
+                "Accept-Language"?: string;
+                /** @description Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`. */
+                "If-None-Match"?: string;
+            };
+            path: {
+                /** @description Fənn, məs. `azerbaijan-history` */
+                subject: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GradeSummary"][];
+                };
+            };
+        };
+    };
+    grade: {
+        parameters: {
+            query?: {
+                /** @description Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`. */
+                lang?: "az" | "en" | "ru" | "all";
+            };
+            header?: {
+                "Accept-Language"?: string;
+                /** @description Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`. */
+                "If-None-Match"?: string;
+            };
+            path: {
+                subject: string;
+                /** @description Sinif, 1–11 */
+                grade: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GradeView"];
                 };
             };
         };
@@ -2617,6 +2849,10 @@ export interface operations {
             query?: {
                 /** @description İl */
                 year?: number;
+                /** @description Sinif, 1–11: hadisələr yalnız bu sinfin mövzularından */
+                grade?: number;
+                /** @description Fənn (defolt `azerbaijan-history`), `grade` ilə birlikdə */
+                subject?: string;
                 /** @description Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`. */
                 lang?: "az" | "en" | "ru" | "all";
             };

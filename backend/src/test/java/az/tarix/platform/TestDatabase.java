@@ -22,7 +22,8 @@ public final class TestDatabase {
                          place, place_period, place_upcoming, territory_snapshot, polity_territory,
                          person, conflict, settlement, commander, battle, state_profile, hero, simulation_step, step_claim,
                          source, step_source, claim_source, entity_relation, glossary_entry, commemoration, world_event,
-                         planned_entity, theme, portrait, soundtrack_track, media_asset
+                         planned_entity, theme, portrait, soundtrack_track, media_asset,
+                         curriculum_grade, curriculum_section, curriculum_topic, curriculum_topic_step
                 CASCADE""").update();
     }
 }

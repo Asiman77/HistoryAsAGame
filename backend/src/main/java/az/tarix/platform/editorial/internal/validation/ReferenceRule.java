@@ -35,9 +35,11 @@ final class ReferenceRule implements ValidationRule {
             "rivals", DocumentType.POLITY,
             "allies", DocumentType.POLITY);
 
-    private static final Map<String, String> NAMES = Map.of(
-            "PLACE", "məkan", "TERRITORY_SNAPSHOT", "ərazi snapshot-u", "POLITY", "dövlət (polity)", "THEME", "tema",
-            "RULER", "hökmdar", "PERSON", "şəxsiyyət", "CONFLICT", "müharibə", "ERA", "dövr", "HERO", "qəhrəman");
+    private static final Map<String, String> NAMES = Map.ofEntries(
+            Map.entry("PLACE", "məkan"), Map.entry("TERRITORY_SNAPSHOT", "ərazi snapshot-u"), Map.entry("POLITY", "dövlət (polity)"),
+            Map.entry("THEME", "tema"), Map.entry("RULER", "hökmdar"), Map.entry("PERSON", "şəxsiyyət"),
+            Map.entry("CONFLICT", "müharibə"), Map.entry("ERA", "dövr"), Map.entry("HERO", "qəhrəman"),
+            Map.entry("STATE", "dövlət simulyasiyası"));
 
     /** EntityRef.type values (shared/schema EntityRef) → document types. */
     private static final Map<String, DocumentType> REF_TYPES = Map.of(
@@ -83,6 +85,7 @@ final class ReferenceRule implements ValidationRule {
                 if (c.node().path("ref").isObject()) entityRef(ctx, c.at("ref"), c.node().path("ref"));
             }
             case CONFLICT -> conflict(ctx);
+            case CURRICULUM_GRADE -> curriculum(ctx);
             default -> { }
         }
     }
@@ -105,6 +108,28 @@ final class ReferenceRule implements ValidationRule {
             ctx.info("missing-target", pointer, "istinad olunan %s:%s hələ yoxdur (gələcək məzmun ola bilər)".formatted(ref.path("type").asString(), id));
         } else if (target == Target.UNPUBLISHED) {
             ctx.info("unpublished-target", pointer, "istinad olunan %s:%s hələ dərc olunmayıb".formatted(ref.path("type").asString(), id));
+        }
+    }
+
+    /**
+     * A topic must play: every step it lists names an existing simulation (ERROR when missing,
+     * WARNING when unpublished). Step keys are checked where the steps live (validate:data,
+     * the topic reader skips a key that no longer exists).
+     */
+    private static void curriculum(ValidationContext ctx) {
+        JsonNode sections = ctx.part("grade").node().path("sections");
+        for (int s = 0; s < sections.size(); s++) {
+            JsonNode topics = sections.get(s).path("topics");
+            for (int t = 0; t < topics.size(); t++) {
+                JsonNode steps = topics.get(t).path("steps");
+                for (int i = 0; i < steps.size(); i++) {
+                    JsonNode ref = steps.get(i);
+                    DocumentType type = REF_TYPES.get(ref.path("type").asString(""));
+                    if (type == null || !ref.path("id").isString()) continue;
+                    String at = "/grade/sections/%d/topics/%d/steps/%d/id".formatted(s, t, i);
+                    ctx.requireTarget(type, ref.path("id").stringValue(), at, name(type));
+                }
+            }
         }
     }
 

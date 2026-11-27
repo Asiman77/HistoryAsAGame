@@ -183,6 +183,11 @@ public final class DataFolder {
             }
             add(DocumentType.TERRITORY_SNAPSHOT, snapshot.path("id").asString(), c, files.toArray(String[]::new));
         }
+        // data/curriculum/<subject>/<grade>.json, one document per grade.
+        for (Path subject : dirs("curriculum")) {
+            for (Path f : jsonFiles(subject)) single(DocumentType.CURRICULUM_GRADE, "grade", read(rel(f)), rel(f));
+        }
+
         JsonNode registry = optional("territories/registry.json");
         if (registry.isObject()) {
             ObjectNode c = NODES.objectNode();

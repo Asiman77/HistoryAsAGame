@@ -603,6 +603,27 @@
         },
         "type" : "object"
       },
+      "CurriculumRef" : {
+        "properties" : {
+          "grade" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "paragraph" : {
+            "type" : "string"
+          },
+          "sectionSlug" : {
+            "type" : "string"
+          },
+          "subject" : {
+            "type" : "string"
+          },
+          "topicSlug" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
       "EraRef" : {
         "properties" : {
           "color" : {
@@ -740,6 +761,75 @@
           },
           "source" : {
             "$ref" : "#/components/schemas/ApiSource"
+          }
+        },
+        "type" : "object"
+      },
+      "GradeSummary" : {
+        "properties" : {
+          "grade" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "readyTopics" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "sample" : {
+            "type" : "boolean"
+          },
+          "sections" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "subject" : {
+            "type" : "string"
+          },
+          "textbook" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "topics" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "years" : {
+            "$ref" : "#/components/schemas/YearSpan"
+          }
+        },
+        "type" : "object"
+      },
+      "GradeView" : {
+        "properties" : {
+          "grade" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "sample" : {
+            "type" : "boolean"
+          },
+          "sections" : {
+            "items" : {
+              "$ref" : "#/components/schemas/SectionView"
+            },
+            "type" : "array"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "subject" : {
+            "type" : "string"
+          },
+          "textbook" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
           }
         },
         "type" : "object"
@@ -2112,6 +2202,23 @@
         },
         "type" : "object"
       },
+      "SectionView" : {
+        "properties" : {
+          "slug" : {
+            "type" : "string"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "topics" : {
+            "items" : {
+              "$ref" : "#/components/schemas/TopicSummary"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
       "SettlementView" : {
         "properties" : {
           "district" : {
@@ -2364,6 +2471,12 @@
             },
             "type" : "array"
           },
+          "curriculum" : {
+            "items" : {
+              "$ref" : "#/components/schemas/CurriculumRef"
+            },
+            "type" : "array"
+          },
           "date" : {
             "$ref" : "#/components/schemas/ApiDate"
           },
@@ -2528,6 +2641,104 @@
         },
         "type" : "object"
       },
+      "TopicStep" : {
+        "properties" : {
+          "ownerSlug" : {
+            "type" : "string"
+          },
+          "ownerType" : {
+            "enum" : [ "PERSON", "CONFLICT", "BATTLE", "STATE", "PLACE", "POLITY", "RULER", "ERA", "HERO" ],
+            "type" : "string"
+          },
+          "step" : {
+            "$ref" : "#/components/schemas/StepView"
+          }
+        },
+        "type" : "object"
+      },
+      "TopicSummary" : {
+        "properties" : {
+          "minutes" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "paragraph" : {
+            "type" : "string"
+          },
+          "ready" : {
+            "type" : "boolean"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "steps" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "summary" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "years" : {
+            "$ref" : "#/components/schemas/YearSpan"
+          }
+        },
+        "type" : "object"
+      },
+      "TopicView" : {
+        "properties" : {
+          "grade" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "gradeSlug" : {
+            "type" : "string"
+          },
+          "gradeTitle" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "minutes" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "paragraph" : {
+            "type" : "string"
+          },
+          "sample" : {
+            "type" : "boolean"
+          },
+          "sectionSlug" : {
+            "type" : "string"
+          },
+          "sectionTitle" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "steps" : {
+            "items" : {
+              "$ref" : "#/components/schemas/TopicStep"
+            },
+            "type" : "array"
+          },
+          "subject" : {
+            "type" : "string"
+          },
+          "summary" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "textbook" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          },
+          "title" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          }
+        },
+        "type" : "object"
+      },
       "Upcoming" : {
         "properties" : {
           "ref" : {
@@ -2610,6 +2821,19 @@
             "type" : "integer"
           },
           "year" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "YearSpan" : {
+        "properties" : {
+          "from" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "to" : {
             "format" : "int32",
             "type" : "integer"
           }
@@ -3013,6 +3237,175 @@
         },
         "summary" : "Müharibənin bir günü",
         "tags" : [ "Simulyasiyalar" ]
+      }
+    },
+    "/api/v1/curriculum/topics/{slug}/steps" : {
+      "get" : {
+        "description" : "Mövzu (sinif, bölmə, dərslik paraqrafı) və onun danışdığı addımlar öz sırası ilə, hər biri öz simulyasiyasından (şəxsiyyət, müharibə, dövlət). Dərc olunmamış addım siyahıya düşmür.",
+        "operationId" : "topic",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TopicView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Mövzu simulyasiyası",
+        "tags" : [ "Kurikulum" ]
+      }
+    },
+    "/api/v1/curriculum/{subject}/grades" : {
+      "get" : {
+        "description" : "Sinif sırası ilə: bölmə və mövzu sayı, açıla bilən (`ready`) mövzu sayı, mövzuların əhatə etdiyi illər. Kurikulum datası yoxdursa boş siyahı.",
+        "operationId" : "grades",
+        "parameters" : [ {
+          "description" : "Fənn, məs. `azerbaijan-history`",
+          "in" : "path",
+          "name" : "subject",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/GradeSummary"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Fənnin sinifləri",
+        "tags" : [ "Kurikulum" ]
+      }
+    },
+    "/api/v1/curriculum/{subject}/grades/{grade}" : {
+      "get" : {
+        "description" : "Dərslik istinadı, bölmələr və mövzular. Addımı olmayan və ya addımları hələ dərc olunmamış mövzu `ready: false`-dur (\"hazırlanır\").",
+        "operationId" : "grade",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "subject",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Sinif, 1–11",
+          "in" : "path",
+          "name" : "grade",
+          "required" : true,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",
+          "in" : "query",
+          "name" : "lang",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "az", "en", "ru", "all" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "header",
+          "name" : "Accept-Language",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Əvvəlki cavabın `ETag`-i; məzmun dəyişməyibsə `304`.",
+          "in" : "header",
+          "name" : "If-None-Match",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GradeView"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Sinif",
+        "tags" : [ "Kurikulum" ]
       }
     },
     "/api/v1/eras" : {
@@ -4537,6 +4930,23 @@
           "schema" : {
             "format" : "int32",
             "type" : "integer"
+          }
+        }, {
+          "description" : "Sinif, 1–11: hadisələr yalnız bu sinfin mövzularından",
+          "in" : "query",
+          "name" : "grade",
+          "required" : false,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "description" : "Fənn (defolt `azerbaijan-history`), `grade` ilə birlikdə",
+          "in" : "query",
+          "name" : "subject",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
           }
         }, {
           "description" : "Cavabın dili. `all`: lokallaşdırılmış sahələr `{az, en, ru}` obyekti olur. Verilməyibsə `Accept-Language`, o da yoxdursa `az`.",

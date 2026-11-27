@@ -58,6 +58,7 @@ public class StepReader {
      * @param ageApproximate whether that age is only approximate
      * @param route          GeoJSON LineString from {@code fromLocation} through the waypoints to {@code location}, or null
      * @param template       how the map shows the step (FRONTEND_SPEC §5.2); null when the content leaves it to the client
+     * @param curriculum     the textbook topics that tell this step ("Dərslik: 8-ci sinif, § 12")
      * @param details        kind-specific fields (outcome, choice, quiz, liberated settlements, …)
      */
     public record StepView(String stepKey, int sequence, StepKind kind, ApiDate date, Integer ageAtEvent, Boolean ageApproximate,
@@ -65,7 +66,10 @@ public class StepReader {
                     ClaimType claimType,
                     List<ClaimView> claims, StepLocation location, StepLocation fromLocation, JsonNode route,
                     String territorySnapshot, String themeSlug, ApiPortrait portrait, List<ApiSource> sources,
-                    List<ApiLink> related, JsonNode details) {}
+                    List<ApiLink> related, List<CurriculumRef> curriculum, JsonNode details) {}
+
+    /** A topic of the school curriculum that tells the step. */
+    public record CurriculumRef(String subject, int grade, String sectionSlug, String topicSlug, String paragraph) {}
 
     static final String FILTER = """
             s.owner_type = :ownerType AND s.owner_slug = :ownerSlug AND (CAST(:stepKey AS text) IS NULL OR s.step_key = :stepKey)""";
@@ -102,6 +106,15 @@ public class StepReader {
                  JOIN step_claim c ON c.id = x.claim_id JOIN simulation_step s ON s.id = c.step_id
             WHERE %s
             ORDER BY x.claim_id, x.sort_order""".formatted(FILTER);
+
+    static final String CURRICULUM = """
+            SELECT ts.step_key, g.subject, g.grade, sec.slug AS section_slug, t.slug AS topic_slug, t.paragraph
+            FROM curriculum_topic_step ts
+            JOIN curriculum_topic t ON t.id = ts.topic_id
+            JOIN curriculum_section sec ON sec.id = t.section_id
+            JOIN curriculum_grade g ON g.id = sec.grade_id
+            WHERE ts.owner_type = :ownerType AND ts.owner_slug = :ownerSlug AND (CAST(:stepKey AS text) IS NULL OR ts.step_key = :stepKey)
+            ORDER BY g.subject, g.grade, sec.sort_order, t.sort_order""";
 
     static final String RELATIONS = """
             SELECT r.source_step_key, r.target_type, r.target_slug, r.target_step_key, r.relation_type, r.label, r.note, r.sources
@@ -153,6 +166,10 @@ public class StepReader {
         }).list();
 
         Map<String, List<ApiLink>> related = related(filter, lang);
+        Map<String, List<CurriculumRef>> curriculum = new HashMap<>();
+        jdbc.sql(CURRICULUM).params(filter).query((rs, n) -> curriculum.computeIfAbsent(rs.getString("step_key"), k -> new ArrayList<>())
+                .add(new CurriculumRef(rs.getString("subject"), rs.getInt("grade"), rs.getString("section_slug"), rs.getString("topic_slug"),
+                        rs.getString("paragraph")))).list();
         Map<RawLocation, PlaceSummary> matched = matchPlaces(rows);
         List<ApiPortrait> agePortraits = ownerType == EntityType.PERSON ? portraits.of("PERSON", ownerSlug, ctx) : List.of();
 
@@ -162,7 +179,8 @@ public class StepReader {
             out.add(new StepView(r.key(), r.sequence(), r.kind(), r.date(), r.age(), r.ageApproximate(), r.title(), r.summary(),
                     r.narrative(), r.mood(), r.template(), r.claimType(), claims.getOrDefault(r.id(), List.of()),
                     location(r.location(), matched, lang), location(r.from(), matched, lang), r.route(), r.snapshot(), r.theme(),
-                    portrait, stepSources.getOrDefault(r.id(), List.of()), related.getOrDefault(r.key(), List.of()), r.details()));
+                    portrait, stepSources.getOrDefault(r.id(), List.of()), related.getOrDefault(r.key(), List.of()),
+                    curriculum.getOrDefault(r.key(), List.of()), r.details()));
         }
         return out;
     }

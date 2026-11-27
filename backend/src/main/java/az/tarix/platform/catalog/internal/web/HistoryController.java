@@ -9,6 +9,7 @@ import az.tarix.platform.catalog.internal.read.SearchReader.SearchResult;
 import az.tarix.platform.catalog.internal.read.TimelineReader;
 import az.tarix.platform.catalog.internal.read.TimelineReader.OnThisDay;
 import az.tarix.platform.catalog.internal.read.TimelineReader.YearView;
+import az.tarix.platform.shared.read.InvalidParameterException;
 import az.tarix.platform.shared.read.PublicParams;
 import az.tarix.platform.shared.read.ReadContext;
 import az.tarix.platform.shared.web.PublicApi;
@@ -45,8 +46,14 @@ class HistoryController {
             description = "İlin xəritəsi (snapshot seçimi və paytaxtlar), hakimiyyətdə olan hökmdarlar, sağ olan şəxsiyyətlər "
                     + "(yaş və son məlum yer), həmin ilin hadisələri. `coverage`: FULL — xəritə ili əhatə edir, PARTIAL — xəritə "
                     + "yoxdur, digər məlumat var, NONE — heç nə yoxdur.")
-    YearView timeline(ReadContext ctx, @Parameter(description = "İl") @RequestParam(required = false) Integer year) {
-        return timeline.year(ctx, PublicParams.year("year", year));
+    YearView timeline(ReadContext ctx, @Parameter(description = "İl") @RequestParam(required = false) Integer year,
+                      @Parameter(description = "Sinif, 1–11: hadisələr yalnız bu sinfin mövzularından") @RequestParam(required = false) Integer grade,
+                      @Parameter(description = "Fənn (defolt `azerbaijan-history`), `grade` ilə birlikdə") @RequestParam(required = false) String subject) {
+        int y = PublicParams.year("year", year);
+        if (grade == null) return timeline.year(ctx, y);
+        if (grade < 1 || grade > 11) throw new InvalidParameterException("grade", "1…11 aralığında olmalıdır");
+        String s = PublicParams.slug("subject", subject);
+        return timeline.year(ctx, y, s == null ? "azerbaijan-history" : s, grade);
     }
 
     @GetMapping("/on-this-day")

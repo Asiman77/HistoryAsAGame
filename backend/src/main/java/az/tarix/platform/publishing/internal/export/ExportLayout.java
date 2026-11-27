@@ -101,6 +101,8 @@ public final class ExportLayout {
                 if (d.part("built").isObject()) put("public/data/territories/" + s + ".json", d.part("built"));
             }
             case TERRITORY_REGISTRY -> put("data/territories/registry.json", d.part("registry"));
+            case CURRICULUM_GRADE -> put("data/curriculum/" + d.part("grade").path("subject").asString() + "/"
+                    + d.part("grade").path("grade").asInt() + ".json", d.part("grade"));
             default -> { }     // SOURCE: not a file of its own (ADR-0007)
         }
     }
