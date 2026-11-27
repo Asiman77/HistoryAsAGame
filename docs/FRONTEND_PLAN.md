@@ -359,7 +359,8 @@ Funksionallıq və refaktorinq ayrı commit-lərdə. `ARCHITECTURE.md` yerinə f
 | B1 | Backend: şablon, era çəkisi və fənni, tema `ui` | ✅ 2026-11-24, [ARCHITECTURE §23](ARCHITECTURE.md) |
 | 6 | Zaman şkalası | ✅ 2026-11-27 |
 | B2 | Backend: kurikulum | ✅ 2026-11-27, [ARCHITECTURE §24](ARCHITECTURE.md) |
-| 7–15 | | gözləyir |
+| 7 | Kurikulum | ✅ 2026-11-28 |
+| 8–15 | | gözləyir |
 
 ### Mərhələ 1: dizayn sistemi
 
@@ -511,4 +512,43 @@ Testlər: çəkilər, hər il üçün `xToYear(yearToX(y)) = y`, sərhədlər, s
 - **Dövr siyahısı datadakı 4 dövrdür** (Ağqoyunlu, Səfəvi, Əfşar, Müstəqil Azərbaycan). Dizayndakı 15 zolaq nümunədir, data gəldikcə avtomatik görünəcək. 1797–1990 hələ boşluqdur.
 - WebGL yoxdursa xəritənin yerində izah çıxır, ox, il kartı və cərgələr işləyir (SVG fallback simulyasiya üçündür, siyasi xəritə çəkmir).
 - Köhnə `/timeline/` `?year=`-i saxlayaraq `/zaman/`-a yönləndirir. Köhnə `TimeExplorer`, `TimeMap` silindi; `data/timeExplorer.ts` backend parity skripti üçün qalır.
+
+### Mərhələ 7: kurikulum
+
+**Data** (`src/features/curriculum/data.ts`): siniflər `data/curriculum/<fənn>/<sinif>.json`-dan (B2). Mövzu və bölmə adları yalnız datadandır.
+`data/`-da kurikulum hələ yoxdur: səhifələr boş vəziyyət göstərir. `CURRICULUM_SAMPLE=1` ilə build `fixtures/curriculum.sample.json`-u ("nümunə", 8-ci sinif) əlavə edir.
+Nümunə real datanı heç vaxt əvəz etmir və production build-ə düşmür.
+
+**Sinif** (`/kurikulum/<sinif>/`, artboard "Dərsliklə öyrən"):
+- Solda bölmələr, irəliləyiş halqası ilə. Halqa açıla bilən mövzuların orta irəliləyişidir.
+- Sağda seçilmiş bölmənin mövzuları: status (tamamlandı / davam edir / yeni / hazırlanır), `§`, mərhələ sayı, təxmini dəqiqə, quiz nəticəsi, yeni mövzuda "… simulyasiyası ilə". Davam edən mövzuda irəliləyiş xətti var.
+- Addımı olmayan mövzu "hazırlanır"-dır: siyahıdadır, keçid deyil ("Tezliklə").
+- İlk açılan bölmə işi qalan birincidir.
+- Nümunə datada artboard-dakı "Nümunə məzmun…" qeydi çıxır. Dərslik istinadı varsa başlığın altındadır.
+
+**Mövzu simulyasiyası** (`/kurikulum/<sinif>/<mövzu>/`):
+- `SimulationShell` mövzunun şəxsiyyət, dövlət və müharibə addımlarını öz sırası ilə danışır (`src/features/curriculum/topic.ts`). Dövlət mərhələləri və müharibə günləri üçün adapterlər (`stateAdapter.ts`, `conflictAdapter.ts`) indi yazıldı. Ortaq xəritələmə `stepAdapter.ts`-dədir (refaktorinq commit-i).
+- Addım öz simulyasiyasını tanıyır (`ShellStep.owner`): başlıqda adı, "…: bütün simulyasiya" çipi həmin addıma aparır.
+- Addımın öyrənmə event-ləri, möhürləri və quiz cavabları öz simulyasiyasına yazılır. Backend yalnız şəxsiyyət, müharibə və dövlət sahibini qəbul edir, ona görə mövzunun öz `simulation_started/abandoned/completed` event-i yoxdur.
+- Şəxsiyyət addımında portret və yaş qalır, dövlət addımında yoxdur. Addım zolağının başlığı: "Mövzunun mərhələləri".
+
+**Mövzunun sonu** (`/final/`): addımların öz datasından quiz (şəxsiyyət finalının 4 növü), "Növbəti mövzu" (sinifdə növbəti açıla bilən mövzu, bölmələr arası), mövzunun simulyasiyaları.
+Son addıma çatıb finalı açmaq mövzunu tamamlayır.
+
+**İrəliləyiş:** açar `topic:<slug>` (`tarix:progress`). Hər quizin ən yaxşı nəticəsi saxlanılır (`quizzes`), tam nəticə əvvəlki kimi nişan qazandırır.
+
+**Sinif kodu:** şagird kodu bir dəfə yazır, `tarix:prefs`-də bu cihazda qalır. Analitika onu tabda müəllim linki (`?class=`) yoxdursa göndərir.
+ADR-0020 kodu yalnız linkdən götürürdü. Plan §8 (`usePrefsStore`: sinif kodu) buna görə genişləndi: kod şagirdin öz seçimidir, ad soruşulmur.
+
+**Zaman şkalası:** sinif çipi datada həmin sinfin mövzuları olanda aktivləşir.
+- Yalnız mövzuların danışdığı hadisələr qalır (backend-in `/timeline?grade=` kimi). Ox sinfin illərinə yaxınlaşır, `?grade=` ünvanda qalır.
+- Data yoxdursa çiplər əvvəlki kimi passivdir.
+
+**Qərarlar və açıq qalanlar:**
+- **"Müəllimin təyin etdiyi mövzu" kartı yoxdur:** təyinat müəllim panelindən gəlir (B3, mərhələ 13). Kod daxil ediləndə qutu bunu deyir. Kartın yeri artboard-dakı kimi mövzu siyahısının üstüdür.
+- **Mövzu route-u data olmadan:** statik export hər dinamik route üçün ən azı bir səhifə istəyir. Mövzu yoxdursa `/kurikulum/8/movzu-hazirlanir/` not-found səhifəsi build olunur, heç yerdən ona keçid yoxdur.
+- Dövlət və müharibə addımlarının öz şablonları (`territory`, `liberation`) mərhələ 8–9-dadır. İndi xəritə onları yer kimi göstərir, dövlət addımının dəqiq hadisələri (`events`, `keyFacts`) hələ çıxmır.
+- Dövlət addımının "bütün simulyasiya" keçidi hələ köhnə `/states/<id>/`-dir (`ROUTES`), mərhələ 8-də yeni ünvana keçəcək.
+- Addımın "Dərslik: 8-ci sinif, § 12" istinadı (backend `curriculum[]`) şəxsiyyət simulyasiyasında hələ göstərilmir: real kurikulum datası gələndə əlavə olunacaq.
+- e2e: adi build boş vəziyyəti yoxlayır. Tam axın `CURRICULUM_SAMPLE=1 npm run build && CURRICULUM_SAMPLE=1 npx playwright test` ilə yoxlanılır (mövzu səhifələri axe siyahısına da düşür).
 
