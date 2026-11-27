@@ -231,7 +231,8 @@ keçidlər ani olur. Real GPU-da (Intel Iris Xe) marşrut animasiyası 60 fps g�
 | `/az/sexsiyyetler/<id>/` | Şəxsiyyət simulyasiyası yeni `SimulationShell`-də (`?step=`, `?mode=story|learn`, `?legends=0`). Xəritə MapLibre-dir (dövr stili, ərazi snapshot-ları, marşrut), WebGL olmayanda sxematik SVG |
 | `/az/sexsiyyetler/<id>/final/` | Final: bütün həyat marşrutu, datadan hesablanan rəqəmlər, 4 növ quiz (çoxseçimli, fakt/rəvayət, xronoloji sıra, xəritədə tap), yeni pasport möhürləri |
 | `/az/pasport/` | Tarix pasportu: simulyasiyalarda keçilən şəhərlərin möhürləri (yalnız bu cihazda, `tarix:passport`) |
-| `/az/doyusler/<id>/`, `…/gun/`, `/az/dovletler/<id>/`, `/az/mekanlar/<id>/`, `/az/zaman/`, `/az/muqayise/`, `/az/muellim/` | Yeni dizaynın skeletləri: ekran öz mərhələsində qurulur, o vaxta qədər köhnə səhifəyə keçid verir |
+| `/az/zaman/` | Zaman şkalası (`?year=`, `?layers=`): ilin siyasi xəritəsi, hökmdar paneli, çəkili dövr oxu, dövlətlər, hadisələr və şəxsiyyətlər cərgələri. Köhnə `/az/timeline/` bura yönləndirir |
+| `/az/doyusler/<id>/`, `…/gun/`, `/az/dovletler/<id>/`, `/az/mekanlar/<id>/`, `/az/muqayise/`, `/az/muellim/` | Yeni dizaynın skeletləri: ekran öz mərhələsində qurulur, o vaxta qədər köhnə səhifəyə keçid verir |
 | `/az/conflicts/<id>/` | "Şanlı Zəfər tariximiz": 44 günlük Vətən müharibəsi (köhnə UI) |
 | `/az/states/<id>/` | Dövlət simulyasiyası, ilk olaraq Əfşarlar (köhnə UI) |
 | `/az/persons/<id>/`, `/az/person/<id>/` | Köhnə ünvanlar, `?step=` saxlanmaqla `/az/sexsiyyetler/<id>/`-ə yönləndirir |
@@ -241,7 +242,7 @@ Mühərrik xəritəni, timeline-ı, mood və səsi, start ekranını, proqresi, 
 Step-in nə olduğunu (həyat hadisəsi, müharibə günü, dövlət mərhələsi) kateqoriya adapteri təyin edir:
 HUD sayğacları (`counters`), step paneli (`renderStep`) və final paneli (`renderFinal`).
 Hər step `EngineStep` sahələrinə malikdir (`src/features/engine/types.ts`): `id`, `year`, `title`, `mood`, `location`, `zoom`,
-`route`, `snapshotId`, `battle`, `related`. Şəxsiyyətlər üçün adapter `src/features/simulation/PersonSimulation.tsx`-dir.
+`route`, `snapshotId`, `battle`, `related`. Şəxsiyyətlər artıq yeni `SimulationShell`-dədir (`src/features/simulation-shell/`), köhnə mühərrik dövlət və müharibə üçün qalır.
 
 ### Çarpaz keçidlər (`EntityRef`)
 

@@ -357,7 +357,8 @@ Funksionallıq və refaktorinq ayrı commit-lərdə. `ARCHITECTURE.md` yerinə f
 | 4 | Xəritə | ✅ 2026-11-24 |
 | 5 | Şəxsiyyət simulyasiyası + final | ✅ 2026-11-24 |
 | B1 | Backend: şablon, era çəkisi və fənni, tema `ui` | ✅ 2026-11-24, [ARCHITECTURE §23](ARCHITECTURE.md) |
-| 6–15 | | gözləyir |
+| 6 | Zaman şkalası | ✅ 2026-11-27 |
+| 7–15 | | gözləyir |
 
 ### Mərhələ 1: dizayn sistemi
 
@@ -487,3 +488,26 @@ Animasiya bitmədən "növbəti" basılanda cari animasiya dərhal sona çatır,
 - Müəllim rejimi (böyük şrift, pult): mərhələ 13. E2E testi `test.fixme`.
 - Səsli nəql pleyeri: datada hələ nəql faylı yoxdur, mərhələ 12-də.
 - Qlossari terminləri mətnin içində deyil, "Ətraflı"da siyahıdır.
+
+### Mərhələ 6: zaman şkalası
+
+**Ox** (`src/lib/timeScale.ts`, unit testli): parçalı-xətti. Hər dövr `illər × weight` qədər en tutur (`era.weight`, B1, yoxdursa 1).
+Heç bir dövrün əhatə etmədiyi illər dar boşluqdur (`GAP_WEIGHT` 0.15). E.ə. illər mənfidir, 0-cı il yoxdur. `view` ilə oxun bir hissəsinə yaxınlaşmaq olur.
+Testlər: çəkilər, hər il üçün `xToYear(yearToX(y)) = y`, sərhədlər, sıxışdırma, zoom, e.ə. 1 → 1 keçidi.
+
+**Ekran** (`/zaman/`, `src/features/timeline/`):
+- Yuxarı: ilin siyasi xəritəsi (MapLibre, dövrün stili, snapshot crossfade, həmin ilin adı ilə paytaxtlar, ilin hadisələri düymə kimi). Qatlar: sərhədlər, paytaxtlar, hadisələr, rəvayətlər. Zoom düymələri. Xəritə sürgü 120 ms dayandıqdan sonra yenilənir, tema 320 ms sonra.
+- Heç bir snapshot-un 30 il içində əhatə etmədiyi il üçün xəritə boş qalır, "siyasi xəritə hazırlanır" yazısı və ən yaxın xəritəli illərə keçid çıxır.
+- İl kartı: böyük il, dövrün adı, həmin il yaşayan şəxsiyyətlər yaşları ilə (simulyasiyaya keçid).
+- **Hökmdar paneli** (`src/features/ruler-panel/`): xəritədə dövlətə və ya onun adına (artıq düymədir, klaviatura ilə də) klik. Hökmdar, portret, hakimiyyət illəri, paytaxt, vəziyyət, rəqiblər, müttəfiqlər, din, dil, xəritəyə görə ərazi, mənbələr. "Həyatını yaşa" və "Dövlət simulyasiyası" düymələri, olmayanda passiv "tezliklə". Data yoxdursa "məlumat hazırlanır". Eyni panel simulyasiya xəritəsində addımın ili ilə açılır: "Bu dövlətin hökmdarı sənsən", döyüşdə tərəf qeydi.
+- Aşağı: dövr zolaqları (klik dövrə animasiyalı yaxınlaşır), üç cərgə və il göstəricisi. Göstərici `role="slider"`-dir: ← → bir il, Shift ilə on il, PageUp/PageDown dövr, Home/End. Cərgələr siçan üçündür, klaviatura yolu göstəricidir.
+- URL: `?year=`, `?layers=`. Analitika: `time_slider_used` (sürgü 1.5 s dayananda).
+
+**Qərarlar:**
+- **Dövlətlər cərgəsi datadan:** snapshot-larda Azərbaycanın tarixi regionlarını (`AZERBAIJAN_REGIONS`: Təbriz qrupu, Şirvan, Şəki, Gəncə, Qarabağ, Muğan, Talış, Naxçıvan, Ərdəbil, Abşeron; 2020 üçün `AZE`) tutan dövlətlər, snapshot ilindən növbətinə qədər (ən çox 30 il). 3 cərgəyə sığmayanlar (xanlıqlar dövrü) bir "N dövlət" zolağında birləşir, adları tooltip-dədir.
+- **Sinif filtri və "Ümumi tarix" passivdir:** sinfin hansı dövrləri əhatə etdiyini kurikulum datası deyəcək (B2, mərhələ 7). O vaxta qədər yalnız "Bütün dövrlər" işləyir, uydurma bölgü yoxdur.
+- **Fənn keçidi** dizaynda header-dədir. Sayt header-i layout-dadır, ona görə keçid oxun başlığındadır (sağda, miqyas qeydinin yanında).
+- **Dövr siyahısı datadakı 4 dövrdür** (Ağqoyunlu, Səfəvi, Əfşar, Müstəqil Azərbaycan). Dizayndakı 15 zolaq nümunədir, data gəldikcə avtomatik görünəcək. 1797–1990 hələ boşluqdur.
+- WebGL yoxdursa xəritənin yerində izah çıxır, ox, il kartı və cərgələr işləyir (SVG fallback simulyasiya üçündür, siyasi xəritə çəkmir).
+- Köhnə `/timeline/` `?year=`-i saxlayaraq `/zaman/`-a yönləndirir. Köhnə `TimeExplorer`, `TimeMap` silindi; `data/timeExplorer.ts` backend parity skripti üçün qalır.
+
