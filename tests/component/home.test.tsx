@@ -75,6 +75,6 @@ describe("TimelinePreview", () => {
     // jsdom does not move range inputs with the keyboard; the browser does (e2e).
     fireEvent.change(screen.getByRole("slider", { name: "İl seçimi" }), { target: { value: "1461" } });
     expect(screen.getByTestId("preview-year")).toHaveTextContent("1461");
-    expect(screen.getByTestId("preview-open")).toHaveAttribute("href", "/timeline/?year=1461");
+    expect(screen.getByTestId("preview-open")).toHaveAttribute("href", "/zaman/?year=1461");
   });
 });
