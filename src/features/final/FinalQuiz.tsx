@@ -254,7 +254,7 @@ export function FinalQuiz({ ownerKey, deck, land, simHref, onFinish, about = "li
   const answered = results[qi] ?? null;
   const done = qi >= deck.length;
 
-  if (!deck.length) return <p className="m-0 text-15 text-fg-secondary">{t("empty")}</p>;
+  if (!deck.length) return <p className="m-0 text-15 text-fg-secondary">{about === "topic" ? t("topic.empty") : t("empty")}</p>;
 
   const answer = (a: QuizAnswer) => {
     if (!q || answered) return;

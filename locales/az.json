@@ -771,7 +771,8 @@
       "topic": {
         "great": "Əla! Mövzunu yaxşı mənimsəmisən.",
         "good": "Yaxşı nəticədir, bəzi mərhələlərə yenidən baxa bilərsən.",
-        "low": "Mövzunu yenidən keçməyə dəyər, cavablar mərhələlərdədir."
+        "low": "Mövzunu yenidən keçməyə dəyər, cavablar mərhələlərdədir.",
+        "empty": "Bu mövzu üçün suallar hələ hazırlanmayıb."
       },
       "badge": "Sınaq nişanı: bütün suallara düz cavab",
       "again": "Yenidən",
