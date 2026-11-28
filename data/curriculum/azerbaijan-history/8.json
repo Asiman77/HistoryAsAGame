@@ -1,0 +1,384 @@
+{
+  "id": "azerbaijan-history-8",
+  "subject": "azerbaijan-history",
+  "grade": 8,
+  "title": {
+    "az": "Azərbaycan tarixi, 8-ci sinif"
+  },
+  "textbook": {
+    "title": {
+      "az": "Azərbaycan tarixi, 8-ci sinif üçün dərslik"
+    },
+    "authors": "Yaqub Mahmudlu, Qabil Əliyev, Leyla Hüseynova, Həcər Əlişova, Hafiz Cabbarov, Esmira Musayeva, Sevil Bəhrəmova",
+    "year": 2023,
+    "url": "https://www.trims.edu.az/site/resource.php?id=1639"
+  },
+  "sections": [
+    {
+      "id": "azerbaycan-xvi-esrin-ikinci-yarisi-xvii-esrde",
+      "title": {
+        "az": "Azərbaycan XVI əsrin ikinci yarısı – XVII əsrdə"
+      },
+      "topics": [
+        {
+          "id": "azerbaycan-erazilerinin-osmanlilar-terefinden-isgali",
+          "title": {
+            "az": "Azərbaycan ərazilərinin Osmanlılar tərəfindən işğalı"
+          },
+          "paragraph": "§ 1",
+          "steps": []
+        },
+        {
+          "id": "sah-i-abbasin-islahatlari",
+          "title": {
+            "az": "Şah I Abbasın islahatları"
+          },
+          "paragraph": "§ 2",
+          "steps": []
+        },
+        {
+          "id": "celaliler-herekati-sah-i-abbasin-herbi-ugurlari",
+          "title": {
+            "az": "Cəlalilər hərəkatı. Şah I Abbasın hərbi uğurları"
+          },
+          "paragraph": "§ 3",
+          "steps": []
+        },
+        {
+          "id": "xvi-esrin-ikinci-yarisi-xvii-esrde-sosial-iqtisadi-ve",
+          "title": {
+            "az": "XVI əsrin ikinci yarısı – XVII əsrdə sosial-iqtisadi və ictimai həyat"
+          },
+          "paragraph": "§ 4",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-beynelxalq-ticaret-elaqelerinde",
+          "title": {
+            "az": "Azərbaycan beynəlxalq ticarət əlaqələrində"
+          },
+          "paragraph": "§ 5",
+          "steps": []
+        },
+        {
+          "id": "xvii-esrde-azerbaycan-medeniyyeti",
+          "title": {
+            "az": "XVII əsrdə Azərbaycan mədəniyyəti"
+          },
+          "paragraph": "§ 6",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "azerbaycan-xviii-esrin-birinci-yarisinda",
+      "title": {
+        "az": "Azərbaycan XVIII əsrin birinci yarısında"
+      },
+      "topics": [
+        {
+          "id": "xviii-esrin-evvellerinde-azerbaycanda-iqtisadi-ve-siyasi",
+          "title": {
+            "az": "XVIII əsrin əvvəllərində Azərbaycanda iqtisadi və siyasi vəziyyət"
+          },
+          "paragraph": "§ 7",
+          "steps": [
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1722-isfahan"
+            }
+          ]
+        },
+        {
+          "id": "rusiyanin-xezer-denizi-hovzesine-yuruse-hazirlasmasi",
+          "title": {
+            "az": "Rusiyanın Xəzər dənizi hövzəsinə yürüşə hazırlaşması"
+          },
+          "paragraph": "§ 8",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-torpaqlarinin-iki-imperiya-terefinden",
+          "title": {
+            "az": "Azərbaycan torpaqlarının iki imperiya tərəfindən bölüşdürülməsi"
+          },
+          "paragraph": "§ 9",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-torpaqlari-rusiya-ve-osmanli-dovletlerinin",
+          "title": {
+            "az": "Azərbaycan torpaqları Rusiya və Osmanlı dövlətlərinin hakimiyyəti altında"
+          },
+          "paragraph": "§ 10",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-torpaqlarinin-azad-edilmesi",
+          "title": {
+            "az": "Azərbaycan torpaqlarının azad edilməsi"
+          },
+          "paragraph": "§ 11",
+          "steps": [
+            {
+              "type": "person",
+              "id": "nadir-shah",
+              "stepId": "nadir-baghavard"
+            },
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1735-caucasus"
+            }
+          ]
+        },
+        {
+          "id": "efsar-imperiyasinin-yaranmasi",
+          "title": {
+            "az": "Əfşar imperiyasının yaranması"
+          },
+          "paragraph": "§ 12",
+          "steps": [
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1736-mughan"
+            },
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1738-kandahar"
+            },
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1739-india"
+            },
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1740-turkestan"
+            }
+          ]
+        },
+        {
+          "id": "xviii-esrin-30-40-ci-illerinde-usyanlar",
+          "title": {
+            "az": "XVIII əsrin 30–40-cı illərində üsyanlar"
+          },
+          "paragraph": "§ 13",
+          "steps": []
+        },
+        {
+          "id": "efsar-imperiyasinin-suqutu",
+          "title": {
+            "az": "Əfşar imperiyasının süqutu"
+          },
+          "paragraph": "§ 14",
+          "steps": [
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1747-assassination"
+            },
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1748-fragmentation"
+            },
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1748-khanates"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "azerbaycan-xviii-esrin-ikinci-yarisinda",
+      "title": {
+        "az": "Azərbaycan XVIII əsrin ikinci yarısında"
+      },
+      "topics": [
+        {
+          "id": "azerbaycanda-ilk-musteqil-xanliq",
+          "title": {
+            "az": "Azərbaycanda ilk müstəqil xanlıq"
+          },
+          "paragraph": "§ 15",
+          "steps": []
+        },
+        {
+          "id": "azerbaycanin-cenub-xanliqlari",
+          "title": {
+            "az": "Azərbaycanın cənub xanlıqları"
+          },
+          "paragraph": "§ 16",
+          "steps": []
+        },
+        {
+          "id": "quba-xanligi",
+          "title": {
+            "az": "Quba xanlığı"
+          },
+          "paragraph": "§ 17",
+          "steps": []
+        },
+        {
+          "id": "simal-serqi-azerbaycan-torpaqlarinin-birlesdirilmesi",
+          "title": {
+            "az": "Şimal-şərqi Azərbaycan torpaqlarının birləşdirilməsi"
+          },
+          "paragraph": "§ 18",
+          "steps": []
+        },
+        {
+          "id": "qarabag-beylerbeyilikden-xanliga",
+          "title": {
+            "az": "Qarabağ – bəylərbəyilikdən xanlığa"
+          },
+          "paragraph": "§ 19",
+          "steps": []
+        },
+        {
+          "id": "qerbi-azerbaycan-xanliqlari",
+          "title": {
+            "az": "Qərbi Azərbaycan xanlıqları"
+          },
+          "paragraph": "§ 20",
+          "steps": []
+        },
+        {
+          "id": "ikihakimiyyetli-xanliqlar",
+          "title": {
+            "az": "İkihakimiyyətli xanlıqlar"
+          },
+          "paragraph": "§ 21",
+          "steps": []
+        },
+        {
+          "id": "baki-lenkeran-ve-derbend-xanliqlari",
+          "title": {
+            "az": "Bakı, Lənkəran və Dərbənd xanlıqları"
+          },
+          "paragraph": "§ 22",
+          "steps": []
+        },
+        {
+          "id": "camaat-sultanliqlar-ve-meliklikler",
+          "title": {
+            "az": "Camaat, sultanlıqlar və məlikliklər"
+          },
+          "paragraph": "§ 23",
+          "steps": []
+        },
+        {
+          "id": "aga-mehemmed-xan-qacarin-birlesdirme-siyaseti",
+          "title": {
+            "az": "Ağa Məhəmməd xan Qacarın birləşdirmə siyasəti"
+          },
+          "paragraph": "§ 24",
+          "steps": []
+        },
+        {
+          "id": "xviii-esrin-ikinci-yarisinda-azerbaycanda-ictimai-heyat",
+          "title": {
+            "az": "XVIII əsrin ikinci yarısında Azərbaycanda ictimai həyat"
+          },
+          "paragraph": "§ 25",
+          "steps": []
+        },
+        {
+          "id": "iqtisadi-veziyyet-senetkarliq-ticaret",
+          "title": {
+            "az": "İqtisadi vəziyyət. Sənətkarlıq. Ticarət"
+          },
+          "paragraph": "§ 26",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "azerbaycan-xix-esrin-evvellerinde",
+      "title": {
+        "az": "Azərbaycan XIX əsrin əvvəllərində"
+      },
+      "topics": [
+        {
+          "id": "rusiyanin-azerbaycan-torpaqlarinin-isgalina-baslamasi",
+          "title": {
+            "az": "Rusiyanın Azərbaycan torpaqlarının işğalına başlaması"
+          },
+          "paragraph": "§ 27",
+          "steps": []
+        },
+        {
+          "id": "car-balakenin-ve-gence-xanliginin-rusiya-terefinden-isgali",
+          "title": {
+            "az": "Car-Balakənin və Gəncə xanlığının Rusiya tərəfindən işğalı"
+          },
+          "paragraph": "§ 28",
+          "steps": []
+        },
+        {
+          "id": "qarabag-seki-ve-samaxi-xanliqlarinin-rusiya-terefinden",
+          "title": {
+            "az": "Qarabağ, Şəki və Şamaxı xanlıqlarının Rusiya tərəfindən işğalı"
+          },
+          "paragraph": "§ 29",
+          "steps": []
+        },
+        {
+          "id": "derbend-baki-ve-quba-xanliqlarinin-isgali",
+          "title": {
+            "az": "Dərbənd, Bakı və Quba xanlıqlarının işğalı"
+          },
+          "paragraph": "§ 30",
+          "steps": []
+        },
+        {
+          "id": "gulustan-muqavilesi",
+          "title": {
+            "az": "Gülüstan müqaviləsi"
+          },
+          "paragraph": "§ 31",
+          "steps": []
+        },
+        {
+          "id": "azerbaycanin-simal-erazilerinde-rusiyanin-mustemleke-rejimi",
+          "title": {
+            "az": "Azərbaycanın şimal ərazilərində Rusiyanın müstəmləkə rejimi"
+          },
+          "paragraph": "§ 32",
+          "steps": []
+        },
+        {
+          "id": "naxcivan-ve-irevan-xanliqlarinin-isgali",
+          "title": {
+            "az": "Naxçıvan və İrəvan xanlıqlarının işğalı"
+          },
+          "paragraph": "§ 33",
+          "steps": []
+        },
+        {
+          "id": "turkmencay-muqavilesi",
+          "title": {
+            "az": "Türkmənçay müqaviləsi"
+          },
+          "paragraph": "§ 34",
+          "steps": []
+        },
+        {
+          "id": "xviii-esrde-ve-xix-esrin-evvelinde-azerbaycan-medeniyyeti",
+          "title": {
+            "az": "XVIII əsrdə və XIX əsrin əvvəlində Azərbaycan mədəniyyəti"
+          },
+          "paragraph": "§ 35",
+          "steps": []
+        }
+      ]
+    }
+  ]
+}

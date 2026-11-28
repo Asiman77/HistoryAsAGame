@@ -1,0 +1,398 @@
+{
+  "id": "azerbaijan-history-7",
+  "subject": "azerbaijan-history",
+  "grade": 7,
+  "title": {
+    "az": "Azərbaycan tarixi, 7-ci sinif"
+  },
+  "textbook": {
+    "title": {
+      "az": "Azərbaycan tarixi, 7-ci sinif üçün dərslik"
+    },
+    "authors": "Yaqub Mahmudlu, Qabil Əliyev, Leyla Hüseynova, Sabir Ağayev, Sevil Bəhrəmova, Həcər Əlişova, Babək Xubyarov",
+    "year": 2018,
+    "publisher": "Təhsil Nəşriyyat-Poliqrafiya",
+    "url": "https://trims.edu.az/noduploads/book/quot-azarbaycan-tarixi-quot-fanni-uzra-7-ci-sinif-ucun-darslik.pdf"
+  },
+  "sections": [
+    {
+      "id": "azerbaycan-erken-orta-esrlerde",
+      "title": {
+        "az": "Azərbaycan erkən orta əsrlərdə"
+      },
+      "topics": [
+        {
+          "id": "feodal-munasibetlerinin-inkisafi",
+          "title": {
+            "az": "Feodal münasibətlərinin inkişafı"
+          },
+          "paragraph": "§ 1",
+          "steps": []
+        },
+        {
+          "id": "ereb-isgalina-qarsi-mubarize-cavansir",
+          "title": {
+            "az": "Ərəb işğalına qarşı mübarizə. Cavanşir"
+          },
+          "paragraph": "§ 2",
+          "steps": []
+        },
+        {
+          "id": "xilafet-dovrunde-idareetme-torpaq-ve-vergi-siyaseti",
+          "title": {
+            "az": "Xilafət dövründə idarəetmə, torpaq və vergi siyasəti"
+          },
+          "paragraph": "§ 3",
+          "steps": []
+        },
+        {
+          "id": "xurremiler-herekati-babek",
+          "title": {
+            "az": "Xürrəmilər hərəkatı. Babək"
+          },
+          "paragraph": "§ 4",
+          "steps": []
+        },
+        {
+          "id": "islamin-milli-ve-medeni-inkisafa-tesiri",
+          "title": {
+            "az": "İslamın milli və mədəni inkişafa təsiri"
+          },
+          "paragraph": "§ 5",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "azerbaycan-dovletciliyinin-dircelisi",
+      "title": {
+        "az": "Azərbaycan dövlətçiliyinin dirçəlişi"
+      },
+      "topics": [
+        {
+          "id": "musteqil-dovletciliyin-berpasi",
+          "title": {
+            "az": "Müstəqil dövlətçiliyin bərpası"
+          },
+          "paragraph": "§ 6",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-vahid-dovlet-terkibinde",
+          "title": {
+            "az": "Azərbaycan vahid dövlət tərkibində"
+          },
+          "paragraph": "§ 7",
+          "steps": []
+        },
+        {
+          "id": "xudaferin-korpusunun-birlesdirdiyi-iki-azerbaycan-dovleti",
+          "title": {
+            "az": "Xudafərin körpüsünün birləşdirdiyi iki Azərbaycan dövləti"
+          },
+          "paragraph": "§ 8",
+          "steps": []
+        },
+        {
+          "id": "slavyanlarin-hucumlari",
+          "title": {
+            "az": "Slavyanların hücumları"
+          },
+          "paragraph": "§ 9",
+          "steps": []
+        },
+        {
+          "id": "ehalinin-mesguliyyeti-ve-heyat-terzi",
+          "title": {
+            "az": "Əhalinin məşğuliyyəti və həyat tərzi"
+          },
+          "paragraph": "§ 10",
+          "steps": []
+        },
+        {
+          "id": "ix-xi-esrlerde-azerbaycan-medeniyyeti",
+          "title": {
+            "az": "IX–XI əsrlərdə Azərbaycan mədəniyyəti"
+          },
+          "paragraph": "§ 11",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "oguz-selcuq-axinlari-ve-azerbaycan",
+      "title": {
+        "az": "Oğuz-səlcuq axınları və Azərbaycan"
+      },
+      "topics": [
+        {
+          "id": "oguz-selcuq-axinlari",
+          "title": {
+            "az": "Oğuz-səlcuq axınları"
+          },
+          "paragraph": "§ 12",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-xii-xiii-esrin-evvellerinde",
+          "title": {
+            "az": "Azərbaycan XII–XIII əsrin əvvəllərində"
+          },
+          "paragraph": "§ 13",
+          "steps": []
+        },
+        {
+          "id": "xi-esrin-ortalari-xii-esrde-medeniyyet",
+          "title": {
+            "az": "XI əsrin ortaları – XII əsrdə mədəniyyət"
+          },
+          "paragraph": "§ 14",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "yadelli-isgalcilara-qarsi-mubarize",
+      "title": {
+        "az": "Yadelli işğalçılara qarşı mübarizə"
+      },
+      "topics": [
+        {
+          "id": "monqol-yuruslerine-qarsi-mubarize",
+          "title": {
+            "az": "Monqol yürüşlərinə qarşı mübarizə"
+          },
+          "paragraph": "§ 15",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-elxaniler-dovletinin-merkezi-kimi",
+          "title": {
+            "az": "Azərbaycan Elxanilər dövlətinin mərkəzi kimi"
+          },
+          "paragraph": "§ 16",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-ugrunda-mubarize",
+          "title": {
+            "az": "Azərbaycan uğrunda mübarizə"
+          },
+          "paragraph": "§ 17",
+          "steps": []
+        },
+        {
+          "id": "sirvansahlar-dovleti-ve-seki-hakimliyi-xiii-xiv-esrin",
+          "title": {
+            "az": "Şirvanşahlar dövləti və Şəki hakimliyi XIII–XIV əsrin başlanğıcında"
+          },
+          "paragraph": "§ 18",
+          "steps": []
+        },
+        {
+          "id": "xiii-xiv-esrlerde-medeniyyetin-inkisafi",
+          "title": {
+            "az": "XIII–XIV əsrlərdə mədəniyyətin inkişafı"
+          },
+          "paragraph": "§ 19",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "vahid-azerbaycan-ugrunda",
+      "title": {
+        "az": "Vahid Azərbaycan uğrunda"
+      },
+      "topics": [
+        {
+          "id": "qara-yusif-ve-varisleri",
+          "title": {
+            "az": "Qara Yusif və varisləri"
+          },
+          "paragraph": "§ 20",
+          "steps": [
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-jahan-shah"
+            }
+          ]
+        },
+        {
+          "id": "hesen-padsah-ve-varisleri",
+          "title": {
+            "az": "Həsən padşah və varisləri"
+          },
+          "paragraph": "§ 21",
+          "steps": [
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-amid"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-tigris"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-jahan-shah"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-abu-said"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-tabriz"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-venice"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-otlukbeli"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-qanunname"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-death"
+            }
+          ]
+        },
+        {
+          "id": "erdebil-hakimliyi",
+          "title": {
+            "az": "Ərdəbil hakimliyi"
+          },
+          "paragraph": "§ 22",
+          "steps": [
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-birth"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-father-killed"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-istakhr"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-flight-gilan"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-lahijan-education"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-leaves-gilan"
+            }
+          ]
+        },
+        {
+          "id": "xv-esrde-ictimai-siyasi-ve-iqtisadi-veziyyet",
+          "title": {
+            "az": "XV əsrdə ictimai-siyasi və iqtisadi vəziyyət"
+          },
+          "paragraph": "§ 23",
+          "steps": []
+        },
+        {
+          "id": "merkezlesdirilmis-vahid-azerbaycan-dovleti",
+          "title": {
+            "az": "Mərkəzləşdirilmiş vahid Azərbaycan dövləti"
+          },
+          "paragraph": "§ 24",
+          "steps": [
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-erzincan"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-cabani"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-sharur"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-coronation"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-hamadan"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-baghdad"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-merv"
+            }
+          ]
+        },
+        {
+          "id": "sefevi-osmanli-muharibelerinin-baslanmasi",
+          "title": {
+            "az": "Səfəvi-Osmanlı müharibələrinin başlanması"
+          },
+          "paragraph": "§ 25",
+          "steps": [
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-chaldiran"
+            }
+          ]
+        },
+        {
+          "id": "xv-xvi-esrlerde-azerbaycan-medeniyyeti",
+          "title": {
+            "az": "XV–XVI əsrlərdə Azərbaycan mədəniyyəti"
+          },
+          "paragraph": "§ 26",
+          "steps": [
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-khatai"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

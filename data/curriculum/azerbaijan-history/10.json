@@ -1,0 +1,575 @@
+{
+  "id": "azerbaijan-history-10",
+  "subject": "azerbaijan-history",
+  "grade": 10,
+  "title": {
+    "az": "Azərbaycan tarixi, 10-cu sinif"
+  },
+  "textbook": {
+    "title": {
+      "az": "Azərbaycan tarixi, 10-cu sinif üçün dərslik"
+    },
+    "authors": "Təvəkkül Əliyev, Pərviz Ağalarov, Niyaməddin Quliyev, Elşən Qasımov, Faiq Babayev, Elnur Hüseynov, Kamran Əsədov, Rafiq Məmmədov",
+    "year": 2017,
+    "publisher": "Şərq-Qərb",
+    "url": "https://trims.edu.az/noduploads/book/quot-azarbaycan-tarixi-quot-fanni-uzra-10-cu-sinif-ucun-darslik.pdf"
+  },
+  "sections": [
+    {
+      "id": "azerbaycan-qedim-dovrde",
+      "title": {
+        "az": "Azərbaycan qədim dövrdə"
+      },
+      "topics": [
+        {
+          "id": "ibtidai-icma-cemiyyeti",
+          "title": {
+            "az": "İbtidai icma cəmiyyəti"
+          },
+          "paragraph": "§ 1",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-erazisinde-ilk-tayfa-ittifaqlari-ve-dovlet",
+          "title": {
+            "az": "Azərbaycan ərazisində ilk tayfa ittifaqları və dövlət qurumları"
+          },
+          "paragraph": "§ 2",
+          "steps": []
+        },
+        {
+          "id": "ilk-azerbaycan-dovleti-manna",
+          "title": {
+            "az": "İlk Azərbaycan dövləti – Manna"
+          },
+          "paragraph": "§ 3",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-eradan-evvel-vii-iv-esrlerde",
+          "title": {
+            "az": "Azərbaycan eradan əvvəl VII–IV əsrlərdə"
+          },
+          "paragraph": "§ 4",
+          "steps": []
+        },
+        {
+          "id": "atropatena-dovleti-10",
+          "title": {
+            "az": "Atropatena dövləti"
+          },
+          "paragraph": "§ 5",
+          "steps": []
+        },
+        {
+          "id": "albaniya-dovleti-10",
+          "title": {
+            "az": "Albaniya dövləti"
+          },
+          "paragraph": "§ 6",
+          "steps": []
+        },
+        {
+          "id": "medeniyyet-10",
+          "title": {
+            "az": "Mədəniyyət"
+          },
+          "paragraph": "§ 7",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "azerbaycan-iii-xi-esrlerde",
+      "title": {
+        "az": "Azərbaycan III–XI əsrlərdə"
+      },
+      "topics": [
+        {
+          "id": "azerbaycan-sasaniler-dovrunde",
+          "title": {
+            "az": "Azərbaycan Sasanilər dövründə"
+          },
+          "paragraph": "§ 8",
+          "steps": []
+        },
+        {
+          "id": "girdiman-dovleti-cavansir",
+          "title": {
+            "az": "Girdiman dövləti. Cavanşir"
+          },
+          "paragraph": "§ 9",
+          "steps": []
+        },
+        {
+          "id": "azerbaycanin-ereb-xilafetinin-terkibine-daxil-olmasi",
+          "title": {
+            "az": "Azərbaycanın Ərəb xilafətinin tərkibinə daxil olması"
+          },
+          "paragraph": "§ 10",
+          "steps": []
+        },
+        {
+          "id": "xilafetin-azerbaycandaki-siyaseti",
+          "title": {
+            "az": "Xilafətin Azərbaycandakı siyasəti"
+          },
+          "paragraph": "§ 11",
+          "steps": []
+        },
+        {
+          "id": "azadliq-herekati-babek",
+          "title": {
+            "az": "Azadlıq hərəkatı. Babək"
+          },
+          "paragraph": "§ 12",
+          "steps": []
+        },
+        {
+          "id": "sirvansahlar-dovleti-derbend-emirliyi",
+          "title": {
+            "az": "Şirvanşahlar dövləti. Dərbənd əmirliyi"
+          },
+          "paragraph": "§ 13",
+          "steps": []
+        },
+        {
+          "id": "saci-salari-ve-revvadi-dovletleri",
+          "title": {
+            "az": "Saci, Salari və Rəvvadi dövlətləri"
+          },
+          "paragraph": "§ 14",
+          "steps": []
+        },
+        {
+          "id": "seddadiler-dovleti-tiflis-muselman-emirliyi",
+          "title": {
+            "az": "Şəddadilər dövləti. Tiflis müsəlman əmirliyi"
+          },
+          "paragraph": "§ 15",
+          "steps": []
+        },
+        {
+          "id": "erken-orta-esrlerde-sosial-iqtisadi-heyat",
+          "title": {
+            "az": "Erkən orta əsrlərdə sosial-iqtisadi həyat"
+          },
+          "paragraph": "§ 16",
+          "steps": []
+        },
+        {
+          "id": "medeniyyet-10-17",
+          "title": {
+            "az": "Mədəniyyət"
+          },
+          "paragraph": "§ 17",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "azerbaycan-xi-xv-esrlerde",
+      "title": {
+        "az": "Azərbaycan XI–XV əsrlərdə"
+      },
+      "topics": [
+        {
+          "id": "azerbaycan-ve-selcuqlar",
+          "title": {
+            "az": "Azərbaycan və Səlcuqlar"
+          },
+          "paragraph": "§ 18",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-atabeyleri-eldenizler-dovleti",
+          "title": {
+            "az": "Azərbaycan Atabəyləri (Eldənizlər) dövləti"
+          },
+          "paragraph": "§ 19",
+          "steps": []
+        },
+        {
+          "id": "sirvansahlar-xi-xiv-esrlerde",
+          "title": {
+            "az": "Şirvanşahlar XI–XIV əsrlərdə"
+          },
+          "paragraph": "§ 20",
+          "steps": []
+        },
+        {
+          "id": "intibah-medeniyyeti",
+          "title": {
+            "az": "İntibah mədəniyyəti"
+          },
+          "paragraph": "§ 21",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-monqol-yurusleri-dovrunde",
+          "title": {
+            "az": "Azərbaycan monqol yürüşləri dövründə"
+          },
+          "paragraph": "§ 22",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-hulakuler-dovletinin-terkibinde",
+          "title": {
+            "az": "Azərbaycan Hülakülər dövlətinin tərkibində"
+          },
+          "paragraph": "§ 23",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-celairiler-ve-teymurilerin-hakimiyyeti-dovrunde",
+          "title": {
+            "az": "Azərbaycan Cəlairilər və Teymurilərin hakimiyyəti dövründə"
+          },
+          "paragraph": "§ 24",
+          "steps": []
+        },
+        {
+          "id": "qaraqoyunlu-dovleti",
+          "title": {
+            "az": "Qaraqoyunlu dövləti"
+          },
+          "paragraph": "§ 25",
+          "steps": [
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-jahan-shah"
+            }
+          ]
+        },
+        {
+          "id": "agqoyunlu-dovleti",
+          "title": {
+            "az": "Ağqoyunlu dövləti"
+          },
+          "paragraph": "§ 26",
+          "steps": [
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-amid"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-tigris"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-jahan-shah"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-abu-said"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-tabriz"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-venice"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-otlukbeli"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-qanunname"
+            },
+            {
+              "type": "person",
+              "id": "uzun-hasan",
+              "stepId": "uzun-hasan-death"
+            }
+          ]
+        },
+        {
+          "id": "sirvansahlar-dovleti-xiv-esrin-sonlari-xv-esrin-evvellerinde",
+          "title": {
+            "az": "Şirvanşahlar dövləti XIV əsrin sonları – XV əsrin əvvəllərində"
+          },
+          "paragraph": "§ 27",
+          "steps": []
+        },
+        {
+          "id": "seki-hakimliyi-sefevilerin-erdebil-hakimliyi",
+          "title": {
+            "az": "Şəki hakimliyi. Səfəvilərin Ərdəbil hakimliyi"
+          },
+          "paragraph": "§ 28",
+          "steps": [
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-birth"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-father-killed"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-istakhr"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-flight-gilan"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-lahijan-education"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-leaves-gilan"
+            }
+          ]
+        },
+        {
+          "id": "xiii-xv-esrlerde-medeniyyet",
+          "title": {
+            "az": "XIII–XV əsrlərdə mədəniyyət"
+          },
+          "paragraph": "§ 29",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "azerbaycan-xvi-xviii-esrlerde",
+      "title": {
+        "az": "Azərbaycan XVI–XVIII əsrlərdə"
+      },
+      "topics": [
+        {
+          "id": "sefeviler-dovletinin-yaranmasi-ve-yukselisi",
+          "title": {
+            "az": "Səfəvilər dövlətinin yaranması və yüksəlişi"
+          },
+          "paragraph": "§ 30",
+          "steps": [
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-erzincan"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-cabani"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-sharur"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-coronation"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-hamadan"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-baghdad"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-merv"
+            },
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-chaldiran"
+            }
+          ]
+        },
+        {
+          "id": "sefeviler-dovleti-xvi-esrin-son-rubunde",
+          "title": {
+            "az": "Səfəvilər dövləti XVI əsrin son rübündə"
+          },
+          "paragraph": "§ 31",
+          "steps": []
+        },
+        {
+          "id": "sefeviler-dovleti-sah-i-abbasin-hakimiyyeti-illerinde",
+          "title": {
+            "az": "Səfəvilər dövləti Şah I Abbasın hakimiyyəti illərində"
+          },
+          "paragraph": "§ 32",
+          "steps": []
+        },
+        {
+          "id": "sefeviler-dovleti-xvii-esrin-ikinci-yarisi-xviii-esrin",
+          "title": {
+            "az": "Səfəvilər dövləti XVII əsrin ikinci yarısı – XVIII əsrin əvvəllərində"
+          },
+          "paragraph": "§ 33",
+          "steps": [
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1722-isfahan"
+            }
+          ]
+        },
+        {
+          "id": "azerbaycanin-sosial-iqtisadi-inkisaf-xususiyyetleri",
+          "title": {
+            "az": "Azərbaycanın sosial-iqtisadi inkişaf xüsusiyyətləri"
+          },
+          "paragraph": "§ 34",
+          "steps": []
+        },
+        {
+          "id": "sefeviler-dovrunde-medeniyyet",
+          "title": {
+            "az": "Səfəvilər dövründə mədəniyyət"
+          },
+          "paragraph": "§ 35",
+          "steps": [
+            {
+              "type": "person",
+              "id": "shah-ismayil",
+              "stepId": "ismayil-khatai"
+            }
+          ]
+        },
+        {
+          "id": "azerbaycan-torpaqlarinin-azad-olunmasi-ugrunda-mubarize",
+          "title": {
+            "az": "Azərbaycan torpaqlarının azad olunması uğrunda mübarizə. Nadir şah"
+          },
+          "paragraph": "§ 36",
+          "steps": [
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1726-nadir-rise"
+            },
+            {
+              "type": "person",
+              "id": "nadir-shah",
+              "stepId": "nadir-baghavard"
+            },
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1735-caucasus"
+            },
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1736-mughan"
+            },
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1739-india"
+            },
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1747-assassination"
+            },
+            {
+              "type": "state",
+              "id": "afshar",
+              "stepId": "1748-khanates"
+            }
+          ]
+        },
+        {
+          "id": "quba-xanliginin-birlesdirme-siyaseti",
+          "title": {
+            "az": "Quba xanlığının birləşdirmə siyasəti"
+          },
+          "paragraph": "§ 37",
+          "steps": []
+        },
+        {
+          "id": "seki-xanligi-car-balaken-camaatligi",
+          "title": {
+            "az": "Şəki xanlığı. Car-Balakən camaatlığı"
+          },
+          "paragraph": "§ 38",
+          "steps": []
+        },
+        {
+          "id": "qarabag-xanligi",
+          "title": {
+            "az": "Qarabağ xanlığı"
+          },
+          "paragraph": "§ 39",
+          "steps": []
+        },
+        {
+          "id": "naxcivan-ve-irevan-xanliqlari",
+          "title": {
+            "az": "Naxçıvan və İrəvan xanlıqları"
+          },
+          "paragraph": "§ 40",
+          "steps": []
+        },
+        {
+          "id": "cenub-xanliqlari",
+          "title": {
+            "az": "Cənub xanlıqları"
+          },
+          "paragraph": "§ 41",
+          "steps": []
+        },
+        {
+          "id": "agamehemmed-sah-qacarin-merkezlesdirme-siyaseti",
+          "title": {
+            "az": "Ağaməhəmməd şah Qacarın mərkəzləşdirmə siyasəti"
+          },
+          "paragraph": "§ 42",
+          "steps": []
+        },
+        {
+          "id": "xanliqlar-dovrunde-sosial-iqtisadi-heyat",
+          "title": {
+            "az": "Xanlıqlar dövründə sosial-iqtisadi həyat"
+          },
+          "paragraph": "§ 43",
+          "steps": []
+        },
+        {
+          "id": "xanliqlar-dovrunde-medeniyyet",
+          "title": {
+            "az": "Xanlıqlar dövründə mədəniyyət"
+          },
+          "paragraph": "§ 44",
+          "steps": []
+        }
+      ]
+    }
+  ]
+}

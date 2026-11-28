@@ -1,0 +1,418 @@
+{
+  "id": "azerbaijan-history-9",
+  "subject": "azerbaijan-history",
+  "grade": 9,
+  "title": {
+    "az": "Azərbaycan tarixi, 9-cu sinif"
+  },
+  "textbook": {
+    "title": {
+      "az": "Azərbaycan tarixi, 9-cu sinif üçün dərslik"
+    },
+    "authors": "Kərim Şükürov, Pərviz Ağalarov, Niyaməddin Quliyev, Hafiz Cabbarov, Elnur Hüseynov, Ramil Tanrıverdi, İlqar Niftəliyev",
+    "year": 2024,
+    "url": "https://www.trims.edu.az/site/resource.php?id=1915"
+  },
+  "sections": [
+    {
+      "id": "azerbaycan-xix-xx-yuzilliyin-evvellerinde",
+      "title": {
+        "az": "Azərbaycan XIX–XX yüzilliyin əvvəllərində"
+      },
+      "topics": [
+        {
+          "id": "simali-azerbaycanda-mustemleke-rejiminin-yaradilmasi-ve",
+          "title": {
+            "az": "Şimali Azərbaycanda müstəmləkə rejiminin yaradılması və möhkəmləndirilməsi"
+          },
+          "paragraph": "§ 1",
+          "steps": []
+        },
+        {
+          "id": "burjua-islahatlari",
+          "title": {
+            "az": "Burjua islahatları"
+          },
+          "paragraph": "§ 2",
+          "steps": []
+        },
+        {
+          "id": "dunyanin-neft-merkezi-baki",
+          "title": {
+            "az": "Dünyanın neft mərkəzi – Bakı"
+          },
+          "paragraph": "§ 3",
+          "steps": []
+        },
+        {
+          "id": "senayenin-diger-saheleri-kend-teserrufati",
+          "title": {
+            "az": "Sənayenin digər sahələri. Kənd təsərrüfatı"
+          },
+          "paragraph": "§ 4",
+          "steps": []
+        },
+        {
+          "id": "milletin-formalasmasi",
+          "title": {
+            "az": "Millətin formalaşması"
+          },
+          "paragraph": "§ 5",
+          "steps": []
+        },
+        {
+          "id": "xalq-herekati",
+          "title": {
+            "az": "Xalq hərəkatı"
+          },
+          "paragraph": "§ 6",
+          "steps": []
+        },
+        {
+          "id": "cenubi-azerbaycan",
+          "title": {
+            "az": "Cənubi Azərbaycan"
+          },
+          "paragraph": "§ 7",
+          "steps": []
+        },
+        {
+          "id": "medeniyyet",
+          "title": {
+            "az": "Mədəniyyət"
+          },
+          "paragraph": "§ 8",
+          "steps": []
+        },
+        {
+          "id": "senayenin-veziyyeti-kend-teserrufati",
+          "title": {
+            "az": "Sənayenin vəziyyəti. Kənd təsərrüfatı"
+          },
+          "paragraph": "§ 9",
+          "steps": []
+        },
+        {
+          "id": "milli-demokratik-herekat",
+          "title": {
+            "az": "Milli-demokratik hərəkat"
+          },
+          "paragraph": "§ 10",
+          "steps": []
+        },
+        {
+          "id": "carizmin-milli-qirgin-siyaseti",
+          "title": {
+            "az": "Çarizmin milli qırğın siyasəti"
+          },
+          "paragraph": "§ 11",
+          "steps": []
+        },
+        {
+          "id": "cenubi-azerbaycanda-mesrute-inqilabi",
+          "title": {
+            "az": "Cənubi Azərbaycanda Məşrutə inqilabı"
+          },
+          "paragraph": "§ 12",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-birinci-dunya-muharibesi-illerinde",
+          "title": {
+            "az": "Azərbaycan Birinci dünya müharibəsi illərində"
+          },
+          "paragraph": "§ 13",
+          "steps": []
+        },
+        {
+          "id": "simali-azerbaycan-fevral-inqilabindan-sonra",
+          "title": {
+            "az": "Şimali Azərbaycan Fevral inqilabından sonra"
+          },
+          "paragraph": "§ 14",
+          "steps": []
+        },
+        {
+          "id": "medeniyyet-9",
+          "title": {
+            "az": "Mədəniyyət"
+          },
+          "paragraph": "§ 15",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "azerbaycan-1918-1920-ci-illerde-birinci-respublika",
+      "title": {
+        "az": "Azərbaycan 1918–1920-ci illərdə. Birinci respublika"
+      },
+      "topics": [
+        {
+          "id": "baki-sovetinin-azerbaycanlilara-qarsi-soyqirimi-siyaseti",
+          "title": {
+            "az": "Bakı Sovetinin azərbaycanlılara qarşı soyqırımı siyasəti"
+          },
+          "paragraph": "§ 16",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-xalq-cumhuriyyeti",
+          "title": {
+            "az": "Azərbaycan Xalq Cümhuriyyəti"
+          },
+          "paragraph": "§ 17",
+          "steps": []
+        },
+        {
+          "id": "cenubi-azerbaycanda-milli-azadliq-herekati",
+          "title": {
+            "az": "Cənubi Azərbaycanda milli azadlıq hərəkatı"
+          },
+          "paragraph": "§ 18",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "azerbaycan-1920-80-ci-illerde-ikinci-respublika",
+      "title": {
+        "az": "Azərbaycan 1920–80-ci illərdə. İkinci respublika"
+      },
+      "topics": [
+        {
+          "id": "azerbaycan-ssr-in-yaradilmasi",
+          "title": {
+            "az": "Azərbaycan SSR-in yaradılması"
+          },
+          "paragraph": "§ 19",
+          "steps": []
+        },
+        {
+          "id": "musteqil-sovet-azerbaycani-suarinin-iflasi",
+          "title": {
+            "az": "“Müstəqil sovet Azərbaycanı” şüarının iflası"
+          },
+          "paragraph": "§ 20",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-ssr-de-heyata-kecirilen-iqtisadi-siyasi-ve",
+          "title": {
+            "az": "Azərbaycan SSR-də həyata keçirilən iqtisadi, siyasi və mədəni tədbirlər"
+          },
+          "paragraph": "§ 21",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-ssr-ikinci-dunya-muharibesi-illerinde",
+          "title": {
+            "az": "Azərbaycan SSR İkinci dünya müharibəsi illərində"
+          },
+          "paragraph": "§ 22",
+          "steps": []
+        },
+        {
+          "id": "cenubi-azerbaycanda-milli-azadliq-herekati-9",
+          "title": {
+            "az": "Cənubi Azərbaycanda milli azadlıq hərəkatı"
+          },
+          "paragraph": "§ 23",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-ssr-1940-ci-illerin-ortalari-60-ci-illerde",
+          "title": {
+            "az": "Azərbaycan SSR 1940-cı illərin ortaları – 60-cı illərdə"
+          },
+          "paragraph": "§ 24",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-ssr-1970-80-ci-illerde",
+          "title": {
+            "az": "Azərbaycan SSR 1970–80-ci illərdə"
+          },
+          "paragraph": "§ 25",
+          "steps": []
+        },
+        {
+          "id": "yenidenqurma-siyaseti-qarabag-munaqisesinin-baslanmasi",
+          "title": {
+            "az": "Yenidənqurma siyasəti. Qarabağ münaqişəsinin başlanması"
+          },
+          "paragraph": "§ 26",
+          "steps": []
+        },
+        {
+          "id": "iran-islam-inqilabi-ve-cenubi-azerbaycan",
+          "title": {
+            "az": "İran İslam inqilabı və Cənubi Azərbaycan"
+          },
+          "paragraph": "§ 27",
+          "steps": []
+        },
+        {
+          "id": "medeniyyet-9-28",
+          "title": {
+            "az": "Mədəniyyət"
+          },
+          "paragraph": "§ 28",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "azerbaycan-musteqillik-dovrunde-ucuncu-respublika",
+      "title": {
+        "az": "Azərbaycan müstəqillik dövründə. Üçüncü respublika"
+      },
+      "topics": [
+        {
+          "id": "dovlet-musteqilliyinin-berpasi",
+          "title": {
+            "az": "Dövlət müstəqilliyinin bərpası"
+          },
+          "paragraph": "§ 29",
+          "steps": []
+        },
+        {
+          "id": "birinci-qarabag-muharibesi",
+          "title": {
+            "az": "Birinci Qarabağ müharibəsi"
+          },
+          "paragraph": "§ 30",
+          "steps": []
+        },
+        {
+          "id": "qurtulus-herekati",
+          "title": {
+            "az": "Qurtuluş hərəkatı"
+          },
+          "paragraph": "§ 31",
+          "steps": []
+        },
+        {
+          "id": "dovlet-quruculugu-tedbirleri-sosial-iqtisadi-islahatlar",
+          "title": {
+            "az": "Dövlət quruculuğu tədbirləri. Sosial-iqtisadi islahatlar"
+          },
+          "paragraph": "§ 32",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-respublikasinin-xarici-siyaseti",
+          "title": {
+            "az": "Azərbaycan Respublikasının xarici siyasəti"
+          },
+          "paragraph": "§ 33",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-respublikasi-yeni-inkisaf-yolunda",
+          "title": {
+            "az": "Azərbaycan Respublikası yeni inkişaf yolunda"
+          },
+          "paragraph": "§ 34",
+          "steps": []
+        },
+        {
+          "id": "cebhe-xettinde-toqqusmalar-dordgunluk-muharibe",
+          "title": {
+            "az": "Cəbhə xəttində toqquşmalar. Dördgünlük müharibə"
+          },
+          "paragraph": "§ 35",
+          "steps": []
+        },
+        {
+          "id": "xarici-siyasetde-ugurlar",
+          "title": {
+            "az": "Xarici siyasətdə uğurlar"
+          },
+          "paragraph": "§ 36",
+          "steps": []
+        },
+        {
+          "id": "veten-muharibesi",
+          "title": {
+            "az": "Vətən müharibəsi"
+          },
+          "paragraph": "§ 37",
+          "steps": [
+            {
+              "type": "conflict",
+              "id": "karabakh-war-2020",
+              "stepId": "2020-09-27"
+            },
+            {
+              "type": "conflict",
+              "id": "karabakh-war-2020",
+              "stepId": "2020-10-04"
+            },
+            {
+              "type": "conflict",
+              "id": "karabakh-war-2020",
+              "stepId": "2020-10-11-ganja"
+            },
+            {
+              "type": "conflict",
+              "id": "karabakh-war-2020",
+              "stepId": "2020-10-17"
+            },
+            {
+              "type": "conflict",
+              "id": "karabakh-war-2020",
+              "stepId": "2020-10-20"
+            },
+            {
+              "type": "conflict",
+              "id": "karabakh-war-2020",
+              "stepId": "2020-10-25"
+            },
+            {
+              "type": "conflict",
+              "id": "karabakh-war-2020",
+              "stepId": "2020-11-08"
+            },
+            {
+              "type": "conflict",
+              "id": "karabakh-war-2020",
+              "stepId": "2020-11-10"
+            },
+            {
+              "type": "conflict",
+              "id": "karabakh-war-2020",
+              "stepId": "2020-11-20"
+            },
+            {
+              "type": "conflict",
+              "id": "karabakh-war-2020",
+              "stepId": "2020-11-25"
+            },
+            {
+              "type": "conflict",
+              "id": "karabakh-war-2020",
+              "stepId": "2020-12-01"
+            }
+          ]
+        },
+        {
+          "id": "qarabagda-quruculuq-boyuk-qayidisin-ilk-addimlari",
+          "title": {
+            "az": "Qarabağda quruculuq. Böyük qayıdışın ilk addımları"
+          },
+          "paragraph": "§ 38",
+          "steps": []
+        },
+        {
+          "id": "medeniyyet-9-39",
+          "title": {
+            "az": "Mədəniyyət"
+          },
+          "paragraph": "§ 39",
+          "steps": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "id": "azerbaijan-history-6",
+  "subject": "azerbaijan-history",
+  "grade": 6,
+  "title": {
+    "az": "Azərbaycan tarixi, 6-cı sinif"
+  },
+  "textbook": {
+    "title": {
+      "az": "Azərbaycan tarixi, 6-cı sinif üçün dərslik"
+    },
+    "authors": "Kərim Şükürov, Pərviz Ağalarov, Niyaməddin Quliyev, Hafiz Cabbarov, Ramin Əlizadə, Elnur Hüseynov",
+    "year": 2025,
+    "url": "https://www.trims.edu.az/site/resource.php?id=2138"
+  },
+  "sections": [
+    {
+      "id": "azerbaycanda-ibtidai-cemiyyet",
+      "title": {
+        "az": "Azərbaycanda ibtidai cəmiyyət"
+      },
+      "topics": [
+        {
+          "id": "esas-tarixi-anlayislar-ve-zaman-olcu-vahidleri",
+          "title": {
+            "az": "Əsas tarixi anlayışlar və zaman ölçü vahidləri"
+          },
+          "paragraph": "§ 1",
+          "steps": []
+        },
+        {
+          "id": "ibtidai-cemiyyet",
+          "title": {
+            "az": "İbtidai cəmiyyət"
+          },
+          "paragraph": "§ 2",
+          "steps": []
+        },
+        {
+          "id": "erken-dovletler",
+          "title": {
+            "az": "Erkən dövlətlər"
+          },
+          "paragraph": "§ 3",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "azerbaycanda-qedim-dovletler",
+      "title": {
+        "az": "Azərbaycanda qədim dövlətlər"
+      },
+      "topics": [
+        {
+          "id": "manna-dovleti",
+          "title": {
+            "az": "Manna dövləti"
+          },
+          "paragraph": "§ 4",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-e-e-vii-iv-yuzilliklerde",
+          "title": {
+            "az": "Azərbaycan e.ə. VII–IV yüzilliklərdə"
+          },
+          "paragraph": "§ 5",
+          "steps": []
+        },
+        {
+          "id": "atropatena-dovleti",
+          "title": {
+            "az": "Atropatena dövləti"
+          },
+          "paragraph": "§ 6",
+          "steps": []
+        },
+        {
+          "id": "albaniya-dovleti",
+          "title": {
+            "az": "Albaniya dövləti"
+          },
+          "paragraph": "§ 7",
+          "steps": []
+        }
+      ]
+    },
+    {
+      "id": "azerbaycan-iii-vi-yuzilliklerde",
+      "title": {
+        "az": "Azərbaycan III–VI yüzilliklərdə"
+      },
+      "topics": [
+        {
+          "id": "azerbaycanda-feodal-munasibetlerinin-yaranmasi",
+          "title": {
+            "az": "Azərbaycanda feodal münasibətlərinin yaranması"
+          },
+          "paragraph": "§ 8",
+          "steps": []
+        },
+        {
+          "id": "azerbaycan-sasaniler-imperiyasi-dovrunde",
+          "title": {
+            "az": "Azərbaycan Sasanilər imperiyası dövründə"
+          },
+          "paragraph": "§ 9",
+          "steps": []
+        }
+      ]
+    }
+  ]
+}
