@@ -717,7 +717,8 @@ Məktəb proqramı: fənn → sinif → bölmə → mövzu → mövzunun danış
 **Məzmun:** `data/curriculum/<fənn>/<sinif>.json`, Zod `CurriculumGrade` (`shared/schema`): `id` = `<fənn>-<sinif>`, `title`, isteğe bağlı `textbook` (ad, müəllif kollektivi, il, nəşriyyat, url; yalnız istinad, mətn köçürülmür), `sections[].topics[]`.
 - Mövzu: `id` (bütün siniflər üzrə unikal, mövzu simulyasiyasının ünvanıdır), `title`, `paragraph` ("§ 12"), `summary`, `minutes`, `steps[]` (`{type: person|conflict|state, id, stepId}`, mövzunun öz sırası ilə).
 - Addımı olmayan mövzu "hazırlanır"-dır. `sample: true` yalnız `fixtures/curriculum.sample.json`-dadır; `validate:data` onu `data/`-da qəbul etmir, addımların mövcudluğunu və mövzu id-lərinin unikallığını yoxlayır.
-- Hələ real kurikulum datası yoxdur, `data/curriculum/` boşdur (FRONTEND_SPEC §14 köməkçi aləti sonrakı mərhələdir).
+- 2026-11-28-dən `data/curriculum/azerbaijan-history/6.json`–`11.json` təsdiqlənmiş dərsliklərin mündəricatıdır (trims.edu.az). Mövzuların addımları mövcud simulyasiyalara redaksiya bağlantısıdır. FRONTEND_SPEC §14 köməkçi aləti sonrakı mərhələdir.
+- `CurriculumTests` nümunə sinfi `sample-history` fənni altında dərc edir, real 8-ci siniflə toqquşmur.
 
 **Backend:**
 - Sənəd tipi `CURRICULUM_GRADE` (bir sinif bir sənəddir), idxal `data/curriculum/*/*.json`-dan, eksport eyni yola.

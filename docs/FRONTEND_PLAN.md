@@ -516,7 +516,11 @@ Testlər: çəkilər, hər il üçün `xToYear(yearToX(y)) = y`, sərhədlər, s
 ### Mərhələ 7: kurikulum
 
 **Data** (`src/features/curriculum/data.ts`): siniflər `data/curriculum/<fənn>/<sinif>.json`-dan (B2). Mövzu və bölmə adları yalnız datadandır.
-`data/`-da kurikulum hələ yoxdur: səhifələr boş vəziyyət göstərir. `CURRICULUM_SAMPLE=1` ilə build `fixtures/curriculum.sample.json`-u ("nümunə", 8-ci sinif) əlavə edir.
+**Data (2026-11-28):** `data/curriculum/azerbaijan-history/6.json`–`11.json`, trims.edu.az-dakı təsdiqlənmiş dərsliklərin mündəricatından.
+Qrif: 6-cı sinif 2025-032, 7-ci 2018-087, 8-ci 2023-034, 9-cu 2024-060, 10-cu 2017-098, 11-ci 2023-049.
+- Bölmə dərsliyin "bölmə"sidir (fəsillər birləşir). `§` dərslikdəki mövzu nömrəsidir; `textbook.year` qrif ilidir.
+- 194 mövzudan 19-u addımlara bağlıdır: Ağqoyunlu, Səfəvilərin yaranması, Çaldıran (7, 10), Əfşarlar (8, 10), Vətən müharibəsi (9, 11). Bağlantılar redaksiya qərarıdır, müəllim və ya redaktor yoxlamalıdır.
+- `CURRICULUM_SAMPLE=1` ilə build `fixtures/curriculum.sample.json`-u ("nümunə") yalnız datada olmayan sinif üçün əlavə edir.
 Nümunə real datanı heç vaxt əvəz etmir və production build-ə düşmür.
 
 **Sinif** (`/kurikulum/<sinif>/`, artboard "Dərsliklə öyrən"):
@@ -546,9 +550,9 @@ ADR-0020 kodu yalnız linkdən götürürdü. Plan §8 (`usePrefsStore`: sinif k
 
 **Qərarlar və açıq qalanlar:**
 - **"Müəllimin təyin etdiyi mövzu" kartı yoxdur:** təyinat müəllim panelindən gəlir (B3, mərhələ 13). Kod daxil ediləndə qutu bunu deyir. Kartın yeri artboard-dakı kimi mövzu siyahısının üstüdür.
-- **Mövzu route-u data olmadan:** statik export hər dinamik route üçün ən azı bir səhifə istəyir. Mövzu yoxdursa `/kurikulum/8/movzu-hazirlanir/` not-found səhifəsi build olunur, heç yerdən ona keçid yoxdur.
+- **Mövzu route-u data olmadan:** statik export hər dinamik route üçün ən azı bir səhifə istəyir. Heç bir mövzunun addımı yoxdursa `/kurikulum/8/movzu-hazirlanir/` not-found səhifəsi build olunur (indiki datada lazım deyil).
 - Dövlət və müharibə addımlarının öz şablonları (`territory`, `liberation`) mərhələ 8–9-dadır. İndi xəritə onları yer kimi göstərir, dövlət addımının dəqiq hadisələri (`events`, `keyFacts`) hələ çıxmır.
 - Dövlət addımının "bütün simulyasiya" keçidi hələ köhnə `/states/<id>/`-dir (`ROUTES`), mərhələ 8-də yeni ünvana keçəcək.
 - Addımın "Dərslik: 8-ci sinif, § 12" istinadı (backend `curriculum[]`) şəxsiyyət simulyasiyasında hələ göstərilmir: real kurikulum datası gələndə əlavə olunacaq.
-- e2e: adi build boş vəziyyəti yoxlayır. Tam axın `CURRICULUM_SAMPLE=1 npm run build && CURRICULUM_SAMPLE=1 npx playwright test` ilə yoxlanılır (mövzu səhifələri axe siyahısına da düşür).
+- e2e real data ilədir: 7-ci sinifdə mövzudan quizə və geri, 10-cu sinifdə şəxsiyyət və dövlət addımları bir mövzuda, 6-cı sinifdə "hazırlanır", zaman şkalasında 7-ci sinif filtri. Mövzu səhifələri axe siyahısındadır. Boş vəziyyət və nümunə unit testlərdə kurikulumsuz repository ilə yoxlanılır.
 

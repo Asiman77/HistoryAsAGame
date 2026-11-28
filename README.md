@@ -31,7 +31,7 @@ npm run dev          # http://localhost:3000
 | `npm run build:territories` | Siyasi xəritə snapshot-larını `public/data/territories/`-a yığır (`dev` və `build`-dan əvvəl avtomatik işləyir) |
 | `npm run generate:audio` | Placeholder musiqi və səsləri yenidən sintez edir (`public/audio/`, bax `docs/AUDIO_CREDITS.md`) |
 | `npm test` | Unit testlər (`tests/unit`, node) və komponent testləri (`tests/component`, jsdom + Testing Library), Vitest |
-| `npm run test:e2e` | Playwright: hər şəxsiyyət başdan sona; desktop, planşet və mobil. Əvvəlcə `npm run build` lazımdır. İlk dəfə `npx playwright install chromium`. Kurikulumun tam axını: `CURRICULUM_SAMPLE=1` ilə həm build, həm test (aşağıya bax) |
+| `npm run test:e2e` | Playwright: hər şəxsiyyət başdan sona; desktop, planşet və mobil. Əvvəlcə `npm run build` lazımdır. İlk dəfə `npx playwright install chromium` |
 | `npm run lint`, `npm run typecheck` | ESLint və TypeScript. ESLint komponentlərdə hex rəngi qadağan edir (dizayn tokenləri, bax `docs/FRONTEND_PLAN.md`) |
 | `npm run storybook` | Komponent kataloqu (http://localhost:6006). Alət panelində dövr teması və yüngül rejim seçilir |
 | `npm run build-storybook` | Storybook-u `storybook-static/`-a statik build edir |
@@ -332,14 +332,13 @@ Məktəb proqramı: sinif → bölmə → mövzu → mövzunun danışdığı si
 - `/zaman/?grade=8`: zaman şkalasında yalnız həmin sinfin mövzularının hadisələri.
 - Sinif kodu (müəllimin verdiyi 6 simvol) bu cihazda saxlanılır, yalnız toplu analitika üçündür.
 
-Hələ real kurikulum datası yoxdur, səhifələr boş vəziyyət göstərir. Axını görmək üçün nümunə sinifi ("nümunə" işarəli, `fixtures/curriculum.sample.json`) build-ə qatın:
+**Data:** 6–11-ci siniflərin təsdiqlənmiş "Azərbaycan tarixi" dərsliklərinin mündəricatı (trims.edu.az, hər sinifdə `textbook` istinadı ilə).
+Bölmə və mövzu adları, `§` nömrələri dərslikdəkidir; mətn köçürülmür.
+- Mövzunun `steps` siyahısı onu mövcud simulyasiya addımlarına bağlayır. Addımı olmayan mövzu "hazırlanır" görünür.
+- Yeni simulyasiya əlavə olunanda uyğun mövzuya addımlarını yazın, `npm run validate:data` addımların mövcudluğunu yoxlayır.
+- Yeni dərslik nəşri çıxanda sinfin faylı mündəricata görə yenilənir.
 
-```bash
-CURRICULUM_SAMPLE=1 npm run build
-CURRICULUM_SAMPLE=1 npx playwright test curriculum
-```
-
-Nümunə production build-ə düşmür və `data/`-dakı sinfi əvəz etmir.
+`CURRICULUM_SAMPLE=1` ilə build `fixtures/curriculum.sample.json`-u ("nümunə") yalnız datada olmayan sinif üçün əlavə edir; hazırda 6–11 datadadır.
 
 ## Yeni şəxsiyyət əlavə etmək
 
