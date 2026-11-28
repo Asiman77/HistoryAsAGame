@@ -23,8 +23,8 @@ const NEW_ROUTES = [
   "/az/muqayise/",
   "/az/pasport/",
   "/az/muellim/",
-  // Topic pages exist only with curriculum data: the sample build (CURRICULUM_SAMPLE=1) checks them.
-  ...(process.env.CURRICULUM_SAMPLE === "1" ? ["/az/kurikulum/8/sample-efshar/", "/az/kurikulum/8/sample-efshar/final/"] : []),
+  "/az/kurikulum/10/azerbaycan-torpaqlarinin-azad-olunmasi-ugrunda-mubarize/",
+  "/az/kurikulum/10/azerbaycan-torpaqlarinin-azad-olunmasi-ugrunda-mubarize/final/",
 ];
 
 test.beforeEach(async ({ page }) => {

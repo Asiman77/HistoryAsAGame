@@ -8,20 +8,71 @@ import { gradeView } from "@/features/timeline/gradeView";
 import { normalizeClassCode } from "@/lib/classCode";
 import type { PersonProgress } from "@/lib/progress";
 
+/** Today's data: the curriculum of the approved textbooks (data/curriculum/azerbaijan-history). */
 const repo = new FileSystemRepository();
+/** The same data without curriculum, for the empty state and the sample grade of fixtures/. */
+class WithoutCurriculum extends FileSystemRepository {
+  override listCurriculum() {
+    return Promise.resolve([]);
+  }
+}
+const bare = new WithoutCurriculum();
 const labels = { grade: "8-ci sinif", final: "Yekun quiz" };
 const progress = (p: Partial<PersonProgress>): PersonProgress => ({ index: 0, phase: "journey", choices: {}, furthest: 0, completed: false, updatedAt: 1, ...p });
 
-describe("curriculum data (phase 7)", () => {
+describe("curriculum of the textbooks (data/)", () => {
+  afterEach(() => vi.unstubAllEnvs());
+
+  it("holds grades 6–11, each with its textbook and the textbook's own topic numbers", async () => {
+    const grades = await curriculumGrades(repo);
+    expect(grades.map((g) => g.grade)).toEqual([6, 7, 8, 9, 10, 11]);
+    for (const g of grades) {
+      expect(g.sample).toBeFalsy();
+      expect(g.textbook?.url).toMatch(/^https:\/\/(www\.)?trims\.edu\.az\//);
+      const numbers = g.sections.flatMap((s) => s.topics.map((t) => t.paragraph));
+      expect(numbers).toEqual(numbers.map((_, i) => `§ ${i + 1}`));
+    }
+    // The sample never replaces a grade the data has.
+    vi.stubEnv("CURRICULUM_SAMPLE", "1");
+    expect((await curriculumGrades(repo)).flatMap((g) => g.sections.flatMap((s) => s.topics.map((t) => t.id))).some((id) => id.startsWith("sample-"))).toBe(false);
+  });
+
+  it("builds a page for every topic that tells steps, and no placeholder", async () => {
+    const params = await topicParams(repo);
+    expect(params).not.toContainEqual(TOPIC_PLACEHOLDER);
+    expect(params).toContainEqual({ grade: "9", topic: "veten-muharibesi" });
+    expect(params).toContainEqual({ grade: "7", topic: "hesen-padsah-ve-varisleri" });
+    const g6 = (await loadGrade(repo, 6, "az"))!;
+    expect(g6.sections.flatMap((s) => s.topics).every((t) => !t.ready)).toBe(true);
+  });
+
+  it("the 44-day war topic tells the war's days in order", async () => {
+    const found = (await findTopic(repo, 9, "veten-muharibesi"))!;
+    const sim = (await buildTopic(repo, found.grade, found.topic, "az", { grade: "9-cu sinif", final: "Yekun quiz" }))!;
+    expect(sim.owners.map((o) => `${o.type}:${o.id}`)).toEqual(["conflict:karabakh-war-2020"]);
+    expect(sim.shell.steps[0]!.id).toBe("2020-09-27");
+    expect(sim.shell.steps.map((s) => s.id)).toContain("2020-11-08");
+    expect(sim.shell.steps.every((s) => s.template === "liberation")).toBe(true);
+  });
+
+  it("a topic can follow Nadir's battle with the state it built", async () => {
+    const found = (await findTopic(repo, 10, "azerbaycan-torpaqlarinin-azad-olunmasi-ugrunda-mubarize"))!;
+    const sim = (await buildTopic(repo, found.grade, found.topic, "az", { grade: "10-cu sinif", final: "Yekun quiz" }))!;
+    expect(sim.owners.map((o) => `${o.type}:${o.id}`)).toEqual(["state:afshar", "person:nadir-shah"]);
+    expect(sim.shell.subtitle).toBe("10-cu sinif · § 36");
+  });
+});
+
+describe("curriculum without data, and the sample grade", () => {
   afterEach(() => vi.unstubAllEnvs());
 
   it("has no grades without data, and the sample only when the build asks for it", async () => {
-    expect(await curriculumGrades(repo)).toEqual([]);
-    expect(await topicParams(repo)).toEqual([TOPIC_PLACEHOLDER]);
+    expect(await curriculumGrades(bare)).toEqual([]);
+    expect(await topicParams(bare)).toEqual([TOPIC_PLACEHOLDER]);
     vi.stubEnv("CURRICULUM_SAMPLE", "1");
-    expect((await curriculumGrades(repo)).map((g) => g.grade)).toEqual([8]);
-    expect(await curriculumGrades(repo, "world-history")).toEqual([]);
-    expect(await topicParams(repo)).toEqual([
+    expect((await curriculumGrades(bare)).map((g) => g.grade)).toEqual([8]);
+    expect(await curriculumGrades(bare, "world-history")).toEqual([]);
+    expect(await topicParams(bare)).toEqual([
       { grade: "8", topic: "sample-agqoyunlu" },
       { grade: "8", topic: "sample-sefevi" },
       { grade: "8", topic: "sample-efshar" },
@@ -30,7 +81,7 @@ describe("curriculum data (phase 7)", () => {
 
   it("a grade lists its sections and topics with steps, owners and whether they can be opened", async () => {
     vi.stubEnv("CURRICULUM_SAMPLE", "1");
-    const g = (await loadGrade(repo, 8, "az"))!;
+    const g = (await loadGrade(bare, 8, "az"))!;
     expect(g.sample).toBe(true);
     expect(g.sections.map((s) => [s.number, s.topics.map((t) => [t.number, t.id, t.ready])])).toEqual([
       [1, [[1, "sample-agqoyunlu", true], [2, "sample-sefevi", true]]],
@@ -40,13 +91,13 @@ describe("curriculum data (phase 7)", () => {
     expect(efshar).toMatchObject({ paragraph: "§ 3", steps: 4, minutes: 20, href: "/kurikulum/8/sample-efshar/", owners: ["Nadir Şah Əfşar", "Əfşarlar dövləti"] });
     expect(efshar.years).toEqual({ from: 1736, to: 1748 });
     expect(g.sections[1]!.topics[1]!.years).toBeNull();
-    expect(await loadGrade(repo, 9, "az")).toBeNull();
+    expect(await loadGrade(bare, 9, "az")).toBeNull();
   });
 
   it("a topic is told as one simulation: its steps in its own order, from several simulations", async () => {
     vi.stubEnv("CURRICULUM_SAMPLE", "1");
-    const found = (await findTopic(repo, 8, "sample-efshar"))!;
-    const sim = (await buildTopic(repo, found.grade, found.topic, "az", labels))!;
+    const found = (await findTopic(bare, 8, "sample-efshar"))!;
+    const sim = (await buildTopic(bare, found.grade, found.topic, "az", labels))!;
     const { shell } = sim;
     expect(shell).toMatchObject({ key: "topic:sample-efshar", kind: "topic", subtitle: "8-ci sinif · § 3", back: { href: "/kurikulum/8/" }, final: { href: "/kurikulum/8/sample-efshar/final/" } });
     expect(shell.steps.map((s) => [s.index, s.id, s.owner?.type, s.template])).toEqual([
@@ -71,26 +122,27 @@ describe("curriculum data (phase 7)", () => {
   it("the next topic skips the ones that are not ready and crosses sections", async () => {
     vi.stubEnv("CURRICULUM_SAMPLE", "1");
     const g = await loadSampleGrade();
-    expect((await nextTopic(repo, g, "sample-sefevi", "az"))?.id).toBe("sample-efshar");
-    expect(await nextTopic(repo, g, "sample-efshar", "az")).toBeNull();
-    expect((await allTopics(repo)).length).toBe(4);
+    expect((await nextTopic(bare, g, "sample-sefevi", "az"))?.id).toBe("sample-efshar");
+    expect(await nextTopic(bare, g, "sample-efshar", "az")).toBeNull();
+    expect((await allTopics(bare)).length).toBe(4);
   });
 });
 
 describe("timeline grade filter", () => {
   afterEach(() => vi.unstubAllEnvs());
 
-  it("knows the events and years of each grade with curriculum data, and nothing without it", async () => {
-    expect((await loadZamanData(repo, "az")).grades).toEqual([]);
-    vi.stubEnv("CURRICULUM_SAMPLE", "1");
-    const [g, ...rest] = (await loadZamanData(repo, "az")).grades;
-    expect(rest).toEqual([]);
-    expect(g!.grade).toBe(8);
-    expect(g!.keys).toContain("person:shah-ismayil:ismayil-coronation");
-    expect(g!.keys).toContain("state:afshar:1747-assassination");
-    expect(g!.keys).not.toContain("person:shah-ismayil:ismayil-birth");
-    expect(g!.from).toBeLessThan(1501);
-    expect(g!.to).toBe(1748);
+  it("knows the events and years of each grade whose topics tell steps, and nothing without curriculum", async () => {
+    expect((await loadZamanData(bare, "az")).grades).toEqual([]);
+    const grades = (await loadZamanData(repo, "az")).grades;
+    expect(grades.map((g) => g.grade)).toEqual([7, 8, 9, 10, 11]);
+    const g7 = grades.find((g) => g.grade === 7)!;
+    expect(g7.keys).toContain("person:shah-ismayil:ismayil-coronation");
+    expect(g7.keys).toContain("person:uzun-hasan:uzun-hasan-otlukbeli");
+    expect(g7.keys).not.toContain("state:afshar:1747-assassination");
+    expect([g7.from, g7.to]).toEqual([1452, 1522]);
+    const g9 = grades.find((g) => g.grade === 9)!;
+    expect(g9.keys.every((k) => k.startsWith("conflict:karabakh-war-2020:"))).toBe(true);
+    expect([g9.from, g9.to]).toEqual([2020, 2020]);
   });
 
   it("zooms to the grade's years with some air, inside the axis", () => {

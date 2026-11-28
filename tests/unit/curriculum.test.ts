@@ -49,7 +49,17 @@ describe("curriculum (B2)", () => {
     expect(() => CurriculumGrade.parse(twice)).toThrow();
   });
 
-  it("the repository lists no grades while data/curriculum does not exist", async () => {
-    expect(await new FileSystemRepository().listCurriculum()).toEqual([]);
+  it("the repository lists the grades of data/curriculum in order, and none for a subject without data", async () => {
+    const repo = new FileSystemRepository();
+    expect((await repo.listCurriculum()).map((g) => g.grade)).toEqual([6, 7, 8, 9, 10, 11]);
+    expect(await repo.listCurriculum("world-history")).toEqual([]);
+  });
+
+  it("the curriculum of data/ points at steps that exist and uses each topic id once", async () => {
+    const seen = new Map<string, string>();
+    const steps = await catalogue();
+    for (const grade of await new FileSystemRepository().listCurriculum()) {
+      expect(checkCurriculum(grade, steps, seen, `data/curriculum/${grade.subject}/${grade.grade}.json`)).toEqual([]);
+    }
   });
 });

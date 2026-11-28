@@ -31,8 +31,9 @@ import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ObjectNode;
 
 /**
- * The school curriculum (B2): today's data plus the sample grade (fixtures/curriculum.sample.json,
- * sample content that points at real steps) published and projected, then read through the API.
+ * The school curriculum (B2): today's data (the curriculum of the approved textbooks, data/curriculum)
+ * plus the sample grade (fixtures/curriculum.sample.json, sample content that points at real steps)
+ * published under a subject of its own, projected, then read through the API.
  */
 @IntegrationTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -40,6 +41,8 @@ class CurriculumTests {
 
     static final Path SAMPLE = Path.of("..", "fixtures", "curriculum.sample.json");
     static final String DOMAIN = "curriculum.test";
+    /** The sample grade gets a subject of its own, so it never meets the real grade 8. */
+    static final String SAMPLE_SUBJECT = "sample-history";
 
     @LocalServerPort
     int port;
@@ -53,8 +56,10 @@ class CurriculumTests {
     RestClient http;
 
     static ObjectNode sampleDocument() throws IOException {
+        ObjectNode grade = (ObjectNode) JsonMapper.shared().readTree(Files.readString(SAMPLE));
+        grade.put("subject", SAMPLE_SUBJECT).put("id", SAMPLE_SUBJECT + "-8");
         ObjectNode c = JsonMapper.shared().createObjectNode();
-        c.set("grade", JsonMapper.shared().readTree(Files.readString(SAMPLE)));
+        c.set("grade", grade);
         return c;
     }
 
@@ -64,7 +69,7 @@ class CurriculumTests {
         UUID owner = jdbc.sql("INSERT INTO app_user (email, display_name) VALUES (:email, 'owner') RETURNING id")
                 .param("email", "owner@" + DOMAIN).query(UUID.class).single();
         for (Doc d : DataDocuments.all()) PublishedData.seedPublished(jdbc, d, owner);
-        PublishedData.seedPublished(jdbc, new Doc(DocumentType.CURRICULUM_GRADE, "azerbaijan-history-8", sampleDocument()), owner);
+        PublishedData.seedPublished(jdbc, new Doc(DocumentType.CURRICULUM_GRADE, SAMPLE_SUBJECT + "-8", sampleDocument()), owner);
         assertThat(projector.rebuild().deferred()).isEmpty();
     }
 
@@ -89,7 +94,7 @@ class CurriculumTests {
 
     @Test
     void theGradesOfASubjectWithTheirCountsAndYears() {
-        JsonNode grades = ok("/curriculum/azerbaijan-history/grades");
+        JsonNode grades = ok("/curriculum/" + SAMPLE_SUBJECT + "/grades");
         assertThat(grades.size()).isOne();
         JsonNode g = grades.get(0);
         assertThat(g.path("grade").asInt()).isEqualTo(8);
@@ -100,11 +105,14 @@ class CurriculumTests {
         assertThat(g.path("years").path("from").asInt()).isLessThan(1501);
         assertThat(g.path("years").path("to").asInt()).isGreaterThanOrEqualTo(1748);
         assertThat(ok("/curriculum/world-history/grades").size()).isZero();
+        JsonNode textbooks = ok("/curriculum/azerbaijan-history/grades");
+        assertThat(list(textbooks).stream().map(x -> x.path("grade").asInt())).containsExactly(6, 7, 8, 9, 10, 11);
+        assertThat(list(textbooks)).allSatisfy(x -> assertThat(x.path("sample").asBoolean()).isFalse());
     }
 
     @Test
     void aGradeListsItsSectionsAndTopicsAndWhichCanBeOpened() {
-        JsonNode grade = ok("/curriculum/azerbaijan-history/grades/8");
+        JsonNode grade = ok("/curriculum/" + SAMPLE_SUBJECT + "/grades/8");
         assertThat(list(grade.path("sections")).stream().map(s -> s.path("slug").asString())).containsExactly("sample-section-1", "sample-section-2");
         JsonNode topics = grade.path("sections").get(1).path("topics");
         assertThat(topics.get(0).path("slug").asString()).isEqualTo("sample-efshar");
@@ -128,27 +136,29 @@ class CurriculumTests {
     @Test
     void stepsKnowTheTopicsThatTellThem() {
         JsonNode coronation = ok("/persons/shah-ismayil/steps/ismayil-coronation");
-        assertThat(coronation.path("curriculum").size()).isOne();
-        JsonNode ref = coronation.path("curriculum").get(0);
+        assertThat(list(coronation.path("curriculum")).stream().map(r -> r.path("subject").asString() + ":" + r.path("grade").asInt() + ":" + r.path("paragraph").asString()))
+                .contains(SAMPLE_SUBJECT + ":8:§ 2", "azerbaijan-history:7:§ 24", "azerbaijan-history:10:§ 30");
+        JsonNode ref = list(coronation.path("curriculum")).stream().filter(r -> r.path("subject").asString().equals(SAMPLE_SUBJECT)).findFirst().orElseThrow();
         assertThat(ref.path("topicSlug").asString()).isEqualTo("sample-sefevi");
-        assertThat(ref.path("grade").asInt()).isEqualTo(8);
-        assertThat(ref.path("paragraph").asString()).isEqualTo("§ 2");
-        assertThat(ok("/persons/shah-ismayil/steps/ismayil-birth").path("curriculum").size()).isZero();
+        assertThat(ok("/persons/shah-ismayil/steps/ismayil-death").path("curriculum").size()).isZero();
     }
 
     @Test
     void theTimelineOfAGradeShowsOnlyTheEventsItsTopicsTell() {
         JsonNode all = ok("/timeline?year=1501");
-        JsonNode grade8 = ok("/timeline?year=1501&grade=8");
+        JsonNode grade8 = ok("/timeline?year=1501&grade=8&subject=" + SAMPLE_SUBJECT);
         assertThat(grade8.path("events").size()).isPositive().isLessThanOrEqualTo(all.path("events").size());
         assertThat(list(grade8.path("events")).stream().map(e -> e.path("stepKey").asString())).allMatch(k -> List.of("ismayil-sharur", "ismayil-coronation").contains(k));
-        assertThat(ok("/timeline?year=1501&grade=9").path("events").size()).isZero();
+        assertThat(ok("/timeline?year=1501&grade=9&subject=" + SAMPLE_SUBJECT).path("events").size()).isZero();
         assertThat(grade8.path("rulers").size()).isEqualTo(all.path("rulers").size());
+        // The textbooks: grade 7 tells the founding of the Safavid state, grade 9 does not.
+        assertThat(list(ok("/timeline?year=1501&grade=7").path("events")).stream().map(e -> e.path("stepKey").asString())).contains("ismayil-coronation");
+        assertThat(ok("/timeline?year=1501&grade=9").path("events").size()).isZero();
     }
 
     @Test
     void wrongAddressesAreNotFoundOrBadRequests() {
-        assertThat(get("/curriculum/azerbaijan-history/grades/9").getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(get("/curriculum/" + SAMPLE_SUBJECT + "/grades/9").getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         assertThat(get("/curriculum/topics/no-such-topic/steps").getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         assertThat(get("/curriculum/azerbaijan-history/grades/12").getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(get("/curriculum/Not_A_Slug/grades").getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);

@@ -1,82 +1,74 @@
 import { expect, test } from "@playwright/test";
 
 /**
- * "Dərsliklə öyrən" (phase 7). data/ has no curriculum yet: the normal build shows the empty
- * states. The whole flow runs on a build with the sample grade of fixtures/ (marked "nümunə"):
- *   CURRICULUM_SAMPLE=1 npm run build && CURRICULUM_SAMPLE=1 npx playwright test curriculum
+ * "Dərsliklə öyrən" (phase 7) on the curriculum of the approved textbooks (data/curriculum).
+ * Topics that tell simulation steps open; the others are listed as "hazırlanır".
  */
-const sample = process.env.CURRICULUM_SAMPLE === "1";
 
-test.describe("without curriculum data", () => {
-  test.skip(sample, "the sample build has curriculum data");
+test("a topic from the grade list, through its steps and quiz, to the next topic", async ({ page }) => {
+  await page.goto("/az/kurikulum/7/");
+  await expect(page.getByTestId("sample-notice")).toHaveCount(0);
+  await expect(page.getByTestId("grade-screen")).toContainText("Dərslik: Azərbaycan tarixi, 7-ci sinif üçün dərslik");
+  // The first section with work left opens: the earlier ones have no topic with steps yet.
+  await expect(page.locator('[data-section="vahid-azerbaycan-ugrunda"]')).toHaveAttribute("aria-current", "true");
+  const row = page.locator('[data-topic="sefevi-osmanli-muharibelerinin-baslanmasi"]');
+  await expect(row).toHaveAttribute("data-status", "new");
+  await expect(row.getByTestId("topic-meta")).toContainText("§ 25 · 1 mərhələ");
+  await row.getByTestId("topic-action").click();
 
-  test("grades show the empty state and the timeline's grade chips wait for the curriculum", async ({ page }) => {
-    await page.goto("/az/kurikulum/8/");
-    await expect(page.getByText("Kurikulum hazırlanır")).toBeVisible();
-    await expect(page.getByTestId("grade-screen")).toHaveCount(0);
-    await page.goto("/az/zaman/?year=1501");
-    await expect(page.getByTestId("grade-filter")).toHaveCount(0);
-    await expect(page.getByTestId("time-axis")).toContainText("Sinif bölgüsü kurikulumla gələcək");
-  });
+  await expect(page).toHaveURL(/\/az\/kurikulum\/7\/sefevi-osmanli-muharibelerinin-baslanmasi\//);
+  await expect(page.getByTestId("simulation-shell")).toHaveAttribute("data-step", "ismayil-chaldiran");
+  await expect(page.getByTestId("step-content")).toContainText("Mərhələ 1 / 1 · Şah İsmayıl");
+  await page.getByTestId("step-final").click();
+
+  await expect(page).toHaveURL(/\/sefevi-osmanli-muharibelerinin-baslanmasi\/final\/$/);
+  await expect(page.getByTestId("topic-final")).toHaveAttribute("data-completed", "true");
+  await expect(page.getByTestId("topic-next")).toContainText("XV–XVI əsrlərdə Azərbaycan mədəniyyəti");
+
+  await page.goto("/az/kurikulum/7/");
+  await expect(row).toHaveAttribute("data-status", "done");
+  await expect(row.getByTestId("topic-action")).toHaveText("Təkrarla");
 });
 
-test.describe("with the sample grade", () => {
-  test.skip(!sample, "build with CURRICULUM_SAMPLE=1");
+test("a topic tells person and state steps, each linked to its own simulation", async ({ page }) => {
+  await page.goto("/az/kurikulum/10/azerbaycan-torpaqlarinin-azad-olunmasi-ugrunda-mubarize/?step=1735-caucasus");
+  await expect(page.getByTestId("step-content")).toContainText("Əfşarlar dövləti");
+  await expect(page.getByTestId("owner-link").getByRole("link")).toHaveAttribute("href", "/az/states/afshar/?step=1735-caucasus");
+  await page.goto("/az/kurikulum/10/azerbaycan-torpaqlarinin-azad-olunmasi-ugrunda-mubarize/?step=nadir-baghavard");
+  await expect(page.getByTestId("step-content")).toContainText("Nadir Şah Əfşar");
 
-  test("a topic from the grade list, through its steps and quiz, to the next topic", async ({ page }, info) => {
-    await page.goto("/az/kurikulum/8/");
-    await expect(page.getByTestId("sample-notice")).toBeVisible();
-    const row = page.locator('[data-topic="sample-sefevi"]');
-    await expect(row).toHaveAttribute("data-status", "new");
-    await row.getByTestId("topic-action").click();
+  await page.goto("/az/kurikulum/10/");
+  await page.locator('[data-section="azerbaycan-xvi-xviii-esrlerde"]').click();
+  const topic = page.locator('[data-topic="azerbaycan-torpaqlarinin-azad-olunmasi-ugrunda-mubarize"]');
+  await expect(topic).toHaveAttribute("data-status", "progress");
+  await expect(topic.getByRole("progressbar")).toBeVisible();
+});
 
-    await expect(page).toHaveURL(/\/az\/kurikulum\/8\/sample-sefevi\//);
-    const shell = page.getByTestId("simulation-shell");
-    await expect(shell).toHaveAttribute("data-step", "ismayil-erzincan");
-    await expect(page.getByTestId("step-content")).toContainText("Mərhələ 1 / 4 · Şah İsmayıl");
-    // The step strip is a desktop part; phones and tablets get the bottom sheet.
-    if (info.project.name === "desktop") await expect(page.getByTestId("shell-timeline")).toContainText("Mövzunun mərhələləri");
-    for (const id of ["ismayil-sharur", "ismayil-coronation", "ismayil-chaldiran"]) {
-      await page.getByTestId("step-next").click();
-      await expect(shell).toHaveAttribute("data-step", id);
-    }
-    await page.getByTestId("step-final").click();
+test("topics without steps are listed as being prepared, without a link", async ({ page }) => {
+  await page.goto("/az/kurikulum/6/");
+  await expect(page.getByTestId("grade-screen")).toBeVisible();
+  const rows = page.getByTestId("topic-row");
+  await expect(rows.first()).toHaveAttribute("data-status", "preparing");
+  await expect(rows.first()).toContainText("Əsas tarixi anlayışlar və zaman ölçü vahidləri");
+  await expect(page.getByTestId("topic-list").getByRole("link")).toHaveCount(0);
+});
 
-    await expect(page).toHaveURL(/\/sample-sefevi\/final\/$/);
-    await expect(page.getByTestId("topic-final")).toHaveAttribute("data-completed", "true");
-    await expect(page.getByTestId("final-quiz")).toBeVisible();
-    await expect(page.getByTestId("topic-next")).toContainText("Əfşarlar dövləti");
-
-    await page.goto("/az/kurikulum/8/");
-    await expect(row).toHaveAttribute("data-status", "done");
-    await expect(row.getByTestId("topic-action")).toHaveText("Təkrarla");
-  });
-
-  test("a topic tells person and state steps, each linked to its own simulation", async ({ page }) => {
-    await page.goto("/az/kurikulum/8/sample-efshar/?step=1739-india");
-    await expect(page.getByTestId("step-content")).toContainText("Əfşarlar dövləti");
-    await expect(page.getByTestId("owner-link").getByRole("link")).toHaveAttribute("href", "/az/states/afshar/?step=1739-india");
-    await page.goto("/az/kurikulum/8/");
-    await page.locator('[data-section="sample-section-2"]').click();
-    const efshar = page.locator('[data-topic="sample-efshar"]');
-    await expect(efshar).toHaveAttribute("data-status", "progress");
-    await expect(efshar.getByRole("progressbar")).toBeVisible();
-    const preparing = page.locator('[data-topic="sample-preparing"]');
-    await expect(preparing).toHaveAttribute("data-status", "preparing");
-    await expect(preparing.getByRole("link")).toHaveCount(0);
-  });
-
-  test("the timeline keeps the events of a grade's topics and zooms to their years", async ({ page }) => {
-    await page.goto("/az/zaman/?year=1501");
-    const slider = page.getByTestId("year-slider");
-    const min = Number(await slider.getAttribute("aria-valuemin"));
-    const all = await page.getByTestId("lane-events").getByRole("button").count();
-    await page.locator('[data-testid="grade-filter"][data-grade="8"]').click();
-    await expect(page.locator('[data-testid="grade-filter"][data-grade="8"]')).toHaveAttribute("aria-pressed", "true");
-    await expect(page).toHaveURL(/grade=8/);
-    await expect.poll(() => page.getByTestId("lane-events").getByRole("button").count()).toBeLessThan(all);
-    await expect.poll(async () => Number(await slider.getAttribute("aria-valuemin"))).toBeGreaterThan(min);
-    await page.getByTestId("all-eras").click();
-    await expect(page).not.toHaveURL(/grade=/);
-  });
+test("the timeline keeps the events of a grade's topics and zooms to their years", async ({ page }) => {
+  await page.goto("/az/zaman/?year=1501");
+  const slider = page.getByTestId("year-slider");
+  const min = Number(await slider.getAttribute("aria-valuemin"));
+  const all = await page.getByTestId("lane-events").getByRole("button").count();
+  const chip = page.locator('[data-testid="grade-filter"][data-grade="7"]');
+  // A click before hydration is lost: click until the page answers.
+  await expect(async () => {
+    await chip.click();
+    await expect(chip).toHaveAttribute("aria-pressed", "true", { timeout: 1000 });
+  }).toPass();
+  await expect(page).toHaveURL(/grade=7/);
+  await expect.poll(() => page.getByTestId("lane-events").getByRole("button").count()).toBeLessThan(all);
+  await expect.poll(async () => Number(await slider.getAttribute("aria-valuemin"))).toBeGreaterThan(min);
+  await page.getByTestId("all-eras").click();
+  await expect(page).not.toHaveURL(/grade=/);
+  // Grade 6 has no topic with steps yet: its chip waits.
+  await expect(page.locator('[data-testid="grade-filter"][data-grade="6"]')).toHaveCount(0);
 });
